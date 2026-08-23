@@ -1,0 +1,9 @@
+{
+  "name": "skyrimnet-leash",
+  "version-string": "0.1.0",
+  "dependencies": [
+    "commonlibsse-ng-fork",
+    "directxtk",
+    "glaze"
+  ]
+}

@@ -1,0 +1,19 @@
+# CLAUDE.md
+
+Guidance for Claude Code / Cursor agents on SkyrimNet_Leash.
+
+**Primary agent doc:** [AGENTS.md](AGENTS.md). **Router:** [llms.txt](llms.txt).
+
+## What this is
+
+SkyrimNet ↔ Leash Framework bridge.
+
+## Key paths
+
+- Repo: `c:\Skyrim\dev\mods\SkyrimNet_Leash`
+- Papyrus: `Scripts/Source/` → `Scripts/`; project `skyrimse.ppj`
+- SKSE: `SKSE_Source/`
+
+## Compile / commits / safety
+
+Same as [AGENTS.md](AGENTS.md): `compile: pyro`; CMake SKSE tasks; commit summary in first 72 chars; SE ≠ VR.

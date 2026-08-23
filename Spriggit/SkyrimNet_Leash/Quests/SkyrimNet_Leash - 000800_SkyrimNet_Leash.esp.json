@@ -1,0 +1,20 @@
+{
+  "FormKey": "000800:SkyrimNet_Leash.esp",
+  "EditorID": "SkyrimNet_Leash",
+  "VirtualMachineAdapter": {
+    "Scripts": [
+      {
+        "Name": "SkyrimNet_Leash_Actions"
+      }
+    ]
+  },
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "SkyrimNet Leash"
+  },
+  "Flags": [
+    "StartGameEnabled",
+    "0x10",
+    "RunOnce"
+  ]
+}

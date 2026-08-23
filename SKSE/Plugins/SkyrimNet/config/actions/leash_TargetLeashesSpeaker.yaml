@@ -1,0 +1,24 @@
+customCategory: LeashFramework
+name: TargetLeashesSpeaker
+description: The target attaches a leash to you (target holds, speaker is leashed).
+questEditorId: SkyrimNet_Leash
+scriptName: SkyrimNet_Leash_Actions
+executionFunctionName: TargetLeashesSpeakerExecute
+parameterMapping:
+  - type: speaker
+    name: akActor
+    description: Speaker who will be leashed
+  - type: dynamic
+    name: target
+    description: Actor who will hold the leash
+  - type: dynamic
+    name: style
+    description: forceful|normal|gently
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: is_leash_available
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"

@@ -1,0 +1,23 @@
+<?xml version='1.0'?>
+<PapyrusProject xmlns="PapyrusProject.xsd"
+    Flags="TESV_Papyrus_Flags.flg"
+    Game="sse"
+    Output="Scripts"
+    Optimize="false"
+    Release="false"
+    Zip="false"
+    Final="false">
+    <Variables>
+        <Variable Name="ModName" Value="SkyrimNet Leash" />
+        <Variable Name="ModsFolder" Value="C:\Skyrim\dev\mods" />
+    </Variables>
+    <Imports>
+        <Import>Scripts\Source</Import>
+        <Import>Skyrim-Leash-Framework\papyrus\source</Import>
+        <Import>@ModsFolder\SKSE64\Scripts\Source</Import>
+        <Import>C:\Skyrim\dev\skyrim\Data\Source\Scripts</Import>
+    </Imports>
+    <Folders>
+        <Folder>Scripts\Source</Folder>
+    </Folders>
+</PapyrusProject>

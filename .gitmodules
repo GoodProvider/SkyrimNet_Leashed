@@ -1,3 +1,8 @@
 [submodule "Skyrim-Leash-Framework"]
 	path = Skyrim-Leash-Framework
 	url = https://github.com/asdasdduck/Skyrim-Leash-Framework.git
+	branch = master
+[submodule "SkyrimNet-GamePlugin"]
+	path = SkyrimNet-GamePlugin
+	url = https://github.com/MinLL/SkyrimNet-GamePlugin.git
+	branch = main

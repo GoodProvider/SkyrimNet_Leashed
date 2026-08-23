@@ -1,0 +1,25 @@
+{
+  "SpriggitSource": {
+    "PackageName": "Spriggit.Json.Skyrim",
+    "Version": "0.38.6"
+  },
+  "ModKey": "SkyrimNet_Leash.esp",
+  "GameRelease": "SkyrimSE",
+  "ModHeader": {
+    "Flags": [
+      "Small"
+    ],
+    "Author": "GoodProvider",
+    "MasterReferences": [
+      {
+        "Master": "Skyrim.esm",
+        "FileSize": 0
+      },
+      {
+        "Master": "Leash.esm",
+        "FileSize": 0
+      }
+    ],
+    "INTV": 1
+  }
+}

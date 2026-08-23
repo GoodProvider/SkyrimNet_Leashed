@@ -1,0 +1,9 @@
+{% if render_mode == "full" or render_mode == "thoughts" or render_mode == "transform" %}
+{% set leash = leashframework_visible_pairs(actorUUID) %}
+{% if leash.pairs and length(leash.pairs) > 0 %}
+### Leashes
+{% for pair in leash.pairs %}
+- {{ pair.holder }} holds {{ pair.leashed }} on a leash
+{% endfor %}
+{% endif %}
+{% endif %}

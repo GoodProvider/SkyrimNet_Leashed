@@ -1,0 +1,28 @@
+# SkyrimNet_Leash
+
+> SkyrimNet ↔ Leash Framework bridge for Skyrim SE. YAML actions + C++ eligibility decorators + Papyrus execute + bio prompt.
+
+## Read by job
+
+| Job | Start here |
+| --- | --- |
+| Player / install / build | README.md |
+| Agent policy | AGENTS.md |
+| Action YAML | SKSE/Plugins/SkyrimNet/config/actions/ |
+| Prompts | SKSE/Plugins/SkyrimNet/prompts/submodules/character_bio/0409_leashframework.prompt |
+| SKSE / CMake | SKSE_Source/ |
+| ESP | Spriggit/SkyrimNet_Leash/ |
+| User leftovers | ToDo.md |
+
+## Do not ingest (unless debugging that area)
+
+- SKSE_Source/build/
+- z-plan.md
+- OStimNet/
+- crash-*.log, Papyrus.0.log
+- submodule internals except `Skyrim-Leash-Framework/papyrus/source/LeashFramework.psc`
+
+## Compile reminders
+
+- Papyrus: Cursor task `compile: pyro` only
+- SKSE: CMake tasks under SKSE_Source (`debug` / `build-debug`)

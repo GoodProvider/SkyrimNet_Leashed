@@ -1,0 +1,21 @@
+# SKSE / CMake
+SKSE_Source/build/
+SKSE/Plugins/*.dll
+SKSE/Plugins/*.pdb
+
+# Papyrus compiled
+Scripts/*.pex
+
+# IDE
+.idea/
+.vs/
+*.user
+*.suo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local planning
+z-plan.md
+OStimNet/
