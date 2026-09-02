@@ -13,7 +13,8 @@
     </Variables>
     <Imports>
         <Import>Scripts\Source</Import>
-        <Import>Skyrim-Leash-Framework\papyrus\source</Import>
+        <Import>Headers</Import>
+        <Import>SkyrimNet-GamePlugin\Source\Scripts</Import>
         <Import>@ModsFolder\SKSE64\Scripts\Source</Import>
         <Import>C:\Skyrim\dev\skyrim\Data\Source\Scripts</Import>
     </Imports>

@@ -13,6 +13,8 @@ if(DEFINED ENV{SKYRIM_MODS_FOLDER} AND IS_DIRECTORY "$ENV{SKYRIM_MODS_FOLDER}")
 endif()
 
 find_package(CommonLibSSE CONFIG REQUIRED)
+# CommonLibSSE's exported link interface names Microsoft::DirectXTK, so this has to be
+# found here even though nothing under src/ includes it.
 find_package(DirectXTK CONFIG REQUIRED)
 find_package(glaze CONFIG REQUIRED)
 

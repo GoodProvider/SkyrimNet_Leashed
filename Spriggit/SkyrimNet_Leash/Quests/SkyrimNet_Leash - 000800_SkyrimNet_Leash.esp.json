@@ -6,6 +6,21 @@
       {
         "Name": "SkyrimNet_Leash_Actions"
       }
+    ],
+    "FileName": "",
+    "Aliases": [
+      {
+        "Property": {
+          "Name": "",
+          "Object": "000800:SkyrimNet_Leash.esp",
+          "Alias": 0
+        },
+        "Scripts": [
+          {
+            "Name": "SkyrimNet_Leash_PlayerAlias"
+          }
+        ]
+      }
     ]
   },
   "Name": {
@@ -16,5 +31,14 @@
     "StartGameEnabled",
     "0x10",
     "RunOnce"
+  ],
+  "NextAliasID": 1,
+  "Aliases": [
+    {
+      "Name": "PlayerAlias",
+      "Flags": [],
+      "ForcedReference": "000014:Skyrim.esm",
+      "VoiceTypes": "Null"
+    }
   ]
 }

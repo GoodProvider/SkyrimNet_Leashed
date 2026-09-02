@@ -22,9 +22,10 @@ Leash apply still needs leash bones on the target (Leash.esm armor / SMP node na
 
 | Action | Effect |
 | --- | --- |
-| Leash | Speaker holds the leash; target is leashed. Style: `forceful\|normal\|gently`. |
-| TargetLeashesSpeaker | Target holds the leash; speaker is leashed. Same style tokens. |
-| Unleash | Disconnect that pair, or drop every leash the speaker is part of. |
+| leash_leash_target | Speaker holds the leash; target is leashed. Style: `forceful\|normal\|gently`. Type: `body_rope\|neck_rope\|neck_chain\|magic_rope\|holder_shield`. |
+| leash_leash_speaker | Target holds the leash; speaker is leashed. Same style and type tokens. |
+| leash_unleash_target | Disconnect the leash the speaker shares with a named actor. Offered only when the speaker is on a leash with someone. |
+| leash_unleash_speaker | Drop every leash the speaker is part of. |
 
 Children may be leashed.
 
@@ -75,7 +76,7 @@ Confirm the mod folder contains:
 - `SKSE/Plugins/SkyrimNet/config/actions/`
 - `SKSE/Plugins/SkyrimNet/prompts/submodules/character_bio/0409_leashframework.prompt`
 - `SkyrimNet_Leash.esp`
-- compiled `Scripts/SkyrimNet_Leash_Actions.pex`
+- compiled `Scripts/SkyrimNet_Leash_Actions.pex`, `Scripts/SkyrimNet_Leash_PlayerAlias.pex`, and `Scripts/SkyrimNet_Leash_Native.pex`
 
 ### ESP from Spriggit
 

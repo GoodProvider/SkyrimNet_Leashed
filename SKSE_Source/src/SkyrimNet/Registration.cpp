@@ -1,80 +1,53 @@
 #include "Registration.h"
 
-#include "SkyrimNet/PublicAPI.h"
+#include "Api.h"
+#include "StateCache.h"
 
-#include "../Leash/LeashConstants.h"
-#include "../Leash/PapyrusCalls.h"
-#include "../Leash/VisiblePairs.h"
+#include <string>
 
 namespace SkyrimNetLeash::SkyrimNet {
     namespace {
-        void RegisterDecorator(const char* a_name, const char* a_description, std::function<std::string(RE::Actor*)> a_callback) {
-            if (!PublicRegisterDecorator) {
-                SKSE::log::error("PublicRegisterDecorator is null; cannot register '{}'", a_name);
-                return;
-            }
-            if (PublicRegisterDecorator(a_name, a_description, std::move(a_callback))) {
-                SKSE::log::info("Registered decorator '{}'", a_name);
-            } else {
-                SKSE::log::error("Failed to register decorator '{}' (name conflict or null callback)", a_name);
-            }
+        void RegisterFlag(const char* a_name, const char* a_description, StateCache::Flag a_flag) {
+            Api::RegisterDecorator(a_name, a_description,
+                [a_flag](RE::Actor* a_actor) -> std::string { return StateCache::Flagged(a_actor, a_flag) ? "available" : "unavailable"; });
         }
 
-        std::string Availability(bool a_ok) { return a_ok ? "available" : "unavailable"; }
+        void RegisterPayload(const char* a_name, const char* a_description, StateCache::Payload a_payload) {
+            Api::RegisterDecorator(a_name, a_description, [a_payload](RE::Actor* a_actor) -> std::string { return StateCache::Json(a_actor, a_payload); });
+        }
     }
 
     bool Register() {
-        if (!FindFunctions()) {
-            SKSE::log::error("SkyrimNet FindFunctions failed; decorators will not register");
-            return false;
-        }
-        if (!PublicRegisterDecorator) {
-            SKSE::log::warn("SkyrimNet PublicRegisterDecorator is null (v5+ required)");
+        if (!Api::Initialize()) {
             return false;
         }
 
-        RegisterDecorator(
-            "is_leash_available",
-            "Returns 'available' if this actor can start a leash (alive, not in combat, Leash.esm loaded). Children may be leashed. Returns 'unavailable' otherwise.",
-            [](RE::Actor* actor) -> std::string {
-                if (!actor) {
-                    return "unavailable";
-                }
-                const char* name = actor->GetName();
-                if (!IsLeashPluginLoaded()) {
-                    SKSE::log::debug("is_leash_available: '{}' (0x{:08X}) -> unavailable (Leash.esm missing)", name ? name : "(unnamed)", actor->GetFormID());
-                    return "unavailable";
-                }
-                if (actor->IsDead()) {
-                    SKSE::log::debug("is_leash_available: '{}' (0x{:08X}) -> unavailable (dead)", name ? name : "(unnamed)", actor->GetFormID());
-                    return "unavailable";
-                }
-                if (actor->IsInCombat()) {
-                    SKSE::log::debug("is_leash_available: '{}' (0x{:08X}) -> unavailable (in combat)", name ? name : "(unnamed)", actor->GetFormID());
-                    return "unavailable";
-                }
-                return "available";
-            });
+        RegisterFlag("is_leash_available", "Returns 'available' if this actor can start a leash (Leash.esm loaded, alive, not in combat). Returns 'unavailable' otherwise.",
+            StateCache::Flag::LeashAvailable);
 
-        RegisterDecorator(
-            "is_unleash_available",
-            "Returns 'available' if this actor is in LeasherFaction or LeashedFaction. Returns 'unavailable' otherwise.",
-            [](RE::Actor* actor) -> std::string {
-                if (!actor) {
-                    return "unavailable";
-                }
-                const bool ok = Papyrus::IsLeashHolder(actor) || Papyrus::IsLeashed(actor);
-                if (!ok) {
-                    const char* name = actor->GetName();
-                    SKSE::log::debug("is_unleash_available: '{}' (0x{:08X}) -> unavailable (not in leash factions)", name ? name : "(unnamed)", actor->GetFormID());
-                }
-                return Availability(ok);
-            });
+        RegisterFlag("is_unleash_available", "Returns 'available' if this actor is in LeasherFaction or LeashedFaction. Returns 'unavailable' otherwise.",
+            StateCache::Flag::UnleashAvailable);
 
-        RegisterDecorator(
-            "leashframework_visible_pairs",
-            "JSON object with a pairs array of holder/leashed display names visible to this speaker.",
-            [](RE::Actor* actor) -> std::string { return VisiblePairs::JsonForSpeaker(actor); });
+        RegisterFlag("speaker_on_leash", "Returns 'available' if this actor shares a leash with another nearby actor who can be named as an unleash target.",
+            StateCache::Flag::SpeakerOnLeash);
+
+        RegisterFlag("leashed_nearby", "Returns 'available' if another nearby actor is in LeasherFaction or LeashedFaction. Returns 'unavailable' otherwise.",
+            StateCache::Flag::LeashedNearby);
+
+        RegisterFlag("unleashed_nearby", "Returns 'available' if another nearby actor is not in LeashedFaction. Returns 'unavailable' otherwise.",
+            StateCache::Flag::UnleashedNearby);
+
+        RegisterPayload("get_nearby_unleashed_actors", "JSON object with actorIds and actorsNameString for nearby actors who are not currently leashed. Excludes the speaker.",
+            StateCache::Payload::UnleashedActors);
+
+        RegisterPayload("get_nearby_leashed_actors", "JSON object with actorIds and actorsNameString for nearby actors in LeasherFaction or LeashedFaction. Excludes the speaker.",
+            StateCache::Payload::LeashedActors);
+
+        RegisterPayload("get_speaker_leash_partners", "JSON object with actorIds and actorsNameString for the actors on the other end of this speaker's leashes.",
+            StateCache::Payload::LeashPartners);
+
+        RegisterPayload("leashframework_visible_pairs", "JSON object with a pairs array of holder/leashed display names visible to this speaker.",
+            StateCache::Payload::VisiblePairs);
 
         return true;
     }

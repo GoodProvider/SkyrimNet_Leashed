@@ -15,10 +15,12 @@ namespace SkyrimNetLeash {
 
     bool IsLeashPluginLoaded() {
         auto* data = RE::TESDataHandler::GetSingleton();
-        return data && data->LookupLoadedModByName(kLeashPluginName);
+        if (!data) {
+            return false;
+        }
+        return data->LookupLoadedModByName(kLeashPluginName) ||
+               data->LookupLoadedLightModByName(kLeashPluginName);
     }
 
-    bool IsLeashFrameworkDllLoaded() {
-        return GetModuleHandleA("LeashFramework") != nullptr || GetModuleHandleA("LeashFramework.dll") != nullptr;
-    }
+    bool IsLeashFrameworkDllLoaded() { return GetModuleHandleA(kLeashFrameworkDll.data()) != nullptr; }
 }
