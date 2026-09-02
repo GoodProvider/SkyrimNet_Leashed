@@ -24,6 +24,7 @@ Repo root: `c:\Skyrim\dev\mods\SkyrimNet_Leash`.
 
 - Papyrus: VS Code/Cursor task **`compile: pyro`** only (unless the maintainer asks otherwise).
 - SKSE: tasks **`CMake: Configure (Debug|Release)`** then **`CMake: Build SKSE (Debug|Release)`** (cwd `SKSE_Source`).
+- In-game testing must use the **Release** SKSE build. Debug `/MDd` breaks SkyrimNet’s `std::string` decorator ABI (SEH on every decorator callback).
 
 ## Commit messages
 
@@ -38,3 +39,10 @@ First ~72 characters summarize the commit. Prefer a multi-line body with concret
 ## Safety / confidence
 
 State confidence 0–100% before game, script, or ESP changes. Target ≥ 90%.
+
+## Log files 
+
+SkyrimNet: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet.log
+SkyrimNet_Leash: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet_Leash.log
+LeashFramework: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\LeashFramework.log
+SkyrimNet_SexLab: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet_SexLab.log
