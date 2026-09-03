@@ -1,0 +1,37 @@
+customCategory: leash_change
+name: leash_change_tie_target
+description: "{{render_template(\"leash_actions/leash_action_change_tie_target\")}}"
+questEditorId: SkyrimNet_Leash
+scriptName: SkyrimNet_Leash_Actions
+executionFunctionName: LeashedToTiePoint
+parameterMapping:
+  - type: speaker
+    name: subject
+    description: Speaker re-tying the leash
+  - type: dynamic
+    name: leashed
+    description: Display name of the collared actor whose leash is re-tied, exactly as listed under available targets.
+    useNearbyActors: false
+  - type: static
+    name: style
+    value: ""
+  - type: static
+    name: leashDistance
+    value: ""
+  - type: static
+    name: leashType
+    value: ""
+  - type: static
+    name: body_part
+    value: ""
+  - type: dynamic
+    name: tiePoint
+    description: floor|left|back|front|right|wall
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: collared_nearby
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"

@@ -1,0 +1,3 @@
+{% set speakingNpc = decnpc(npc.UUID) %}
+{% set nearby = get_nearby_actors(npc.UUID) %}
+{{speakingNpc.name}} refused to be leashed by a nearby actor. Available actors: {{ nearby.actorsNameString }}. Never pick anyone not listed.

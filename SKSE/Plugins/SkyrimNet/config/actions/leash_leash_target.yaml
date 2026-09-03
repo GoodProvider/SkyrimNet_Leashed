@@ -1,0 +1,37 @@
+customCategory: leash_leash
+name: leash_leash_target
+description: "{{render_template(\"leash_actions/leash_action_leash_target\")}}"
+questEditorId: SkyrimNet_Leash
+scriptName: SkyrimNet_Leash_Actions
+executionFunctionName: LeashedToHolder
+parameterMapping:
+  - type: speaker
+    name: subject
+    description: Speaker who puts the leash on the target
+  - type: dynamic
+    name: leashed
+    description: Display name of the actor to leash, exactly as listed under available targets.
+    useNearbyActors: false
+  - type: speaker
+    name: holder
+    description: Speaker holding the leash
+  - type: dynamic
+    name: style
+    description: forcefully|normally|gently
+  - type: dynamic
+    name: leashDistance
+    description: tight|short|middle|long
+  - type: dynamic
+    name: leashType
+    description: chain|rope|magic
+  - type: dynamic
+    name: body_part
+    description: neck|waist
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: unleashed_nearby
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"

@@ -1,0 +1,26 @@
+customCategory: leash_change
+name: leash_change_give_speaker
+description: "{{render_template(\"leash_actions/leash_action_give_speaker\")}}"
+questEditorId: SkyrimNet_Leash
+scriptName: SkyrimNet_Leash_Actions
+executionFunctionName: GiveLeash
+parameterMapping:
+  - type: dynamic
+    name: subject
+    description: Display name of the actor who gives the speaker's leash, exactly as listed under available actors.
+    useNearbyActors: false
+  - type: speaker
+    name: leashed
+    description: Speaker whose leash is given
+  - type: dynamic
+    name: receiver
+    description: Display name of the actor who will hold the leash, exactly as listed under available receivers. Never the speaker.
+    useNearbyActors: false
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: speaker_is_leashed
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"

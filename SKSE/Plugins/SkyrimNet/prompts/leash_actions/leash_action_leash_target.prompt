@@ -1,0 +1,3 @@
+{% set speakingNpc = decnpc(npc.UUID) %}
+{% set nearby = get_nearby_unleashed_actors(npc.UUID) %}
+{{speakingNpc.name}} forcefully|normally|gently leashes a nearby actor's neck|waist with a tight|short|middle|long chain|rope|magic leash. {{speakingNpc.name}} holds the leash. Available targets: {{ nearby.actorsNameString }}. Never pick anyone not listed.

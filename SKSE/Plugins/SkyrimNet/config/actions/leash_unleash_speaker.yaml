@@ -1,0 +1,18 @@
+customCategory: leash_unleash
+name: leash_unleash_speaker
+description: "{{render_template(\"leash_actions/leash_action_unleash_speaker\")}}"
+questEditorId: SkyrimNet_Leash
+scriptName: SkyrimNet_Leash_Actions
+executionFunctionName: UnleashSpeakerExecute
+parameterMapping:
+  - type: speaker
+    name: subject
+    description: Speaker Actor parameter (triggering entity)
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: is_unleash_available
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"

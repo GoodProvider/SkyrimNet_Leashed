@@ -1,0 +1,27 @@
+customCategory: leash_leash
+name: leash_leash
+label: Leash
+description: Start a leash. Style forcefully|normally|gently. Distance tight|short|middle|long. Type chain|rope|magic. Body part neck|waist. Tie point floor|left|back|front|right|wall.
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: is_leash_available
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"
+    logicalOperator: AND
+    required: true
+  - conditions:
+      - decoratorName: unleashed_nearby
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"
+      - decoratorName: speaker_is_leashed
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "unavailable"
+    logicalOperator: OR
+    required: true

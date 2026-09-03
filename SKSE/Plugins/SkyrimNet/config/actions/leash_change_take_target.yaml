@@ -1,0 +1,22 @@
+customCategory: leash_change
+name: leash_change_take_target
+description: "{{render_template(\"leash_actions/leash_action_take_target\")}}"
+questEditorId: SkyrimNet_Leash
+scriptName: SkyrimNet_Leash_Actions
+executionFunctionName: TakeLeash
+parameterMapping:
+  - type: speaker
+    name: subject
+    description: Speaker who takes the leash
+  - type: dynamic
+    name: leashed
+    description: Display name of the collared actor whose leash is taken, exactly as listed under available targets.
+    useNearbyActors: false
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: collared_nearby
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"

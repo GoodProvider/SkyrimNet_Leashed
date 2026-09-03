@@ -1,0 +1,27 @@
+customCategory: leash_change
+name: leash_change
+label: Change leash
+description: Take, give, or re-tie an existing leash.
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: is_leash_available
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"
+    logicalOperator: AND
+    required: true
+  - conditions:
+      - decoratorName: collared_nearby
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"
+      - decoratorName: speaker_is_leashed
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"
+    logicalOperator: OR
+    required: true

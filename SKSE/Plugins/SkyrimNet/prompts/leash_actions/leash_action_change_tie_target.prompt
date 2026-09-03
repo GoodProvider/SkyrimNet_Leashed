@@ -1,0 +1,3 @@
+{% set speakingNpc = decnpc(npc.UUID) %}
+{% set nearby = get_nearby_collared_actors(npc.UUID) %}
+{{speakingNpc.name}} ties a nearby collared actor's existing leash to the floor|left|back|front|right|wall. Available targets: {{ nearby.actorsNameString }}. Never pick anyone not listed.

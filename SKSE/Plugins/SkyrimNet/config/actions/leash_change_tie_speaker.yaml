@@ -1,0 +1,37 @@
+customCategory: leash_change
+name: leash_change_tie_speaker
+description: "{{render_template(\"leash_actions/leash_action_change_tie_speaker\")}}"
+questEditorId: SkyrimNet_Leash
+scriptName: SkyrimNet_Leash_Actions
+executionFunctionName: LeashedToTiePoint
+parameterMapping:
+  - type: dynamic
+    name: subject
+    description: Display name of the actor who ties the speaker's leash, exactly as listed under available actors.
+    useNearbyActors: false
+  - type: speaker
+    name: leashed
+    description: Speaker whose leash is re-tied
+  - type: static
+    name: style
+    value: ""
+  - type: static
+    name: leashDistance
+    value: ""
+  - type: static
+    name: leashType
+    value: ""
+  - type: static
+    name: body_part
+    value: ""
+  - type: dynamic
+    name: tiePoint
+    description: floor|left|back|front|right|wall
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: speaker_is_leashed
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"

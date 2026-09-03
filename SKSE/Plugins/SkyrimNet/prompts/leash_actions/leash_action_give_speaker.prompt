@@ -1,0 +1,3 @@
+{% set speakingNpc = decnpc(npc.UUID) %}
+{% set nearby = get_nearby_actors(npc.UUID) %}
+A nearby actor gives {{speakingNpc.name}}'s leash to another nearby actor. Givers and receivers: {{ nearby.actorsNameString }}. Never pick {{speakingNpc.name}} as the receiver. Never pick anyone not listed.

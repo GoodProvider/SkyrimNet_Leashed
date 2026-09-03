@@ -20,11 +20,34 @@ Leash apply still needs leash bones on the target (Leash.esm armor / SMP node na
 
 ### Actions
 
+Three categories. Style: `forcefully|normally|gently`. Distance: `tight|short|middle|long`. Type: `chain|rope|magic`. Body part: `neck|waist`. Tie point: `floor|left|back|front|right|wall`.
+
+**leash_leash** (start a leash)
+
 | Action | Effect |
 | --- | --- |
-| leash_leash_target | Speaker holds the leash; target is leashed. Style: `forceful\|normal\|gently`. Type: `body_rope\|neck_rope\|neck_chain\|magic_rope\|holder_shield`. |
-| leash_leash_speaker | Target holds the leash; speaker is leashed. Same style and type tokens. |
-| leash_unleash_target | Disconnect the leash the speaker shares with a named actor. Offered only when the speaker is on a leash with someone. |
+| leash_leash_target | Speaker leashes the target and holds the leash. |
+| leash_leash_speaker | A nearby actor leashes the speaker and holds the leash. Speaker must not already be leashed. |
+| leash_leash_tie_target | Speaker ties an unleashed target to a world point. |
+| leash_leash_refused_speaker | Speaker refuses to be leashed by a nearby actor. |
+| leash_leash_refused_target | A nearby actor refuses to be leashed by the speaker. |
+
+**leash_change** (move an existing leash)
+
+| Action | Effect |
+| --- | --- |
+| leash_change_take_target | Speaker takes a collared actor's leash. |
+| leash_change_take_speaker | A nearby actor takes the speaker's leash. Speaker must be leashed. |
+| leash_change_give_target | Speaker gives a collared actor's leash to another nearby actor. |
+| leash_change_give_speaker | A nearby actor gives the speaker's leash to another nearby actor. |
+| leash_change_tie_target | Speaker re-ties a collared actor's leash to a world point. |
+| leash_change_tie_speaker | A nearby actor re-ties the speaker's leash to a world point. |
+
+**leash_unleash**
+
+| Action | Effect |
+| --- | --- |
+| leash_unleash_target | Disconnect the leash the speaker shares with a named actor. |
 | leash_unleash_speaker | Drop every leash the speaker is part of. |
 
 Children may be leashed.

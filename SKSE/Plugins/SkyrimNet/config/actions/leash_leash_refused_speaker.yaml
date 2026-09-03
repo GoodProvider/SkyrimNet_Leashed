@@ -1,0 +1,22 @@
+customCategory: leash_leash
+name: leash_leash_refused_speaker
+description: "{{render_template(\"leash_actions/leash_action_refused_speaker\")}}"
+questEditorId: SkyrimNet_Leash
+scriptName: SkyrimNet_Leash_Actions
+executionFunctionName: LeashedRefused
+parameterMapping:
+  - type: dynamic
+    name: subject
+    description: Display name of the actor the speaker is refusing, exactly as listed under available actors.
+    useNearbyActors: false
+  - type: speaker
+    name: leashed
+    description: Speaker who refuses to be leashed
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: speaker_is_leashed
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "unavailable"
