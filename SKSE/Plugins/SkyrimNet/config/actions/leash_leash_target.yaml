@@ -12,9 +12,10 @@ parameterMapping:
     name: leashed
     description: Display name of the actor to leash, exactly as listed under available targets.
     useNearbyActors: false
-  - type: speaker
+  - type: dynamic
     name: holder
-    description: Speaker holding the leash
+    description: Display name of the actor who will hold the leash, or None to leave it hanging. Never the leashed actor.
+    useNearbyActors: false
   - type: dynamic
     name: style
     description: forcefully|normally|gently

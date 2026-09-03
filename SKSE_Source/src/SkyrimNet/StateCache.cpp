@@ -21,6 +21,7 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
         std::string holder{};
         std::string leashed{};
         bool tied{false};
+        bool dangling{false};
         std::string kind{};
         std::string distance{};
         std::string bodyPart{};
@@ -65,6 +66,7 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
             std::string distance;
             std::string bodyPart;
             bool tied{false};
+            bool dangling{false};
             RE::Actor* holder{};
             RE::Actor* leashed{};
         };
@@ -159,6 +161,7 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
                         .holder = pair.holderName,
                         .leashed = pair.leashedName,
                         .tied = pair.tied,
+                        .dangling = pair.dangling,
                         .kind = pair.kind,
                         .distance = pair.distance,
                         .bodyPart = pair.bodyPart,
@@ -247,8 +250,11 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
             pair.leashed = actor;
             pair.holder = holder;
             pair.holderID = holder ? holder->GetFormID() : 0;
-            pair.holderName = LeashState::DisplayName(holder);
-            pair.tied = hasRecord ? recorded.holderID == 0 : holder == nullptr;
+            pair.tied = hasRecord ? recorded.tied : holder == nullptr;
+            pair.dangling = hasRecord && !recorded.tied && recorded.holderID == 0;
+            if (holder && !pair.tied && !pair.dangling) {
+                pair.holderName = LeashState::DisplayName(holder);
+            }
             pair.kind = SpokenKind(hasRecord ? recorded.kind : "");
             pair.distance = hasRecord ? recorded.distance : "";
             pair.bodyPart = hasRecord ? recorded.bodyPart : "";

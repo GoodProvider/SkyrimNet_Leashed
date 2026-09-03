@@ -1,4 +1,4 @@
 {% set speakingNpc = decnpc(npc.UUID) %}
 {% set collared = get_nearby_collared_actors(npc.UUID) %}
 {% set nearby = get_nearby_actors(npc.UUID) %}
-{{speakingNpc.name}} gives a nearby collared actor's leash to another nearby actor. Collared targets: {{ collared.actorsNameString }}. Receivers: {{ nearby.actorsNameString }}. Never pick a receiver who is the collared target. Never pick anyone not listed.
+{{speakingNpc.name}} gives a nearby collared actor's leash to another nearby actor, or to None to drop it and leave it hanging. Collared targets: {{ collared.actorsNameString }}. Receivers: {{ nearby.actorsNameString }}, or None. Never pick a receiver who is the collared target. Never pick anyone not listed except None.

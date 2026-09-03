@@ -1,7 +1,7 @@
 customCategory: leash_leash
 name: leash_leash
 label: Leash
-description: Start a leash. Style forcefully|normally|gently. Distance tight|short|middle|long. Type chain|rope|magic. Body part neck|waist. Tie point floor|left|back|front|right|wall.
+description: Start a leash. Style forcefully|normally|gently. Distance tight|short|middle|long. Type chain|rope|magic. Body part neck|waist. Holder may be an actor or None (dangling). Tie point floor|left|back|front|right|wall.
 enabled: true
 eligibilityRules:
   - conditions:

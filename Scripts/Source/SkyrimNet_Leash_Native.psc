@@ -13,14 +13,13 @@ SkyrimNet decorators and character bios.
 Records holder as the actor holding leashed's leash, plus the kind, distance, and body-part
 tokens used in character bios.
 
-Pass None for holder to record a holderless world-position leash. That is stored as a
-known holderless leash rather than as an unknown one, so the plugin does not fall back to
-guessing a nearby holder.
+Pass None for holder to record a holderless leash. tied true is a world-position anchor;
+tied false is a dangling (unheld) collar. A non-None holder ignores tied.
 
 kind: chain, rope, magic, or holder_shield. leashDistance: tight, short, middle, or long.
 bodyPart: neck or waist. Empty strings are allowed when the values are not yet known.
 /;
-Function NotifyLeash(Actor holder, Actor leashed, String kind, String leashDistance, String bodyPart) Global Native
+Function NotifyLeash(Actor holder, Actor leashed, String kind, String leashDistance, String bodyPart, Bool tied) Global Native
 
 ;/
 Drops the recorded holder for leashed.

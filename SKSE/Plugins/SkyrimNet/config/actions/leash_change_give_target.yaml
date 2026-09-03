@@ -14,7 +14,7 @@ parameterMapping:
     useNearbyActors: false
   - type: dynamic
     name: receiver
-    description: Display name of the actor who will hold the leash, exactly as listed under available receivers. Never the leashed actor.
+    description: Display name of the actor who will hold the leash, or None to leave it hanging. Never the leashed actor.
     useNearbyActors: false
 enabled: true
 eligibilityRules:

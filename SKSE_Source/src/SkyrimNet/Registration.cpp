@@ -25,7 +25,7 @@ namespace SkyrimNetLeash::SkyrimNet {
         RegisterFlag("is_leash_available", "Returns 'available' if this actor can start a leash (Leash.esm loaded, alive, not in combat). Returns 'unavailable' otherwise.",
             StateCache::Flag::LeashAvailable);
 
-        RegisterFlag("is_unleash_available", "Returns 'available' if this actor is in LeasherFaction or LeashedFaction. Returns 'unavailable' otherwise.",
+        RegisterFlag("is_unleash_available", "Returns 'available' if this actor is in LeasherFaction, LeashedFaction, or has a recorded dangling leash. Returns 'unavailable' otherwise.",
             StateCache::Flag::UnleashAvailable);
 
         RegisterFlag("speaker_on_leash", "Returns 'available' if this actor shares a leash with another nearby actor who can be named as an unleash target.",
@@ -37,10 +37,10 @@ namespace SkyrimNetLeash::SkyrimNet {
         RegisterFlag("unleashed_nearby", "Returns 'available' if another nearby actor is not in LeashedFaction. Returns 'unavailable' otherwise.",
             StateCache::Flag::UnleashedNearby);
 
-        RegisterFlag("speaker_is_leashed", "Returns 'available' if this actor is in LeashedFaction. Returns 'unavailable' otherwise.",
+        RegisterFlag("speaker_is_leashed", "Returns 'available' if this actor is in LeashedFaction or has a recorded dangling leash. Returns 'unavailable' otherwise.",
             StateCache::Flag::SpeakerIsLeashed);
 
-        RegisterFlag("collared_nearby", "Returns 'available' if another nearby actor is in LeashedFaction. Holders who are not themselves leashed do not count. Returns 'unavailable' otherwise.",
+        RegisterFlag("collared_nearby", "Returns 'available' if another nearby actor is in LeashedFaction or has a recorded dangling leash. Holders who are not themselves leashed do not count. Returns 'unavailable' otherwise.",
             StateCache::Flag::CollaredNearby);
 
         RegisterPayload("get_nearby_unleashed_actors", "JSON object with actorIds and actorsNameString for nearby actors who are not currently leashed. Excludes the speaker.",
@@ -52,10 +52,10 @@ namespace SkyrimNetLeash::SkyrimNet {
         RegisterPayload("get_speaker_leash_partners", "JSON object with actorIds and actorsNameString for the actors on the other end of this speaker's leashes.",
             StateCache::Payload::LeashPartners);
 
-        RegisterPayload("leashframework_visible_pairs", "JSON object with a pairs array of holder/leashed display names, tied flag, kind, distance, and body part visible to this speaker.",
+        RegisterPayload("leashframework_visible_pairs", "JSON object with a pairs array of holder/leashed display names, tied and dangling flags, kind, distance, and body part visible to this speaker.",
             StateCache::Payload::VisiblePairs);
 
-        RegisterPayload("get_nearby_collared_actors", "JSON object with actorIds and actorsNameString for nearby actors in LeashedFaction. Excludes the speaker and holder-only actors.",
+        RegisterPayload("get_nearby_collared_actors", "JSON object with actorIds and actorsNameString for nearby actors in LeashedFaction or wearing a recorded dangling leash. Excludes the speaker and holder-only actors.",
             StateCache::Payload::CollaredActors);
 
         RegisterPayload("get_nearby_actors", "JSON object with actorIds and actorsNameString for nearby living actors. Excludes the speaker.",

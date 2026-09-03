@@ -14,7 +14,7 @@ parameterMapping:
     description: Speaker who will be leashed
   - type: dynamic
     name: holder
-    description: Same actor as subject; they hold the leash.
+    description: Display name of the actor who will hold the leash, or None to leave it hanging. Never the speaker. Often the same actor as subject.
     useNearbyActors: false
   - type: dynamic
     name: style

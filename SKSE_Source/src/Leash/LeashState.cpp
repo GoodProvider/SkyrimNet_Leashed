@@ -52,8 +52,15 @@ namespace SkyrimNetLeash::LeashState {
     }
 
     bool IsLeashed(RE::Actor* a_actor) {
+        if (!a_actor) {
+            return false;
+        }
         auto* faction = GetLeashedFaction();
-        return a_actor && faction && a_actor->IsInFaction(faction);
+        if (faction && a_actor->IsInFaction(faction)) {
+            return true;
+        }
+        std::lock_guard lock{g_pairMutex};
+        return g_byLeashed.contains(a_actor->GetFormID());
     }
 
     bool IsLeashHolder(RE::Actor* a_actor) {
@@ -107,9 +114,15 @@ namespace SkyrimNetLeash::LeashState {
         };
         append(lists->highActorHandles);
         append(lists->middleHighActorHandles);
+        std::lock_guard lock{g_pairMutex};
+        for (const auto& [id, _] : g_byLeashed) {
+            if (auto* actor = ActorFromID(id)) {
+                a_out.push_back(actor);
+            }
+        }
     }
 
-    void RememberPair(RE::FormID a_holderID, RE::FormID a_leashedID, std::string_view a_kind, std::string_view a_distance, std::string_view a_bodyPart) {
+    void RememberPair(RE::FormID a_holderID, RE::FormID a_leashedID, std::string_view a_kind, std::string_view a_distance, std::string_view a_bodyPart, bool a_tied) {
         if (a_leashedID == 0) {
             return;
         }
@@ -119,6 +132,7 @@ namespace SkyrimNetLeash::LeashState {
             .kind = std::string{a_kind},
             .distance = std::string{a_distance},
             .bodyPart = std::string{a_bodyPart},
+            .tied = a_holderID == 0 && a_tied,
         };
     }
 

@@ -10,14 +10,14 @@ namespace SkyrimNetLeash::Papyrus {
     namespace {
         constexpr std::string_view kScriptName = "SkyrimNet_Leash_Native";
 
-        void NotifyLeash(RE::StaticFunctionTag*, RE::Actor* a_holder, RE::Actor* a_leashed, RE::BSFixedString a_kind, RE::BSFixedString a_distance, RE::BSFixedString a_bodyPart) {
+        void NotifyLeash(RE::StaticFunctionTag*, RE::Actor* a_holder, RE::Actor* a_leashed, RE::BSFixedString a_kind, RE::BSFixedString a_distance, RE::BSFixedString a_bodyPart, bool a_tied) {
             if (!a_leashed) {
                 return;
             }
             const char* kind = a_kind.c_str() ? a_kind.c_str() : "";
             const char* distance = a_distance.c_str() ? a_distance.c_str() : "";
             const char* bodyPart = a_bodyPart.c_str() ? a_bodyPart.c_str() : "";
-            LeashState::RememberPair(a_holder ? a_holder->GetFormID() : 0, a_leashed->GetFormID(), kind, distance, bodyPart);
+            LeashState::RememberPair(a_holder ? a_holder->GetFormID() : 0, a_leashed->GetFormID(), kind, distance, bodyPart, a_tied);
         }
 
         void NotifyUnleash(RE::StaticFunctionTag*, RE::Actor* a_leashed) {

@@ -1,7 +1,7 @@
 customCategory: leash_change
 name: leash_change
 label: Change leash
-description: Take, give, or re-tie an existing leash.
+description: Take, give, or re-tie an existing leash. Give receiver may be None to leave it hanging.
 enabled: true
 eligibilityRules:
   - conditions:
