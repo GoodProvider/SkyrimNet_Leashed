@@ -52,7 +52,7 @@ namespace SkyrimNetLeash::SkyrimNet {
         RegisterPayload("get_speaker_leash_partners", "JSON object with actorIds and actorsNameString for the actors on the other end of this speaker's leashes.",
             StateCache::Payload::LeashPartners);
 
-        RegisterPayload("leashframework_visible_pairs", "JSON object with a pairs array of holder/leashed display names visible to this speaker.",
+        RegisterPayload("leashframework_visible_pairs", "JSON object with a pairs array of holder/leashed display names, tied flag, kind, distance, and body part visible to this speaker.",
             StateCache::Payload::VisiblePairs);
 
         RegisterPayload("get_nearby_collared_actors", "JSON object with actorIds and actorsNameString for nearby actors in LeashedFaction. Excludes the speaker and holder-only actors.",

@@ -10,6 +10,7 @@
 #include <condition_variable>
 #include <mutex>
 #include <stop_token>
+#include <string_view>
 #include <thread>
 #include <unordered_map>
 #include <unordered_set>
@@ -19,6 +20,10 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
     struct PairJson {
         std::string holder{};
         std::string leashed{};
+        bool tied{false};
+        std::string kind{};
+        std::string distance{};
+        std::string bodyPart{};
     };
 
     struct PairsJson {
@@ -56,6 +61,10 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
             RE::FormID leashedID{};
             std::string holderName;
             std::string leashedName;
+            std::string kind;
+            std::string distance;
+            std::string bodyPart;
+            bool tied{false};
             RE::Actor* holder{};
             RE::Actor* leashed{};
         };
@@ -84,6 +93,13 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
                 return false;
             }
             return los;
+        }
+
+        std::string SpokenKind(std::string_view a_kind) {
+            if (a_kind == "holder_shield") {
+                return "shield";
+            }
+            return std::string{a_kind};
         }
 
         std::string FormatNames(const std::vector<std::string>& a_names) {
@@ -139,7 +155,14 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
             for (const auto& pair : a_pairs) {
                 const bool endpoint = pair.holderID == speakerID || pair.leashedID == speakerID;
                 if (endpoint || CanSee(a_speaker, pair.holder) || CanSee(a_speaker, pair.leashed)) {
-                    visible.pairs.push_back(PairJson{.holder = pair.holderName, .leashed = pair.leashedName});
+                    visible.pairs.push_back(PairJson{
+                        .holder = pair.holderName,
+                        .leashed = pair.leashedName,
+                        .tied = pair.tied,
+                        .kind = pair.kind,
+                        .distance = pair.distance,
+                        .bodyPart = pair.bodyPart,
+                    });
                 }
                 if (pair.leashedID == speakerID && pair.holder) {
                     partners.push_back(pair.holder);
@@ -216,6 +239,8 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
                 continue;
             }
             auto* holder = LeashState::GetLeashHolder(actor);
+            LeashState::RecordedPair recorded;
+            const bool hasRecord = LeashState::TryGetRecorded(actor->GetFormID(), recorded);
             Pair pair;
             pair.leashedID = actor->GetFormID();
             pair.leashedName = LeashState::DisplayName(actor);
@@ -223,6 +248,10 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
             pair.holder = holder;
             pair.holderID = holder ? holder->GetFormID() : 0;
             pair.holderName = LeashState::DisplayName(holder);
+            pair.tied = hasRecord ? recorded.holderID == 0 : holder == nullptr;
+            pair.kind = SpokenKind(hasRecord ? recorded.kind : "");
+            pair.distance = hasRecord ? recorded.distance : "";
+            pair.bodyPart = hasRecord ? recorded.bodyPart : "";
             pairs.push_back(std::move(pair));
         }
 

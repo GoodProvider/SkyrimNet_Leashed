@@ -519,7 +519,7 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
         ForgetPair(leashed)
         return false
     endif
-    SkyrimNet_Leash_Native.NotifyLeash(holder, leashed)
+    SkyrimNet_Leash_Native.NotifyLeash(holder, leashed, kind, leashDistance, bodyPart)
     return true
 EndFunction
 
@@ -545,7 +545,7 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
         ForgetPair(leashed)
         return false
     endif
-    SkyrimNet_Leash_Native.NotifyLeash(None, leashed)
+    SkyrimNet_Leash_Native.NotifyLeash(None, leashed, kind, leashDistance, bodyPart)
     return true
 EndFunction
 
@@ -824,7 +824,8 @@ EndFunction
 Event OnLeashFrameworkLeash(String eventName, String strArg, Float numArg, Form sender)
     Actor leashed = sender as Actor
     if leashed
-        SkyrimNet_Leash_Native.NotifyLeash(LeashFramework.GetLeashHolder(leashed), leashed)
+        Actor holder = LeashFramework.GetLeashHolder(leashed)
+        SkyrimNet_Leash_Native.NotifyLeash(holder, leashed, DetectKind(holder, leashed), ResolveDistance(leashed, ""), DetectBodyPart(holder, leashed))
     endif
     NarrateLeash(leashed, strArg)
 EndEvent
