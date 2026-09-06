@@ -36,6 +36,17 @@ schema:
         - "long"
       category: "Leash"
 
+    - name: "Leash type"
+      path: "leash.ui.leashType"
+      type: "select"
+      description: "Default leash type used by the panel pulldown and Start."
+      defaultValue: "rope"
+      options:
+        - "chain"
+        - "rope"
+        - "magic"
+      category: "Leash"
+
     - name: "Tie point"
       path: "leash.ui.tiePoint"
       type: "select"

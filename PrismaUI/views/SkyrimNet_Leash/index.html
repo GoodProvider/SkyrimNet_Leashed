@@ -16,13 +16,13 @@
             --accent-muted:  rgba(201, 168, 76, 0.15);
             --border:        rgba(201, 168, 76, 0.28);
             --font-ui:       'Segoe UI', 'Microsoft YaHei UI', 'Meiryo', system-ui, sans-serif;
-            --text-sm:       13px;
-            --text-base:     15px;
+            --text-sm:       26px;
+            --text-base:     30px;
             --space-xs:      4px;
             --space-sm:      8px;
             --space-md:      12px;
             --radius:        6px;
-            --target-min:    40px;
+            --target-min:    80px;
             --shadow-lg:     0 6px 16px rgba(0, 0, 0, 0.45);
         }
         html, body {
@@ -40,9 +40,9 @@
         #bar {
             display: none;
             position: absolute;
-            top: 18px;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
             background: var(--bg-surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
@@ -63,8 +63,17 @@
             align-items: stretch;
             min-width: 8em;
         }
-        .col .control {
-            min-width: 8em;
+        .col.word {
+            min-width: auto;
+        }
+        .col.word .control {
+            min-width: auto;
+            min-height: var(--target-min);
+            display: flex;
+            align-items: center;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            padding: 0 var(--space-xs);
         }
         .col .label {
             font-size: var(--text-sm);
@@ -76,7 +85,7 @@
         .col .label .status {
             display: block;
             color: var(--text-muted);
-            font-size: 12px;
+            font-size: 24px;
         }
         .pulldown {
             position: relative;
@@ -151,6 +160,7 @@
     <script>
         const STYLES = ['forcefully', 'normally', 'gently'];
         const DISTANCES = ['tight', 'short', 'middle', 'long'];
+        const TYPES = ['chain', 'rope', 'magic'];
         const TIE_POINTS = ['floor', 'left', 'back', 'front', 'right', 'wall'];
         const NONE_ID = 0;
 
@@ -161,9 +171,10 @@
             subject: 0,
             leashed: 0,
             holder: 0,
-            action: 'give to',
+            verb: 'leash',
             style: 'normally',
             distance: 'middle',
+            leashType: 'rope',
             tiePoint: 'floor'
         };
 
@@ -184,14 +195,14 @@
             return !!(rec && rec.isLeashed);
         }
 
-        function actionValues() {
-            return isLeashed() ? ['unleash', 'tie to', 'give to'] : ['tie to', 'give to'];
+        function verbValues() {
+            return isLeashed() ? ['unleash', 'tie to', 'give to'] : ['leash', 'leash to'];
         }
 
-        function seedAction() {
-            const allowed = actionValues();
-            if (!allowed.includes(state.action))
-                state.action = allowed.includes('give to') ? 'give to' : allowed[0];
+        function seedVerb() {
+            const allowed = verbValues();
+            if (!allowed.includes(state.verb))
+                state.verb = allowed[0];
         }
 
         function closeAllPulldowns(except) {
@@ -261,6 +272,20 @@
             });
         }
 
+        function addWord(grid, text) {
+            const wrap = document.createElement('div');
+            wrap.className = 'col word';
+            const controlHost = document.createElement('div');
+            controlHost.className = 'control';
+            controlHost.textContent = text;
+            const label = document.createElement('div');
+            label.className = 'label';
+            label.textContent = '\u00a0';
+            wrap.appendChild(controlHost);
+            wrap.appendChild(label);
+            grid.appendChild(wrap);
+        }
+
         function addColumn(grid, control, labelText, statusText) {
             const wrap = document.createElement('div');
             wrap.className = 'col';
@@ -283,7 +308,8 @@
 
         function canStart() {
             if (!state.subject || !state.leashed) return false;
-            if (state.action === 'give to' && state.holder && formId(state.holder) === formId(state.leashed))
+            if ((state.verb === 'leash' || state.verb === 'give to')
+                && state.holder && formId(state.holder) === formId(state.leashed))
                 return false;
             return true;
         }
@@ -291,12 +317,13 @@
         function fireStart() {
             if (!canStart()) return;
             const payload = {
-                action: state.action,
+                action: state.verb,
                 subject: formId(state.subject),
                 leashed: formId(state.leashed),
                 holder: formId(state.holder),
                 style: state.style || 'normally',
                 distance: state.distance || 'middle',
+                leashType: state.leashType || 'rope',
                 tiePoint: state.tiePoint || 'floor'
             };
             if (typeof window.onStart === 'function')
@@ -304,7 +331,7 @@
         }
 
         function render() {
-            seedAction();
+            seedVerb();
             const rec = leashedRecord();
             if (state.holder && formId(state.holder) === formId(state.leashed))
                 state.holder = state.subject || 0;
@@ -319,10 +346,14 @@
                 render();
             }), 'subject');
 
-            addColumn(grid, createPulldown(actionValues(), state.action, (v) => {
-                state.action = v;
+            addColumn(grid, createPulldown(STYLES, state.style, (v) => {
+                state.style = v;
+            }), 'style');
+
+            addColumn(grid, createPulldown(verbValues(), state.verb, (v) => {
+                state.verb = v;
                 render();
-            }), '');
+            }), 'verb');
 
             let status = '';
             if (rec && rec.isLeashed) {
@@ -333,22 +364,39 @@
                 render();
             }), 'leashed', status);
 
-            addColumn(grid, createPulldown(STYLES, state.style, (v) => {
-                state.style = v;
-            }), 'style');
-
-            addColumn(grid, createPulldown(DISTANCES, state.distance, (v) => {
-                state.distance = v;
-            }), 'distance');
-
-            addColumn(grid, createActorPulldown(true, state.leashed, state.holder, (id) => {
-                state.holder = id;
-                render();
-            }), 'give to');
-
-            addColumn(grid, createPulldown(TIE_POINTS, state.tiePoint, (v) => {
-                state.tiePoint = v;
-            }), 'tie');
+            const leashedNow = isLeashed();
+            if (!leashedNow && (state.verb === 'leash' || state.verb === 'leash to')) {
+                addWord(grid, 'with');
+                addColumn(grid, createPulldown(DISTANCES, state.distance, (v) => {
+                    state.distance = v;
+                }), 'distance');
+                addColumn(grid, createPulldown(TYPES, state.leashType, (v) => {
+                    state.leashType = v;
+                }), 'type');
+                if (state.verb === 'leash') {
+                    addWord(grid, 'held by');
+                    addColumn(grid, createActorPulldown(true, state.leashed, state.holder, (id) => {
+                        state.holder = id;
+                        render();
+                    }), 'holder');
+                } else {
+                    addWord(grid, 'tied to');
+                    addColumn(grid, createPulldown(TIE_POINTS, state.tiePoint, (v) => {
+                        state.tiePoint = v;
+                    }), 'location');
+                }
+            } else if (leashedNow && state.verb === 'give to') {
+                addWord(grid, 'to');
+                addColumn(grid, createActorPulldown(true, state.leashed, state.holder, (id) => {
+                    state.holder = id;
+                    render();
+                }), 'holder');
+            } else if (leashedNow && state.verb === 'tie to') {
+                addWord(grid, 'to');
+                addColumn(grid, createPulldown(TIE_POINTS, state.tiePoint, (v) => {
+                    state.tiePoint = v;
+                }), 'location');
+            }
 
             const startBtn = document.createElement('div');
             startBtn.className = 'action-btn' + (canStart() ? '' : ' disabled');
@@ -366,6 +414,7 @@
             state.player = formId(src.player);
             state.crosshair = formId(src.crosshair);
             state.distance = DISTANCES.includes(src.distance) ? src.distance : 'middle';
+            state.leashType = TYPES.includes(src.leashType) ? src.leashType : 'rope';
             state.tiePoint = TIE_POINTS.includes(src.tiePoint) ? src.tiePoint : 'floor';
             if (!STYLES.includes(state.style)) state.style = 'normally';
 
@@ -377,7 +426,7 @@
                 : (state.actors.find(a => formId(a.formId) !== state.subject) || playerActor || { formId: 0 }).formId;
             state.leashed = formId(state.leashed);
             state.holder = state.subject;
-            seedAction();
+            seedVerb();
             render();
         }
 

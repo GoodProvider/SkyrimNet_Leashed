@@ -21,9 +21,9 @@ Leash apply still needs leash bones on the target (Leash.esm armor / SMP node na
 
 ### Leash panel hotkey
 
-With PrismaUI installed, `\` opens a horizontal leash bar (subject, action, leashed, style, distance, give to, tie, Start). Press `\` again or Escape to close. The game pauses while the panel is focused.
+With PrismaUI installed, `\` opens a horizontal leash bar. Verb options depend on whether the selected leashed actor is already collared: **leash** / **leash to** when unleashed, **unleash** / **tie to** / **give to** when leashed. Extra columns (distance, type, holder, location) appear only for the chosen verb. Press `\` again or Escape to close. The game pauses while the panel is focused.
 
-Enable, remap, and default **distance** / **tie point** live in the SkyrimNet plugin menu (`SkyrimNet_Leash`). SkyrimNet_SexLab’s Start Sex hotkey also defaults to `\` but is off unless you turn it on — do not bind both to the same key.
+Enable, remap, and default **distance** / **type** / **tie point** live in the SkyrimNet plugin menu (`SkyrimNet_Leash`). SkyrimNet_SexLab’s Start Sex hotkey also defaults to `\` but is off unless you turn it on — do not bind both to the same key.
 
 ### Actions
 

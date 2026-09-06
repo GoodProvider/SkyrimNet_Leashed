@@ -32,6 +32,7 @@ namespace SkyrimNetLeash::WebUI {
         std::uint32_t player{};
         std::uint32_t crosshair{};
         std::string distance{};
+        std::string leashType{};
         std::string tiePoint{};
     };
 
@@ -42,6 +43,7 @@ namespace SkyrimNetLeash::WebUI {
         std::uint32_t holder{};
         std::string style{};
         std::string distance{};
+        std::string leashType{};
         std::string tiePoint{};
     };
 
@@ -243,6 +245,7 @@ namespace SkyrimNetLeash::WebUI {
         OpenPayload BuildOpenPayload() {
             OpenPayload payload;
             payload.distance = Config::Distance();
+            payload.leashType = Config::LeashType();
             payload.tiePoint = Config::TiePoint();
 
             auto* player = RE::PlayerCharacter::GetSingleton();
@@ -347,6 +350,7 @@ namespace SkyrimNetLeash::WebUI {
         void DispatchStart(StartPayload a_payload) {
             const auto style = NormalizeToken(std::move(a_payload.style), "normally", {"forcefully", "normally", "gently"});
             const auto distance = NormalizeToken(std::move(a_payload.distance), "middle", {"tight", "short", "middle", "long"});
+            const auto leashType = NormalizeToken(std::move(a_payload.leashType), "rope", {"chain", "rope", "magic"});
             const auto tiePoint = NormalizeToken(std::move(a_payload.tiePoint), "floor", {"floor", "left", "back", "front", "right", "wall"});
             auto action = a_payload.action;
             std::transform(action.begin(), action.end(), action.begin(), [](unsigned char ch) {
@@ -381,16 +385,16 @@ namespace SkyrimNetLeash::WebUI {
                     addActor(subject);
                     addActor(leashed);
                 }
-            } else if (action == "tie to") {
+            } else if (action == "leash to" || action == "tie to") {
                 functionName = "LeashedToTiePoint";
                 addActor(subject);
                 addActor(leashed);
                 addString(style);
                 addString(distance);
-                addString("rope");
+                addString(leashType);
                 addString("neck");
                 addString(tiePoint);
-            } else if (isLeashed) {
+            } else if (action == "give to" && isLeashed) {
                 if (holder && holder->GetFormID() == subject->GetFormID()) {
                     functionName = "TakeLeash";
                     addActor(subject);
@@ -408,7 +412,7 @@ namespace SkyrimNetLeash::WebUI {
                 addActor(holder);
                 addString(style);
                 addString(distance);
-                addString("rope");
+                addString(leashType);
                 addString("neck");
             }
 

@@ -9,5 +9,6 @@ namespace SkyrimNetLeash::WebUI::Config {
     [[nodiscard]] std::uint32_t HotkeyVk();
     [[nodiscard]] std::uint32_t HotkeyDx();
     [[nodiscard]] std::string Distance();
+    [[nodiscard]] std::string LeashType();
     [[nodiscard]] std::string TiePoint();
 }

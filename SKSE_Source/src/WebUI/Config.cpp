@@ -60,6 +60,14 @@ namespace SkyrimNetLeash::WebUI::Config {
         return value;
     }
 
+    std::string LeashType() {
+        auto value = Lower(GetValue("leash.ui.leashType", "rope"));
+        if (!IsOneOf(value, {"chain", "rope", "magic"})) {
+            return "rope";
+        }
+        return value;
+    }
+
     std::string TiePoint() {
         auto value = Lower(GetValue("leash.ui.tiePoint", "floor"));
         if (!IsOneOf(value, {"floor", "left", "back", "front", "right", "wall"})) {
