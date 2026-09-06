@@ -9,6 +9,7 @@ String[] CachedKinds
 String[] CachedBodyParts
 String[] CachedDistances
 String[] CachedStyles
+Bool[] CachedTied
 Float[] LastPullTimes
 Float[] LastNarrateTimes
 
@@ -46,8 +47,12 @@ Function EnsureCache()
         CachedBodyParts = new String[32]
         CachedDistances = new String[32]
         CachedStyles = new String[32]
+        CachedTied = new Bool[32]
         LastPullTimes = new Float[32]
         LastNarrateTimes = new Float[32]
+    endif
+    if CachedTied.Length != CacheSize()
+        CachedTied = new Bool[32]
     endif
 EndFunction
 
@@ -163,10 +168,28 @@ String Function ParentBoneFor(String kind, String bodyPart)
     if kind == "holder_shield"
         return "NPC Spine2 [Spn2]"
     endif
-    if bodyPart == "waist"
+    String b = NormalizeBodyPart(bodyPart)
+    if b == "waist"
         return "NPC Spine1 [Spn1]"
     endif
-    return "NPC Neck [Neck]"
+    return "NPC Spine2 [Spn2]"
+EndFunction
+
+String Function KindForDangling(String kind)
+    if IsHolderOwnedKind(kind)
+        return "rope"
+    endif
+    if kind == ""
+        return "rope"
+    endif
+    return kind
+EndFunction
+
+String Function SpokenKind(String kind)
+    if kind == "holder_shield"
+        return "shield"
+    endif
+    return kind
 EndFunction
 
 Bool Function IsHolderOwnedKind(String kind)
@@ -201,12 +224,34 @@ Function EquipTypeArmor(Actor meshOwner, Armor leashArmor)
     if meshOwner == None || leashArmor == None
         return
     endif
+    Armor worn = meshOwner.GetWornForm(leashArmor.GetSlotMask()) as Armor
+    if worn && worn != leashArmor
+        meshOwner.UnequipItem(worn, false, true)
+    endif
     if meshOwner.GetItemCount(leashArmor) < 1
         meshOwner.AddItem(leashArmor, 1, true)
     endif
     if !meshOwner.IsEquipped(leashArmor)
-        meshOwner.EquipItem(leashArmor, false, true)
+        meshOwner.EquipItem(leashArmor, true, true)
     endif
+EndFunction
+
+Bool Function WaitForLeashMesh(Actor meshOwner, Armor leashArmor)
+    if meshOwner == None || leashArmor == None
+        Debug.Trace("[SkyrimNet_Leash] WaitForLeashMesh skipped: missing owner or armor")
+        return false
+    endif
+    Int tries = 0
+    while tries < 4 && !meshOwner.IsEquipped(leashArmor)
+        Utility.Wait(0.25)
+        tries += 1
+    endwhile
+    Bool worn = meshOwner.IsEquipped(leashArmor)
+    Debug.Trace("[SkyrimNet_Leash] WaitForLeashMesh armor=" + leashArmor + " equipped=" + worn)
+    if worn
+        SkyrimNet_Leash_Native.TraceLeashBones(meshOwner)
+    endif
+    return worn
 EndFunction
 
 Function UnequipTypeArmor(Actor meshOwner, Armor leashArmor)
@@ -230,7 +275,7 @@ Int Function FindLeashedIndex(Actor leashed)
     return -1
 EndFunction
 
-Function RememberPair(Actor holder, Actor leashed, String kind, String bodyPart, String style, String leashDistance)
+Function RememberPair(Actor holder, Actor leashed, String kind, String bodyPart, String style, String leashDistance, Bool tied)
     if leashed == None
         return
     endif
@@ -248,6 +293,7 @@ Function RememberPair(Actor holder, Actor leashed, String kind, String bodyPart,
     CachedBodyParts[i] = bodyPart
     CachedStyles[i] = style
     CachedDistances[i] = leashDistance
+    CachedTied[i] = holder == None && tied
 EndFunction
 
 Function ForgetPair(Actor leashed)
@@ -261,6 +307,7 @@ Function ForgetPair(Actor leashed)
     CachedBodyParts[i] = ""
     CachedDistances[i] = ""
     CachedStyles[i] = ""
+    CachedTied[i] = false
     LastPullTimes[i] = 0.0
     LastNarrateTimes[i] = 0.0
 EndFunction
@@ -303,6 +350,14 @@ String Function CachedStyle(Actor leashed)
         return CachedStyles[i]
     endif
     return "normally"
+EndFunction
+
+Bool Function CachedIsTied(Actor leashed)
+    Int i = FindLeashedIndex(leashed)
+    if i >= 0
+        return CachedTied[i]
+    endif
+    return false
 EndFunction
 
 String Function DetectKind(Actor holder, Actor leashed)
@@ -414,8 +469,10 @@ Function UnequipTrackedFor(Actor who)
             CachedBodyParts[i] = ""
             CachedDistances[i] = ""
             CachedStyles[i] = ""
+            CachedTied[i] = false
             LastPullTimes[i] = 0.0
             LastNarrateTimes[i] = 0.0
+            SkyrimNet_Leash_Native.NotifyUnleash(leashed)
         endif
         i += 1
     endwhile
@@ -427,7 +484,8 @@ Function MarkSuppressed(Actor leashed)
     endif
     Int i = FindLeashedIndex(leashed)
     if i < 0
-        RememberPair(None, leashed, DetectKind(None, leashed), DetectBodyPart(None, leashed), "normally", "middle")
+        Bool tied = leashed && LeashFramework.IsLeashed(leashed) && LeashFramework.GetLeashHolder(leashed) == None
+        RememberPair(None, leashed, DetectKind(None, leashed), DetectBodyPart(None, leashed), "normally", "middle", tied)
         i = FindLeashedIndex(leashed)
     endif
     if i < 0
@@ -498,10 +556,23 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
         Debug.Trace("[SkyrimNet_Leash] ApplyToHolder refused: " + ActorLabel(holder) + " cannot leash themselves")
         return false
     endif
+    bodyPart = NormalizeBodyPart(bodyPart)
+    if bodyPart == ""
+        bodyPart = "neck"
+    endif
     Armor leashArmor = ArmorForKind(kind, bodyPart)
+    if leashArmor == None
+        Debug.Trace("[SkyrimNet_Leash] ApplyToHolder missing armor kind=" + kind + " body=" + bodyPart)
+        return false
+    endif
     Actor meshOwner = MeshOwnerFor(holder, leashed, kind)
     EquipTypeArmor(meshOwner, leashArmor)
-    RememberPair(holder, leashed, kind, bodyPart, style, leashDistance)
+    if !WaitForLeashMesh(meshOwner, leashArmor)
+        Debug.Trace("[SkyrimNet_Leash] ApplyToHolder armor not worn on " + ActorLabel(meshOwner))
+        UnequipTypeArmor(meshOwner, leashArmor)
+        return false
+    endif
+    RememberPair(holder, leashed, kind, bodyPart, style, leashDistance, false)
     MarkSuppressed(leashed)
     Debug.Trace("[SkyrimNet_Leash] ApplyToHolder holder=" + ActorLabel(holder) + " leashed=" + ActorLabel(leashed) + " kind=" + kind + " body=" + bodyPart + " distance=" + leashDistance)
     String bone = ParentBoneFor(kind, bodyPart)
@@ -519,7 +590,39 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
         ForgetPair(leashed)
         return false
     endif
-    SkyrimNet_Leash_Native.NotifyLeash(holder, leashed, kind, leashDistance, bodyPart)
+    SkyrimNet_Leash_Native.NotifyLeash(holder, leashed, kind, leashDistance, bodyPart, false)
+    return true
+EndFunction
+
+Function DisconnectFramework(Actor leashed)
+    if leashed == None || !LeashFramework.IsLeashed(leashed)
+        return
+    endif
+    Actor holder = LeashFramework.GetLeashHolder(leashed)
+    if holder
+        LeashFramework.DisconnectLeash(holder, leashed)
+    else
+        LeashFramework.DisconnectLeash(None, leashed)
+    endif
+EndFunction
+
+Bool Function ApplyDangling(Actor leashed, String style, String leashDistance, String kind, String bodyPart)
+    if leashed == None
+        return false
+    endif
+    kind = KindForDangling(kind)
+    bodyPart = NormalizeBodyPart(bodyPart)
+    if bodyPart == ""
+        bodyPart = "neck"
+    endif
+    MarkSuppressed(leashed)
+    DisconnectFramework(leashed)
+    Armor leashArmor = ArmorForKind(kind, bodyPart)
+    EquipTypeArmor(leashed, leashArmor)
+    RememberPair(None, leashed, kind, bodyPart, style, leashDistance, false)
+    MarkSuppressed(leashed)
+    Debug.Trace("[SkyrimNet_Leash] ApplyDangling leashed=" + ActorLabel(leashed) + " kind=" + kind + " body=" + bodyPart + " distance=" + leashDistance)
+    SkyrimNet_Leash_Native.NotifyLeash(None, leashed, kind, leashDistance, bodyPart, false)
     return true
 EndFunction
 
@@ -531,9 +634,22 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
     if parentCell == None
         return false
     endif
+    bodyPart = NormalizeBodyPart(bodyPart)
+    if bodyPart == ""
+        bodyPart = "neck"
+    endif
     Armor leashArmor = ArmorForKind(kind, bodyPart)
+    if leashArmor == None
+        Debug.Trace("[SkyrimNet_Leash] ApplyToTiePoint missing armor kind=" + kind + " body=" + bodyPart)
+        return false
+    endif
     EquipTypeArmor(leashed, leashArmor)
-    RememberPair(None, leashed, kind, bodyPart, style, leashDistance)
+    if !WaitForLeashMesh(leashed, leashArmor)
+        Debug.Trace("[SkyrimNet_Leash] ApplyToTiePoint armor not worn on " + ActorLabel(leashed))
+        UnequipTypeArmor(leashed, leashArmor)
+        return false
+    endif
+    RememberPair(None, leashed, kind, bodyPart, style, leashDistance, true)
     MarkSuppressed(leashed)
     Float[] xyz = new Float[3]
     OffsetTiePoint(leashed, tiePoint, xyz)
@@ -545,15 +661,37 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
         ForgetPair(leashed)
         return false
     endif
-    SkyrimNet_Leash_Native.NotifyLeash(None, leashed, kind, leashDistance, bodyPart)
+    SkyrimNet_Leash_Native.NotifyLeash(None, leashed, kind, leashDistance, bodyPart, true)
     return true
 EndFunction
 
-Function Narrate(String content, Actor originator, Actor target)
+; kind: "playerSensitive" (1 if player involved else 2), "stumble" (always 2), "taut" (always 3).
+; extra is the holder or give-receiver so a player in that role counts as involved / able to see.
+Function Narrate(String content, Actor originator, Actor target, String kind, Actor leashed, Actor extra)
     if content == ""
         return
     endif
-    SkyrimNetApi.DirectNarration(content, originator, target)
+    Actor player = Game.GetPlayer()
+    Bool includesPlayer = originator == player || target == player || leashed == player || extra == player
+    Int importance = 2
+    if kind == "taut"
+        importance = 3
+    elseif kind != "stumble" && includesPlayer
+        importance = 1
+    endif
+    Bool playerCanSee = originator == player || leashed == player || extra == player
+    if !playerCanSee && leashed && player.HasLOS(leashed)
+        playerCanSee = true
+    endif
+    if !playerCanSee || importance == 3
+        SkyrimNetApi.RegisterEvent("leash", content, originator, target)
+        return
+    endif
+    if importance == 1 || SkyrimNetApi.GetSpeechQueueSize() == 0
+        SkyrimNetApi.DirectNarration(content, originator, target)
+        return
+    endif
+    SkyrimNetApi.RegisterEvent("leash", content, originator, target)
 EndFunction
 
 Actor Function NarrateListener(Actor subject, Actor leashed, Actor holder)
@@ -567,24 +705,43 @@ Actor Function NarrateListener(Actor subject, Actor leashed, Actor holder)
 EndFunction
 
 Function NarrateApply(Actor subject, Actor leashed, Actor holder, String style, String leashDistance, String kind, String bodyPart)
-    String spokenKind = kind
-    if spokenKind == "holder_shield"
-        spokenKind = "shield"
+    String spokenKind = SpokenKind(kind)
+    String content = ActorLabel(subject) + " " + StyleWord(style) + " leashes " + Possessive(leashed) + " " + bodyPart + " with a " + leashDistance + " " + spokenKind + " leash"
+    if holder
+        content += "."
+    else
+        content += " and leaves it hanging."
     endif
-    String content = ActorLabel(subject) + " " + StyleWord(style) + " leashes " + Possessive(leashed) + " " + bodyPart + " with a " + leashDistance + " " + spokenKind + " leash."
-    Narrate(content, subject, NarrateListener(subject, leashed, holder))
+    Narrate(content, subject, NarrateListener(subject, leashed, holder), "playerSensitive", leashed, holder)
 EndFunction
 
 Function LeashedToHolder(Actor subject, Actor leashed, Actor holder, String style, String leashDistance, String leashType, String body_part)
-    if leashed == None || holder == None
-        Debug.Trace("[SkyrimNet_Leash] LeashedToHolder skipped: missing leashed or holder")
+    if leashed == None
+        Debug.Trace("[SkyrimNet_Leash] LeashedToHolder skipped: missing leashed")
+        return
+    endif
+    if holder == leashed
+        Debug.Trace("[SkyrimNet_Leash] LeashedToHolder refused: " + ActorLabel(holder) + " cannot leash themselves")
         return
     endif
     String kind = ResolveKind(holder, leashed, leashType)
     String bodyPart = ResolveBodyPart(holder, leashed, body_part)
     String distance = ResolveDistance(leashed, leashDistance)
     if subject == None
-        subject = holder
+        if holder
+            subject = holder
+        else
+            subject = leashed
+        endif
+    endif
+    if holder == None
+        kind = KindForDangling(kind)
+        if !ApplyDangling(leashed, style, distance, kind, bodyPart)
+            Debug.Trace("[SkyrimNet_Leash] LeashedToHolder dangling failed for " + ActorLabel(leashed))
+            return
+        endif
+        NarrateApply(subject, leashed, None, style, distance, kind, bodyPart)
+        return
     endif
     if !ApplyToHolder(holder, leashed, style, distance, kind, bodyPart)
         Debug.Trace("[SkyrimNet_Leash] LeashedToHolder failed for " + ActorLabel(holder) + " -> " + ActorLabel(leashed))
@@ -605,26 +762,39 @@ Function TakeLeash(Actor subject, Actor leashed)
         Debug.Trace("[SkyrimNet_Leash] TakeLeash failed for " + ActorLabel(subject) + " -> " + ActorLabel(leashed))
         return
     endif
-    Narrate(ActorLabel(subject) + " takes " + Possessive(leashed) + " leash.", subject, NarrateListener(subject, leashed, subject))
+    Narrate(ActorLabel(subject) + " takes " + Possessive(leashed) + " leash.", subject, NarrateListener(subject, leashed, subject), "playerSensitive", leashed, subject)
 EndFunction
 
 Function GiveLeash(Actor subject, Actor leashed, Actor receiver)
-    if subject == None || leashed == None || receiver == None
+    if subject == None || leashed == None
         return
     endif
-    if receiver == leashed || receiver == subject
-        Debug.Trace("[SkyrimNet_Leash] GiveLeash skipped: receiver cannot be the leashed actor or the subject")
+    if receiver == leashed
+        Debug.Trace("[SkyrimNet_Leash] GiveLeash skipped: receiver cannot be the leashed actor")
+        return
+    endif
+    if receiver && receiver == subject
+        Debug.Trace("[SkyrimNet_Leash] GiveLeash skipped: receiver cannot be the subject")
         return
     endif
     String kind = DetectKind(receiver, leashed)
     String bodyPart = DetectBodyPart(receiver, leashed)
     String distance = ResolveDistance(leashed, "")
     String style = CachedStyle(leashed)
+    if receiver == None
+        kind = KindForDangling(kind)
+        if !ApplyDangling(leashed, style, distance, kind, bodyPart)
+            Debug.Trace("[SkyrimNet_Leash] GiveLeash dangling failed for " + ActorLabel(leashed))
+            return
+        endif
+        Narrate(ActorLabel(subject) + " drops " + Possessive(leashed) + " leash.", subject, NarrateListener(subject, leashed, None), "playerSensitive", leashed, None)
+        return
+    endif
     if !ApplyToHolder(receiver, leashed, style, distance, kind, bodyPart)
         Debug.Trace("[SkyrimNet_Leash] GiveLeash failed for " + ActorLabel(subject) + " -> " + ActorLabel(receiver))
         return
     endif
-    Narrate(ActorLabel(subject) + " gives " + Possessive(leashed) + " leash to " + ActorLabel(receiver) + ".", subject, leashed)
+    Narrate(ActorLabel(subject) + " gives " + Possessive(leashed) + " leash to " + ActorLabel(receiver) + ".", subject, leashed, "playerSensitive", leashed, receiver)
 EndFunction
 
 Function LeashedToTiePoint(Actor subject, Actor leashed, String style, String leashDistance, String leashType, String body_part, String tiePoint)
@@ -642,14 +812,14 @@ Function LeashedToTiePoint(Actor subject, Actor leashed, String style, String le
         Debug.Trace("[SkyrimNet_Leash] LeashedToTiePoint failed for " + ActorLabel(leashed))
         return
     endif
-    Narrate(ActorLabel(subject) + " ties " + Possessive(leashed) + " leash to the " + point + ".", subject, NarrateListener(subject, leashed, None))
+    Narrate(ActorLabel(subject) + " ties " + Possessive(leashed) + " leash to the " + point + ".", subject, NarrateListener(subject, leashed, None), "playerSensitive", leashed, None)
 EndFunction
 
 Function LeashedRefused(Actor subject, Actor leashed)
     if subject == None || leashed == None
         return
     endif
-    Narrate(ActorLabel(leashed) + " refused to be leashed by " + ActorLabel(subject) + ".", leashed, subject)
+    Narrate(ActorLabel(leashed) + " refused to be leashed by " + ActorLabel(subject) + ".", leashed, subject, "playerSensitive", leashed, subject)
 EndFunction
 
 Function UnleashTargetExecute(Actor subject, Actor target)
@@ -661,16 +831,29 @@ Function UnleashTargetExecute(Actor subject, Actor target)
     if LeashFramework.IsLeashed(subject) && LeashFramework.GetLeashHolder(subject) == target
         holder = target
         leashed = subject
+    elseif FindLeashedIndex(subject) >= 0 && CachedHolder(subject) == None
+        leashed = subject
+        holder = None
+    elseif FindLeashedIndex(target) >= 0 && CachedHolder(target) == None
+        leashed = target
+        holder = None
     endif
     String kind = DetectKind(holder, leashed)
     String bodyPart = DetectBodyPart(holder, leashed)
     MarkSuppressed(leashed)
-    Bool ok = LeashFramework.DisconnectLeash(subject, target)
+    Bool ok = false
+    if holder == None
+        ok = LeashFramework.DisconnectLeash(None, leashed)
+    endif
+    if !ok
+        ok = LeashFramework.DisconnectLeash(subject, target)
+    endif
     if !ok
         ok = LeashFramework.DisconnectLeash(target, subject)
     endif
-    if ok
-        Narrate(ActorLabel(subject) + " unclips the " + kind + " leash from " + Possessive(leashed) + " " + bodyPart + ".", subject, NarrateListener(subject, leashed, holder))
+    Bool recorded = FindLeashedIndex(leashed) >= 0
+    if ok || recorded
+        Narrate(ActorLabel(subject) + " unclips the " + kind + " leash from " + Possessive(leashed) + " " + bodyPart + ".", subject, NarrateListener(subject, leashed, holder), "playerSensitive", leashed, holder)
         UnequipPairArmor(holder, leashed, kind, bodyPart)
         ForgetPair(leashed)
         SkyrimNet_Leash_Native.NotifyUnleash(leashed)
@@ -697,7 +880,7 @@ Function UnleashSpeakerExecute(Actor subject)
             endif
             MarkSuppressed(leashed)
             Actor originator = subject
-            Narrate(ActorLabel(originator) + " unclips the " + kind + " leash from " + Possessive(leashed) + " " + bodyPart + ".", originator, NarrateListener(originator, leashed, holder))
+            Narrate(ActorLabel(originator) + " unclips the " + kind + " leash from " + Possessive(leashed) + " " + bodyPart + ".", originator, NarrateListener(originator, leashed, holder), "playerSensitive", leashed, holder)
         endif
         i += 1
     endwhile
@@ -706,10 +889,11 @@ Function UnleashSpeakerExecute(Actor subject)
         String kind = DetectKind(holder, subject)
         String bodyPart = DetectBodyPart(holder, subject)
         MarkSuppressed(subject)
-        Narrate(ActorLabel(subject) + " unclips the " + kind + " leash from " + Possessive(subject) + " " + bodyPart + ".", subject, holder)
+        Narrate(ActorLabel(subject) + " unclips the " + kind + " leash from " + Possessive(subject) + " " + bodyPart + ".", subject, holder, "playerSensitive", subject, holder)
     endif
     LeashFramework.UnleashAll(subject)
     UnequipTrackedFor(subject)
+    SkyrimNet_Leash_Native.NotifyUnleash(subject)
 EndFunction
 
 Function NarrateLeash(Actor leashed, String reason)
@@ -728,17 +912,26 @@ Function NarrateLeash(Actor leashed, String reason)
     Actor targetActor = leashed
     String content = ""
     if holder == None
-        content = "A " + distance + " " + kind + " leash is tied to " + Possessive(leashed) + " " + bodyPart + "."
+        if CachedIsTied(leashed) || FindLeashedIndex(leashed) < 0
+            content = "A " + distance + " " + kind + " leash is tied to " + Possessive(leashed) + " " + bodyPart + "."
+        else
+            content = "A " + distance + " " + kind + " leash hangs from " + Possessive(leashed) + " " + bodyPart + "."
+        endif
         originator = None
         targetActor = leashed
     else
         content = ActorLabel(holder) + " " + StyleWord(style) + " leashes " + Possessive(leashed) + " " + bodyPart + " with a " + distance + " " + kind + " leash."
     endif
-    Narrate(content, originator, targetActor)
+    Narrate(content, originator, targetActor, "playerSensitive", leashed, holder)
 EndFunction
 
 Function NarrateUnleash(Actor leashed, String reason)
     if leashed == None || reason == "replaced"
+        return
+    endif
+    ; ApplyDangling / explicit unleash MarkSuppressed then Disconnect. The delayed
+    ; OnUnleash must not unequip the new collar or wipe the dangling/held cache.
+    if IsSuppressed(leashed)
         return
     endif
     Actor holder = CachedHolder(leashed)
@@ -747,19 +940,16 @@ Function NarrateUnleash(Actor leashed, String reason)
     endif
     String kind = DetectKind(holder, leashed)
     String bodyPart = DetectBodyPart(holder, leashed)
-    Bool suppressed = IsSuppressed(leashed)
-    if !suppressed
-        Actor originator = holder
-        Actor targetActor = leashed
-        String content = ""
-        if holder == None
-            content = "The " + kind + " leash is unclipped from " + Possessive(leashed) + " " + bodyPart + "."
-            originator = None
-        else
-            content = ActorLabel(holder) + " unclips the " + kind + " leash from " + Possessive(leashed) + " " + bodyPart + "."
-        endif
-        Narrate(content, originator, targetActor)
+    Actor originator = holder
+    Actor targetActor = leashed
+    String content = ""
+    if holder == None
+        content = "The " + kind + " leash is unclipped from " + Possessive(leashed) + " " + bodyPart + "."
+        originator = None
+    else
+        content = ActorLabel(holder) + " unclips the " + kind + " leash from " + Possessive(leashed) + " " + bodyPart + "."
     endif
+    Narrate(content, originator, targetActor, "playerSensitive", leashed, holder)
     UnequipPairArmor(holder, leashed, kind, bodyPart)
     ForgetPair(leashed)
 EndFunction
@@ -771,7 +961,8 @@ Bool Function ConsumePullCooldown(Actor leashed)
     EnsureCache()
     Int i = FindLeashedIndex(leashed)
     if i < 0
-        RememberPair(None, leashed, DetectKind(None, leashed), DetectBodyPart(None, leashed), "normally", ResolveDistance(leashed, ""))
+        Bool tied = leashed && LeashFramework.IsLeashed(leashed) && LeashFramework.GetLeashHolder(leashed) == None
+        RememberPair(None, leashed, DetectKind(None, leashed), DetectBodyPart(None, leashed), "normally", ResolveDistance(leashed, ""), tied)
         i = FindLeashedIndex(leashed)
     endif
     if i < 0
@@ -815,7 +1006,11 @@ Function NarratePull(Actor leashed, Bool ragdoll)
             content = "The " + kind + " leash snaps taut and pulls " + leashedName + "."
         endif
     endif
-    Narrate(content, originator, targetActor)
+    String pullKind = "taut"
+    if ragdoll
+        pullKind = "stumble"
+    endif
+    Narrate(content, originator, targetActor, pullKind, leashed, holder)
 EndFunction
 
 ; The SKSE side cannot reach LeashFramework's leash table, so every lifecycle event pushes
@@ -825,7 +1020,8 @@ Event OnLeashFrameworkLeash(String eventName, String strArg, Float numArg, Form 
     Actor leashed = sender as Actor
     if leashed
         Actor holder = LeashFramework.GetLeashHolder(leashed)
-        SkyrimNet_Leash_Native.NotifyLeash(holder, leashed, DetectKind(holder, leashed), ResolveDistance(leashed, ""), DetectBodyPart(holder, leashed))
+        Bool tied = holder == None
+        SkyrimNet_Leash_Native.NotifyLeash(holder, leashed, DetectKind(holder, leashed), ResolveDistance(leashed, ""), DetectBodyPart(holder, leashed), tied)
     endif
     NarrateLeash(leashed, strArg)
 EndEvent
@@ -834,7 +1030,8 @@ Event OnLeashFrameworkUnleash(String eventName, String strArg, Float numArg, For
     Actor leashed = sender as Actor
     ; A replacement sends OnUnleash before OnLeash; keep the old holder until the new one
     ; arrives so the pair never falls back to a guess in between.
-    if leashed && strArg != "replaced"
+    ; Suppressed disconnects (ApplyDangling) already wrote the new native record.
+    if leashed && strArg != "replaced" && !IsSuppressed(leashed)
         SkyrimNet_Leash_Native.NotifyUnleash(leashed)
     endif
     NarrateUnleash(leashed, strArg)

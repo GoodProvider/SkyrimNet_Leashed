@@ -188,18 +188,28 @@ namespace SkyrimNetLeash::WebUI {
             return form ? form->As<RE::Actor>() : nullptr;
         }
 
+        RE::Actor* ActorFromHandle(RE::ObjectRefHandle a_handle) {
+            auto ptr = a_handle.get();
+            auto* ref = ptr.get();
+            return ref ? ref->As<RE::Actor>() : nullptr;
+        }
+
         RE::Actor* CrosshairActor() {
             auto* pick = RE::CrosshairPickData::GetSingleton();
             if (!pick) {
                 return nullptr;
             }
-            RE::TESObjectREFR* ref = nullptr;
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
-            ref = pick->targetActor.get().get();
+            if (auto* actor = ActorFromHandle(pick->targetActor)) {
+                return actor;
+            }
+            return ActorFromHandle(pick->target);
 #else
-            ref = pick->targetActor[0].get().get();
+            if (auto* actor = ActorFromHandle(pick->targetActor[0])) {
+                return actor;
+            }
+            return ActorFromHandle(pick->target[0]);
 #endif
-            return ref ? ref->As<RE::Actor>() : nullptr;
         }
 
         std::string NormalizeToken(std::string a_value, std::string_view a_fallback, std::initializer_list<std::string_view> a_allowed) {
@@ -304,6 +314,12 @@ namespace SkyrimNetLeash::WebUI {
             }
 
             const auto payload = BuildOpenPayload();
+            if (payload.crosshair) {
+                auto* crosshair = ActorFromFormID(payload.crosshair);
+                SKSE::log::info("WebUI: crosshair {} {:08X}", crosshair ? LeashState::DisplayName(crosshair) : "?", payload.crosshair);
+            } else {
+                SKSE::log::info("WebUI: crosshair none");
+            }
             std::string json;
             if (auto err = glz::write_json(payload, json); err) {
                 SKSE::log::error("WebUI: failed to serialize nearby actors");

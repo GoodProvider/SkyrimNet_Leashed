@@ -33,3 +33,9 @@ underscores into a single underscore, with leading and trailing separators remov
 Used to normalize the free-text style and leash type tokens supplied by the LLM.
 /;
 String Function NormalizeToken(String value) Global Native
+
+;/
+Logs every third-person node whose name contains "Leash", plus how many of those
+sit under NPC Neck, NPC Spine1, and NPC Spine2. Used to diagnose Framework bind.
+/;
+Function TraceLeashBones(Actor who) Global Native
