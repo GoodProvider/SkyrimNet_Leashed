@@ -33,6 +33,7 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE src/PCH.h)
 target_include_directories(${PROJECT_NAME} PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    "${CMAKE_CURRENT_SOURCE_DIR}/lib/PrismaUI"
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE glaze::glaze)
 
@@ -54,6 +55,9 @@ if(DEFINED OUTPUT_FOLDER)
         COMMAND "${CMAKE_COMMAND}" -E make_directory "${DLL_FOLDER}"
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:${PROJECT_NAME}>" "${DLL_FOLDER}/$<TARGET_FILE_NAME:${PROJECT_NAME}>"
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_PDB_FILE:${PROJECT_NAME}>" "${DLL_FOLDER}/$<TARGET_PDB_FILE_NAME:${PROJECT_NAME}>"
+        COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../PrismaUI" "${OUTPUT_FOLDER}/PrismaUI"
+        COMMAND "${CMAKE_COMMAND}" -E make_directory "${DLL_FOLDER}/SkyrimNet/config/plugins/SkyrimNet_Leash"
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leash/manifest.yaml" "${DLL_FOLDER}/SkyrimNet/config/plugins/SkyrimNet_Leash/manifest.yaml"
     )
 endif()
 

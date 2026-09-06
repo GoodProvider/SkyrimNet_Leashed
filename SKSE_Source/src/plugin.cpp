@@ -5,6 +5,7 @@
 #include "Papyrus/Bridge.h"
 #include "SkyrimNet/Registration.h"
 #include "SkyrimNet/StateCache.h"
+#include "WebUI/WebUI.h"
 
 namespace {
     void OnDataLoaded() {
@@ -28,13 +29,21 @@ namespace {
         switch (a_msg->type) {
             case SKSE::MessagingInterface::kDataLoaded:
                 OnDataLoaded();
+                SkyrimNetLeash::WebUI::Init();
                 break;
             case SKSE::MessagingInterface::kPreLoadGame:
-            case SKSE::MessagingInterface::kNewGame:
                 // Recorded leashes belong to the outgoing session. Papyrus re-pushes them
                 // from the LeashFramework_OnLeash events fired while a save is restored.
                 SkyrimNetLeash::LeashState::ClearPairs();
                 SkyrimNetLeash::SkyrimNet::StateCache::Reset();
+                break;
+            case SKSE::MessagingInterface::kNewGame:
+                SkyrimNetLeash::LeashState::ClearPairs();
+                SkyrimNetLeash::SkyrimNet::StateCache::Reset();
+                SkyrimNetLeash::WebUI::SetGameReady();
+                break;
+            case SKSE::MessagingInterface::kPostLoadGame:
+                SkyrimNetLeash::WebUI::SetGameReady();
                 break;
             default:
                 break;

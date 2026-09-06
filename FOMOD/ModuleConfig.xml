@@ -9,5 +9,6 @@
     <file source="SkyrimNet_Leash.esp" destination="SkyrimNet_Leash.esp"/>
     <folder source="SKSE" destination="SKSE"/>
     <folder source="Scripts" destination="Scripts"/>
+    <folder source="PrismaUI" destination="PrismaUI"/>
   </requiredInstallFiles>
 </config>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SkyrimNet Leash</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        :root {
+            --bg-surface:    rgba(33, 33, 38, 0.94);
+            --bg-input:      rgba(28, 28, 33, 0.92);
+            --text-primary:  #e8e6e1;
+            --text-secondary:#a8a5a0;
+            --text-muted:    #65635e;
+            --accent:        #c9a84c;
+            --accent-muted:  rgba(201, 168, 76, 0.15);
+            --border:        rgba(201, 168, 76, 0.28);
+            --font-ui:       'Segoe UI', 'Microsoft YaHei UI', 'Meiryo', system-ui, sans-serif;
+            --text-sm:       13px;
+            --text-base:     15px;
+            --space-xs:      4px;
+            --space-sm:      8px;
+            --space-md:      12px;
+            --radius:        6px;
+            --target-min:    40px;
+            --shadow-lg:     0 6px 16px rgba(0, 0, 0, 0.45);
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            user-select: none;
+            color: var(--text-primary);
+            font-family: var(--font-ui);
+            font-size: var(--text-base);
+        }
+        #bar {
+            display: none;
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: var(--space-sm) var(--space-md);
+            pointer-events: auto;
+        }
+        #bar.open { display: block; }
+        .grid {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: var(--space-sm);
+        }
+        .col {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            min-width: 8em;
+        }
+        .col .control {
+            min-width: 8em;
+        }
+        .col .label {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            text-align: center;
+            padding-top: var(--space-xs);
+            min-height: 1.4em;
+        }
+        .col .label .status {
+            display: block;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+        .pulldown {
+            position: relative;
+            min-width: 8em;
+        }
+        .pulldown-value {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-xs) var(--space-sm);
+            min-height: var(--target-min);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .pulldown-value:hover,
+        .pulldown.open .pulldown-value {
+            border-color: rgba(201, 168, 76, 0.45);
+        }
+        .pulldown-menu {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: calc(100% + var(--space-xs));
+            z-index: 20;
+            min-width: 100%;
+            max-height: 50vh;
+            overflow-y: auto;
+            background: rgba(24, 24, 28, 0.96);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: var(--space-xs) 0;
+        }
+        .pulldown.open .pulldown-menu { display: block; }
+        .pulldown-option {
+            padding: var(--space-sm) var(--space-md);
+            min-height: var(--target-min);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .pulldown-option:hover,
+        .pulldown-option.selected {
+            color: var(--accent);
+            background: var(--accent-muted);
+        }
+        .action-btn {
+            color: var(--accent);
+            cursor: pointer;
+            padding: var(--space-xs) var(--space-md);
+            min-height: var(--target-min);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            min-width: 5.5em;
+        }
+        .action-btn:hover { background: var(--accent-muted); }
+        .action-btn.disabled {
+            color: var(--text-muted);
+            cursor: default;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="bar"></div>
+    <script>
+        const STYLES = ['forcefully', 'normally', 'gently'];
+        const DISTANCES = ['tight', 'short', 'middle', 'long'];
+        const TIE_POINTS = ['floor', 'left', 'back', 'front', 'right', 'wall'];
+        const NONE_ID = 0;
+
+        let state = {
+            actors: [],
+            player: 0,
+            crosshair: 0,
+            subject: 0,
+            leashed: 0,
+            holder: 0,
+            action: 'give to',
+            style: 'normally',
+            distance: 'middle',
+            tiePoint: 'floor'
+        };
+
+        function formId(v) { return (v >>> 0); }
+
+        function findActor(id) {
+            const fid = formId(id);
+            if (!fid) return null;
+            return state.actors.find(a => formId(a.formId) === fid) || null;
+        }
+
+        function leashedRecord() {
+            return findActor(state.leashed);
+        }
+
+        function isLeashed() {
+            const rec = leashedRecord();
+            return !!(rec && rec.isLeashed);
+        }
+
+        function actionValues() {
+            return isLeashed() ? ['unleash', 'tie to', 'give to'] : ['tie to', 'give to'];
+        }
+
+        function seedAction() {
+            const allowed = actionValues();
+            if (!allowed.includes(state.action))
+                state.action = allowed.includes('give to') ? 'give to' : allowed[0];
+        }
+
+        function closeAllPulldowns(except) {
+            document.querySelectorAll('.pulldown.open').forEach((el) => {
+                if (el !== except) el.classList.remove('open');
+            });
+        }
+
+        function createPulldown(values, current, onChange) {
+            const root = document.createElement('div');
+            root.className = 'pulldown';
+            const valueEl = document.createElement('div');
+            valueEl.className = 'pulldown-value';
+            const menu = document.createElement('div');
+            menu.className = 'pulldown-menu';
+
+            const paint = (selected) => {
+                valueEl.textContent = selected || '';
+                menu.innerHTML = '';
+                values.forEach((v) => {
+                    const item = document.createElement('div');
+                    item.className = 'pulldown-option' + (v === selected ? ' selected' : '');
+                    item.textContent = v;
+                    item.onclick = (e) => {
+                        e.stopPropagation();
+                        paint(v);
+                        root.classList.remove('open');
+                        if (onChange) onChange(v, values.indexOf(v));
+                    };
+                    menu.appendChild(item);
+                });
+            };
+
+            valueEl.onclick = (e) => {
+                e.stopPropagation();
+                const willOpen = !root.classList.contains('open');
+                closeAllPulldowns(root);
+                root.classList.toggle('open', willOpen);
+            };
+
+            paint(current || values[0] || '');
+            root.appendChild(valueEl);
+            root.appendChild(menu);
+            return root;
+        }
+
+        function actorEntries(includeNone, excludeId) {
+            const skip = formId(excludeId);
+            const entries = [];
+            if (includeNone)
+                entries.push({ formId: NONE_ID, name: 'None' });
+            state.actors.forEach((a) => {
+                if (skip && formId(a.formId) === skip) return;
+                entries.push(a);
+            });
+            return entries;
+        }
+
+        function createActorPulldown(includeNone, excludeId, currentId, onChange) {
+            const entries = actorEntries(includeNone, excludeId);
+            const labels = entries.map((e) => e.name || '?');
+            let current = entries.find((e) => formId(e.formId) === formId(currentId));
+            if (!current) current = entries[0] || { formId: NONE_ID, name: 'None' };
+            return createPulldown(labels, current.name, (_label, idx) => {
+                const picked = entries[idx] || current;
+                if (onChange) onChange(formId(picked.formId));
+            });
+        }
+
+        function addColumn(grid, control, labelText, statusText) {
+            const wrap = document.createElement('div');
+            wrap.className = 'col';
+            const controlHost = document.createElement('div');
+            controlHost.className = 'control';
+            if (control) controlHost.appendChild(control);
+            const label = document.createElement('div');
+            label.className = 'label';
+            label.appendChild(document.createTextNode(labelText || '\u00a0'));
+            if (statusText) {
+                const st = document.createElement('span');
+                st.className = 'status';
+                st.textContent = statusText;
+                label.appendChild(st);
+            }
+            wrap.appendChild(controlHost);
+            wrap.appendChild(label);
+            grid.appendChild(wrap);
+        }
+
+        function canStart() {
+            if (!state.subject || !state.leashed) return false;
+            if (state.action === 'give to' && state.holder && formId(state.holder) === formId(state.leashed))
+                return false;
+            return true;
+        }
+
+        function fireStart() {
+            if (!canStart()) return;
+            const payload = {
+                action: state.action,
+                subject: formId(state.subject),
+                leashed: formId(state.leashed),
+                holder: formId(state.holder),
+                style: state.style || 'normally',
+                distance: state.distance || 'middle',
+                tiePoint: state.tiePoint || 'floor'
+            };
+            if (typeof window.onStart === 'function')
+                window.onStart(JSON.stringify(payload));
+        }
+
+        function render() {
+            seedAction();
+            const rec = leashedRecord();
+            if (state.holder && formId(state.holder) === formId(state.leashed))
+                state.holder = state.subject || 0;
+
+            const bar = document.getElementById('bar');
+            bar.innerHTML = '';
+            const grid = document.createElement('div');
+            grid.className = 'grid';
+
+            addColumn(grid, createActorPulldown(false, 0, state.subject, (id) => {
+                state.subject = id;
+                render();
+            }), 'subject');
+
+            addColumn(grid, createPulldown(actionValues(), state.action, (v) => {
+                state.action = v;
+                render();
+            }), '');
+
+            let status = '';
+            if (rec && rec.isLeashed) {
+                status = rec.holderFormId ? ('by ' + (rec.holderName || '?')) : 'tied to world';
+            }
+            addColumn(grid, createActorPulldown(false, 0, state.leashed, (id) => {
+                state.leashed = id;
+                render();
+            }), 'leashed', status);
+
+            addColumn(grid, createPulldown(STYLES, state.style, (v) => {
+                state.style = v;
+            }), 'style');
+
+            addColumn(grid, createPulldown(DISTANCES, state.distance, (v) => {
+                state.distance = v;
+            }), 'distance');
+
+            addColumn(grid, createActorPulldown(true, state.leashed, state.holder, (id) => {
+                state.holder = id;
+                render();
+            }), 'give to');
+
+            addColumn(grid, createPulldown(TIE_POINTS, state.tiePoint, (v) => {
+                state.tiePoint = v;
+            }), 'tie');
+
+            const startBtn = document.createElement('div');
+            startBtn.className = 'action-btn' + (canStart() ? '' : ' disabled');
+            startBtn.textContent = 'Start';
+            startBtn.onclick = () => fireStart();
+            addColumn(grid, startBtn, '');
+
+            bar.appendChild(grid);
+            bar.classList.add('open');
+        }
+
+        function openLeashPanel(payload) {
+            const src = payload && typeof payload === 'object' ? payload : {};
+            state.actors = Array.isArray(src.actors) ? src.actors : [];
+            state.player = formId(src.player);
+            state.crosshair = formId(src.crosshair);
+            state.distance = DISTANCES.includes(src.distance) ? src.distance : 'middle';
+            state.tiePoint = TIE_POINTS.includes(src.tiePoint) ? src.tiePoint : 'floor';
+            if (!STYLES.includes(state.style)) state.style = 'normally';
+
+            const playerActor = findActor(state.player) || state.actors[0];
+            const crossActor = findActor(state.crosshair);
+            state.subject = playerActor ? formId(playerActor.formId) : 0;
+            state.leashed = crossActor && formId(crossActor.formId) !== state.subject
+                ? formId(crossActor.formId)
+                : (state.actors.find(a => formId(a.formId) !== state.subject) || playerActor || { formId: 0 }).formId;
+            state.leashed = formId(state.leashed);
+            state.holder = state.subject;
+            seedAction();
+            render();
+        }
+
+        document.addEventListener('click', () => closeAllPulldowns());
+        window.openLeashPanel = openLeashPanel;
+    </script>
+</body>
+</html>

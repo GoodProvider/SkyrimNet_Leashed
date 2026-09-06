@@ -1,0 +1,51 @@
+plugin:
+  name: "SkyrimNet_Leash"
+  version: "0.1.0"
+  description: "Leash Framework-SkyrimNet integration"
+  icon: "🪢"
+
+schema:
+  fields:
+    - name: "Enable leash panel hotkey"
+      path: "leash.controls.hotkeyEnabled"
+      type: "bool"
+      description: "Enables the PrismaUI leash panel hotkey."
+      defaultValue: true
+      category: "Controls"
+
+    - name: "Leash panel hotkey"
+      path: "leash.controls.hotkey"
+      type: "hotkey"
+      description: "Hotkey to open or close the leash panel. Press again or Escape to close."
+      min: 1
+      max: 255
+      required: false
+      defaultValue: 220
+      category: "Controls"
+      supportsOverride: false
+
+    - name: "Leash distance"
+      path: "leash.ui.distance"
+      type: "select"
+      description: "Default leash length used by the panel pulldown and Start."
+      defaultValue: "middle"
+      options:
+        - "tight"
+        - "short"
+        - "middle"
+        - "long"
+      category: "Leash"
+
+    - name: "Tie point"
+      path: "leash.ui.tiePoint"
+      type: "select"
+      description: "Default world anchor used by the panel tie pulldown and Start."
+      defaultValue: "floor"
+      options:
+        - "floor"
+        - "left"
+        - "back"
+        - "front"
+        - "right"
+        - "wall"
+      category: "Leash"
