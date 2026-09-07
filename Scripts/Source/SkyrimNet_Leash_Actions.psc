@@ -11,7 +11,8 @@ String[] CachedDistances
 String[] CachedStyles
 Bool[] CachedTied
 Float[] LastPullTimes
-Float[] LastNarrateTimes
+Actor[] SuppressActors
+Float[] SuppressTimes
 
 Event OnInit()
     EnsureCache()
@@ -49,10 +50,13 @@ Function EnsureCache()
         CachedStyles = new String[32]
         CachedTied = new Bool[32]
         LastPullTimes = new Float[32]
-        LastNarrateTimes = new Float[32]
     endif
     if CachedTied.Length != CacheSize()
         CachedTied = new Bool[32]
+    endif
+    if SuppressActors.Length != CacheSize()
+        SuppressActors = new Actor[32]
+        SuppressTimes = new Float[32]
     endif
 EndFunction
 
@@ -141,27 +145,11 @@ Float Function DistanceMax(String leashDistance)
     if d == ""
         d = "middle"
     endif
-    if d == "tight"
-        return 80.0
-    elseif d == "short"
-        return 150.0
-    elseif d == "long"
-        return 300.0
-    endif
-    return 220.0
+    return SkyrimNet_Leash_Native.DistanceMax(d)
 EndFunction
 
 String Function DistanceFromLength(Float maxLength)
-    if maxLength <= 0.0
-        return "middle"
-    elseif maxLength <= 100.0
-        return "tight"
-    elseif maxLength <= 180.0
-        return "short"
-    elseif maxLength <= 250.0
-        return "middle"
-    endif
-    return "long"
+    return SkyrimNet_Leash_Native.DistanceFromLength(maxLength)
 EndFunction
 
 String Function ParentBoneFor(String kind, String bodyPart)
@@ -309,7 +297,6 @@ Function ForgetPair(Actor leashed)
     CachedStyles[i] = ""
     CachedTied[i] = false
     LastPullTimes[i] = 0.0
-    LastNarrateTimes[i] = 0.0
 EndFunction
 
 String Function CachedKind(Actor leashed)
@@ -471,38 +458,72 @@ Function UnequipTrackedFor(Actor who)
             CachedStyles[i] = ""
             CachedTied[i] = false
             LastPullTimes[i] = 0.0
-            LastNarrateTimes[i] = 0.0
             SkyrimNet_Leash_Native.NotifyUnleash(leashed)
         endif
         i += 1
     endwhile
 EndFunction
 
+Int Function FindSuppressIndex(Actor who)
+    EnsureCache()
+    Int i = 0
+    while i < SuppressActors.Length
+        if SuppressActors[i] == who
+            return i
+        endif
+        i += 1
+    endwhile
+    return -1
+EndFunction
+
+Int Function FindSuppressSlot(Actor leashed)
+    Int existing = FindSuppressIndex(leashed)
+    if existing >= 0
+        return existing
+    endif
+    Int empty = FindSuppressIndex(None)
+    if empty >= 0
+        return empty
+    endif
+    Float now = Utility.GetCurrentRealTime()
+    Int best = 0
+    Float bestTime = SuppressTimes[0]
+    Int i = 0
+    while i < SuppressActors.Length
+        Float t = SuppressTimes[i]
+        if now - t >= NarrateSuppressWindow
+            return i
+        endif
+        if t < bestTime
+            bestTime = t
+            best = i
+        endif
+        i += 1
+    endwhile
+    return best
+EndFunction
+
 Function MarkSuppressed(Actor leashed)
     if leashed == None
         return
     endif
-    Int i = FindLeashedIndex(leashed)
-    if i < 0
-        Bool tied = leashed && LeashFramework.IsLeashed(leashed) && LeashFramework.GetLeashHolder(leashed) == None
-        RememberPair(None, leashed, DetectKind(None, leashed), DetectBodyPart(None, leashed), "normally", "middle", tied)
-        i = FindLeashedIndex(leashed)
-    endif
+    Int i = FindSuppressSlot(leashed)
     if i < 0
         return
     endif
-    LastNarrateTimes[i] = Utility.GetCurrentRealTime()
+    SuppressActors[i] = leashed
+    SuppressTimes[i] = Utility.GetCurrentRealTime()
 EndFunction
 
 Bool Function IsSuppressed(Actor leashed)
     if leashed == None
         return false
     endif
-    Int i = FindLeashedIndex(leashed)
+    Int i = FindSuppressIndex(leashed)
     if i < 0
         return false
     endif
-    Float last = LastNarrateTimes[i]
+    Float last = SuppressTimes[i]
     if last <= 0.0
         return false
     endif
@@ -665,25 +686,39 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
     return true
 EndFunction
 
-; kind: "playerSensitive" (1 if player involved else 2), "stumble" (always 2), "taut" (always 3).
+; kind: "playerSensitive" (1 if player involved else 2), "stumble" (always 2), "taut" (short-lived event).
 ; extra is the holder or give-receiver so a player in that role counts as involved / able to see.
 Function Narrate(String content, Actor originator, Actor target, String kind, Actor leashed, Actor extra)
     if content == ""
         return
     endif
+    if kind == "taut"
+        String eventId = "leash_taut"
+        if leashed
+            eventId = "leash_taut_" + leashed.GetFormID()
+        endif
+        Int ttlMs = (PullCooldown * 1000.0) as Int
+        if ttlMs < 1000
+            ttlMs = 8000
+        endif
+        Actor source = originator
+        if source == None
+            source = leashed
+        endif
+        SkyrimNetApi.RegisterShortLivedEvent(eventId, "leash", content, "", ttlMs, source, target)
+        return
+    endif
     Actor player = Game.GetPlayer()
     Bool includesPlayer = originator == player || target == player || leashed == player || extra == player
     Int importance = 2
-    if kind == "taut"
-        importance = 3
-    elseif kind != "stumble" && includesPlayer
+    if kind != "stumble" && includesPlayer
         importance = 1
     endif
     Bool playerCanSee = originator == player || leashed == player || extra == player
     if !playerCanSee && leashed && player.HasLOS(leashed)
         playerCanSee = true
     endif
-    if !playerCanSee || importance == 3
+    if !playerCanSee
         SkyrimNetApi.RegisterEvent("leash", content, originator, target)
         return
     endif

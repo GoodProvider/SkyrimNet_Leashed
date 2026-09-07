@@ -65,7 +65,7 @@ Higher importance uses SkyrimNet DirectNarration so nearby NPCs react immediatel
 | --- | --- | --- |
 | 1 | Apply, take, give, tie, refuse, or unleash while the player is subject, leashed, holder, or give-receiver | Always DirectNarration |
 | 2 | Those same actions without the player, or a ragdoll stumble | DirectNarration if SkyrimNet’s speech queue is empty, otherwise a `leash` event |
-| 3 | Taut (non-ragdoll) pull | `leash` event if the pull cooldown is free, otherwise dropped |
+| 3 | Taut (non-ragdoll) pull | Short-lived `leash` event if the pull cooldown is free, otherwise dropped |
 
 ## Build from clone
 
