@@ -11,6 +11,7 @@ String[] CachedDistances
 String[] CachedStyles
 Bool[] CachedTied
 Float[] LastPullTimes
+Float[] LastTautTimes
 Actor[] SuppressActors
 Float[] SuppressTimes
 
@@ -50,9 +51,13 @@ Function EnsureCache()
         CachedStyles = new String[32]
         CachedTied = new Bool[32]
         LastPullTimes = new Float[32]
+        LastTautTimes = new Float[32]
     endif
     if CachedTied.Length != CacheSize()
         CachedTied = new Bool[32]
+    endif
+    if LastTautTimes.Length != CacheSize()
+        LastTautTimes = new Float[32]
     endif
     if SuppressActors.Length != CacheSize()
         SuppressActors = new Actor[32]
@@ -297,6 +302,7 @@ Function ForgetPair(Actor leashed)
     CachedStyles[i] = ""
     CachedTied[i] = false
     LastPullTimes[i] = 0.0
+    LastTautTimes[i] = 0.0
 EndFunction
 
 String Function CachedKind(Actor leashed)
@@ -458,6 +464,7 @@ Function UnequipTrackedFor(Actor who)
             CachedStyles[i] = ""
             CachedTied[i] = false
             LastPullTimes[i] = 0.0
+            LastTautTimes[i] = 0.0
             SkyrimNet_Leash_Native.NotifyUnleash(leashed)
         endif
         i += 1
@@ -836,9 +843,21 @@ Function LeashedToTiePoint(Actor subject, Actor leashed, String style, String le
     if leashed == None
         return
     endif
-    String kind = ResolveKind(None, leashed, leashType)
-    String bodyPart = ResolveBodyPart(None, leashed, body_part)
-    String distance = ResolveDistance(leashed, leashDistance)
+    ; Retie only moves the world anchor. Keep the current mesh/length even if the
+    ; panel sent its default type (rope) because the type pulldown is hidden.
+    Bool alreadyLeashed = LeashFramework.IsLeashed(leashed) || FindLeashedIndex(leashed) >= 0
+    String kind = ""
+    String bodyPart = ""
+    String distance = ""
+    if alreadyLeashed
+        kind = DetectKind(None, leashed)
+        bodyPart = DetectBodyPart(None, leashed)
+        distance = ResolveDistance(leashed, "")
+    else
+        kind = ResolveKind(None, leashed, leashType)
+        bodyPart = ResolveBodyPart(None, leashed, body_part)
+        distance = ResolveDistance(leashed, leashDistance)
+    endif
     String point = NormalizeTiePoint(tiePoint)
     if subject == None
         subject = leashed
@@ -989,7 +1008,7 @@ Function NarrateUnleash(Actor leashed, String reason)
     ForgetPair(leashed)
 EndFunction
 
-Bool Function ConsumePullCooldown(Actor leashed)
+Bool Function ConsumePullCooldown(Actor leashed, Bool ragdoll)
     if leashed == None
         return false
     endif
@@ -1004,15 +1023,30 @@ Bool Function ConsumePullCooldown(Actor leashed)
         return true
     endif
     Float now = Utility.GetCurrentRealTime()
-    if now - LastPullTimes[i] < PullCooldown
+    if ragdoll
+        if now - LastPullTimes[i] < PullCooldown
+            return false
+        endif
+        LastPullTimes[i] = now
+        return true
+    endif
+    if now - LastTautTimes[i] < PullCooldown
         return false
     endif
-    LastPullTimes[i] = now
+    LastTautTimes[i] = now
     return true
 EndFunction
 
 Function NarratePull(Actor leashed, Bool ragdoll)
-    if leashed == None || !ConsumePullCooldown(leashed)
+    if leashed == None
+        return
+    endif
+    if !ConsumePullCooldown(leashed, ragdoll)
+        if ragdoll
+            Debug.Trace("[SkyrimNet_Leash] ragdoll pull skipped: cooldown " + ActorLabel(leashed))
+        else
+            Debug.Trace("[SkyrimNet_Leash] taut pull skipped: cooldown " + ActorLabel(leashed))
+        endif
         return
     endif
     Actor holder = LeashFramework.GetLeashHolder(leashed)
@@ -1044,6 +1078,11 @@ Function NarratePull(Actor leashed, Bool ragdoll)
     String pullKind = "taut"
     if ragdoll
         pullKind = "stumble"
+    endif
+    if ragdoll
+        Debug.Trace("[SkyrimNet_Leash] ragdoll pull " + leashedName)
+    else
+        Debug.Trace("[SkyrimNet_Leash] taut pull " + leashedName)
     endif
     Narrate(content, originator, targetActor, pullKind, leashed, holder)
 EndFunction
