@@ -161,6 +161,7 @@
         const STYLES = ['forcefully', 'normally', 'gently'];
         const DISTANCES = ['tight', 'short', 'middle', 'long'];
         const TYPES = ['chain', 'rope', 'magic'];
+        const BODY_PARTS = ['neck', 'wrists', 'waist'];
         const TIE_POINTS = ['floor', 'left', 'back', 'front', 'right', 'wall'];
         const NONE_ID = 0;
 
@@ -175,6 +176,7 @@
             style: 'normally',
             distance: 'middle',
             leashType: 'rope',
+            bodyPart: 'neck',
             tiePoint: 'floor'
         };
 
@@ -324,6 +326,7 @@
                 style: state.style || 'normally',
                 distance: state.distance || 'middle',
                 leashType: state.leashType || 'rope',
+                bodyPart: state.bodyPart || 'neck',
                 tiePoint: state.tiePoint || 'floor'
             };
             if (typeof window.onStart === 'function')
@@ -373,6 +376,9 @@
                 addColumn(grid, createPulldown(TYPES, state.leashType, (v) => {
                     state.leashType = v;
                 }), 'type');
+                addColumn(grid, createPulldown(BODY_PARTS, state.bodyPart, (v) => {
+                    state.bodyPart = v;
+                }), 'body');
                 if (state.verb === 'leash') {
                     addWord(grid, 'held by');
                     addColumn(grid, createActorPulldown(true, state.leashed, state.holder, (id) => {
@@ -415,6 +421,7 @@
             state.crosshair = formId(src.crosshair);
             state.distance = DISTANCES.includes(src.distance) ? src.distance : 'middle';
             state.leashType = TYPES.includes(src.leashType) ? src.leashType : 'rope';
+            state.bodyPart = BODY_PARTS.includes(src.bodyPart) ? src.bodyPart : 'neck';
             state.tiePoint = TIE_POINTS.includes(src.tiePoint) ? src.tiePoint : 'floor';
             if (!STYLES.includes(state.style)) state.style = 'normally';
 
@@ -426,6 +433,12 @@
                 : (state.actors.find(a => formId(a.formId) !== state.subject) || playerActor || { formId: 0 }).formId;
             state.leashed = formId(state.leashed);
             state.holder = state.subject;
+            const rec = findActor(state.leashed);
+            if (rec && rec.isLeashed) {
+                if (TYPES.includes(rec.kind)) state.leashType = rec.kind;
+                if (DISTANCES.includes(rec.distance)) state.distance = rec.distance;
+                if (BODY_PARTS.includes(rec.bodyPart)) state.bodyPart = rec.bodyPart;
+            }
             seedVerb();
             render();
         }

@@ -1,5 +1,7 @@
 # SkyrimNet_Leash
 
+![leash spa
+
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/goodprovider)
 
 SkyrimNet (LLM) bridge for [Leash Framework](https://www.nexusmods.com/skyrimspecialedition/mods/187303). NPCs can leash and unleash through SkyrimNet actions, and character bios list leash pairs the speaker can see.
@@ -21,13 +23,13 @@ Leash apply still needs leash bones on the target (Leash.esm armor / SMP node na
 
 ### Leash panel hotkey
 
-With PrismaUI installed, `\` opens a horizontal leash bar. Verb options depend on whether the selected leashed actor is already collared: **leash** / **leash to** when unleashed, **unleash** / **tie to** / **give to** when leashed. Extra columns (distance, type, holder, location) appear only for the chosen verb. Press `\` again or Escape to close. The game pauses while the panel is focused.
+With PrismaUI installed, `\` opens a horizontal leash bar. Verb options depend on whether the selected leashed actor is already collared: **leash** / **leash to** when unleashed, **unleash** / **tie to** / **give to** when leashed. Extra columns (distance, type, body, holder, location) appear only for the chosen verb. Press `\` again or Escape to close. The game pauses while the panel is focused.
 
-Enable, remap, and default **distance** / **type** / **tie point** live in the SkyrimNet plugin menu (`SkyrimNet_Leash`). SkyrimNet_SexLab’s Start Sex hotkey also defaults to `\` but is off unless you turn it on — do not bind both to the same key.
+Enable, remap, and default **distance** / **type** / **body part** / **tie point** live in the SkyrimNet plugin menu (`SkyrimNet_Leash`). SkyrimNet_SexLab’s Start Sex hotkey also defaults to `\` but is off unless you turn it on — do not bind both to the same key.
 
 ### Actions
 
-Three categories. Style: `forcefully|normally|gently`. Distance: `tight|short|middle|long`. Type: `chain|rope|magic`. Body part: `neck|waist`. Tie point: `floor|left|back|front|right|wall`. Holder and give-receiver may be `None` to leave the leash hanging from the collared actor (not tied to a world point). Take still picks that leash up.
+Three categories. Style: `forcefully|normally|gently`. Distance: `tight|short|middle|long`. Type: `chain|rope|magic`. Body part: `neck|wrists|waist`. Tie point: `floor|left|back|front|right|wall`. Holder and give-receiver may be `None` to leave the leash hanging from the collared actor (not tied to a world point). Take still picks that leash up.
 
 **leash_leash** (start a leash)
 

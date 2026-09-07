@@ -17,7 +17,7 @@ Pass None for holder to record a holderless leash. tied true is a world-position
 tied false is a dangling (unheld) collar. A non-None holder ignores tied.
 
 kind: chain, rope, magic, or holder_shield. leashDistance: tight, short, middle, or long.
-bodyPart: neck or waist. Empty strings are allowed when the values are not yet known.
+bodyPart: neck, wrists, or waist. Empty strings are allowed when the values are not yet known.
 /;
 Function NotifyLeash(Actor holder, Actor leashed, String kind, String leashDistance, String bodyPart, Bool tied) Global Native
 
@@ -33,6 +33,18 @@ underscores into a single underscore, with leading and trailing separators remov
 Used to normalize the free-text style and leash type tokens supplied by the LLM.
 /;
 String Function NormalizeToken(String value) Global Native
+
+;/
+Maximum leash length in game units for tight, short/close, middle, or long.
+Reads the SkyrimNet plugin config; unknown tokens use middle.
+/;
+Float Function DistanceMax(String leashDistance) Global Native
+
+;/
+Maps a measured maxLength back to tight, short, middle, or long by nearest
+configured length.
+/;
+String Function DistanceFromLength(Float maxLength) Global Native
 
 ;/
 Logs every third-person node whose name contains "Leash", plus how many of those

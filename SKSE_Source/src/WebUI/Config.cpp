@@ -6,7 +6,10 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
+#include <limits>
 #include <ranges>
+#include <string>
 #include <string_view>
 #include <vector>
 
@@ -27,6 +30,27 @@ namespace SkyrimNetLeash::WebUI::Config {
 
         bool IsOneOf(std::string_view a_value, const std::vector<std::string_view>& a_allowed) {
             return std::ranges::any_of(a_allowed, [&](std::string_view allowed) { return allowed == a_value; });
+        }
+
+        constexpr float kLengthFloor = 50.0F;
+        constexpr float kLengthCeil = 2000.0F;
+
+        // Keep in sync with the leash.distance.* defaultValue entries in the manifest.
+        constexpr float kTightLength = 80.0F;
+        constexpr float kShortLength = 150.0F;
+        constexpr float kMiddleLength = 220.0F;
+        constexpr float kLongLength = 300.0F;
+
+        float ReadLength(const char* a_path, float a_default) {
+            const auto fallback = std::to_string(static_cast<int>(a_default));
+            try {
+                const auto value = std::stof(GetValue(a_path, fallback.c_str()));
+                if (value >= kLengthFloor && value <= kLengthCeil) {
+                    return value;
+                }
+            } catch (...) {
+            }
+            return a_default;
         }
     }
 
@@ -60,10 +84,59 @@ namespace SkyrimNetLeash::WebUI::Config {
         return value;
     }
 
+    float DistanceMax(std::string_view a_token) {
+        const auto token = Lower(std::string{a_token});
+        if (token == "tight") {
+            return ReadLength("leash.distance.tight", kTightLength);
+        }
+        // Papyrus NormalizeDistance accepts "close" as an LLM synonym for "short".
+        if (token == "short" || token == "close") {
+            return ReadLength("leash.distance.short", kShortLength);
+        }
+        if (token == "long") {
+            return ReadLength("leash.distance.long", kLongLength);
+        }
+        return ReadLength("leash.distance.middle", kMiddleLength);
+    }
+
+    std::string DistanceFromLength(float a_maxLength) {
+        if (a_maxLength <= 0.0F) {
+            return "middle";
+        }
+        struct Candidate {
+            const char* token;
+            float length;
+        };
+        const Candidate candidates[] = {
+            {"tight", DistanceMax("tight")},
+            {"short", DistanceMax("short")},
+            {"middle", DistanceMax("middle")},
+            {"long", DistanceMax("long")},
+        };
+        const char* best = "middle";
+        float bestDiff = std::numeric_limits<float>::max();
+        for (const auto& candidate : candidates) {
+            const float diff = std::abs(a_maxLength - candidate.length);
+            if (diff < bestDiff) {
+                bestDiff = diff;
+                best = candidate.token;
+            }
+        }
+        return best;
+    }
+
     std::string LeashType() {
         auto value = Lower(GetValue("leash.ui.leashType", "rope"));
         if (!IsOneOf(value, {"chain", "rope", "magic"})) {
             return "rope";
+        }
+        return value;
+    }
+
+    std::string BodyPart() {
+        auto value = Lower(GetValue("leash.ui.bodyPart", "neck"));
+        if (!IsOneOf(value, {"neck", "wrists", "waist"})) {
+            return "neck";
         }
         return value;
     }

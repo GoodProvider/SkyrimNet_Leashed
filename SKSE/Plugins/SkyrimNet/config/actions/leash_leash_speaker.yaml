@@ -7,27 +7,27 @@ executionFunctionName: LeashedToHolder
 parameterMapping:
   - type: dynamic
     name: subject
-    description: Display name of the actor who puts the leash on the speaker, exactly as listed under available actors.
+    description: Display name of the actor who puts the collar on the speaker, exactly as listed under available actors.
     useNearbyActors: false
   - type: speaker
     name: leashed
-    description: Speaker who will be leashed
+    description: Speaker who gets the collar
   - type: dynamic
     name: holder
-    description: Display name of the actor who will hold the leash, or None to leave it hanging. Never the speaker. Often the same actor as subject.
+    description: "Display name of who holds the leash: the same actor who put the collar on, or None to leave it hanging. Never the speaker."
     useNearbyActors: false
   - type: dynamic
     name: style
-    description: forcefully|normally|gently
+    description: "How roughly the collar goes on: forcefully, normally, or gently."
   - type: dynamic
     name: leashDistance
-    description: tight|short|middle|long
+    description: "How long the leash is: tight (almost no slack), short, middle, or long."
   - type: dynamic
     name: leashType
-    description: chain|rope|magic
+    description: "What the leash is made of: chain, rope, or magic."
   - type: dynamic
     name: body_part
-    description: neck|waist
+    description: "Where the collar attaches: neck, wrists, or waist."
 enabled: true
 eligibilityRules:
   - conditions:

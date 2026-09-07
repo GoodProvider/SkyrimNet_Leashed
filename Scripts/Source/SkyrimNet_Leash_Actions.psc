@@ -105,6 +105,9 @@ String Function NormalizeBodyPart(String bodyPart)
     if t == "waist" || t == "body" || t == "body_rope" || t == "waist_rope" || t == "waist_chain" || t == "waist_magic"
         return "waist"
     endif
+    if t == "wrists" || t == "wrist" || t == "hands" || t == "cuffs"
+        return "wrists"
+    endif
     if t == "neck" || t == "neck_rope" || t == "neck_chain" || t == "neck_magic" || t == "collar"
         return "neck"
     endif
@@ -165,6 +168,9 @@ String Function ParentBoneFor(String kind, String bodyPart)
     if b == "waist"
         return "NPC Spine1 [Spn1]"
     endif
+    if b == "wrists"
+        return "NPC Spine2 [Spn2]"
+    endif
     return "NPC Spine2 [Spn2]"
 EndFunction
 
@@ -199,6 +205,8 @@ EndFunction
 Armor Function ArmorForKind(String kind, String bodyPart)
     Int formId = 0x800
     if kind == "holder_shield"
+        formId = 0xD69
+    elseif bodyPart == "wrists"
         formId = 0xD69
     elseif bodyPart == "neck"
         if kind == "chain"
@@ -385,6 +393,10 @@ EndFunction
 
 String Function DetectBodyPart(Actor holder, Actor leashed)
     Armor shieldArmor = ArmorForKind("holder_shield", "waist")
+    ; Leashed-worn 0xD69 is the wrists body part, not holder_shield.
+    if leashed && shieldArmor && leashed.IsEquipped(shieldArmor)
+        return "wrists"
+    endif
     if holder && shieldArmor && holder.IsEquipped(shieldArmor)
         return "waist"
     endif
@@ -443,6 +455,25 @@ EndFunction
 
 Function UnequipPairArmor(Actor holder, Actor leashed, String kind, String bodyPart)
     UnequipTypeArmor(MeshOwnerFor(holder, leashed, kind), ArmorForKind(kind, bodyPart))
+EndFunction
+
+Function UnequipStaleBodyArmor(Actor leashed, String kind, String bodyPart)
+    String prevKind = CachedKind(leashed)
+    String prevBody = CachedBodyPart(leashed)
+    if prevKind == "" && prevBody == ""
+        return
+    endif
+    Armor prevArmor = ArmorForKind(prevKind, prevBody)
+    Armor nextArmor = ArmorForKind(kind, bodyPart)
+    Actor prevOwner = MeshOwnerFor(CachedHolder(leashed), leashed, prevKind)
+    if prevArmor == None
+        return
+    endif
+    ; 0xD69 can be holder-owned (legacy shield) or leashed-worn (wrists).
+    if prevArmor == nextArmor && prevOwner == leashed
+        return
+    endif
+    UnequipTypeArmor(prevOwner, prevArmor)
 EndFunction
 
 Function UnequipTrackedFor(Actor who)
@@ -593,6 +624,7 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
         Debug.Trace("[SkyrimNet_Leash] ApplyToHolder missing armor kind=" + kind + " body=" + bodyPart)
         return false
     endif
+    UnequipStaleBodyArmor(leashed, kind, bodyPart)
     Actor meshOwner = MeshOwnerFor(holder, leashed, kind)
     EquipTypeArmor(meshOwner, leashArmor)
     if !WaitForLeashMesh(meshOwner, leashArmor)
@@ -646,6 +678,7 @@ Bool Function ApplyDangling(Actor leashed, String style, String leashDistance, S
     MarkSuppressed(leashed)
     DisconnectFramework(leashed)
     Armor leashArmor = ArmorForKind(kind, bodyPart)
+    UnequipStaleBodyArmor(leashed, kind, bodyPart)
     EquipTypeArmor(leashed, leashArmor)
     RememberPair(None, leashed, kind, bodyPart, style, leashDistance, false)
     MarkSuppressed(leashed)
@@ -671,6 +704,7 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
         Debug.Trace("[SkyrimNet_Leash] ApplyToTiePoint missing armor kind=" + kind + " body=" + bodyPart)
         return false
     endif
+    UnequipStaleBodyArmor(leashed, kind, bodyPart)
     EquipTypeArmor(leashed, leashArmor)
     if !WaitForLeashMesh(leashed, leashArmor)
         Debug.Trace("[SkyrimNet_Leash] ApplyToTiePoint armor not worn on " + ActorLabel(leashed))

@@ -7,26 +7,26 @@ executionFunctionName: LeashedToTiePoint
 parameterMapping:
   - type: speaker
     name: subject
-    description: Speaker tying the leash
+    description: Speaker tying the new leash to a point
   - type: dynamic
     name: leashed
-    description: Display name of the unleashed actor to tie, exactly as listed under available targets.
+    description: Display name of the unleashed actor to collar and tie, exactly as listed under available targets.
     useNearbyActors: false
   - type: dynamic
     name: style
-    description: forcefully|normally|gently
+    description: "How roughly the collar goes on: forcefully, normally, or gently."
   - type: dynamic
     name: leashDistance
-    description: tight|short|middle|long
+    description: "How long the leash is: tight (almost no slack), short, middle, or long."
   - type: dynamic
     name: leashType
-    description: chain|rope|magic
+    description: "What the leash is made of: chain, rope, or magic."
   - type: dynamic
     name: body_part
-    description: neck|waist
+    description: "Where the collar attaches: neck, wrists, or waist."
   - type: dynamic
     name: tiePoint
-    description: floor|left|back|front|right|wall
+    description: "Where to fasten the free end, relative to the collared person: floor, left, back, front, right, or wall (same as front)."
 enabled: true
 eligibilityRules:
   - conditions:

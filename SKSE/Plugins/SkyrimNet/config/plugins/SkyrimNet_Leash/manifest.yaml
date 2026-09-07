@@ -36,6 +36,42 @@ schema:
         - "long"
       category: "Leash"
 
+    - name: "Tight"
+      path: "leash.distance.tight"
+      type: "int"
+      description: "Maximum leash length in game units for the tight distance token."
+      min: 50
+      max: 2000
+      defaultValue: 80
+      category: "Leash"
+
+    - name: "Short"
+      path: "leash.distance.short"
+      type: "int"
+      description: "Maximum leash length in game units for the short distance token."
+      min: 50
+      max: 2000
+      defaultValue: 150
+      category: "Leash"
+
+    - name: "Middle"
+      path: "leash.distance.middle"
+      type: "int"
+      description: "Maximum leash length in game units for the middle distance token."
+      min: 50
+      max: 2000
+      defaultValue: 220
+      category: "Leash"
+
+    - name: "Long"
+      path: "leash.distance.long"
+      type: "int"
+      description: "Maximum leash length in game units for the long distance token."
+      min: 50
+      max: 2000
+      defaultValue: 300
+      category: "Leash"
+
     - name: "Leash type"
       path: "leash.ui.leashType"
       type: "select"
@@ -45,6 +81,17 @@ schema:
         - "chain"
         - "rope"
         - "magic"
+      category: "Leash"
+
+    - name: "Leash body part"
+      path: "leash.ui.bodyPart"
+      type: "select"
+      description: "Default attachment point used by the panel pulldown and Start. Wrists uses the shield mesh on the leashed actor."
+      defaultValue: "neck"
+      options:
+        - "neck"
+        - "wrists"
+        - "waist"
       category: "Leash"
 
     - name: "Tie point"

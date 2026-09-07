@@ -25,6 +25,9 @@ namespace SkyrimNetLeash::WebUI {
         bool isLeashed{false};
         std::uint32_t holderFormId{};
         std::string holderName{};
+        std::string kind{};
+        std::string distance{};
+        std::string bodyPart{};
     };
 
     struct OpenPayload {
@@ -33,6 +36,7 @@ namespace SkyrimNetLeash::WebUI {
         std::uint32_t crosshair{};
         std::string distance{};
         std::string leashType{};
+        std::string bodyPart{};
         std::string tiePoint{};
     };
 
@@ -44,6 +48,7 @@ namespace SkyrimNetLeash::WebUI {
         std::string style{};
         std::string distance{};
         std::string leashType{};
+        std::string bodyPart{};
         std::string tiePoint{};
     };
 
@@ -235,6 +240,12 @@ namespace SkyrimNetLeash::WebUI {
                     json.holderFormId = holder->GetFormID();
                     json.holderName = LeashState::DisplayName(holder);
                 }
+                LeashState::RecordedPair recorded;
+                if (LeashState::TryGetRecorded(a_actor->GetFormID(), recorded)) {
+                    json.kind = recorded.kind;
+                    json.distance = recorded.distance;
+                    json.bodyPart = recorded.bodyPart;
+                }
             }
             return json;
         }
@@ -256,6 +267,7 @@ namespace SkyrimNetLeash::WebUI {
             OpenPayload payload;
             payload.distance = Config::Distance();
             payload.leashType = Config::LeashType();
+            payload.bodyPart = Config::BodyPart();
             payload.tiePoint = Config::TiePoint();
 
             auto* player = RE::PlayerCharacter::GetSingleton();
@@ -367,6 +379,7 @@ namespace SkyrimNetLeash::WebUI {
             const auto style = NormalizeToken(std::move(a_payload.style), "normally", {"forcefully", "normally", "gently"});
             const auto distance = NormalizeToken(std::move(a_payload.distance), "middle", {"tight", "short", "middle", "long"});
             const auto leashType = NormalizeToken(std::move(a_payload.leashType), "rope", {"chain", "rope", "magic"});
+            const auto bodyPart = NormalizeToken(std::move(a_payload.bodyPart), "neck", {"neck", "wrists", "waist"});
             const auto tiePoint = NormalizeToken(std::move(a_payload.tiePoint), "floor", {"floor", "left", "back", "front", "right", "wall"});
             auto action = a_payload.action;
             std::transform(action.begin(), action.end(), action.begin(), [](unsigned char ch) {
@@ -406,9 +419,11 @@ namespace SkyrimNetLeash::WebUI {
                 addActor(subject);
                 addActor(leashed);
                 addString(style);
+                // Re-tying an already-leashed actor keeps its current mesh and length:
+                // LeashedToTiePoint ignores these three and re-detects them.
                 addString(distance);
                 addString(leashType);
-                addString("neck");
+                addString(bodyPart);
                 addString(tiePoint);
             } else if (action == "give to" && isLeashed) {
                 if (holder && holder->GetFormID() == subject->GetFormID()) {
@@ -429,7 +444,7 @@ namespace SkyrimNetLeash::WebUI {
                 addString(style);
                 addString(distance);
                 addString(leashType);
-                addString("neck");
+                addString(bodyPart);
             }
 
             SKSE::GetTaskInterface()->AddTask([functionName, items]() {
