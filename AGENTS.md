@@ -36,6 +36,12 @@ First ~72 characters summarize the commit. Prefer a multi-line body with concret
 - **SE ≠ VR** — never assume parity.
 - Do not vendor or recompile `LeashFramework.psc`; call the runtime natives.
 
+## SkyrimNet action YAML
+
+- **Category descriptors always carry `intent`.** A category parent file (`customCategory` + `name`, no `scriptName` / `executionFunctionName`, e.g. `leash_leash_.yaml`) includes a `parameterMapping` with a single `dynamic` param named `intent`. SkyrimNet consumes it during the category-selection stage; there is no execution function to validate it against, so this is correct and not a defect. Precedent: OStimNet `tton_CategoryStart.yaml` / `tton_CategoryManage.yaml`.
+- **Category eligibility must not be stricter than its children.** A parent gate hides every child, so never gate a category on a condition a child does not need — `is_leash_available` means "alive, out of combat", which would hide Unleash mid-combat even though `is_unleash_available` allows it.
+- Child actions are positional: map every Papyrus parameter, using empty `static` values where Papyrus detects the real value at runtime.
+
 ## Safety / confidence
 
 State confidence 0–100% before game, script, or ESP changes. Target ≥ 90%.

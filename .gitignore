@@ -9,6 +9,7 @@ Scripts/*.pex
 # IDE
 .idea/
 .vs/
+.vscode/
 *.user
 *.suo
 
@@ -22,3 +23,4 @@ OStimNet/
 
 # Local tool extracts
 tools/
+.config/
