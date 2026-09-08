@@ -1,10 +1,10 @@
-# SKSE / CMake
+# SKSE plugin CMake / MSBuild artifacts
 SKSE_Source/build/
+SKSE_Source/install/
+SKSE_Source/.vs/
+SKSE_Source/CMakeUserPresets.json
 SKSE/Plugins/*.dll
 SKSE/Plugins/*.pdb
-
-# Papyrus compiled
-Scripts/*.pex
 
 # IDE
 .idea/
@@ -24,3 +24,9 @@ OStimNet/
 # Local tool extracts
 tools/
 .config/
+SpriggitCLI/
+downloads/
+
+# Release staging / packages
+versions/
+dist/

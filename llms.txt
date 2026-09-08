@@ -8,8 +8,13 @@
 | --- | --- |
 | Player / install / build | README.md |
 | Agent policy | AGENTS.md |
+| Release documentation | release-guide.md, release-checkpoint.xml |
+| Changelog | CHANGELOG.md, CHANGELOG-user.md |
 | Action YAML | SKSE/Plugins/SkyrimNet/config/actions/ |
 | Prompts | SKSE/Plugins/SkyrimNet/prompts/submodules/character_bio/0409_leashframework.prompt |
+| Escape design (UD inspiration, later) | escape-summary.md (agent), escape-human.md |
+| Escape category (try-only struggle child) | SKSE/Plugins/SkyrimNet/config/actions/leash_escape_.yaml |
+| Escape minigame handoff (later) | checkpoints/escape-checkpoint.md |
 | SKSE / CMake | SKSE_Source/ |
 | ESP | Spriggit/SkyrimNet_Leash/ |
 | User leftovers | ToDo.md |
@@ -17,12 +22,14 @@
 ## Do not ingest (unless debugging that area)
 
 - SKSE_Source/build/
+- versions/, dist/
 - z-plan.md
 - OStimNet/
+- UnforgivingDevices/
 - crash-*.log, Papyrus.0.log
 - submodule internals except `Skyrim-Leash-Framework/papyrus/source/LeashFramework.psc`
 
 ## Compile reminders
 
 - Papyrus: Cursor task `compile: pyro` only
-- SKSE: CMake tasks under SKSE_Source (`debug` / `build-debug`)
+- SKSE: CMake tasks under SKSE_Source; in-game must use Release (`/MDd` breaks SkyrimNet decorator ABI)

@@ -1,0 +1,125 @@
+name: Package
+
+on:
+  pull_request:
+    paths:
+      - "SKSE_Source/**"
+      - ".github/workflows/package.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-cache
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read vcpkg baseline
+        shell: pwsh
+        run: |
+          $j = Get-Content SKSE_Source/vcpkg-configuration.json -Raw | ConvertFrom-Json
+          $b = $j.'default-registry'.baseline
+          if (-not $b) { throw "default-registry.baseline missing from vcpkg-configuration.json" }
+          Add-Content -Path $env:GITHUB_ENV -Value "VCPKG_BASELINE=$b"
+          Write-Host "VCPKG_BASELINE=$b"
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+
+      - name: Cache vcpkg binary packages
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+          key: vcpkg-bin-${{ runner.os }}-${{ env.VCPKG_BASELINE }}-${{ hashFiles('SKSE_Source/vcpkg.json', 'SKSE_Source/vcpkg-configuration.json', 'SKSE_Source/vcpkg-ports/**') }}
+
+      - name: Cache vcpkg tool
+        id: cache-vcpkg-tool
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.VCPKG_ROOT }}
+          key: vcpkg-tool-${{ env.VCPKG_BASELINE }}
+
+      - name: Bootstrap vcpkg
+        if: steps.cache-vcpkg-tool.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git $env:VCPKG_ROOT
+          git -C $env:VCPKG_ROOT checkout $env:VCPKG_BASELINE
+          & "$env:VCPKG_ROOT/bootstrap-vcpkg.bat"
+
+      - name: Create binary cache directory
+        shell: pwsh
+        run: New-Item -ItemType Directory -Force -Path $env:VCPKG_DEFAULT_BINARY_CACHE | Out-Null
+
+      - name: Configure and build Release SKSE
+        working-directory: SKSE_Source
+        shell: pwsh
+        run: |
+          cmake --preset release
+          cmake --build --preset build-release --config Release
+
+      - name: Read VERSION
+        if: github.event_name == 'workflow_dispatch'
+        shell: pwsh
+        run: |
+          $line = Get-Content Makefile | Where-Object { $_ -match '^VERSION=' } | Select-Object -First 1
+          if (-not $line) { throw "VERSION= not found in Makefile" }
+          $v = $line.Substring($line.IndexOf('=') + 1).Trim()
+          Add-Content -Path $env:GITHUB_ENV -Value "VERSION=$v"
+          Write-Host "VERSION=$v"
+
+      - name: Install 7-Zip
+        if: github.event_name == 'workflow_dispatch'
+        uses: crazy-max/ghaction-chocolatey@v3
+        with:
+          args: install 7zip.install --no-progress -y
+
+      - name: Download Spriggit CLI
+        if: github.event_name == 'workflow_dispatch'
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: Mutagen-Modding/Spriggit
+          latest: true
+          fileName: SpriggitCLI.zip
+          out-file-path: downloads
+          token: ${{ github.token }}
+
+      - name: Extract Spriggit CLI
+        if: github.event_name == 'workflow_dispatch'
+        shell: pwsh
+        run: |
+          Expand-Archive -Path downloads/SpriggitCLI.zip -DestinationPath SpriggitCLI -Force
+          $exe = Get-ChildItem -Path SpriggitCLI -Filter Spriggit.CLI.exe -Recurse | Select-Object -First 1
+          if (-not $exe) { throw "Spriggit.CLI.exe not found in SpriggitCLI.zip" }
+          Write-Host "Spriggit: $($exe.FullName)"
+
+      - name: Stamp FOMOD, deserialize ESP, pack
+        if: github.event_name == 'workflow_dispatch'
+        shell: pwsh
+        run: |
+          python python_scripts/fomod-update-name-version.py -v $env:VERSION -n "SkyrimNet Leash" -o FOMOD/info.xml FOMOD_source/info.xml
+          powershell -NoProfile -File python_scripts/deserialize_esp.ps1
+          powershell -NoProfile -File python_scripts/pack_release.ps1 -Version $env:VERSION -Name "SkyrimNet Leash"
+
+      - name: Upload FOMOD package
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: SkyrimNet_Leash-${{ env.VERSION }}
+          path: versions/*.7z
+          if-no-files-found: error
+
+      - name: Upload PDB
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: SkyrimNet_Leash-${{ env.VERSION }}-pdb
+          path: SKSE_Source/build/release/Release/SkyrimNet_Leash.pdb
+          if-no-files-found: error

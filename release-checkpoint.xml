@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  release-checkpoint.xml — cold-start context for release documentation of SkyrimNet_Leash.
+
+  Purpose: feed this file together with release-guide.md to a fresh agent so it can
+  continue release-doc alignment without rediscovering the ground rules.
+
+  Design: durable release-doc state only. Per-change detail lives in CHANGELOG.md.
+-->
+<checkpoint>
+  <metadata>
+    <project>SkyrimNet_Leash</project>
+    <summary>Bridge mod between SkyrimNet (LLM) and Leash Framework.</summary>
+    <repository_root>c:\Skyrim\dev\mods\SkyrimNet_Leash</repository_root>
+    <updated>2026-09-08</updated>
+    <base_tag>none</base_tag>
+    <next_version>0.1.0</next_version>
+    <version_status>Makefile VERSION=0.1.0 (authoritative); CMake / vcpkg.json / FOMOD / manifest all 0.1.0; git tag and package still pending</version_status>
+    <related_artifacts>
+      <artifact role="release rules">release-guide.md</artifact>
+      <artifact role="agent procedure">.cursor/skills/release/SKILL.md</artifact>
+      <artifact role="agent router">llms.txt</artifact>
+      <artifact role="changelog since last tag">CHANGELOG.md</artifact>
+      <artifact role="player changelog summary">CHANGELOG-user.md</artifact>
+      <artifact role="end-user front door">README.md</artifact>
+    </related_artifacts>
+  </metadata>
+
+  <doc_files>
+    <file>README.md</file>
+    <file>llms.txt</file>
+    <file>AGENTS.md</file>
+    <file>CHANGELOG.md</file>
+    <file>CHANGELOG-user.md</file>
+    <file>release-guide.md</file>
+    <file>release-checkpoint.xml</file>
+  </doc_files>
+
+  <status>
+    <note>2026-09-08: Release scaffolding added (skill, guide, checkpoint, changelog stubs, Makefile packer, Actions artifact workflow). Changelogs are Unreleased stubs; do not invent 0.1.0 bullets until a release-doc pass.</note>
+    <note>Open: compile: pyro and commit Scripts/*.pex; CMake Release; make release or workflow_dispatch artifact; MO2 playtest; git tag 0.1.0; GitHub Release; Nexus.</note>
+  </status>
+
+  <conventions>
+    <convention>Category descriptors always carry intent. Root Unleash may omit customCategory.</convention>
+    <convention>Category eligibility must not be stricter than its children.</convention>
+    <convention>Child actions map every Papyrus parameter; empty static when Papyrus detects at runtime.</convention>
+    <convention>In-game SKSE must be Release. Debug /MDd breaks SkyrimNet decorator ABI. CRT stays /MD (x64-windows-static-md).</convention>
+    <convention>ESP source of truth is Spriggit/SkyrimNet_Leash/, not a hand-edited .esp.</convention>
+    <convention>Do not vendor or recompile LeashFramework.psc; call the runtime natives.</convention>
+    <convention>SE ≠ VR — never assume parity.</convention>
+  </conventions>
+</checkpoint>

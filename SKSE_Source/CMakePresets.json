@@ -12,7 +12,7 @@
       "generator": "Visual Studio 17 2022",
       "architecture": {
         "value": "x64",
-        "strategy": "external"
+        "strategy": "set"
       },
       "cacheVariables": {
         "CMAKE_CXX_FLAGS": "/permissive- /Zc:preprocessor /EHsc $penv{CXXFLAGS} /MP -DWIN32_LEAN_AND_MEAN -DNOMINMAX -DUNICODE -D_UNICODE",
