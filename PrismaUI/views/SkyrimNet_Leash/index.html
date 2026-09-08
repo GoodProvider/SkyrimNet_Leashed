@@ -428,10 +428,13 @@
             const playerActor = findActor(state.player) || state.actors[0];
             const crossActor = findActor(state.crosshair);
             state.subject = playerActor ? formId(playerActor.formId) : 0;
-            state.leashed = crossActor && formId(crossActor.formId) !== state.subject
-                ? formId(crossActor.formId)
-                : (state.actors.find(a => formId(a.formId) !== state.subject) || playerActor || { formId: 0 }).formId;
-            state.leashed = formId(state.leashed);
+            if (crossActor && formId(crossActor.formId) !== state.subject) {
+                state.leashed = formId(crossActor.formId);
+            } else if (playerActor && playerActor.isLeashed) {
+                state.leashed = state.subject;
+            } else {
+                state.leashed = formId((state.actors.find(a => formId(a.formId) !== state.subject) || playerActor || { formId: 0 }).formId);
+            }
             state.holder = state.subject;
             const rec = findActor(state.leashed);
             if (rec && rec.isLeashed) {

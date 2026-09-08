@@ -1,0 +1,18 @@
+customCategory: leash_escape
+name: leash_escape_struggle
+description: "{{render_template(\"leash_actions/leash_action_struggle\")}}"
+questEditorId: SkyrimNet_Leash
+scriptName: SkyrimNet_Leash_Actions
+executionFunctionName: StruggleExecute
+parameterMapping:
+  - type: speaker
+    name: subject
+    description: Speaker struggling against their own leash
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: speaker_is_leashed
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"
