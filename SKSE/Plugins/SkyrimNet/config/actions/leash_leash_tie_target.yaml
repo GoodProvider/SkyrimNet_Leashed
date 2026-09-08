@@ -20,10 +20,10 @@ parameterMapping:
     description: "How long the leash is: tight (almost no slack), short, middle, or long."
   - type: dynamic
     name: leashType
-    description: "What the leash is made of: chain, rope, or magic."
+    description: "What the leash is made of: chain, rope, or magic. Wrists is chain only."
   - type: dynamic
     name: body_part
-    description: "Where the collar attaches: neck, wrists, or waist."
+    description: "Where the collar attaches: neck, wrists, or waist. Wrists uses the chain hand mesh."
   - type: dynamic
     name: tiePoint
     description: "Where to fasten the free end, relative to the collared person: floor, left, back, front, right, or wall (same as front)."

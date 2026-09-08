@@ -16,4 +16,4 @@ SkyrimNet ↔ Leash Framework bridge.
 
 ## Compile / commits / safety
 
-Same as [AGENTS.md](AGENTS.md): `compile: pyro`; CMake SKSE tasks; commit summary in first 72 chars; SE ≠ VR. Release docs: [release-guide.md](release-guide.md).
+Same as [AGENTS.md](AGENTS.md): `compile: pyro`; CMake SKSE tasks; commit summary in first 72 chars; SE ≠ VR. Release docs: [release-guide.md](release-guide.md). If Skyrim is running, do not write PrismaUI HTML, DLL, `.pex`, or ESP — ask the user to quit first.

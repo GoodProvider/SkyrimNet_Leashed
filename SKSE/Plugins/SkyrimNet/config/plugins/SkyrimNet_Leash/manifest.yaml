@@ -86,7 +86,7 @@ schema:
     - name: "Leash body part"
       path: "leash.ui.bodyPart"
       type: "select"
-      description: "Default attachment point used by the panel pulldown and Start. Wrists uses the shield mesh on the leashed actor."
+      description: "Default attachment point used by the panel pulldown and Start. Wrists uses Leash_hand_chain; type is forced to chain."
       defaultValue: "neck"
       options:
         - "neck"

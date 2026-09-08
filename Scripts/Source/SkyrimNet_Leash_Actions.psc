@@ -2,6 +2,8 @@ Scriptname SkyrimNet_Leash_Actions extends Quest
 
 Float Property PullCooldown = 8.0 Auto Hidden
 Float Property NarrateSuppressWindow = 2.0 Auto Hidden
+Float Property StruggleCooldown = 20.0 Auto Hidden
+Float Property StruggleAnimDuration = 4.0 Auto Hidden
 
 Actor[] CachedLeashed
 Actor[] CachedHolders
@@ -14,6 +16,11 @@ Float[] LastPullTimes
 Float[] LastTautTimes
 Actor[] SuppressActors
 Float[] SuppressTimes
+Actor StruggleActor
+Actor[] StruggleSubjects
+Float[] StruggleWindowStarts
+Int[] StruggleCounts
+Int ZapPluginState = -1
 
 Event OnInit()
     EnsureCache()
@@ -30,6 +37,27 @@ Function RegisterLeashEvents()
     RegisterForModEvent("LeashFramework_OnUnleash", "OnLeashFrameworkUnleash")
     RegisterForModEvent("LeashFramework_OnActorPulled", "OnLeashFrameworkPulled")
     RegisterForModEvent("LeashFramework_OnActorRagdollPulled", "OnLeashFrameworkRagdollPulled")
+    RepushCachedPairs()
+EndFunction
+
+Function RepushCachedPairs()
+    EnsureCache()
+    Int i = 0
+    while i < CachedLeashed.Length
+        Actor leashed = CachedLeashed[i]
+        if leashed
+            Actor holder = CachedHolders[i]
+            Bool tied = CachedTied[i]
+            String kind = CachedKinds[i]
+            String bodyPart = CachedBodyParts[i]
+            String distance = CachedDistances[i]
+            SkyrimNet_Leash_Native.NotifyLeash(holder, leashed, kind, distance, bodyPart, tied)
+            if bodyPart == "wrists"
+                ApplyWristBind(leashed)
+            endif
+        endif
+        i += 1
+    endwhile
 EndFunction
 
 String Function LeashBoneMatch()
@@ -62,6 +90,11 @@ Function EnsureCache()
     if SuppressActors.Length != CacheSize()
         SuppressActors = new Actor[32]
         SuppressTimes = new Float[32]
+    endif
+    if StruggleSubjects.Length != CacheSize()
+        StruggleSubjects = new Actor[32]
+        StruggleWindowStarts = new Float[32]
+        StruggleCounts = new Int[32]
     endif
 EndFunction
 
@@ -184,6 +217,14 @@ String Function KindForDangling(String kind)
     return kind
 EndFunction
 
+; Leash.esm only ships Leash_hand_chain (0xD69) for wrists. Rope/magic wrist meshes do not exist.
+String Function KindForBodyPart(String kind, String bodyPart)
+    if NormalizeBodyPart(bodyPart) == "wrists"
+        return "chain"
+    endif
+    return kind
+EndFunction
+
 String Function SpokenKind(String kind)
     if kind == "holder_shield"
         return "shield"
@@ -207,6 +248,7 @@ Armor Function ArmorForKind(String kind, String bodyPart)
     if kind == "holder_shield"
         formId = 0xD69
     elseif bodyPart == "wrists"
+        ; Only Leash_hand_chain exists; KindForBodyPart already coerced kind to chain.
         formId = 0xD69
     elseif bodyPart == "neck"
         if kind == "chain"
@@ -219,6 +261,63 @@ Armor Function ArmorForKind(String kind, String bodyPart)
         endif
     endif
     return Game.GetFormFromFile(formId, "Leash.esm") as Armor
+EndFunction
+
+Armor Function PrisonerCuffsArmor()
+    return Game.GetFormFromFile(0x10E039, "Skyrim.esm") as Armor
+EndFunction
+
+Idle Function BoundStandingIdle()
+    return Game.GetFormFromFile(0x7471D, "Skyrim.esm") as Idle
+EndFunction
+
+Function ApplyWristBind(Actor leashed)
+    if leashed == None
+        return
+    endif
+    Armor cuffs = PrisonerCuffsArmor()
+    if cuffs
+        Armor wristLeash = ArmorForKind("rope", "wrists")
+        Armor worn = leashed.GetWornForm(cuffs.GetSlotMask()) as Armor
+        if worn && worn != cuffs && worn != wristLeash
+            leashed.UnequipItem(worn, false, true)
+        endif
+        if leashed.GetItemCount(cuffs) < 1
+            leashed.AddItem(cuffs, 1, true)
+        endif
+        if !leashed.IsEquipped(cuffs)
+            leashed.EquipItem(cuffs, true, true)
+        endif
+    else
+        Debug.Trace("[SkyrimNet_Leash] ApplyWristBind missing PrisonerCuffsPlayer 0x10E039")
+    endif
+    leashed.SetRestrained(true)
+    Idle boundIdle = BoundStandingIdle()
+    Bool played = false
+    if boundIdle
+        played = leashed.PlayIdle(boundIdle)
+    endif
+    if !played
+        Debug.SendAnimationEvent(leashed, "OffsetBoundStandingStart")
+    endif
+EndFunction
+
+Function ClearWristBind(Actor leashed)
+    if leashed == None
+        return
+    endif
+    Debug.SendAnimationEvent(leashed, "OffsetBoundStandingCut")
+    leashed.SetRestrained(false)
+    Armor cuffs = PrisonerCuffsArmor()
+    if cuffs == None
+        return
+    endif
+    if leashed.IsEquipped(cuffs)
+        leashed.UnequipItem(cuffs, false, true)
+    endif
+    if leashed.GetItemCount(cuffs) > 0
+        leashed.RemoveItem(cuffs, 1, true)
+    endif
 EndFunction
 
 Function EquipTypeArmor(Actor meshOwner, Armor leashArmor)
@@ -276,6 +375,33 @@ Int Function FindLeashedIndex(Actor leashed)
     return -1
 EndFunction
 
+Int Function FindStruggleIndex(Actor who)
+    EnsureCache()
+    Int i = 0
+    while i < StruggleSubjects.Length
+        if StruggleSubjects[i] == who
+            return i
+        endif
+        i += 1
+    endwhile
+    return -1
+EndFunction
+
+Int Function EnsureStruggleIndex(Actor who)
+    Int i = FindStruggleIndex(who)
+    if i >= 0
+        return i
+    endif
+    i = FindStruggleIndex(None)
+    if i < 0
+        return -1
+    endif
+    StruggleSubjects[i] = who
+    StruggleWindowStarts[i] = 0.0
+    StruggleCounts[i] = 0
+    return i
+EndFunction
+
 Function RememberPair(Actor holder, Actor leashed, String kind, String bodyPart, String style, String leashDistance, Bool tied)
     if leashed == None
         return
@@ -311,6 +437,21 @@ Function ForgetPair(Actor leashed)
     CachedTied[i] = false
     LastPullTimes[i] = 0.0
     LastTautTimes[i] = 0.0
+EndFunction
+
+Int Function EnsureLeashedSlot(Actor leashed)
+    if leashed == None
+        return -1
+    endif
+    EnsureCache()
+    Int i = FindLeashedIndex(leashed)
+    if i >= 0
+        return i
+    endif
+    Actor holder = LeashFramework.GetLeashHolder(leashed)
+    Bool tied = holder == None && LeashFramework.IsLeashed(leashed)
+    RememberPair(holder, leashed, DetectKind(holder, leashed), DetectBodyPart(holder, leashed), "normally", ResolveDistance(leashed, ""), tied)
+    return FindLeashedIndex(leashed)
 EndFunction
 
 String Function CachedKind(Actor leashed)
@@ -367,6 +508,10 @@ String Function DetectKind(Actor holder, Actor leashed)
         return "holder_shield"
     endif
     if leashed
+        ; Leashed-worn 0xD69 is wrists chain, not holder_shield.
+        if shieldArmor && leashed.IsEquipped(shieldArmor)
+            return "chain"
+        endif
         Armor chainArmor = ArmorForKind("chain", "neck")
         if chainArmor && leashed.IsEquipped(chainArmor)
             return "chain"
@@ -455,6 +600,9 @@ EndFunction
 
 Function UnequipPairArmor(Actor holder, Actor leashed, String kind, String bodyPart)
     UnequipTypeArmor(MeshOwnerFor(holder, leashed, kind), ArmorForKind(kind, bodyPart))
+    if NormalizeBodyPart(bodyPart) == "wrists"
+        ClearWristBind(leashed)
+    endif
 EndFunction
 
 Function UnequipStaleBodyArmor(Actor leashed, String kind, String bodyPart)
@@ -462,6 +610,10 @@ Function UnequipStaleBodyArmor(Actor leashed, String kind, String bodyPart)
     String prevBody = CachedBodyPart(leashed)
     if prevKind == "" && prevBody == ""
         return
+    endif
+    String nextBody = NormalizeBodyPart(bodyPart)
+    if prevBody == "wrists" && nextBody != "wrists"
+        ClearWristBind(leashed)
     endif
     Armor prevArmor = ArmorForKind(prevKind, prevBody)
     Armor nextArmor = ArmorForKind(kind, bodyPart)
@@ -619,6 +771,7 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
     if bodyPart == ""
         bodyPart = "neck"
     endif
+    kind = KindForBodyPart(kind, bodyPart)
     Armor leashArmor = ArmorForKind(kind, bodyPart)
     if leashArmor == None
         Debug.Trace("[SkyrimNet_Leash] ApplyToHolder missing armor kind=" + kind + " body=" + bodyPart)
@@ -651,6 +804,9 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
         return false
     endif
     SkyrimNet_Leash_Native.NotifyLeash(holder, leashed, kind, leashDistance, bodyPart, false)
+    if bodyPart == "wrists"
+        ApplyWristBind(leashed)
+    endif
     return true
 EndFunction
 
@@ -675,6 +831,7 @@ Bool Function ApplyDangling(Actor leashed, String style, String leashDistance, S
     if bodyPart == ""
         bodyPart = "neck"
     endif
+    kind = KindForBodyPart(kind, bodyPart)
     MarkSuppressed(leashed)
     DisconnectFramework(leashed)
     Armor leashArmor = ArmorForKind(kind, bodyPart)
@@ -684,6 +841,9 @@ Bool Function ApplyDangling(Actor leashed, String style, String leashDistance, S
     MarkSuppressed(leashed)
     Debug.Trace("[SkyrimNet_Leash] ApplyDangling leashed=" + ActorLabel(leashed) + " kind=" + kind + " body=" + bodyPart + " distance=" + leashDistance)
     SkyrimNet_Leash_Native.NotifyLeash(None, leashed, kind, leashDistance, bodyPart, false)
+    if bodyPart == "wrists"
+        ApplyWristBind(leashed)
+    endif
     return true
 EndFunction
 
@@ -699,6 +859,7 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
     if bodyPart == ""
         bodyPart = "neck"
     endif
+    kind = KindForBodyPart(kind, bodyPart)
     Armor leashArmor = ArmorForKind(kind, bodyPart)
     if leashArmor == None
         Debug.Trace("[SkyrimNet_Leash] ApplyToTiePoint missing armor kind=" + kind + " body=" + bodyPart)
@@ -724,10 +885,14 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
         return false
     endif
     SkyrimNet_Leash_Native.NotifyLeash(None, leashed, kind, leashDistance, bodyPart, true)
+    if bodyPart == "wrists"
+        ApplyWristBind(leashed)
+    endif
     return true
 EndFunction
 
-; kind: "playerSensitive" (1 if player involved else 2), "stumble" (always 2), "taut" (short-lived event).
+; kind: "playerSensitive" (1 if player involved else 2), "stumble" (always 2), "taut" (short-lived event),
+; "optional" (DirectNarration only when the player can see and the speech queue is empty).
 ; extra is the holder or give-receiver so a player in that role counts as involved / able to see.
 Function Narrate(String content, Actor originator, Actor target, String kind, Actor leashed, Actor extra)
     if content == ""
@@ -752,7 +917,7 @@ Function Narrate(String content, Actor originator, Actor target, String kind, Ac
     Actor player = Game.GetPlayer()
     Bool includesPlayer = originator == player || target == player || leashed == player || extra == player
     Int importance = 2
-    if kind != "stumble" && includesPlayer
+    if kind != "stumble" && kind != "optional" && includesPlayer
         importance = 1
     endif
     Bool playerCanSee = originator == player || leashed == player || extra == player
@@ -761,6 +926,14 @@ Function Narrate(String content, Actor originator, Actor target, String kind, Ac
     endif
     if !playerCanSee
         SkyrimNetApi.RegisterEvent("leash", content, originator, target)
+        return
+    endif
+    if kind == "optional"
+        if SkyrimNetApi.GetSpeechQueueSize() == 0
+            SkyrimNetApi.DirectNarration(content, originator, target)
+        else
+            SkyrimNetApi.RegisterEvent("leash", content, originator, target)
+        endif
         return
     endif
     if importance == 1 || SkyrimNetApi.GetSpeechQueueSize() == 0
@@ -910,21 +1083,141 @@ Function LeashedRefused(Actor subject, Actor leashed)
     Narrate(ActorLabel(leashed) + " refused to be leashed by " + ActorLabel(subject) + ".", leashed, subject, "playerSensitive", leashed, subject)
 EndFunction
 
+Bool Function HasZapPack()
+    if ZapPluginState < 0
+        Int idx = Game.GetModByName("ZaZAnimationPack.esm")
+        if idx == 255 || idx == 0
+            ZapPluginState = 0
+        else
+            ZapPluginState = 1
+        endif
+    endif
+    return ZapPluginState == 1
+EndFunction
+
+String Function StruggleAnimEvent(String bodyPart)
+    if HasZapPack()
+        if bodyPart == "wrists"
+            return "ZazAPC001"
+        elseif bodyPart == "waist"
+            return "ZazAPC003"
+        endif
+        return "ZazAPC225"
+    endif
+    if bodyPart == "wrists"
+        return "IdleWarmHands"
+    elseif bodyPart == "waist"
+        return "IdleInjured"
+    endif
+    return "IdleNervous"
+EndFunction
+
+Function StopStruggleAnim(Actor who)
+    if who
+        Debug.SendAnimationEvent(who, "IdleForceDefaultState")
+        if CachedBodyPart(who) == "wrists"
+            ApplyWristBind(who)
+        endif
+    endif
+EndFunction
+
+Event OnUpdate()
+    Actor who = StruggleActor
+    StruggleActor = None
+    StopStruggleAnim(who)
+EndEvent
+
+Function NarrateStruggleAttempts(Actor subject, Actor holder, Int attempts, Float remaining)
+    String times = " times."
+    if attempts == 1
+        times = " time."
+    endif
+    String content = ActorLabel(subject) + " has tried to remove the leash " + attempts + times
+    String eventId = "leash_struggle"
+    if subject
+        eventId = "leash_struggle_" + subject.GetFormID()
+    endif
+    Int ttlMs = (remaining * 1000.0) as Int
+    if ttlMs < 1000
+        ttlMs = 1000
+    endif
+    Actor source = subject
+    SkyrimNetApi.RegisterShortLivedEvent(eventId, "leash", content, "", ttlMs, source, NarrateListener(subject, subject, holder))
+EndFunction
+
+Function StruggleExecute(Actor subject)
+    if subject == None
+        Debug.Trace("[SkyrimNet_Leash] StruggleExecute skipped: missing subject")
+        return
+    endif
+    Debug.Trace("[SkyrimNet_Leash] StruggleExecute " + ActorLabel(subject))
+    if !LeashFramework.IsLeashed(subject) && FindLeashedIndex(subject) < 0
+        Debug.Trace("[SkyrimNet_Leash] StruggleExecute skipped: " + ActorLabel(subject) + " is not leashed")
+        return
+    endif
+    if StruggleCooldown <= 2.0
+        StruggleCooldown = 20.0
+    endif
+    Actor holder = LeashFramework.GetLeashHolder(subject)
+    if holder == None
+        holder = CachedHolder(subject)
+    endif
+    Float now = Utility.GetCurrentRealTime()
+    Int i = EnsureStruggleIndex(subject)
+    Bool inWindow = i >= 0 && StruggleCounts[i] > 0 && (now - StruggleWindowStarts[i]) < StruggleCooldown
+    if inWindow
+        StruggleCounts[i] = StruggleCounts[i] + 1
+        Float remaining = StruggleCooldown - (now - StruggleWindowStarts[i])
+        NarrateStruggleAttempts(subject, holder, StruggleCounts[i], remaining)
+        Debug.Trace("[SkyrimNet_Leash] StruggleExecute count " + StruggleCounts[i] + " " + ActorLabel(subject))
+        return
+    endif
+    if i >= 0
+        StruggleWindowStarts[i] = now
+        StruggleCounts[i] = 1
+    endif
+    UnregisterForUpdate()
+    if StruggleActor && StruggleActor != subject
+        StopStruggleAnim(StruggleActor)
+    endif
+    String kind = SpokenKind(DetectKind(holder, subject))
+    String bodyPart = DetectBodyPart(holder, subject)
+    String eventName = StruggleAnimEvent(bodyPart)
+    StruggleActor = subject
+    Debug.SendAnimationEvent(subject, eventName)
+    RegisterForSingleUpdate(StruggleAnimDuration)
+    Narrate(ActorLabel(subject) + " struggles against the " + kind + " leash at their " + bodyPart + ", but it holds.", subject, NarrateListener(subject, subject, holder), "playerSensitive", subject, holder)
+EndFunction
+
 Function UnleashTargetExecute(Actor subject, Actor target)
     if subject == None || target == None
         return
     endif
-    Actor holder = subject
-    Actor leashed = target
+    Actor holder = None
+    Actor leashed = None
     if LeashFramework.IsLeashed(subject) && LeashFramework.GetLeashHolder(subject) == target
         holder = target
         leashed = subject
+    elseif LeashFramework.IsLeashed(target)
+        leashed = target
+        holder = LeashFramework.GetLeashHolder(target)
+        if holder == None
+            holder = CachedHolder(target)
+        endif
     elseif FindLeashedIndex(subject) >= 0 && CachedHolder(subject) == None
         leashed = subject
         holder = None
-    elseif FindLeashedIndex(target) >= 0 && CachedHolder(target) == None
+    elseif FindLeashedIndex(target) >= 0
         leashed = target
-        holder = None
+        holder = CachedHolder(target)
+    endif
+    if leashed == None
+        Debug.Trace("[SkyrimNet_Leash] UnleashTargetExecute skipped: could not resolve leashed")
+        return
+    endif
+    if leashed == subject
+        Debug.Trace("[SkyrimNet_Leash] UnleashTargetExecute rejected: speaker cannot free themselves")
+        return
     endif
     String kind = DetectKind(holder, leashed)
     String bodyPart = DetectBodyPart(holder, leashed)
@@ -932,6 +1225,8 @@ Function UnleashTargetExecute(Actor subject, Actor target)
     Bool ok = false
     if holder == None
         ok = LeashFramework.DisconnectLeash(None, leashed)
+    else
+        ok = LeashFramework.DisconnectLeash(holder, leashed)
     endif
     if !ok
         ok = LeashFramework.DisconnectLeash(subject, target)

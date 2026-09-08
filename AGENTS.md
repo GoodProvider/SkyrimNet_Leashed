@@ -34,6 +34,19 @@ Repo root: `c:\Skyrim\dev\mods\SkyrimNet_Leash`.
 - SKSE: tasks **`CMake: Configure (Debug|Release)`** then **`CMake: Build SKSE (Debug|Release)`** (cwd `SKSE_Source`).
 - In-game testing must use the **Release** SKSE build. Debug `/MDd` breaks SkyrimNet’s `std::string` decorator ABI (SEH on every decorator callback).
 
+## Game lock
+
+Skyrim holds exclusive locks on files it has loaded. Before writing or replacing those files, check for a running game (`SkyrimSE.exe`, `SkyrimVR.exe`, `skse64_loader.exe`, `sksevr_loader.exe`). If one is running, stop and ask the user to quit Skyrim; do not retry-loop or kill the process.
+
+Locked while the game is running:
+
+- `PrismaUI/views/SkyrimNet_Leash/` (overlay HTML)
+- `SKSE/Plugins/*.dll`
+- `Scripts/*.pex`
+- `SkyrimNet_Leash.esp`
+
+Papyrus source (`Scripts/Source/`) and YAML/prompts are usually writable with the game open.
+
 ## Commit messages
 
 First ~72 characters summarize the commit. Prefer a multi-line body with concrete bullets (paths, YAML names, decorator IDs).
