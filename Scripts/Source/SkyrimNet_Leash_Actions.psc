@@ -268,7 +268,12 @@ Armor Function PrisonerCuffsArmor()
 EndFunction
 
 Idle Function BoundStandingIdle()
-    return Game.GetFormFromFile(0x7471D, "Skyrim.esm") as Idle
+    ; OffsetBoundStandingStart (0xB600A) only applies while walking.
+    return Game.GetFormFromFile(0x109837, "Skyrim.esm") as Idle
+EndFunction
+
+Idle Function BoundStandingCutIdle()
+    return Game.GetFormFromFile(0x109B6A, "Skyrim.esm") as Idle
 EndFunction
 
 Function ApplyWristBind(Actor leashed)
@@ -291,14 +296,13 @@ Function ApplyWristBind(Actor leashed)
     else
         Debug.Trace("[SkyrimNet_Leash] ApplyWristBind missing PrisonerCuffsPlayer 0x10E039")
     endif
-    leashed.SetRestrained(true)
     Idle boundIdle = BoundStandingIdle()
     Bool played = false
     if boundIdle
         played = leashed.PlayIdle(boundIdle)
     endif
     if !played
-        Debug.SendAnimationEvent(leashed, "OffsetBoundStandingStart")
+        Debug.SendAnimationEvent(leashed, "OffsetBoundStandingPlayerInstant")
     endif
 EndFunction
 
@@ -306,7 +310,15 @@ Function ClearWristBind(Actor leashed)
     if leashed == None
         return
     endif
-    Debug.SendAnimationEvent(leashed, "OffsetBoundStandingCut")
+    UnregisterForAnimationEvent(leashed, "GetUpEnd")
+    Idle cutIdle = BoundStandingCutIdle()
+    Bool cut = false
+    if cutIdle
+        cut = leashed.PlayIdle(cutIdle)
+    endif
+    if !cut
+        Debug.SendAnimationEvent(leashed, "BoundStandingCut")
+    endif
     leashed.SetRestrained(false)
     Armor cuffs = PrisonerCuffsArmor()
     if cuffs == None
@@ -1445,5 +1457,20 @@ Event OnLeashFrameworkPulled(String eventName, String strArg, Float numArg, Form
 EndEvent
 
 Event OnLeashFrameworkRagdollPulled(String eventName, String strArg, Float numArg, Form sender)
-    NarratePull(sender as Actor, true)
+    Actor leashed = sender as Actor
+    NarratePull(leashed, true)
+    if leashed && CachedBodyPart(leashed) == "wrists"
+        RegisterForAnimationEvent(leashed, "GetUpEnd")
+    endif
+EndEvent
+
+Event OnAnimationEvent(ObjectReference akSource, String asEventName)
+    if asEventName != "GetUpEnd"
+        return
+    endif
+    Actor leashed = akSource as Actor
+    UnregisterForAnimationEvent(akSource, "GetUpEnd")
+    if leashed && CachedBodyPart(leashed) == "wrists"
+        ApplyWristBind(leashed)
+    endif
 EndEvent
