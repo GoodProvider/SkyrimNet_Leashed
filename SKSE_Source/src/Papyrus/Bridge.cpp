@@ -28,6 +28,13 @@ namespace SkyrimNetLeash::Papyrus {
             LeashState::ForgetLeashed(a_leashed->GetFormID());
         }
 
+        void NotifyStruggle(RE::StaticFunctionTag*, RE::Actor* a_who, bool a_struggling) {
+            if (!a_who) {
+                return;
+            }
+            LeashState::SetStruggling(a_who->GetFormID(), a_struggling);
+        }
+
         // The LLM supplies style and type tokens as free text, so fold case and treat any
         // run of spaces, tabs, hyphens, or underscores as a single underscore.
         RE::BSFixedString NormalizeToken(RE::StaticFunctionTag*, RE::BSFixedString a_value) {
@@ -128,6 +135,14 @@ namespace SkyrimNetLeash::Papyrus {
             return RE::BSFixedString{WebUI::Config::DistanceFromLength(a_maxLength).c_str()};
         }
 
+        float StruggleNarrationInterval(RE::StaticFunctionTag*) {
+            return WebUI::Config::StruggleNarrationInterval();
+        }
+
+        float StruggleCooldown(RE::StaticFunctionTag*) {
+            return WebUI::Config::StruggleCooldown();
+        }
+
         void TraceLeashBones(RE::StaticFunctionTag*, RE::Actor* a_who) {
             if (!a_who) {
                 SKSE::log::warn("TraceLeashBones skipped: null actor");
@@ -156,9 +171,12 @@ namespace SkyrimNetLeash::Papyrus {
         }
         a_vm->RegisterFunction("NotifyLeash", kScriptName, NotifyLeash);
         a_vm->RegisterFunction("NotifyUnleash", kScriptName, NotifyUnleash);
+        a_vm->RegisterFunction("NotifyStruggle", kScriptName, NotifyStruggle);
         a_vm->RegisterFunction("NormalizeToken", kScriptName, NormalizeToken);
         a_vm->RegisterFunction("DistanceMax", kScriptName, DistanceMax);
         a_vm->RegisterFunction("DistanceFromLength", kScriptName, DistanceFromLength);
+        a_vm->RegisterFunction("StruggleNarrationInterval", kScriptName, StruggleNarrationInterval);
+        a_vm->RegisterFunction("StruggleCooldown", kScriptName, StruggleCooldown);
         a_vm->RegisterFunction("TraceLeashBones", kScriptName, TraceLeashBones);
         SKSE::log::info("Registered {} Papyrus functions", kScriptName);
         return true;

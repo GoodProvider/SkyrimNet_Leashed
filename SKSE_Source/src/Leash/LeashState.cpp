@@ -5,11 +5,13 @@
 #include <limits>
 #include <mutex>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace SkyrimNetLeash::LeashState {
     namespace {
         std::mutex g_pairMutex;
         std::unordered_map<RE::FormID, RecordedPair> g_byLeashed;
+        std::unordered_set<RE::FormID> g_struggling;
 
         RE::Actor* ActorFromID(RE::FormID a_id) {
             auto* form = a_id != 0 ? RE::TESForm::LookupByID(a_id) : nullptr;
@@ -149,10 +151,32 @@ namespace SkyrimNetLeash::LeashState {
     void ForgetLeashed(RE::FormID a_leashedID) {
         std::lock_guard lock{g_pairMutex};
         g_byLeashed.erase(a_leashedID);
+        g_struggling.erase(a_leashedID);
     }
 
     void ClearPairs() {
         std::lock_guard lock{g_pairMutex};
         g_byLeashed.clear();
+        g_struggling.clear();
+    }
+
+    void SetStruggling(RE::FormID a_id, bool a_struggling) {
+        if (a_id == 0) {
+            return;
+        }
+        std::lock_guard lock{g_pairMutex};
+        if (a_struggling) {
+            g_struggling.insert(a_id);
+        } else {
+            g_struggling.erase(a_id);
+        }
+    }
+
+    bool IsStruggling(RE::Actor* a_actor) {
+        if (!a_actor) {
+            return false;
+        }
+        std::lock_guard lock{g_pairMutex};
+        return g_struggling.contains(a_actor->GetFormID());
     }
 }

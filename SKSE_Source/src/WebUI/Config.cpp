@@ -162,4 +162,32 @@ namespace SkyrimNetLeash::WebUI::Config {
         }
         return value;
     }
+
+    float StruggleNarrationInterval() {
+        constexpr float kDefault = 5.0F;
+        constexpr float kMin = 1.0F;
+        constexpr float kMax = 60.0F;
+        try {
+            const auto value = std::stof(GetValue("leash.escape.narrationInterval", "5"));
+            if (value >= kMin && value <= kMax) {
+                return value;
+            }
+        } catch (...) {
+        }
+        return kDefault;
+    }
+
+    float StruggleCooldown() {
+        constexpr float kDefault = 20.0F;
+        constexpr float kMin = 1.0F;
+        constexpr float kMax = 120.0F;
+        try {
+            const auto value = std::stof(GetValue("leash.escape.cooldown", "20"));
+            if (value >= kMin && value <= kMax) {
+                return value;
+            }
+        } catch (...) {
+        }
+        return kDefault;
+    }
 }

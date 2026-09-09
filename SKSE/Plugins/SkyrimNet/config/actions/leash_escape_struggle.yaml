@@ -16,3 +16,8 @@ eligibilityRules:
           - currentActor
         comparisonOperator: ==
         expectedValue: "available"
+      - decoratorName: speaker_is_struggling
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "unavailable"

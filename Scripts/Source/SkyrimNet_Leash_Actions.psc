@@ -2,8 +2,6 @@ Scriptname SkyrimNet_Leash_Actions extends Quest
 
 Float Property PullCooldown = 8.0 Auto Hidden
 Float Property NarrateSuppressWindow = 2.0 Auto Hidden
-Float Property StruggleCooldown = 20.0 Auto Hidden
-Float Property StruggleAnimDuration = 4.0 Auto Hidden
 
 Actor[] CachedLeashed
 Actor[] CachedHolders
@@ -16,11 +14,8 @@ Float[] LastPullTimes
 Float[] LastTautTimes
 Actor[] SuppressActors
 Float[] SuppressTimes
-Actor StruggleActor
-Actor[] StruggleSubjects
-Float[] StruggleWindowStarts
-Int[] StruggleCounts
-Int ZapPluginState = -1
+Actor[] StrugglingActors
+Float[] StruggleLastNarrate
 
 Event OnInit()
     EnsureCache()
@@ -38,6 +33,7 @@ Function RegisterLeashEvents()
     RegisterForModEvent("LeashFramework_OnActorPulled", "OnLeashFrameworkPulled")
     RegisterForModEvent("LeashFramework_OnActorRagdollPulled", "OnLeashFrameworkRagdollPulled")
     RepushCachedPairs()
+    RepushStruggling()
 EndFunction
 
 Function RepushCachedPairs()
@@ -58,6 +54,23 @@ Function RepushCachedPairs()
         endif
         i += 1
     endwhile
+EndFunction
+
+Function RepushStruggling()
+    EnsureCache()
+    Int i = 0
+    while i < StrugglingActors.Length
+        Actor who = StrugglingActors[i]
+        if who
+            if who.IsDead() || (!LeashFramework.IsLeashed(who) && FindLeashedIndex(who) < 0)
+                EndStruggle(who, false)
+            else
+                SkyrimNet_Leash_Native.NotifyStruggle(who, true)
+            endif
+        endif
+        i += 1
+    endwhile
+    RefreshStruggleUpdates()
 EndFunction
 
 String Function LeashBoneMatch()
@@ -91,10 +104,9 @@ Function EnsureCache()
         SuppressActors = new Actor[32]
         SuppressTimes = new Float[32]
     endif
-    if StruggleSubjects.Length != CacheSize()
-        StruggleSubjects = new Actor[32]
-        StruggleWindowStarts = new Float[32]
-        StruggleCounts = new Int[32]
+    if StrugglingActors.Length != CacheSize()
+        StrugglingActors = new Actor[32]
+        StruggleLastNarrate = new Float[32]
     endif
 EndFunction
 
@@ -114,6 +126,27 @@ EndFunction
 
 String Function Possessive(Actor who)
     return ActorLabel(who) + "'s"
+EndFunction
+
+String Function PossessivePronoun(Actor who)
+    if who == None
+        return "their"
+    endif
+    ActorBase base = who.GetLeveledActorBase()
+    if base == None
+        base = who.GetActorBase()
+    endif
+    if base == None
+        return "their"
+    endif
+    Int sex = base.GetSex()
+    if sex == 1
+        return "her"
+    endif
+    if sex == 0
+        return "his"
+    endif
+    return "their"
 EndFunction
 
 String Function NormalizeKind(String leashType)
@@ -390,8 +423,8 @@ EndFunction
 Int Function FindStruggleIndex(Actor who)
     EnsureCache()
     Int i = 0
-    while i < StruggleSubjects.Length
-        if StruggleSubjects[i] == who
+    while i < StrugglingActors.Length
+        if StrugglingActors[i] == who
             return i
         endif
         i += 1
@@ -408,10 +441,38 @@ Int Function EnsureStruggleIndex(Actor who)
     if i < 0
         return -1
     endif
-    StruggleSubjects[i] = who
-    StruggleWindowStarts[i] = 0.0
-    StruggleCounts[i] = 0
+    StrugglingActors[i] = who
+    StruggleLastNarrate[i] = 0.0
     return i
+EndFunction
+
+Function ClearStruggleSlot(Int i)
+    if i < 0 || i >= StrugglingActors.Length
+        return
+    endif
+    StrugglingActors[i] = None
+    StruggleLastNarrate[i] = 0.0
+EndFunction
+
+Int Function CountStruggling()
+    EnsureCache()
+    Int n = 0
+    Int i = 0
+    while i < StrugglingActors.Length
+        if StrugglingActors[i]
+            n += 1
+        endif
+        i += 1
+    endwhile
+    return n
+EndFunction
+
+Function RefreshStruggleUpdates()
+    if CountStruggling() > 0
+        RegisterForUpdate(1.0)
+    else
+        UnregisterForUpdate()
+    endif
 EndFunction
 
 Function RememberPair(Actor holder, Actor leashed, String kind, String bodyPart, String style, String leashDistance, Bool tied)
@@ -1095,35 +1156,6 @@ Function LeashedRefused(Actor subject, Actor leashed)
     Narrate(ActorLabel(leashed) + " refused to be leashed by " + ActorLabel(subject) + ".", leashed, subject, "playerSensitive", leashed, subject)
 EndFunction
 
-Bool Function HasZapPack()
-    if ZapPluginState < 0
-        Int idx = Game.GetModByName("ZaZAnimationPack.esm")
-        if idx == 255 || idx == 0
-            ZapPluginState = 0
-        else
-            ZapPluginState = 1
-        endif
-    endif
-    return ZapPluginState == 1
-EndFunction
-
-String Function StruggleAnimEvent(String bodyPart)
-    if HasZapPack()
-        if bodyPart == "wrists"
-            return "ZazAPC001"
-        elseif bodyPart == "waist"
-            return "ZazAPC003"
-        endif
-        return "ZazAPC225"
-    endif
-    if bodyPart == "wrists"
-        return "IdleWarmHands"
-    elseif bodyPart == "waist"
-        return "IdleInjured"
-    endif
-    return "IdleNervous"
-EndFunction
-
 Function StopStruggleAnim(Actor who)
     if who
         Debug.SendAnimationEvent(who, "IdleForceDefaultState")
@@ -1133,29 +1165,107 @@ Function StopStruggleAnim(Actor who)
     endif
 EndFunction
 
-Event OnUpdate()
-    Actor who = StruggleActor
-    StruggleActor = None
-    StopStruggleAnim(who)
-EndEvent
-
-Function NarrateStruggleAttempts(Actor subject, Actor holder, Int attempts, Float remaining)
-    String times = " times."
-    if attempts == 1
-        times = " time."
+Bool Function ActorIsLocomoting(Actor who)
+    if who == None
+        return false
     endif
-    String content = ActorLabel(subject) + " has tried to remove the leash " + attempts + times
-    String eventId = "leash_struggle"
-    if subject
-        eventId = "leash_struggle_" + subject.GetFormID()
+    if who.IsRunning() || who.IsSprinting() || who.IsSwimming()
+        return true
     endif
-    Int ttlMs = (remaining * 1000.0) as Int
-    if ttlMs < 1000
-        ttlMs = 1000
-    endif
-    Actor source = subject
-    SkyrimNetApi.RegisterShortLivedEvent(eventId, "leash", content, "", ttlMs, source, NarrateListener(subject, subject, holder))
+    return who.GetAnimationVariableFloat("Speed") > 10.0
 EndFunction
+
+Function EndStruggle(Actor who, Bool narrateStop)
+    if who == None
+        return
+    endif
+    Int i = FindStruggleIndex(who)
+    if i < 0
+        return
+    endif
+    ClearStruggleSlot(i)
+    SkyrimNet_Leash_Native.NotifyStruggle(who, false)
+    StopStruggleAnim(who)
+    RefreshStruggleUpdates()
+    if narrateStop
+        Actor holder = LeashFramework.GetLeashHolder(who)
+        if holder == None
+            holder = CachedHolder(who)
+        endif
+        Narrate(ActorLabel(who) + " stops struggling against the leash.", who, NarrateListener(who, who, holder), "playerSensitive", who, holder)
+    endif
+EndFunction
+
+Float Function EscapeDirectNarrateWait()
+    Float interval = SkyrimNet_Leash_Native.StruggleNarrationInterval()
+    if interval < 1.0
+        interval = 5.0
+    endif
+    Float cooldown = SkyrimNet_Leash_Native.StruggleCooldown()
+    if cooldown < 1.0
+        cooldown = 20.0
+    endif
+    if cooldown > interval
+        return cooldown
+    endif
+    return interval
+EndFunction
+
+Function PulseStruggleEvent(Actor subject)
+    if subject == None
+        return
+    endif
+    String eventId = "leash_struggle_" + subject.GetFormID()
+    Actor holder = LeashFramework.GetLeashHolder(subject)
+    if holder == None
+        holder = CachedHolder(subject)
+    endif
+    Actor target = holder
+    if holder == None || holder == subject
+        target = None
+    endif
+    String content = ActorLabel(subject) + " continues to struggle with " + PossessivePronoun(subject) + " leash."
+    Debug.Trace("[SkyrimNet_Leash] PulseStruggleEvent " + content)
+    SkyrimNetApi.RegisterShortLivedEvent(eventId, "leash", content, "", 1500, subject, target)
+EndFunction
+
+Function NarrateStillStruggling(Actor subject)
+    if subject == None
+        return
+    endif
+    Actor holder = LeashFramework.GetLeashHolder(subject)
+    if holder == None
+        holder = CachedHolder(subject)
+    endif
+    String content = "Despite " + Possessive(subject) + " attempts, the leash holds."
+    Debug.Trace("[SkyrimNet_Leash] NarrateStillStruggling " + content)
+    Narrate(content, subject, NarrateListener(subject, subject, holder), "optional", subject, holder)
+EndFunction
+
+Event OnUpdate()
+    EnsureCache()
+    Float now = Utility.GetCurrentRealTime()
+    Float wait = EscapeDirectNarrateWait()
+    Int i = 0
+    while i < StrugglingActors.Length
+        Actor who = StrugglingActors[i]
+        if who
+            if who.IsDead() || (!LeashFramework.IsLeashed(who) && FindLeashedIndex(who) < 0)
+                EndStruggle(who, false)
+            else
+                if !ActorIsLocomoting(who)
+                    Debug.SendAnimationEvent(who, "IdleNervous")
+                endif
+                PulseStruggleEvent(who)
+                if (now - StruggleLastNarrate[i]) >= wait
+                    StruggleLastNarrate[i] = now
+                    NarrateStillStruggling(who)
+                endif
+            endif
+        endif
+        i += 1
+    endwhile
+EndEvent
 
 Function StruggleExecute(Actor subject)
     if subject == None
@@ -1167,38 +1277,45 @@ Function StruggleExecute(Actor subject)
         Debug.Trace("[SkyrimNet_Leash] StruggleExecute skipped: " + ActorLabel(subject) + " is not leashed")
         return
     endif
-    if StruggleCooldown <= 2.0
-        StruggleCooldown = 20.0
+    if FindStruggleIndex(subject) >= 0
+        Debug.Trace("[SkyrimNet_Leash] StruggleExecute skipped: already struggling " + ActorLabel(subject))
+        return
+    endif
+    Int i = EnsureStruggleIndex(subject)
+    if i < 0
+        Debug.Trace("[SkyrimNet_Leash] StruggleExecute skipped: no struggle slot for " + ActorLabel(subject))
+        return
     endif
     Actor holder = LeashFramework.GetLeashHolder(subject)
     if holder == None
         holder = CachedHolder(subject)
     endif
-    Float now = Utility.GetCurrentRealTime()
-    Int i = EnsureStruggleIndex(subject)
-    Bool inWindow = i >= 0 && StruggleCounts[i] > 0 && (now - StruggleWindowStarts[i]) < StruggleCooldown
-    if inWindow
-        StruggleCounts[i] = StruggleCounts[i] + 1
-        Float remaining = StruggleCooldown - (now - StruggleWindowStarts[i])
-        NarrateStruggleAttempts(subject, holder, StruggleCounts[i], remaining)
-        Debug.Trace("[SkyrimNet_Leash] StruggleExecute count " + StruggleCounts[i] + " " + ActorLabel(subject))
-        return
-    endif
-    if i >= 0
-        StruggleWindowStarts[i] = now
-        StruggleCounts[i] = 1
-    endif
-    UnregisterForUpdate()
-    if StruggleActor && StruggleActor != subject
-        StopStruggleAnim(StruggleActor)
-    endif
     String kind = SpokenKind(DetectKind(holder, subject))
     String bodyPart = DetectBodyPart(holder, subject)
-    String eventName = StruggleAnimEvent(bodyPart)
-    StruggleActor = subject
-    Debug.SendAnimationEvent(subject, eventName)
-    RegisterForSingleUpdate(StruggleAnimDuration)
+    StruggleLastNarrate[i] = Utility.GetCurrentRealTime()
+    SkyrimNet_Leash_Native.NotifyStruggle(subject, true)
+    Debug.SendAnimationEvent(subject, "IdleNervous")
+    RefreshStruggleUpdates()
+    PulseStruggleEvent(subject)
     Narrate(ActorLabel(subject) + " struggles against the " + kind + " leash at their " + bodyPart + ", but it holds.", subject, NarrateListener(subject, subject, holder), "playerSensitive", subject, holder)
+EndFunction
+
+Function StopStruggleExecute(Actor subject)
+    if subject == None
+        Debug.Trace("[SkyrimNet_Leash] StopStruggleExecute skipped: missing subject")
+        return
+    endif
+    Debug.Trace("[SkyrimNet_Leash] StopStruggleExecute " + ActorLabel(subject))
+    if FindStruggleIndex(subject) < 0
+        Debug.Trace("[SkyrimNet_Leash] StopStruggleExecute skipped: not struggling " + ActorLabel(subject))
+        return
+    endif
+    Actor holder = LeashFramework.GetLeashHolder(subject)
+    if holder == None
+        holder = CachedHolder(subject)
+    endif
+    EndStruggle(subject, false)
+    Narrate(ActorLabel(subject) + " stops struggling to remove their leash.", subject, NarrateListener(subject, subject, holder), "optional", subject, holder)
 EndFunction
 
 Function UnleashTargetExecute(Actor subject, Actor target)
@@ -1248,6 +1365,7 @@ Function UnleashTargetExecute(Actor subject, Actor target)
     endif
     Bool recorded = FindLeashedIndex(leashed) >= 0
     if ok || recorded
+        EndStruggle(leashed, false)
         Narrate(ActorLabel(subject) + " unclips the " + kind + " leash from " + Possessive(leashed) + " " + bodyPart + ".", subject, NarrateListener(subject, leashed, holder), "playerSensitive", leashed, holder)
         UnequipPairArmor(holder, leashed, kind, bodyPart)
         ForgetPair(leashed)
@@ -1275,6 +1393,7 @@ Function UnleashSpeakerExecute(Actor subject)
             endif
             MarkSuppressed(leashed)
             Actor originator = subject
+            EndStruggle(leashed, false)
             Narrate(ActorLabel(originator) + " unclips the " + kind + " leash from " + Possessive(leashed) + " " + bodyPart + ".", originator, NarrateListener(originator, leashed, holder), "playerSensitive", leashed, holder)
         endif
         i += 1
@@ -1288,6 +1407,7 @@ Function UnleashSpeakerExecute(Actor subject)
     endif
     LeashFramework.UnleashAll(subject)
     UnequipTrackedFor(subject)
+    EndStruggle(subject, false)
     SkyrimNet_Leash_Native.NotifyUnleash(subject)
 EndFunction
 
@@ -1447,17 +1567,21 @@ Event OnLeashFrameworkUnleash(String eventName, String strArg, Float numArg, For
     ; arrives so the pair never falls back to a guess in between.
     ; Suppressed disconnects (ApplyDangling) already wrote the new native record.
     if leashed && strArg != "replaced" && !IsSuppressed(leashed)
+        EndStruggle(leashed, false)
         SkyrimNet_Leash_Native.NotifyUnleash(leashed)
     endif
     NarrateUnleash(leashed, strArg)
 EndEvent
 
 Event OnLeashFrameworkPulled(String eventName, String strArg, Float numArg, Form sender)
-    NarratePull(sender as Actor, false)
+    Actor leashed = sender as Actor
+    EndStruggle(leashed, false)
+    NarratePull(leashed, false)
 EndEvent
 
 Event OnLeashFrameworkRagdollPulled(String eventName, String strArg, Float numArg, Form sender)
     Actor leashed = sender as Actor
+    EndStruggle(leashed, false)
     NarratePull(leashed, true)
     if leashed && CachedBodyPart(leashed) == "wrists"
         RegisterForAnimationEvent(leashed, "GetUpEnd")

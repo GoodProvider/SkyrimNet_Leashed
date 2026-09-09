@@ -107,3 +107,21 @@ schema:
         - "right"
         - "wall"
       category: "Leash"
+
+    - name: "Struggle narration interval"
+      path: "leash.escape.narrationInterval"
+      type: "int"
+      description: "Seconds between optional still-struggling DirectNarration attempts. The first struggle line is immediate. DirectNarration also waits for Escape cooldown."
+      min: 1
+      max: 60
+      defaultValue: 5
+      category: "Escape"
+
+    - name: "Escape cooldown"
+      path: "leash.escape.cooldown"
+      type: "int"
+      description: "Minimum seconds between struggle DirectNarration lines. Short-lived continue events are unaffected."
+      min: 1
+      max: 120
+      defaultValue: 20
+      category: "Escape"

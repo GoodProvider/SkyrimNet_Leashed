@@ -30,4 +30,8 @@ namespace SkyrimNetLeash::LeashState {
     [[nodiscard]] bool TryGetRecorded(RE::FormID a_leashedID, RecordedPair& a_out);
     void ForgetLeashed(RE::FormID a_leashedID);
     void ClearPairs();
+
+    // Pushed from Papyrus while an actor is in the looping struggle idle.
+    void SetStruggling(RE::FormID a_id, bool a_struggling);
+    [[nodiscard]] bool IsStruggling(RE::Actor* a_actor);
 }

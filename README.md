@@ -22,15 +22,12 @@ Optional:
 | Plugin | Adds |
 | --- | --- |
 | [PrismaUI](https://www.nexusmods.com/skyrimspecialedition/mods/114324) | Provides UI for hotkey `\` leash panel (enable/remap in SkyrimNet WebUI). YAML actions work without it. |
-| [ZaZ Animation Pack](https://www.loverslab.com/files/file/23102-zaz-animation-pack-zap/) (`ZaZAnimationPack.esm`) plus FNIS/Nemesis/Pandora | Standing struggle clips (no furniture/AnimObject): neck `ZazAPC225`, wrists `ZazAPC001`, waist `ZazAPC003`. Without it, those body parts use vanilla `IdleNervous` / `IdleWarmHands` / `IdleInjured`. |
 
 The FOMOD installer **refuses to install** unless `Leash.esm` is active.
 
 Load `SkyrimNet_Leash.esp` after `Leash.esm`. Enable the mod in MO2 or Vortex.
 
-Leash apply still needs leash bones on the target (Leash.esm armor / SMP node names). See the Leash Framework Nexus page.
-
-**ZaZ Animations**: You will need to rebuild with Pandora after installing ZaZ. I recommend disabling it's .esm unless you really want it. 
+Leash apply still needs leash bones on the target (Leash.esm armor / SMP node names). See the Leash Framework Nexus page. 
 
 ---
 ### Leash panel hotkey
@@ -67,11 +64,12 @@ Three categories plus one root-level action.
 
 **Wrists is chain only** — Leash.esm only ships `Leash_hand_chain`; Papyrus and the panel force type to `chain`. Holder and give-receiver may be `None` to leave the leash hanging from the collared actor (not tied to a world point). Take still picks that leash up.
 
-**Root actions** (no category parent)
+**Root actions** (no category parent; `leash_none_*`)
 
 | Action | Effect |
 | --- | --- |
-| leash_target_unleash | Speaker unclips a nearby collared actor (including someone held by a third party). Never the speaker themselves. |
+| leash_none_target_unleash | Speaker unclips a nearby collared actor (including someone held by a third party). Never the speaker themselves. |
+| leash_none_struggle_stop | Collared speaker who is already struggling gives up and returns to default stance. Opposite of Escape. |
 
 **leash_leash** (start a leash)
 
@@ -98,7 +96,7 @@ Three categories plus one root-level action.
 
 | Action | Effect |
 | --- | --- |
-| leash_escape_struggle | Collared speaker struggles against their own leash. First try in 20s is DirectNarration; later tries update a short-lived event with the attempt count. The leash does not come off. |
+| leash_escape_struggle | Collared speaker starts struggling: looping `IdleNervous` while standing, and they keep struggling if they walk. Ends on `leash_none_struggle_stop`, a yank, or unclip. First line is DirectNarration. The leash does not come off. |
 
 Children may be leashed. Free self-unleash is **not** an LLM action — NPCs cannot pick `leash_escape` and come off. The player still can: the PrismaUI `\` panel **unleash** verb fully unclips, including the player's own leash. `leash_escape_struggle` only plays an idle and narrates; a later minigame will be the NPC self-free path.
 
@@ -106,9 +104,9 @@ Higher importance uses SkyrimNet DirectNarration so nearby NPCs react immediatel
 
 | Importance | Lines | Narration |
 | --- | --- | --- |
-| 1 | Apply, take, give, tie, refuse, unleash, or the first struggle in a 20s window while the player is subject, leashed, holder, or give-receiver | Always DirectNarration |
-| 2 | Those same actions without the player, or a ragdoll stumble | DirectNarration if SkyrimNet’s speech queue is empty, otherwise a `leash` event |
-| 3 | Taut (non-ragdoll) pull, or further struggles in the same 20s window | Short-lived `leash` event (struggle text counts attempts, e.g. `has tried to remove the leash 4 times.`) |
+| 1 | Apply, take, give, tie, refuse, unleash, or start struggling while the player is subject, leashed, holder, or give-receiver | Always DirectNarration |
+| 2 | Those same actions without the player, a ragdoll stumble, stop struggling, or a later struggle beat while the speech queue is empty | DirectNarration if SkyrimNet’s speech queue is empty, otherwise a `leash` event |
+| 3 | Taut (non-ragdoll) pull, an in-progress struggle pulse, or a later struggle beat / stop struggling while the speech queue is busy | Short-lived `leash` event (taut and struggle pulse) or a `leash` event (optional) |
 
 ## Build from clone
 

@@ -1,2 +1,2 @@
 {% set speakingNpc = decnpc(npc.UUID) %}
-{{speakingNpc.name}} gets their own leash off — yank, wriggle, or unclip it. Always select this when they struggle or take it off. Not for unclipping someone else, and not for handing a leash to anyone.
+{{speakingNpc.name}} starts struggling against their own leash — yank, wriggle, or work the collar. They keep struggling until they pick leash_none_struggle_stop, including while they walk. Always select this when they start struggling or try to take it off. Not for unclipping someone else, and not for handing a leash to anyone.

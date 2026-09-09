@@ -16,6 +16,7 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
         SpeakerOnLeash,
         SpeakerIsLeashed,
         CollaredNearby,
+        SpeakerIsStruggling,
     };
 
     enum class Payload {

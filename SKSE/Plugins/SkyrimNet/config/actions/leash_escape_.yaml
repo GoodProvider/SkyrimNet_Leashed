@@ -1,7 +1,7 @@
 customCategory: leash_escape
 name: leash_escape
 label: Escape
-description: "Get your own leash off — yank, wriggle, work the knot, or unclip the collar. Always pick this when you struggle or take it off. Not for unclipping someone else, and not for handing a leash to anyone."
+description: "Get your own leash off — yank, wriggle, work the knot, or unclip the collar. Always pick this when you struggle or take it off. Not for unclipping someone else, not for giving up, and not for handing a leash to anyone."
 parameterMapping:
   - type: dynamic
     name: intent
@@ -14,3 +14,8 @@ eligibilityRules:
           - currentActor
         comparisonOperator: ==
         expectedValue: "available"
+      - decoratorName: speaker_is_struggling
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "unavailable"

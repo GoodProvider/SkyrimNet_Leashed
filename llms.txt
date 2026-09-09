@@ -13,7 +13,7 @@
 | Action YAML | SKSE/Plugins/SkyrimNet/config/actions/ |
 | Prompts | SKSE/Plugins/SkyrimNet/prompts/submodules/character_bio/0409_leashframework.prompt |
 | Escape design (UD inspiration, later) | escape-summary.md (agent), escape-human.md |
-| Escape category (try-only struggle child) | SKSE/Plugins/SkyrimNet/config/actions/leash_escape_.yaml |
+| Escape category (try-only struggle / stop children) | SKSE/Plugins/SkyrimNet/config/actions/leash_escape_.yaml |
 | Escape minigame handoff (later) | checkpoints/escape-checkpoint.md |
 | SKSE / CMake | SKSE_Source/ |
 | ESP | Spriggit/SkyrimNet_Leash/ |

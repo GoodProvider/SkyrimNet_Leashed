@@ -46,6 +46,9 @@ namespace SkyrimNetLeash::SkyrimNet {
         RegisterFlag("collared_nearby", "Returns 'available' if another nearby actor is in LeashedFaction or has a recorded dangling leash. Holders who are not themselves leashed do not count. Returns 'unavailable' otherwise.",
             StateCache::Flag::CollaredNearby);
 
+        RegisterFlag("speaker_is_struggling", "Returns 'available' if this actor is in the looping leash-struggle idle. Returns 'unavailable' otherwise.",
+            StateCache::Flag::SpeakerIsStruggling);
+
         RegisterPayload("get_nearby_unleashed_actors", "JSON object with actorIds and actorsNameString for nearby actors who are not currently leashed. Excludes the speaker.",
             StateCache::Payload::UnleashedActors);
 

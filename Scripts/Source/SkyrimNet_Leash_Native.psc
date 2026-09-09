@@ -27,6 +27,23 @@ Drops the recorded holder for leashed.
 Function NotifyUnleash(Actor leashed) Global Native
 
 ;/
+Marks who as currently in the looping struggle idle, or clears that mark.
+/;
+Function NotifyStruggle(Actor who, Bool struggling) Global Native
+
+;/
+Seconds between optional DirectNarration lines while struggling. Reads the SkyrimNet
+plugin config (leash.escape.narrationInterval). Unknown or out-of-range values use 5.
+/;
+Float Function StruggleNarrationInterval() Global Native
+
+;/
+Minimum seconds between struggle DirectNarration lines. Reads the SkyrimNet
+plugin config (leash.escape.cooldown). Unknown or out-of-range values use 20.
+/;
+Float Function StruggleCooldown() Global Native
+
+;/
 Folds value to lower case and collapses every run of spaces, tabs, hyphens, and
 underscores into a single underscore, with leading and trailing separators removed.
 

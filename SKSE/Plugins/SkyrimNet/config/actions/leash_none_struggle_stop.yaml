@@ -1,0 +1,17 @@
+name: leash_none_struggle_stop
+description: "{{render_template(\"leash_actions/leash_action_stop_struggling\")}}"
+questEditorId: SkyrimNet_Leash
+scriptName: SkyrimNet_Leash_Actions
+executionFunctionName: StopStruggleExecute
+parameterMapping:
+  - type: speaker
+    name: subject
+    description: Speaker who stops struggling against their own leash
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: speaker_is_struggling
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"
