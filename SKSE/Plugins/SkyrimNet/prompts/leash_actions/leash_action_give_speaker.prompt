@@ -1,3 +1,4 @@
 {% set speakingNpc = decnpc(npc.UUID) %}
 {% set nearby = get_nearby_actors(npc.UUID) %}
-A nearby actor gives {{speakingNpc.name}}'s leash to another nearby actor, or to None to drop it and leave it hanging. Givers and receivers: {{ nearby.actorsNameString }}. Never pick {{speakingNpc.name}} as the receiver. Never pick anyone not listed except None.
+A nearby person hands {{speakingNpc.name}}'s existing leash to someone else, or to None to drop it and leave it hanging. Not for tying it to a point, and not for taking the leash off.
+Givers and receivers: {{ nearby.actorsNameString }}. Never pick {{speakingNpc.name}} as the receiver. Never pick anyone not listed except None.

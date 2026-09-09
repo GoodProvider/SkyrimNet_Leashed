@@ -7,10 +7,10 @@ executionFunctionName: LeashedRefused
 parameterMapping:
   - type: speaker
     name: subject
-    description: Speaker who is refused
+    description: Speaker who is refused a collar
   - type: dynamic
     name: leashed
-    description: Display name of the actor who refuses, exactly as listed under available targets.
+    description: Display name of the actor who refuses the collar, exactly as listed under available targets.
     useNearbyActors: false
 enabled: true
 eligibilityRules:

@@ -7,11 +7,11 @@ executionFunctionName: TakeLeash
 parameterMapping:
   - type: dynamic
     name: subject
-    description: Display name of the actor who takes the speaker's leash, exactly as listed under available actors.
+    description: Display name of the actor who takes hold of the speaker's existing leash, exactly as listed under available actors.
     useNearbyActors: false
   - type: speaker
     name: leashed
-    description: Speaker whose leash is taken
+    description: Speaker whose existing leash is taken
 enabled: true
 eligibilityRules:
   - conditions:

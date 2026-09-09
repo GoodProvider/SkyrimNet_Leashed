@@ -32,6 +32,28 @@ namespace SkyrimNetLeash::WebUI::Config {
             return std::ranges::any_of(a_allowed, [&](std::string_view allowed) { return allowed == a_value; });
         }
 
+        bool ReadBool(const char* a_path, bool a_default) {
+            const auto raw = Lower(GetValue(a_path, a_default ? "true" : "false"));
+            if (raw == "true" || raw == "1" || raw == "yes") {
+                return true;
+            }
+            if (raw == "false" || raw == "0" || raw == "no") {
+                return false;
+            }
+            return a_default;
+        }
+
+        std::uint32_t ReadHotkey(const char* a_path, std::uint32_t a_default) {
+            try {
+                const auto value = std::stoul(GetValue(a_path, std::to_string(a_default).c_str()));
+                if (value >= 1 && value <= 255) {
+                    return static_cast<std::uint32_t>(value);
+                }
+            } catch (...) {
+            }
+            return a_default;
+        }
+
         constexpr float kLengthFloor = 50.0F;
         constexpr float kLengthCeil = 2000.0F;
 
@@ -55,19 +77,11 @@ namespace SkyrimNetLeash::WebUI::Config {
     }
 
     bool HotkeyEnabled() {
-        const auto raw = Lower(GetValue("leash.controls.hotkeyEnabled", "true"));
-        return raw == "true" || raw == "1" || raw == "yes";
+        return ReadBool("leash.controls.hotkeyEnabled", true);
     }
 
     std::uint32_t HotkeyVk() {
-        try {
-            const auto value = std::stoul(GetValue("leash.controls.hotkey", "220"));
-            if (value >= 1 && value <= 255) {
-                return static_cast<std::uint32_t>(value);
-            }
-        } catch (...) {
-        }
-        return 220;
+        return ReadHotkey("leash.controls.hotkey", 220);
     }
 
     std::uint32_t HotkeyDx() {

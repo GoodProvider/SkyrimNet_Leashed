@@ -1,6 +1,7 @@
 #include "Bridge.h"
 
 #include "Leash/LeashState.h"
+#include "WebUI/Config.h"
 
 #include <cctype>
 #include <string>
@@ -118,6 +119,15 @@ namespace SkyrimNetLeash::Papyrus {
             SKSE::log::info("TraceLeashBones parent '{}' leash descendants={}", a_parentName, count);
         }
 
+        float DistanceMax(RE::StaticFunctionTag*, RE::BSFixedString a_leashDistance) {
+            const char* token = a_leashDistance.c_str() ? a_leashDistance.c_str() : "";
+            return WebUI::Config::DistanceMax(token);
+        }
+
+        RE::BSFixedString DistanceFromLength(RE::StaticFunctionTag*, float a_maxLength) {
+            return RE::BSFixedString{WebUI::Config::DistanceFromLength(a_maxLength).c_str()};
+        }
+
         void TraceLeashBones(RE::StaticFunctionTag*, RE::Actor* a_who) {
             if (!a_who) {
                 SKSE::log::warn("TraceLeashBones skipped: null actor");
@@ -147,6 +157,8 @@ namespace SkyrimNetLeash::Papyrus {
         a_vm->RegisterFunction("NotifyLeash", kScriptName, NotifyLeash);
         a_vm->RegisterFunction("NotifyUnleash", kScriptName, NotifyUnleash);
         a_vm->RegisterFunction("NormalizeToken", kScriptName, NormalizeToken);
+        a_vm->RegisterFunction("DistanceMax", kScriptName, DistanceMax);
+        a_vm->RegisterFunction("DistanceFromLength", kScriptName, DistanceFromLength);
         a_vm->RegisterFunction("TraceLeashBones", kScriptName, TraceLeashBones);
         SKSE::log::info("Registered {} Papyrus functions", kScriptName);
         return true;

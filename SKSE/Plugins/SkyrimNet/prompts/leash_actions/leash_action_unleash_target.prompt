@@ -1,3 +1,4 @@
 {% set speakingNpc = decnpc(npc.UUID) %}
-{% set partners = get_speaker_leash_partners(npc.UUID) %}
-{{speakingNpc.name}} unclips the leash they share with a specific actor. Available targets: {{ partners.actorsNameString }}. Never pick anyone not listed.
+{% set collared = get_nearby_collared_actors(npc.UUID) %}
+{{speakingNpc.name}} unclips a leash from one specific collared person nearby. Ends that leash completely. Not for escaping their own leash, and not for handing a leash to someone else.
+Available targets: {{ collared.actorsNameString }}. Never pick anyone not listed. Never pick yourself.

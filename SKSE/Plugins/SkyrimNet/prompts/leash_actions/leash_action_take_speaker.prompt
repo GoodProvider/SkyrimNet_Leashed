@@ -1,3 +1,4 @@
 {% set speakingNpc = decnpc(npc.UUID) %}
 {% set nearby = get_nearby_actors(npc.UUID) %}
-A nearby actor takes {{speakingNpc.name}}'s leash. Available actors: {{ nearby.actorsNameString }}. Never pick anyone not listed.
+A nearby person takes hold of {{speakingNpc.name}}'s existing leash. Not for putting a new collar on, and not for taking the collar off.
+Available actors: {{ nearby.actorsNameString }}. Never pick anyone not listed.

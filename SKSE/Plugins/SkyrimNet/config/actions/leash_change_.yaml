@@ -1,7 +1,11 @@
 customCategory: leash_change
 name: leash_change
 label: Change leash
-description: Take, give, or re-tie an existing leash. Give receiver may be None to leave it hanging.
+description: "Take, give, or re-tie an existing leash. Hand it to someone else, take it yourself, leave it hanging, or fasten it to a nearby point. Not for putting a new leash on, and not for taking one off."
+parameterMapping:
+  - type: dynamic
+    name: intent
+    description: Who holds the existing leash after the change, where it is tied, and why. Example — take Tom's leash from Nina so I can lead him.
 enabled: true
 eligibilityRules:
   - conditions:

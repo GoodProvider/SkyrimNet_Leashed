@@ -1,7 +1,11 @@
 customCategory: leash_leash
 name: leash_leash
 label: Leash
-description: Start a leash. Style forcefully|normally|gently. Distance tight|short|middle|long. Type chain|rope|magic. Body part neck|waist. Holder may be an actor or None (dangling). Tie point floor|left|back|front|right|wall.
+description: "Put a collar and leash on a nearby person or on yourself — hold the leash, leave it hanging, or tie them to a point. Not for changing or removing an existing leash."
+parameterMapping:
+  - type: dynamic
+    name: intent
+    description: Who gets the leash, who holds it (or None / tied), how, and why. Example — put a rope leash on Tom's neck and hold it myself because he asked to be led.
 enabled: true
 eligibilityRules:
   - conditions:

@@ -7,10 +7,10 @@ executionFunctionName: LeashedToTiePoint
 parameterMapping:
   - type: speaker
     name: subject
-    description: Speaker re-tying the leash
+    description: Speaker re-tying an existing leash
   - type: dynamic
     name: leashed
-    description: Display name of the collared actor whose leash is re-tied, exactly as listed under available targets.
+    description: Display name of the collared actor whose existing leash is re-tied, exactly as listed under available targets.
     useNearbyActors: false
   - type: static
     name: style
@@ -26,7 +26,7 @@ parameterMapping:
     value: ""
   - type: dynamic
     name: tiePoint
-    description: floor|left|back|front|right|wall
+    description: "Where to fasten the free end, relative to the collared person: floor, left, back, front, right, or wall (same as front)."
 enabled: true
 eligibilityRules:
   - conditions:

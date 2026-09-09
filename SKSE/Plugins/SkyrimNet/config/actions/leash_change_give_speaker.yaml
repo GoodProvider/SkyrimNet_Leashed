@@ -7,14 +7,14 @@ executionFunctionName: GiveLeash
 parameterMapping:
   - type: dynamic
     name: subject
-    description: Display name of the actor who gives the speaker's leash, exactly as listed under available actors.
+    description: Display name of the actor who hands the speaker's existing leash, exactly as listed under available actors.
     useNearbyActors: false
   - type: speaker
     name: leashed
-    description: Speaker whose leash is given
+    description: Speaker whose existing leash is given
   - type: dynamic
     name: receiver
-    description: Display name of the actor who will hold the leash, or None to leave it hanging. Never the speaker.
+    description: Display name of who will hold the leash after the handoff, or None to leave it hanging from the collar (not tied to a point). Never the speaker.
     useNearbyActors: false
 enabled: true
 eligibilityRules:

@@ -207,6 +207,11 @@
                 state.verb = allowed[0];
         }
 
+        function lockWristType() {
+            if (state.bodyPart === 'wrists')
+                state.leashType = 'chain';
+        }
+
         function closeAllPulldowns(except) {
             document.querySelectorAll('.pulldown.open').forEach((el) => {
                 if (el !== except) el.classList.remove('open');
@@ -318,6 +323,7 @@
 
         function fireStart() {
             if (!canStart()) return;
+            lockWristType();
             const payload = {
                 action: state.verb,
                 subject: formId(state.subject),
@@ -335,6 +341,7 @@
 
         function render() {
             seedVerb();
+            lockWristType();
             const rec = leashedRecord();
             if (state.holder && formId(state.holder) === formId(state.leashed))
                 state.holder = state.subject || 0;
@@ -373,11 +380,13 @@
                 addColumn(grid, createPulldown(DISTANCES, state.distance, (v) => {
                     state.distance = v;
                 }), 'distance');
-                addColumn(grid, createPulldown(TYPES, state.leashType, (v) => {
+                addColumn(grid, createPulldown(state.bodyPart === 'wrists' ? ['chain'] : TYPES, state.leashType, (v) => {
                     state.leashType = v;
                 }), 'type');
                 addColumn(grid, createPulldown(BODY_PARTS, state.bodyPart, (v) => {
                     state.bodyPart = v;
+                    lockWristType();
+                    render();
                 }), 'body');
                 if (state.verb === 'leash') {
                     addWord(grid, 'held by');
@@ -442,6 +451,7 @@
                 if (DISTANCES.includes(rec.distance)) state.distance = rec.distance;
                 if (BODY_PARTS.includes(rec.bodyPart)) state.bodyPart = rec.bodyPart;
             }
+            lockWristType();
             seedVerb();
             render();
         }

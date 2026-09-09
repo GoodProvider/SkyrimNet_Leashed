@@ -1,5 +1,4 @@
-customCategory: leash_unleash
-name: leash_unleash_target
+name: leash_target_unleash
 description: "{{render_template(\"leash_actions/leash_action_unleash_target\")}}"
 questEditorId: SkyrimNet_Leash
 scriptName: SkyrimNet_Leash_Actions
@@ -7,15 +6,15 @@ executionFunctionName: UnleashTargetExecute
 parameterMapping:
   - type: speaker
     name: subject
-    description: Speaker Actor parameter (triggering entity)
+    description: Speaker unclipping a nearby collared actor
   - type: dynamic
     name: target
-    description: Display name of the actor sharing this speaker's leash, exactly as listed under available targets.
+    description: Display name of the collared actor to unclip, exactly as listed under available targets. Never the speaker.
     useNearbyActors: false
 enabled: true
 eligibilityRules:
   - conditions:
-      - decoratorName: speaker_on_leash
+      - decoratorName: collared_nearby
         arguments:
           - currentActor
         comparisonOperator: ==

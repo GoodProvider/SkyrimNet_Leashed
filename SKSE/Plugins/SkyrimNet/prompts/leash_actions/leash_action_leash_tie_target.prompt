@@ -1,3 +1,4 @@
 {% set speakingNpc = decnpc(npc.UUID) %}
 {% set nearby = get_nearby_unleashed_actors(npc.UUID) %}
-{{speakingNpc.name}} forcefully|normally|gently ties a nearby actor's neck|waist to the floor|left|back|front|right|wall with a tight|short|middle|long chain|rope|magic leash. Available targets: {{ nearby.actorsNameString }}. Never pick anyone not listed.
+{{speakingNpc.name}} puts a new leash on a nearby unleashed person and ties the free end to a nearby point. Not for tying an already-collared person (use Change leash) and not for holding the leash yourself (use the hold/hang action).
+Available targets: {{ nearby.actorsNameString }}. Never pick anyone not listed.

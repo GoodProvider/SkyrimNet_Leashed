@@ -47,7 +47,7 @@ namespace SkyrimNetLeash::LeashState {
             considerHandles(processLists->highActorHandles);
             considerHandles(processLists->middleHighActorHandles);
 
-            return bestDistance <= kMaxLength * 4.0F ? best : nullptr;
+            return bestDistance <= kHolderSearchRadius ? best : nullptr;
         }
     }
 

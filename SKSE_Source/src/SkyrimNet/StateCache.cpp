@@ -145,6 +145,18 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
             return WriteJson(payload, kEmptyActors);
         }
 
+        PairJson MakePairJson(const Pair& a_pair) {
+            return PairJson{
+                .holder = a_pair.holderName,
+                .leashed = a_pair.leashedName,
+                .tied = a_pair.tied,
+                .dangling = a_pair.dangling,
+                .kind = a_pair.kind,
+                .distance = a_pair.distance,
+                .bodyPart = a_pair.bodyPart,
+            };
+        }
+
         Snapshot BuildSnapshot(RE::Actor* a_speaker, const std::vector<RE::Actor*>& a_nearby, const std::vector<Pair>& a_pairs, bool a_pluginLoaded) {
             Snapshot snapshot;
             const auto speakerID = a_speaker->GetFormID();
@@ -157,15 +169,7 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
             for (const auto& pair : a_pairs) {
                 const bool endpoint = pair.holderID == speakerID || pair.leashedID == speakerID;
                 if (endpoint || CanSee(a_speaker, pair.holder) || CanSee(a_speaker, pair.leashed)) {
-                    visible.pairs.push_back(PairJson{
-                        .holder = pair.holderName,
-                        .leashed = pair.leashedName,
-                        .tied = pair.tied,
-                        .dangling = pair.dangling,
-                        .kind = pair.kind,
-                        .distance = pair.distance,
-                        .bodyPart = pair.bodyPart,
-                    });
+                    visible.pairs.push_back(MakePairJson(pair));
                 }
                 if (pair.leashedID == speakerID && pair.holder) {
                     partners.push_back(pair.holder);
@@ -268,8 +272,10 @@ namespace SkyrimNetLeash::SkyrimNet::StateCache {
             next.insert_or_assign(speaker->GetFormID(), BuildSnapshot(speaker, actors, pairs, pluginLoaded));
         }
 
-        std::lock_guard lock{g_mutex};
-        g_snapshots = std::move(next);
+        {
+            std::lock_guard lock{g_mutex};
+            g_snapshots = std::move(next);
+        }
     }
 
     bool Flagged(RE::Actor* a_speaker, Flag a_flag) {

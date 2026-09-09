@@ -1,4 +1,7 @@
 {% set speakingNpc = decnpc(npc.UUID) %}
 {% set nearby = get_nearby_unleashed_actors(npc.UUID) %}
 {% set holders = get_nearby_actors(npc.UUID) %}
-{{speakingNpc.name}} forcefully|normally|gently leashes a nearby actor's neck|waist with a tight|short|middle|long chain|rope|magic leash. Holder is {{speakingNpc.name}}, another nearby actor, or None to leave the leash hanging from the named body part. Available targets: {{ nearby.actorsNameString }}. Available holders: {{speakingNpc.name}}, {{ holders.actorsNameString }}, or None. Never pick the leashed actor as holder. Never pick anyone not listed except None.
+{{speakingNpc.name}} puts a new leash on a nearby unleashed person. Hold it, hand it to someone else, or leave it hanging (holder None). Use this to START a leash. Not for changing or removing an existing one, and not for tying to a point (use the tie action).
+Available targets (who gets the collar): {{ nearby.actorsNameString }}.
+Available holders (who holds the leash): {{speakingNpc.name}}, {{ holders.actorsNameString }}, or None.
+Never pick the leashed actor as holder. Never pick anyone not listed except None.

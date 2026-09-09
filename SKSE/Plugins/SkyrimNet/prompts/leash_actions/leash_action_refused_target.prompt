@@ -1,3 +1,4 @@
 {% set speakingNpc = decnpc(npc.UUID) %}
 {% set nearby = get_nearby_unleashed_actors(npc.UUID) %}
-A nearby unleashed actor refused to be leashed by {{speakingNpc.name}}. Available targets: {{ nearby.actorsNameString }}. Never pick anyone not listed.
+A nearby unleashed person refuses to be leashed by {{speakingNpc.name}}. Use when the speaker tries to collar someone and that person will not accept it. Does not put a leash on anyone.
+Available targets: {{ nearby.actorsNameString }}. Never pick anyone not listed.

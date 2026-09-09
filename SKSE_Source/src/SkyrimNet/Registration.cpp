@@ -25,9 +25,12 @@ namespace SkyrimNetLeash::SkyrimNet {
         RegisterFlag("is_leash_available", "Returns 'available' if this actor can start a leash (Leash.esm loaded, alive, not in combat). Returns 'unavailable' otherwise.",
             StateCache::Flag::LeashAvailable);
 
+        // Kept as public decorator API even though in-tree YAML no longer consumes it after
+        // the Unleash category was replaced by root Unleash Target.
         RegisterFlag("is_unleash_available", "Returns 'available' if this actor is in LeasherFaction, LeashedFaction, or has a recorded dangling leash. Returns 'unavailable' otherwise.",
             StateCache::Flag::UnleashAvailable);
 
+        // Kept as public decorator API; in-tree YAML no longer consumes it.
         RegisterFlag("speaker_on_leash", "Returns 'available' if this actor shares a leash with another nearby actor who can be named as an unleash target.",
             StateCache::Flag::SpeakerOnLeash);
 

@@ -1,3 +1,4 @@
 {% set speakingNpc = decnpc(npc.UUID) %}
 {% set nearby = get_nearby_actors(npc.UUID) %}
-{{speakingNpc.name}} refused to be leashed by a nearby actor. Available actors: {{ nearby.actorsNameString }}. Never pick anyone not listed.
+{{speakingNpc.name}} refuses to be leashed by a nearby person. Use when the speaker will not accept a collar. Does not put a leash on anyone.
+Available actors: {{ nearby.actorsNameString }}. Never pick anyone not listed.

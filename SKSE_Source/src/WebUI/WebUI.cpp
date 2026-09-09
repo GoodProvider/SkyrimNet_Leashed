@@ -375,6 +375,34 @@ namespace SkyrimNetLeash::WebUI {
             return dh ? dh->LookupForm<RE::TESQuest>(kQuestLocalFormID, kQuestPlugin) : nullptr;
         }
 
+        void DispatchPapyrus(const std::string& a_functionName, std::vector<DynamicArgs::Item> a_items) {
+            SKSE::GetTaskInterface()->AddTask([functionName = a_functionName, items = std::move(a_items)]() {
+                auto* vm = RE::BSScript::Internal::VirtualMachine::GetSingleton();
+                if (!vm) {
+                    SKSE::log::error("WebUI: no Papyrus VM");
+                    return;
+                }
+                auto* quest = FindActionsQuest();
+                if (!quest) {
+                    SKSE::log::error("WebUI: quest {} 0x{:X} not found", kQuestPlugin, kQuestLocalFormID);
+                    return;
+                }
+                auto handle = vm->GetObjectHandlePolicy()->GetHandleForObject(static_cast<RE::VMTypeID>(quest->GetFormType()), quest);
+                RE::BSTSmartPointer<RE::BSScript::Object> scriptObject;
+                vm->FindBoundObject(handle, kActionsScript, scriptObject);
+                if (!scriptObject) {
+                    SKSE::log::error("WebUI: bound script '{}' not found", kActionsScript);
+                    return;
+                }
+
+                auto* raw = new DynamicArgs();
+                raw->items = items;
+                RE::BSTSmartPointer<RE::BSScript::IStackCallbackFunctor> callback;
+                vm->DispatchMethodCall(scriptObject, RE::BSFixedString(functionName.c_str()), raw, callback);
+                SKSE::log::info("WebUI: dispatched {}::{} ({} args)", kActionsScript, functionName, items.size());
+            });
+        }
+
         void DispatchStart(StartPayload a_payload) {
             const auto style = NormalizeToken(std::move(a_payload.style), "normally", {"forcefully", "normally", "gently"});
             const auto distance = NormalizeToken(std::move(a_payload.distance), "middle", {"tight", "short", "middle", "long"});
@@ -447,31 +475,7 @@ namespace SkyrimNetLeash::WebUI {
                 addString(bodyPart);
             }
 
-            SKSE::GetTaskInterface()->AddTask([functionName, items]() {
-                auto* vm = RE::BSScript::Internal::VirtualMachine::GetSingleton();
-                if (!vm) {
-                    SKSE::log::error("WebUI: no Papyrus VM");
-                    return;
-                }
-                auto* quest = FindActionsQuest();
-                if (!quest) {
-                    SKSE::log::error("WebUI: quest {} 0x{:X} not found", kQuestPlugin, kQuestLocalFormID);
-                    return;
-                }
-                auto handle = vm->GetObjectHandlePolicy()->GetHandleForObject(static_cast<RE::VMTypeID>(quest->GetFormType()), quest);
-                RE::BSTSmartPointer<RE::BSScript::Object> scriptObject;
-                vm->FindBoundObject(handle, kActionsScript, scriptObject);
-                if (!scriptObject) {
-                    SKSE::log::error("WebUI: bound script '{}' not found", kActionsScript);
-                    return;
-                }
-
-                auto* raw = new DynamicArgs();
-                raw->items = items;
-                RE::BSTSmartPointer<RE::BSScript::IStackCallbackFunctor> callback;
-                vm->DispatchMethodCall(scriptObject, RE::BSFixedString(functionName.c_str()), raw, callback);
-                SKSE::log::info("WebUI: dispatched {}::{} ({} args)", kActionsScript, functionName, items.size());
-            });
+            DispatchPapyrus(functionName, std::move(items));
         }
 
         void HandleStart(const char* a_value) {
@@ -502,6 +506,7 @@ namespace SkyrimNetLeash::WebUI {
             return;
         }
         g_prismaUI->Hide(g_view);
+        g_prismaUI->SetOrder(g_view, 10);
 
         g_prismaUI->RegisterJSListener(g_view, "onStart", [](const char* value) { HandleStart(value); });
         g_prismaUI->RegisterJSListener(g_view, "onCancel", [](const char*) { Hide(); });
