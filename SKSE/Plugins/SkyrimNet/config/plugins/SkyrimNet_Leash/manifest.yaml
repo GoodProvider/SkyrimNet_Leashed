@@ -10,7 +10,7 @@ schema:
       path: "leash.controls.hotkeyEnabled"
       type: "bool"
       description: "Enables the PrismaUI leash panel hotkey."
-      defaultValue: true
+      defaultValue: false
       category: "Controls"
 
     - name: "Leash panel hotkey"

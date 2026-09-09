@@ -77,7 +77,7 @@ namespace SkyrimNetLeash::WebUI::Config {
     }
 
     bool HotkeyEnabled() {
-        return ReadBool("leash.controls.hotkeyEnabled", true);
+        return ReadBool("leash.controls.hotkeyEnabled", false);
     }
 
     std::uint32_t HotkeyVk() {
