@@ -3,7 +3,6 @@
   <moduleName>SkyrimNet Leash</moduleName>
   <moduleDependencies operator="And">
     <fileDependency file="Leash.esm" state="Active"/>
-    <fileDependency file="SKSE\Plugins\LeashFramework.dll" state="Active"/>
   </moduleDependencies>
   <requiredInstallFiles>
     <file source="SkyrimNet_Leash.esp" destination="SkyrimNet_Leash.esp"/>

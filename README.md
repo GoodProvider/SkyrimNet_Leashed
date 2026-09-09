@@ -17,7 +17,7 @@ Requirements:
 - SKSE, Address Library
 - [PrismaUI](https://www.nexusmods.com/skyrimspecialedition/mods/114324) — only needed for the in-game leash panel hotkey. YAML actions work without it.
 
-The FOMOD installer **refuses to install** unless `Leash.esm` is active and `SKSE\Plugins\LeashFramework.dll` is present.
+The FOMOD installer **refuses to install** unless `Leash.esm` is active.
 
 Load `SkyrimNet_Leash.esp` after `Leash.esm`. Enable the mod in MO2 or Vortex.
 
@@ -25,7 +25,7 @@ Leash apply still needs leash bones on the target (Leash.esm armor / SMP node na
 
 ### Leash panel hotkey
 
-With PrismaUI installed, `\` opens a horizontal leash bar. Verb options depend on whether the selected leashed actor is already collared: **leash** / **leash to** when unleashed, **unleash** / **tie to** / **give to** when leashed. Extra columns (distance, type, body, holder, location) appear only for the chosen verb. Press `\` again or Escape to close. The game pauses while the panel is focused.
+With PrismaUI installed, `\` opens a horizontal leash bar. Verb options depend on whether the selected leashed actor is already collared: **leash** / **leash to** when unleashed, **unleash** / **tie to** / **give to** when leashed. Extra columns (distance, type, body, holder, location) appear only for the chosen verb. If **body** is wrists, **type** is locked to chain. Press `\` again or Escape to close. The game pauses while the panel is focused.
 
 **Unleash on this bar is full power**, including the player's own collar: pick yourself as the leashed actor (the default when you are leashed and not aiming at someone else) and **unleash** still disconnects. LLM `leash_escape` never does that.
 
@@ -33,7 +33,7 @@ Enable, remap, and default **distance** / **type** / **body part** / **tie point
 
 ### Actions
 
-Three categories plus one root-level action. Style: `forcefully|normally|gently`. Distance: `tight|short|middle|long`. Type: `chain|rope|magic`. Body part: `neck|wrists|waist`. Tie point: `floor|left|back|front|right|wall`. Holder and give-receiver may be `None` to leave the leash hanging from the collared actor (not tied to a world point). Take still picks that leash up.
+Three categories plus one root-level action. Style: `forcefully|normally|gently`. Distance: `tight|short|middle|long`. Type: `chain|rope|magic`. Body part: `neck|wrists|waist`. Tie point: `floor|left|back|front|right|wall`. **Wrists is chain only** — Leash.esm only ships `Leash_hand_chain`; Papyrus and the panel force type to `chain`. Holder and give-receiver may be `None` to leave the leash hanging from the collared actor (not tied to a world point). Take still picks that leash up.
 
 **Root actions** (no category parent)
 
@@ -45,7 +45,7 @@ Three categories plus one root-level action. Style: `forcefully|normally|gently`
 
 | Action | Effect |
 | --- | --- |
-| leash_leash_target | Speaker leashes the target. Holder is the speaker, another nearby actor, or None (dangling). |
+| leash_leash_target | Speaker leashes the target. Holder is the speaker, another nearby actor, or None (dangling). Wrists uses the chain hand mesh and prisoner cuffs / bound-standing idle. |
 | leash_leash_speaker | A nearby actor leashes the speaker. Holder is that actor or None. Speaker must not already be leashed. |
 | leash_leash_tie_target | Speaker ties an unleashed target to a world point. |
 | leash_leash_refused_speaker | Speaker refuses to be leashed by a nearby actor. |
