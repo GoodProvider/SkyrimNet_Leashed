@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- `leash_escape_struggle` is a looping struggle state (`IdleNervous` while standing). Walking does not end it; yank, unclip, or `leash_none_struggle_stop` does. While struggling, a short-lived `leash` event (`{name} continues to struggle with {her/his/their} leash.`) refreshes every second. DirectNarration still-beats wait for the longer of `leash.escape.narrationInterval` (default 5) and `leash.escape.cooldown` (default 20): `Despite {name}'s attempts, the leash holds.`
+- `leash_escape_struggle` is a looping struggle state (`IdleNervous` while standing, then optional DD FNIS events by body part: neck `DDCollarStruggle01`, wrists `DDRegCuffsFrontStruggle01`, waist `DDChastityBeltStruggle01`). No ESM check; unregistered events stay on `IdleNervous`. Walking does not end it; yank, unclip, or `leash_none_struggle_stop` does. While struggling, a short-lived `leash` event (`{name} continues to struggle with {her/his/their} leash.`) refreshes every second. DirectNarration still-beats wait for the longer of `leash.escape.narrationInterval` (default 5) and `leash.escape.cooldown` (default 20): `Despite {name}'s attempts, the leash holds.`
 - Root `leash_none_struggle_stop` (`StopStruggleExecute`), gated on `speaker_is_struggling`. Opposite of Escape; no `customCategory`. Optional DirectNarration: `{name} stops struggling to remove their leash.`
 - Root Unleash is `leash_none_target_unleash`. Escape category gates match struggle (`speaker_is_leashed` and not `speaker_is_struggling`).
 - Dropped ZaZ body-part clips and the 20s attempt-count window.

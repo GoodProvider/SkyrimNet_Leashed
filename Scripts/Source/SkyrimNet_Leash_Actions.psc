@@ -1156,6 +1156,24 @@ Function LeashedRefused(Actor subject, Actor leashed)
     Narrate(ActorLabel(leashed) + " refused to be leashed by " + ActorLabel(subject) + ".", leashed, subject, "playerSensitive", leashed, subject)
 EndFunction
 
+String Function StruggleAnimEvent(String bodyPart)
+    if bodyPart == "wrists"
+        return "DDRegCuffsFrontStruggle01"
+    elseif bodyPart == "waist"
+        return "DDChastityBeltStruggle01"
+    endif
+    return "DDCollarStruggle01"
+EndFunction
+
+Function PlayStruggleAnim(Actor who)
+    if who == None
+        return
+    endif
+    String eventName = StruggleAnimEvent(CachedBodyPart(who))
+    Debug.Trace("[SkyrimNet_Leash] PlayStruggleAnim " + ActorLabel(who) + " " + eventName)
+    Debug.SendAnimationEvent(who, eventName)
+EndFunction
+
 Function StopStruggleAnim(Actor who)
     if who
         Debug.SendAnimationEvent(who, "IdleForceDefaultState")
@@ -1253,9 +1271,7 @@ Event OnUpdate()
             if who.IsDead() || (!LeashFramework.IsLeashed(who) && FindLeashedIndex(who) < 0)
                 EndStruggle(who, false)
             else
-                if !ActorIsLocomoting(who)
-                    Debug.SendAnimationEvent(who, "IdleNervous")
-                endif
+                PlayStruggleAnim(who)
                 PulseStruggleEvent(who)
                 if (now - StruggleLastNarrate[i]) >= wait
                     StruggleLastNarrate[i] = now
@@ -1272,7 +1288,7 @@ Function StruggleExecute(Actor subject)
         Debug.Trace("[SkyrimNet_Leash] StruggleExecute skipped: missing subject")
         return
     endif
-    Debug.Trace("[SkyrimNet_Leash] StruggleExecute " + ActorLabel(subject))
+    Debug.Trace("[SkyrimNet_Leash] StruggleExecute " + ActorLabel(subject) + " dd")
     if !LeashFramework.IsLeashed(subject) && FindLeashedIndex(subject) < 0
         Debug.Trace("[SkyrimNet_Leash] StruggleExecute skipped: " + ActorLabel(subject) + " is not leashed")
         return
@@ -1294,8 +1310,8 @@ Function StruggleExecute(Actor subject)
     String bodyPart = DetectBodyPart(holder, subject)
     StruggleLastNarrate[i] = Utility.GetCurrentRealTime()
     SkyrimNet_Leash_Native.NotifyStruggle(subject, true)
-    Debug.SendAnimationEvent(subject, "IdleNervous")
     RefreshStruggleUpdates()
+    PlayStruggleAnim(subject)
     PulseStruggleEvent(subject)
     Narrate(ActorLabel(subject) + " struggles against the " + kind + " leash at their " + bodyPart + ", but it holds.", subject, NarrateListener(subject, subject, holder), "playerSensitive", subject, holder)
 EndFunction

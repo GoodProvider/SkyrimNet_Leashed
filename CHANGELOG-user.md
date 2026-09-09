@@ -1,3 +1,7 @@
+## Unreleased
+
+- Optional Devious Devices standing struggle clips (neck / wrists / waist). Install the DD *files*, leave every DD plugin disabled, skip SexLab, and rebuild FNIS/Nemesis/Pandora. Without those animation files, struggle stays the vanilla nervous idle.
+
 https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.1.0
 
 - First public SkyrimNet bridge for Leash Framework: NPCs can leash, take, give, tie, refuse, and unclip someone else through SkyrimNet actions.

@@ -22,6 +22,9 @@ Optional:
 | Plugin | Adds |
 | --- | --- |
 | [PrismaUI](https://www.nexusmods.com/skyrimspecialedition/mods/114324) | Provides UI for hotkey `\` leash panel (enable/remap in SkyrimNet WebUI). YAML actions work without it. |
+| [Devious Devices](https://www.loverslab.com/topic/69936-devious-devices-framework-developmentbeta) files (Assets or [DD NG](https://www.loverslab.com/files/file/29779-devious-devices-ng/)) | Standing struggle clips by body part: neck `DDCollarStruggle01`, wrists `DDRegCuffsFrontStruggle01`, waist `DDChastityBeltStruggle01`. ESMs not required. SexLab not required. Without the files, struggle stays on vanilla `IdleNervous`. |
+
+**Devious Devices animations:** Enable the DD *mod* so its animation folders are in the VFS, uncheck every DD plugin (`Assets` / `Integration` / `Expansion`), and rebuild FNIS/Nemesis/Pandora. Do not enable those ESMs unless you want full DD — that needs SexLab and the rest of DD’s masters. Neck `DDCollarStruggle01` is DD NG’s FNIS set; classic Assets still covers wrists and waist. Missing events keep `IdleNervous`.
 
 The FOMOD installer **refuses to install** unless `Leash.esm` is active.
 
@@ -96,7 +99,7 @@ Three categories plus one root-level action.
 
 | Action | Effect |
 | --- | --- |
-| leash_escape_struggle | Collared speaker starts struggling: looping `IdleNervous` while standing, and they keep struggling if they walk. Ends on `leash_none_struggle_stop`, a yank, or unclip. First line is DirectNarration. The leash does not come off. |
+| leash_escape_struggle | Collared speaker starts struggling: looping `IdleNervous` while standing (optional DD clip by body part if those FNIS events are registered), and they keep struggling if they walk. Ends on `leash_none_struggle_stop`, a yank, or unclip. First line is DirectNarration. The leash does not come off. |
 
 Children may be leashed. Free self-unleash is **not** an LLM action — NPCs cannot pick `leash_escape` and come off. The player still can: the PrismaUI `\` panel **unleash** verb fully unclips, including the player's own leash. `leash_escape_struggle` only plays an idle and narrates; a later minigame will be the NPC self-free path.
 
