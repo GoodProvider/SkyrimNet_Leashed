@@ -3,9 +3,11 @@
 #include "Api.h"
 #include "Leash/LeashConstants.h"
 #include "Leash/LeashState.h"
+#include "WebUI/Config.h"
 
 #include <glaze/glaze.hpp>
 
+#include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <mutex>
@@ -77,6 +79,7 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         // Speakers SkyrimNet asked about that the last process-list scan missed. The next
         // refresh resolves them on the main thread so the miss is self-healing.
         std::unordered_set<RE::FormID> g_pending;
+        std::atomic<bool> g_struggleEnabled{true};
 
         std::mutex g_wakeMutex;
         std::condition_variable_any g_wake;
@@ -219,6 +222,8 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
     }
 
     void Refresh() {
+        g_struggleEnabled.store(WebUI::Config::StruggleEnabled(), std::memory_order_relaxed);
+
         std::vector<RE::Actor*> collected;
         LeashState::CollectNearby(collected);
 
@@ -278,6 +283,10 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
             std::lock_guard lock{g_mutex};
             g_snapshots = std::move(next);
         }
+    }
+
+    bool StruggleEnabled() {
+        return g_struggleEnabled.load(std::memory_order_relaxed);
     }
 
     bool Flagged(RE::Actor* a_speaker, Flag a_flag) {

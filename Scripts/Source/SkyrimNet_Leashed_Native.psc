@@ -32,6 +32,12 @@ Marks who as currently in the looping struggle idle, or clears that mark.
 Function NotifyStruggle(Actor who, Bool struggling) Global Native
 
 ;/
+Whether Escape struggle is on in the SkyrimNet plugin menu (leash.escape.enabled).
+Unknown values use true.
+/;
+Bool Function StruggleEnabled() Global Native
+
+;/
 Seconds between optional DirectNarration lines while struggling. Reads the SkyrimNet
 plugin config (leash.escape.narrationInterval). Unknown or out-of-range values use 5.
 /;

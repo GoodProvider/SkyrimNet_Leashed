@@ -15,6 +15,7 @@ namespace SkyrimNetLeashed::WebUI::Config {
     [[nodiscard]] std::string LeashType();
     [[nodiscard]] std::string BodyPart();
     [[nodiscard]] std::string TiePoint();
+    [[nodiscard]] bool StruggleEnabled();
     [[nodiscard]] float StruggleNarrationInterval();
     [[nodiscard]] float StruggleCooldown();
 }

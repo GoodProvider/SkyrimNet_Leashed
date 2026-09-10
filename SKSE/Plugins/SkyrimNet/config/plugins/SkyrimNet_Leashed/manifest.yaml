@@ -108,6 +108,13 @@ schema:
         - "wall"
       category: "Leash"
 
+    - name: "Enable struggle"
+      path: "leash.escape.enabled"
+      type: "bool"
+      description: "Lets leashed speakers pick Escape struggle and loop the struggle idle. Off hides those actions and stops anyone already struggling."
+      defaultValue: true
+      category: "Escape"
+
     - name: "Struggle narration interval"
       path: "leash.escape.narrationInterval"
       type: "int"

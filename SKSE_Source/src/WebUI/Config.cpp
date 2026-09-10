@@ -163,6 +163,10 @@ namespace SkyrimNetLeashed::WebUI::Config {
         return value;
     }
 
+    bool StruggleEnabled() {
+        return ReadBool("leash.escape.enabled", true);
+    }
+
     float StruggleNarrationInterval() {
         constexpr float kDefault = 5.0F;
         constexpr float kMin = 1.0F;

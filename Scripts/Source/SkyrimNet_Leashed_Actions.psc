@@ -62,7 +62,7 @@ Function RepushStruggling()
     while i < StrugglingActors.Length
         Actor who = StrugglingActors[i]
         if who
-            if who.IsDead() || (!LeashFramework.IsLeashed(who) && FindLeashedIndex(who) < 0)
+            if !SkyrimNet_Leashed_Native.StruggleEnabled() || who.IsDead() || (!LeashFramework.IsLeashed(who) && FindLeashedIndex(who) < 0)
                 EndStruggle(who, false)
             else
                 SkyrimNet_Leashed_Native.NotifyStruggle(who, true)
@@ -1268,7 +1268,7 @@ Event OnUpdate()
     while i < StrugglingActors.Length
         Actor who = StrugglingActors[i]
         if who
-            if who.IsDead() || (!LeashFramework.IsLeashed(who) && FindLeashedIndex(who) < 0)
+            if !SkyrimNet_Leashed_Native.StruggleEnabled() || who.IsDead() || (!LeashFramework.IsLeashed(who) && FindLeashedIndex(who) < 0)
                 EndStruggle(who, false)
             else
                 PlayStruggleAnim(who)
@@ -1289,6 +1289,10 @@ Function StruggleExecute(Actor subject)
         return
     endif
     Debug.Trace("[SkyrimNet_Leashed] StruggleExecute " + ActorLabel(subject) + " dd")
+    if !SkyrimNet_Leashed_Native.StruggleEnabled()
+        Debug.Trace("[SkyrimNet_Leashed] StruggleExecute skipped: struggle disabled")
+        return
+    endif
     if !LeashFramework.IsLeashed(subject) && FindLeashedIndex(subject) < 0
         Debug.Trace("[SkyrimNet_Leashed] StruggleExecute skipped: " + ActorLabel(subject) + " is not leashed")
         return

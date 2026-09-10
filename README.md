@@ -102,6 +102,8 @@ Three categories plus one root-level action.
 | --- | --- |
 | leash_escape_struggle | Collared speaker starts struggling: looping `IdleNervous` while standing (optional DD clip by body part if those FNIS events are registered), and they keep struggling if they walk. Ends on `leash_none_struggle_stop`, a yank, or unclip. First line is DirectNarration. The leash does not come off. |
 
+**Enable struggle** in SkyrimNet’s plugin menu (`leash.escape.enabled`, on by default) shows this category. Off hides Escape struggle from the LLM and stops anyone already looping.
+
 Children may be leashed. Free self-unleash is **not** an LLM action — NPCs cannot pick `leash_escape` and come off. The player still can: the PrismaUI `\` panel **unleash** verb fully unclips, including the player's own leash. `leash_escape_struggle` only plays an idle and narrates; a later minigame will be the NPC self-free path.
 
 Higher importance uses SkyrimNet DirectNarration so nearby NPCs react immediately; lower importance records a `leash` event for context without interrupting speech. If the player is not the subject, leashed actor, or holder and has no line of sight on the leashed actor, the line is always an event.

@@ -49,6 +49,10 @@ namespace SkyrimNetLeashed::SkyrimNet {
         RegisterFlag("speaker_is_struggling", "Returns 'available' if this actor is in the looping leash-struggle idle. Returns 'unavailable' otherwise.",
             StateCache::Flag::SpeakerIsStruggling);
 
+        Api::RegisterDecorator("is_struggle_enabled",
+            "Returns 'available' if leash.escape.enabled is on in the SkyrimNet plugin menu. Returns 'unavailable' otherwise.",
+            [](RE::Actor*) -> std::string { return StateCache::StruggleEnabled() ? "available" : "unavailable"; });
+
         RegisterPayload("get_nearby_unleashed_actors", "JSON object with actorIds and actorsNameString for nearby actors who are not currently leashed. Excludes the speaker.",
             StateCache::Payload::UnleashedActors);
 

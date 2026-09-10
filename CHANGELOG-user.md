@@ -5,6 +5,7 @@
 
 releases here: https://github.com/GoodProvider/SkyrimNet_Leash/releases
 
+- SkyrimNet plugin menu **Enable struggle** (on by default). Turn it off to hide Escape struggle from NPCs and stop anyone already struggling. Unleash is unchanged.
 - The mod is now called **SkyrimNet Leashed**. The plugin, scripts, and DLL were all renamed, so this is not a drop-in update: uninstall the old SkyrimNet Leash mod completely before installing, and start a new save. Your settings in the SkyrimNet plugin menu (hotkey, distance, leash type, body part, tie point, escape timings) go back to defaults.
 - Optional Devious Devices standing struggle clips (neck / wrists / waist). Install the DD *files*, leave every DD plugin disabled, skip SexLab, and rebuild FNIS/Nemesis/Pandora. Without those animation files, struggle stays the vanilla nervous idle.
 - First public SkyrimNet bridge for Leash Framework: NPCs can leash, take, give, tie, refuse, and unclip someone else through SkyrimNet actions.

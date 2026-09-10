@@ -9,6 +9,11 @@ parameterMapping:
 enabled: true
 eligibilityRules:
   - conditions:
+      - decoratorName: is_struggle_enabled
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"
       - decoratorName: speaker_is_leashed
         arguments:
           - currentActor

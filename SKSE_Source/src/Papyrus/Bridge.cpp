@@ -143,6 +143,10 @@ namespace SkyrimNetLeashed::Papyrus {
             return WebUI::Config::StruggleCooldown();
         }
 
+        bool StruggleEnabled(RE::StaticFunctionTag*) {
+            return WebUI::Config::StruggleEnabled();
+        }
+
         void TraceLeashBones(RE::StaticFunctionTag*, RE::Actor* a_who) {
             if (!a_who) {
                 SKSE::log::warn("TraceLeashBones skipped: null actor");
@@ -177,6 +181,7 @@ namespace SkyrimNetLeashed::Papyrus {
         a_vm->RegisterFunction("DistanceFromLength", kScriptName, DistanceFromLength);
         a_vm->RegisterFunction("StruggleNarrationInterval", kScriptName, StruggleNarrationInterval);
         a_vm->RegisterFunction("StruggleCooldown", kScriptName, StruggleCooldown);
+        a_vm->RegisterFunction("StruggleEnabled", kScriptName, StruggleEnabled);
         a_vm->RegisterFunction("TraceLeashBones", kScriptName, TraceLeashBones);
         SKSE::log::info("Registered {} Papyrus functions", kScriptName);
         return true;

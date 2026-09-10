@@ -38,4 +38,8 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
     // Safe from any thread; both only read the published snapshot.
     [[nodiscard]] bool Flagged(RE::Actor* a_speaker, Flag a_flag);
     [[nodiscard]] std::string Json(RE::Actor* a_speaker, Payload a_payload);
+
+    // Global plugin-menu flag published on the main-thread refresh. Not per-speaker:
+    // a snapshot miss must not treat struggle as disabled.
+    [[nodiscard]] bool StruggleEnabled();
 }
