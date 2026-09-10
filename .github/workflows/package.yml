@@ -104,15 +104,15 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         shell: pwsh
         run: |
-          python python_scripts/fomod-update-name-version.py -v $env:VERSION -n "SkyrimNet Leash" -o FOMOD/info.xml FOMOD_source/info.xml
+          python python_scripts/fomod-update-name-version.py -v $env:VERSION -n "SkyrimNet Leashed" -o FOMOD/info.xml FOMOD_source/info.xml
           powershell -NoProfile -File python_scripts/deserialize_esp.ps1
-          powershell -NoProfile -File python_scripts/pack_release.ps1 -Version $env:VERSION -Name "SkyrimNet Leash"
+          powershell -NoProfile -File python_scripts/pack_release.ps1 -Version $env:VERSION -Name "SkyrimNet Leashed"
 
       - name: Upload FOMOD package
         if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
-          name: SkyrimNet_Leash-${{ env.VERSION }}
+          name: SkyrimNet_Leashed-${{ env.VERSION }}
           path: versions/*.7z
           if-no-files-found: error
 
@@ -120,6 +120,6 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
-          name: SkyrimNet_Leash-${{ env.VERSION }}-pdb
-          path: SKSE_Source/build/release/Release/SkyrimNet_Leash.pdb
+          name: SkyrimNet_Leashed-${{ env.VERSION }}-pdb
+          path: SKSE_Source/build/release/Release/SkyrimNet_Leashed.pdb
           if-no-files-found: error

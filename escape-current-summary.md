@@ -1,6 +1,6 @@
 # Escape and struggle — current mechanics
 
-High-level handoff for another mod that wants to match how SkyrimNet_Leash treats self-escape today. This is behavior, not an implementation spec.
+High-level handoff for another mod that wants to match how SkyrimNet_Leashed treats self-escape today. This is behavior, not an implementation spec.
 
 Related design (not shipping): [escape-human.md](escape-human.md) / [escape-summary.md](escape-summary.md) (Unforgiving Devices inspiration), [checkpoints/escape-checkpoint.md](checkpoints/escape-checkpoint.md) (future minigame).
 

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Agent guidance for SkyrimNet_Leash (SkyrimNet ↔ Leash Framework bridge).
+Agent guidance for SkyrimNet_Leashed (SkyrimNet ↔ Leash Framework bridge).
 
 ## What this is
 
@@ -16,9 +16,9 @@ Bridge mod between SkyrimNet (LLM) and Leash Framework.
 | `SKSE_Source/` | C++ SKSE plugin |
 | `SKSE/Plugins/SkyrimNet/config/actions/` | LLM action YAML |
 | `SKSE/Plugins/SkyrimNet/prompts/` | Prompt overlays |
-| `Spriggit/SkyrimNet_Leash/` | ESP source of truth |
+| `Spriggit/SkyrimNet_Leashed/` | ESP source of truth |
 
-Repo root: `c:\Skyrim\dev\mods\SkyrimNet_Leash`.
+Repo root: `c:\Skyrim\dev\mods\SkyrimNet_Leashed`.
 
 ## Documentation map
 
@@ -40,10 +40,10 @@ Skyrim holds exclusive locks on files it has loaded. Before writing or replacing
 
 Locked while the game is running:
 
-- `PrismaUI/views/SkyrimNet_Leash/` (overlay HTML)
+- `PrismaUI/views/SkyrimNet_Leashed/` (overlay HTML)
 - `SKSE/Plugins/*.dll`
 - `Scripts/*.pex`
-- `SkyrimNet_Leash.esp`
+- `SkyrimNet_Leashed.esp`
 
 Papyrus source (`Scripts/Source/`) and YAML/prompts are usually writable with the game open.
 
@@ -72,7 +72,7 @@ State confidence 0–100% before game, script, or ESP changes. Target ≥ 90%.
 ## Log files 
 
 SkyrimNet: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet.log
-SkyrimNet_Leash: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet_Leash.log
+SkyrimNet_Leashed: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet_Leashed.log
 LeashFramework: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\LeashFramework.log
 SkyrimNet_SexLab: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet_SexLab.log
 LeashFramework: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\LeashFramework.log

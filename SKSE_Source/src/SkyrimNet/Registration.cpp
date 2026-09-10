@@ -5,7 +5,7 @@
 
 #include <string>
 
-namespace SkyrimNetLeash::SkyrimNet {
+namespace SkyrimNetLeashed::SkyrimNet {
     namespace {
         void RegisterFlag(const char* a_name, const char* a_description, StateCache::Flag a_flag) {
             Api::RegisterDecorator(a_name, a_description,

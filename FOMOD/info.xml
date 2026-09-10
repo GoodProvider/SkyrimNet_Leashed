@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <fomod>
   <!-- this file is generated from FOMOD_source/info.xml -->
-  <Name>SkyrimNet Leash</Name>
+  <Name>SkyrimNet Leashed</Name>
   <Version>0.1.0</Version>
   <Author>GoodProvider</Author>
   <Website>https://github.com/GoodProvider/SkyrimNet_Leash</Website>

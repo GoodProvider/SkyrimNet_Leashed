@@ -3,7 +3,7 @@
     "PackageName": "Spriggit.Json.Skyrim",
     "Version": "0.38.6"
   },
-  "ModKey": "SkyrimNet_Leash.esp",
+  "ModKey": "SkyrimNet_Leashed.esp",
   "GameRelease": "SkyrimSE",
   "ModHeader": {
     "Flags": [

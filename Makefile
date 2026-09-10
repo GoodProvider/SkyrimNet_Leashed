@@ -1,7 +1,7 @@
 VERSION=0.1.0
-NAME=SkyrimNet Leash
+NAME=SkyrimNet Leashed
 
-RELEASE_FILE=versions/SkyrimNet_Leash ${VERSION}.7z
+RELEASE_FILE=versions/SkyrimNet_Leashed ${VERSION}.7z
 
 .PHONY: esp release
 

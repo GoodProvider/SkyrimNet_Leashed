@@ -1,4 +1,4 @@
-# Deserialize SkyrimNet_Leash.esp from Spriggit/ (source of truth).
+# Deserialize SkyrimNet_Leashed.esp from Spriggit/ (source of truth).
 param(
     [string]$RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 )
@@ -6,8 +6,8 @@ param(
 $ErrorActionPreference = "Stop"
 Set-Location $RepoRoot
 
-$spriggitDir = Join-Path $RepoRoot "Spriggit\SkyrimNet_Leash"
-$espOut = Join-Path $RepoRoot "SkyrimNet_Leash.esp"
+$spriggitDir = Join-Path $RepoRoot "Spriggit\SkyrimNet_Leashed"
+$espOut = Join-Path $RepoRoot "SkyrimNet_Leashed.esp"
 $cliDir = Join-Path $RepoRoot "SpriggitCLI"
 $cli = $null
 if (Test-Path $cliDir) {

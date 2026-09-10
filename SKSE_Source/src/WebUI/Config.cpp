@@ -13,12 +13,12 @@
 #include <string_view>
 #include <vector>
 
-namespace SkyrimNetLeash::WebUI::Config {
+namespace SkyrimNetLeashed::WebUI::Config {
     namespace {
-        constexpr const char* kPlugin = "SkyrimNet_Leash";
+        constexpr const char* kPlugin = "SkyrimNet_Leashed";
 
         std::string GetValue(const char* a_path, const char* a_default) {
-            return SkyrimNetLeash::SkyrimNet::Api::GetPluginConfigValue(kPlugin, a_path, a_default);
+            return SkyrimNetLeashed::SkyrimNet::Api::GetPluginConfigValue(kPlugin, a_path, a_default);
         }
 
         std::string Lower(std::string a_value) {

@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-namespace SkyrimNetLeash::LeashState {
+namespace SkyrimNetLeashed::LeashState {
     namespace {
         std::mutex g_pairMutex;
         std::unordered_map<RE::FormID, RecordedPair> g_byLeashed;

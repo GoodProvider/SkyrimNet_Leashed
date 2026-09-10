@@ -9,41 +9,41 @@
 
 namespace {
     void OnDataLoaded() {
-        if (!SkyrimNetLeash::IsLeashPluginLoaded()) {
-            SKSE::log::error("Leash.esm is not loaded; SkyrimNet_Leash will not register");
+        if (!SkyrimNetLeashed::IsLeashPluginLoaded()) {
+            SKSE::log::error("Leash.esm is not loaded; SkyrimNet_Leashed will not register");
             return;
         }
-        if (!SkyrimNetLeash::IsLeashFrameworkDllLoaded()) {
-            SKSE::log::error("LeashFramework.dll is not loaded; SkyrimNet_Leash will not register");
+        if (!SkyrimNetLeashed::IsLeashFrameworkDllLoaded()) {
+            SKSE::log::error("LeashFramework.dll is not loaded; SkyrimNet_Leashed will not register");
             return;
         }
 
-        if (!SkyrimNetLeash::SkyrimNet::Register()) {
+        if (!SkyrimNetLeashed::SkyrimNet::Register()) {
             return;
         }
-        SkyrimNetLeash::SkyrimNet::StateCache::Start();
-        SKSE::log::info("SkyrimNet_Leash registered with SkyrimNet");
+        SkyrimNetLeashed::SkyrimNet::StateCache::Start();
+        SKSE::log::info("SkyrimNet_Leashed registered with SkyrimNet");
     }
 
     void OnSKSEMessage(SKSE::MessagingInterface::Message* a_msg) {
         switch (a_msg->type) {
             case SKSE::MessagingInterface::kDataLoaded:
                 OnDataLoaded();
-                SkyrimNetLeash::WebUI::Init();
+                SkyrimNetLeashed::WebUI::Init();
                 break;
             case SKSE::MessagingInterface::kPreLoadGame:
                 // Recorded leashes belong to the outgoing session. Papyrus re-pushes them
                 // from the LeashFramework_OnLeash events fired while a save is restored.
-                SkyrimNetLeash::LeashState::ClearPairs();
-                SkyrimNetLeash::SkyrimNet::StateCache::Reset();
+                SkyrimNetLeashed::LeashState::ClearPairs();
+                SkyrimNetLeashed::SkyrimNet::StateCache::Reset();
                 break;
             case SKSE::MessagingInterface::kNewGame:
-                SkyrimNetLeash::LeashState::ClearPairs();
-                SkyrimNetLeash::SkyrimNet::StateCache::Reset();
-                SkyrimNetLeash::WebUI::SetGameReady();
+                SkyrimNetLeashed::LeashState::ClearPairs();
+                SkyrimNetLeashed::SkyrimNet::StateCache::Reset();
+                SkyrimNetLeashed::WebUI::SetGameReady();
                 break;
             case SKSE::MessagingInterface::kPostLoadGame:
-                SkyrimNetLeash::WebUI::SetGameReady();
+                SkyrimNetLeashed::WebUI::SetGameReady();
                 break;
             default:
                 break;
@@ -62,7 +62,7 @@ SKSEPluginLoad(const SKSE::LoadInterface* a_skse) {
         return false;
     }
 
-    if (const auto* papyrus = SKSE::GetPapyrusInterface(); !papyrus || !papyrus->Register(SkyrimNetLeash::Papyrus::Register)) {
+    if (const auto* papyrus = SKSE::GetPapyrusInterface(); !papyrus || !papyrus->Register(SkyrimNetLeashed::Papyrus::Register)) {
         SKSE::log::error("Failed to register Papyrus functions");
         return false;
     }

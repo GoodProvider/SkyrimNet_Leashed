@@ -1,4 +1,4 @@
-# SkyrimNet_Leash
+# SkyrimNet_Leashed
 
 ![image of man holding woman on leash](images/skyrim_leash_small.png)
 
@@ -28,14 +28,14 @@ Optional:
 
 The FOMOD installer **refuses to install** unless `Leash.esm` is active.
 
-Load `SkyrimNet_Leash.esp` after `Leash.esm`. Enable the mod in MO2 or Vortex.
+Load `SkyrimNet_Leashed.esp` after `Leash.esm`. Enable the mod in MO2 or Vortex.
 
 Leash apply still needs leash bones on the target (Leash.esm armor / SMP node names). See the Leash Framework Nexus page. 
 
 ---
 ### Leash panel hotkey
 
-The panel hotkey is **off by default**. Enable it in SkyrimNet’s WebUI under **Settings → Plugins → SkyrimNet Leash**.
+The panel hotkey is **off by default**. Enable it in SkyrimNet’s WebUI under **Settings → Plugins → SkyrimNet_Leashed**.
 
 With PrismaUI installed and the hotkey on, `\` opens a horizontal leash bar. Verb options depend on whether the selected leashed actor is already collared. Extra columns appear only for the chosen verb. If **body** is wrists, **type** is locked to chain.
 
@@ -150,26 +150,26 @@ cmake --build --preset build-debug
 
 Release: `--preset release` / `build-release`.
 
-Those tasks copy `SkyrimNet_Leash.dll` to `SKSE/Plugins/`. If `SKYRIM_MODS_FOLDER` is set to your MO2 mods folder, CMake also deploys into `SKYRIM_MODS_FOLDER/SkyrimNet Leash/SKSE/Plugins/`.
+Those tasks copy `SkyrimNet_Leashed.dll` to `SKSE/Plugins/`. If `SKYRIM_MODS_FOLDER` is set to your MO2 mods folder, CMake also deploys into `SKYRIM_MODS_FOLDER/SkyrimNet_Leashed/SKSE/Plugins/`.
 
 Confirm the mod folder contains:
 
-- `SKSE/Plugins/SkyrimNet_Leash.dll`
+- `SKSE/Plugins/SkyrimNet_Leashed.dll`
 - `SKSE/Plugins/SkyrimNet/config/actions/`
-- `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leash/manifest.yaml`
-- `PrismaUI/views/SkyrimNet_Leash/index.html`
+- `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml`
+- `PrismaUI/views/SkyrimNet_Leashed/index.html`
 - `SKSE/Plugins/SkyrimNet/prompts/submodules/character_bio/0409_leashframework.prompt`
-- `SkyrimNet_Leash.esp`
-- compiled `Scripts/SkyrimNet_Leash_Actions.pex`, `Scripts/SkyrimNet_Leash_PlayerAlias.pex`, and `Scripts/SkyrimNet_Leash_Native.pex`
+- `SkyrimNet_Leashed.esp`
+- compiled `Scripts/SkyrimNet_Leashed_Actions.pex`, `Scripts/SkyrimNet_Leashed_PlayerAlias.pex`, and `Scripts/SkyrimNet_Leashed_Native.pex`
 
 ### ESP from Spriggit
 
-`Spriggit/SkyrimNet_Leash/` is the ESP source. Deserialize with Spriggit when you need a binary `.esp`:
+`Spriggit/SkyrimNet_Leashed/` is the ESP source. Deserialize with Spriggit when you need a binary `.esp`:
 
 ```text
-dotnet tool run spriggit deserialize -i Spriggit/SkyrimNet_Leash -o SkyrimNet_Leash.esp
+dotnet tool run spriggit deserialize -i Spriggit/SkyrimNet_Leashed -o SkyrimNet_Leashed.esp
 ```
 
 ### Package
 
-`make release` stamps FOMOD from `Makefile` `VERSION` and packs `versions/SkyrimNet_Leash ${VERSION}.7z` (no PDBs). GitHub Actions **Package** (`workflow_dispatch`) builds Release SKSE and uploads that zip as a private artifact for MO2 playtesting, plus a separate PDB artifact. Play the zip before tagging.
+`make release` stamps FOMOD from `Makefile` `VERSION` and packs `versions/SkyrimNet_Leashed ${VERSION}.7z` (no PDBs). GitHub Actions **Package** (`workflow_dispatch`) builds Release SKSE and uploads that zip as a private artifact for MO2 playtesting, plus a separate PDB artifact. Play the zip before tagging.

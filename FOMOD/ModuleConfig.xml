@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Cutleast/FOMOD-Creation-Kit/master/res/schemas/ModConfig5.0.xsd">
-  <moduleName>SkyrimNet Leash</moduleName>
+  <moduleName>SkyrimNet Leashed</moduleName>
   <moduleDependencies operator="And">
     <fileDependency file="Leash.esm" state="Active"/>
   </moduleDependencies>
   <requiredInstallFiles>
-    <file source="SkyrimNet_Leash.esp" destination="SkyrimNet_Leash.esp"/>
+    <file source="SkyrimNet_Leashed.esp" destination="SkyrimNet_Leashed.esp"/>
     <folder source="SKSE" destination="SKSE"/>
     <folder source="Scripts" destination="Scripts"/>
     <folder source="PrismaUI" destination="PrismaUI"/>

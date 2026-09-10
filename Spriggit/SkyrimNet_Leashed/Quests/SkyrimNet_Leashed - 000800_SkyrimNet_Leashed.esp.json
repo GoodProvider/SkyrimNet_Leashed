@@ -1,10 +1,10 @@
 {
-  "FormKey": "000800:SkyrimNet_Leash.esp",
-  "EditorID": "SkyrimNet_Leash",
+  "FormKey": "000800:SkyrimNet_Leashed.esp",
+  "EditorID": "SkyrimNet_Leashed",
   "VirtualMachineAdapter": {
     "Scripts": [
       {
-        "Name": "SkyrimNet_Leash_Actions"
+        "Name": "SkyrimNet_Leashed_Actions"
       }
     ],
     "FileName": "",
@@ -12,12 +12,12 @@
       {
         "Property": {
           "Name": "",
-          "Object": "000800:SkyrimNet_Leash.esp",
+          "Object": "000800:SkyrimNet_Leashed.esp",
           "Alias": 0
         },
         "Scripts": [
           {
-            "Name": "SkyrimNet_Leash_PlayerAlias"
+            "Name": "SkyrimNet_Leashed_PlayerAlias"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "Name": {
     "TargetLanguage": "English",
-    "Value": "SkyrimNet Leash"
+    "Value": "SkyrimNet Leashed"
   },
   "Flags": [
     "StartGameEnabled",

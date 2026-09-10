@@ -1,5 +1,5 @@
 plugin:
-  name: "SkyrimNet_Leash"
+  name: "SkyrimNet_Leashed"
   version: "0.1.0"
   description: "Leash Framework-SkyrimNet integration"
   icon: "🪢"

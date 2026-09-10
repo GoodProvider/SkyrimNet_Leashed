@@ -8,7 +8,7 @@
     Zip="false"
     Final="false">
     <Variables>
-        <Variable Name="ModName" Value="SkyrimNet Leash" />
+        <Variable Name="ModName" Value="SkyrimNet Leashed" />
         <Variable Name="ModsFolder" Value="C:\Skyrim\dev\mods" />
     </Variables>
     <Imports>

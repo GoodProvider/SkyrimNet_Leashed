@@ -13,11 +13,11 @@ BEGIN
     BEGIN
         BLOCK "040904B0"
         BEGIN
-            VALUE "FileDescription", "SkyrimNet Leash Bridge SKSE Plugin"
+            VALUE "FileDescription", "SkyrimNet Leashed Bridge SKSE Plugin"
             VALUE "FileVersion", "@PROJECT_VERSION@"
             VALUE "InternalName", "@PROJECT_NAME@"
             VALUE "OriginalFilename", "@PROJECT_NAME@.dll"
-            VALUE "ProductName", "SkyrimNet Leash"
+            VALUE "ProductName", "SkyrimNet Leashed"
             VALUE "ProductVersion", "@PROJECT_VERSION@"
         END
     END

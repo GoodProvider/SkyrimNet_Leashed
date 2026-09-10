@@ -1,7 +1,7 @@
 name: leash_none_target_unleash
 description: "{{render_template(\"leash_actions/leash_action_unleash_target\")}}"
-questEditorId: SkyrimNet_Leash
-scriptName: SkyrimNet_Leash_Actions
+questEditorId: SkyrimNet_Leashed
+scriptName: SkyrimNet_Leashed_Actions
 executionFunctionName: UnleashTargetExecute
 parameterMapping:
   - type: speaker

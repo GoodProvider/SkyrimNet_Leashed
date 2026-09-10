@@ -1,7 +1,7 @@
 ---
 name: release
 description: >-
-  Align SkyrimNet_Leash release docs and version metadata for next_version.
+  Align SkyrimNet_Leashed release docs and version metadata for next_version.
   Use when preparing a release, writing CHANGELOG.md or CHANGELOG-user.md,
   bumping Makefile VERSION, updating release-checkpoint.xml, documenting the
   delta since base_tag, or when the user asks to ship, tag-prep, or run a
@@ -24,7 +24,7 @@ Read, in order:
 Then:
 
 1. Take `base_tag` and `next_version` from the checkpoint (fallback: `git describe` / latest version tag). `base_tag` of `none` means first public version.
-2. Reconcile with Makefile `VERSION`, `SKSE_Source/CMakeLists.txt` project version, `SKSE_Source/vcpkg.json`, `FOMOD/info.xml`, `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leash/manifest.yaml` `plugin.version`, and the latest version tag. **If they disagree, stop and ask. Do not invent a version.**
+2. Reconcile with Makefile `VERSION`, `SKSE_Source/CMakeLists.txt` project version, `SKSE_Source/vcpkg.json`, `FOMOD/info.xml`, `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml` `plugin.version`, and the latest version tag. **If they disagree, stop and ask. Do not invent a version.**
 3. Diff `base_tag...HEAD` (or the full shipping tree when `base_tag` is `none`) plus uncommitted files that will ship.
 
 Ignore the `llms.txt` denylist unless the maintainer says those paths ship (`SKSE_Source/build/`, `versions/`, `dist/`, `z-*`, `UnforgivingDevices/`, submodule internals, crash logs).
@@ -60,7 +60,7 @@ Release-doc progress:
 
 Collect user- and author-visible changes since `base_tag`: scripts, action YAMLs, prompts, SKSE/WebUI, FOMOD, docs. Skip denylist noise.
 
-Preflight (report only; do not compile or pack): whether `Scripts/*.pex` (`SkyrimNet_Leash_Actions`, `_PlayerAlias`, `_Native`), Release SKSE DLL, and `Spriggit/` JSON look current.
+Preflight (report only; do not compile or pack): whether `Scripts/*.pex` (`SkyrimNet_Leashed_Actions`, `_PlayerAlias`, `_Native`), Release SKSE DLL, and `Spriggit/` JSON look current.
 
 ### 2. Clarify before writing
 

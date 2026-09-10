@@ -1,8 +1,8 @@
 customCategory: leash_change
 name: leash_change_take_speaker
 description: "{{render_template(\"leash_actions/leash_action_take_speaker\")}}"
-questEditorId: SkyrimNet_Leash
-scriptName: SkyrimNet_Leash_Actions
+questEditorId: SkyrimNet_Leashed
+scriptName: SkyrimNet_Leashed_Actions
 executionFunctionName: TakeLeash
 parameterMapping:
   - type: dynamic

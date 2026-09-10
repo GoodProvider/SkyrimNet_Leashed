@@ -16,7 +16,7 @@
 #include <unordered_set>
 #include <vector>
 
-namespace SkyrimNetLeash::SkyrimNet::StateCache {
+namespace SkyrimNetLeashed::SkyrimNet::StateCache {
     struct PairJson {
         std::string holder{};
         std::string leashed{};

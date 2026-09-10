@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Guidance for Claude Code / Cursor agents on SkyrimNet_Leash.
+Guidance for Claude Code / Cursor agents on SkyrimNet_Leashed.
 
 **Primary agent doc:** [AGENTS.md](AGENTS.md). **Router:** [llms.txt](llms.txt).
 
@@ -10,7 +10,7 @@ SkyrimNet ↔ Leash Framework bridge.
 
 ## Key paths
 
-- Repo: `c:\Skyrim\dev\mods\SkyrimNet_Leash`
+- Repo: `c:\Skyrim\dev\mods\SkyrimNet_Leashed`
 - Papyrus: `Scripts/Source/` → `Scripts/`; project `skyrimse.ppj`
 - SKSE: `SKSE_Source/`
 

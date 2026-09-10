@@ -2,7 +2,7 @@
 
 #include "SkyrimNet/PublicAPI.h"
 
-namespace SkyrimNetLeash::SkyrimNet::Api {
+namespace SkyrimNetLeashed::SkyrimNet::Api {
     bool Initialize() {
         if (!FindFunctions()) {
             SKSE::log::error("SkyrimNet.dll was not found; decorators will not register");

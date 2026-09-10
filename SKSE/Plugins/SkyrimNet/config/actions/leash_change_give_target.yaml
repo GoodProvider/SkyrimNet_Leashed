@@ -1,8 +1,8 @@
 customCategory: leash_change
 name: leash_change_give_target
 description: "{{render_template(\"leash_actions/leash_action_give_target\")}}"
-questEditorId: SkyrimNet_Leash
-scriptName: SkyrimNet_Leash_Actions
+questEditorId: SkyrimNet_Leashed
+scriptName: SkyrimNet_Leashed_Actions
 executionFunctionName: GiveLeash
 parameterMapping:
   - type: speaker

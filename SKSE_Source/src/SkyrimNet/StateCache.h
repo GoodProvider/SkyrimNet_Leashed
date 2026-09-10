@@ -7,7 +7,7 @@
 // SkyrimNet invokes decorator callbacks on its own worker threads, so none of them may
 // touch the game directly. Every value a decorator can return is computed here on the
 // main thread and published as an immutable per-speaker snapshot.
-namespace SkyrimNetLeash::SkyrimNet::StateCache {
+namespace SkyrimNetLeashed::SkyrimNet::StateCache {
     enum class Flag {
         LeashAvailable,
         UnleashAvailable,

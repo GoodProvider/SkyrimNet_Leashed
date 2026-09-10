@@ -1,8 +1,8 @@
 customCategory: leash_leash
 name: leash_leash_speaker
 description: "{{render_template(\"leash_actions/leash_action_leash_speaker\")}}"
-questEditorId: SkyrimNet_Leash
-scriptName: SkyrimNet_Leash_Actions
+questEditorId: SkyrimNet_Leashed
+scriptName: SkyrimNet_Leashed_Actions
 executionFunctionName: LeashedToHolder
 parameterMapping:
   - type: dynamic

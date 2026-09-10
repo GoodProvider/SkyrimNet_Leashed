@@ -2,7 +2,7 @@
 
 #include "PCH.h"
 
-namespace SkyrimNetLeash::WebUI {
+namespace SkyrimNetLeashed::WebUI {
     void Init();
     void SetGameReady();
 }

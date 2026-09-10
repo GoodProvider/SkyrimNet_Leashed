@@ -2,7 +2,7 @@
 
 #include <Windows.h>
 
-namespace SkyrimNetLeash {
+namespace SkyrimNetLeashed {
     RE::TESFaction* GetLeashedFaction() {
         auto* data = RE::TESDataHandler::GetSingleton();
         return data ? data->LookupForm<RE::TESFaction>(kLeashedFactionFormID, kLeashPluginName) : nullptr;

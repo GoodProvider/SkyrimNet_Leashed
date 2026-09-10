@@ -156,7 +156,7 @@ None of the planned changes have been started.
 
 - Papyrus: task **`compile: pyro`** only.
 - SKSE: **`CMake: Configure (Release)`** then **`CMake: Build SKSE (Release)`** (cwd `SKSE_Source`). In-game must use Release (`/MDd` breaks SkyrimNet decorator ABI).
-- Logs: `C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet_Leash.log` and `LeashFramework.log`.
+- Logs: `C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet_Leashed.log` and `LeashFramework.log`.
 
 ---
 

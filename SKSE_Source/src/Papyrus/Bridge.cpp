@@ -7,9 +7,9 @@
 #include <string>
 #include <string_view>
 
-namespace SkyrimNetLeash::Papyrus {
+namespace SkyrimNetLeashed::Papyrus {
     namespace {
-        constexpr std::string_view kScriptName = "SkyrimNet_Leash_Native";
+        constexpr std::string_view kScriptName = "SkyrimNet_Leashed_Native";
 
         void NotifyLeash(RE::StaticFunctionTag*, RE::Actor* a_holder, RE::Actor* a_leashed, RE::BSFixedString a_kind, RE::BSFixedString a_distance, RE::BSFixedString a_bodyPart, bool a_tied) {
             if (!a_leashed) {

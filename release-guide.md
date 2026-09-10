@@ -23,7 +23,7 @@ One release version. If these disagree, stop and ask — do not invent.
 | [SKSE_Source/CMakeLists.txt](SKSE_Source/CMakeLists.txt) | `project(... VERSION)` | DLL resource via `Version.rc.in` |
 | [SKSE_Source/vcpkg.json](SKSE_Source/vcpkg.json) | `version-string` | vcpkg manifest |
 | [FOMOD/info.xml](FOMOD/info.xml) | `Version` | From `FOMOD_source` during `make release` |
-| [SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leash/manifest.yaml](SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leash/manifest.yaml) | `plugin.version` | SkyrimNet plugin menu |
+| [SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml](SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml) | `plugin.version` | SkyrimNet plugin menu |
 | git tag matching `VERSION` | — | Created only when the maintainer ships |
 
 Also reconcile checkpoint `base_tag` / `next_version` and the latest version tag.
@@ -100,7 +100,7 @@ Ignore the [llms.txt](llms.txt) denylist unless the maintainer says those paths 
 
 Prereqs: `Scripts/*.pex` current (`compile: pyro`); Release SKSE DLL (`/MD`, not Debug `/MDd`); `Spriggit/` JSON is ESP source of truth (not hand-edited binaries). Do not switch the CRT to `/MT`.
 
-`make release` stamps `FOMOD/info.xml` from `VERSION`/`NAME`, deserializes `SkyrimNet_Leash.esp` from `Spriggit/`, stages ESP + `SKSE/` + `Scripts/` + `PrismaUI/` with `*.pdb` excluded, packs `versions/SkyrimNet_Leash ${VERSION}.7z`.
+`make release` stamps `FOMOD/info.xml` from `VERSION`/`NAME`, deserializes `SkyrimNet_Leashed.esp` from `Spriggit/`, stages ESP + `SKSE/` + `Scripts/` + `PrismaUI/` with `*.pdb` excluded, packs `versions/SkyrimNet_Leashed ${VERSION}.7z`.
 
 GitHub Actions (`workflow_dispatch` on `.github/workflows/package.yml`) builds Release SKSE, packs the same zip, and uploads a private artifact plus a separate PDB artifact. Play the artifact in MO2 before any tag.
 

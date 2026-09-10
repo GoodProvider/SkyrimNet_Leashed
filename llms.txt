@@ -1,4 +1,4 @@
-# SkyrimNet_Leash
+# SkyrimNet_Leashed
 
 > SkyrimNet ↔ Leash Framework bridge for Skyrim SE. YAML actions + C++ eligibility decorators + Papyrus execute + bio prompt.
 
@@ -16,7 +16,7 @@
 | Escape category (try-only struggle / stop children) | SKSE/Plugins/SkyrimNet/config/actions/leash_escape_.yaml |
 | Escape minigame handoff (later) | checkpoints/escape-checkpoint.md |
 | SKSE / CMake | SKSE_Source/ |
-| ESP | Spriggit/SkyrimNet_Leash/ |
+| ESP | Spriggit/SkyrimNet_Leashed/ |
 | User leftovers | ToDo.md |
 
 ## Do not ingest (unless debugging that area)

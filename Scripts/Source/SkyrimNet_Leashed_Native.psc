@@ -1,7 +1,7 @@
-Scriptname SkyrimNet_Leash_Native Hidden
+Scriptname SkyrimNet_Leashed_Native Hidden
 
 ;/
-Native helpers implemented by SkyrimNet_Leash.dll.
+Native helpers implemented by SkyrimNet_Leashed.dll.
 
 LeashFramework exposes its leash table only through Papyrus, so the SKSE side cannot ask
 it who holds a given leash. These functions let the Papyrus side push the authoritative

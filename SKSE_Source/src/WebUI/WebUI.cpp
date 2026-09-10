@@ -17,7 +17,7 @@
 #include <string_view>
 #include <vector>
 
-namespace SkyrimNetLeash::WebUI {
+namespace SkyrimNetLeashed::WebUI {
     struct ActorJson {
         std::uint32_t formId{};
         std::string name{};
@@ -55,8 +55,8 @@ namespace SkyrimNetLeash::WebUI {
     namespace {
         constexpr std::uint32_t kEscapeDx = 0x01;
         constexpr std::uint32_t kQuestLocalFormID = 0x800;
-        constexpr const char* kQuestPlugin = "SkyrimNet_Leash.esp";
-        constexpr const char* kActionsScript = "SkyrimNet_Leash_Actions";
+        constexpr const char* kQuestPlugin = "SkyrimNet_Leashed.esp";
+        constexpr const char* kActionsScript = "SkyrimNet_Leashed_Actions";
         constexpr float kNearbyRadius = 1024.f;
 
         void OnMenuHotkey();
@@ -321,7 +321,7 @@ namespace SkyrimNetLeash::WebUI {
                 return;
             }
             if (!IsReady()) {
-                SKSE::log::error("WebUI: overlay not ready (missing PrismaUI/views/SkyrimNet_Leash/index.html?)");
+                SKSE::log::error("WebUI: overlay not ready (missing PrismaUI/views/SkyrimNet_Leashed/index.html?)");
                 return;
             }
 
@@ -497,12 +497,12 @@ namespace SkyrimNetLeash::WebUI {
         }
         SKSE::log::info("WebUI: PrismaUI API acquired");
 
-        g_view = g_prismaUI->CreateView("SkyrimNet_Leash/index.html", [](PrismaView) {
+        g_view = g_prismaUI->CreateView("SkyrimNet_Leashed/index.html", [](PrismaView) {
             g_domReady = true;
             SKSE::log::info("WebUI: DomReady");
         });
         if (!g_prismaUI->IsValid(g_view)) {
-            SKSE::log::error("WebUI: CreateView returned invalid view — ensure Data/PrismaUI/views/SkyrimNet_Leash/index.html exists");
+            SKSE::log::error("WebUI: CreateView returned invalid view — ensure Data/PrismaUI/views/SkyrimNet_Leashed/index.html exists");
             return;
         }
         g_prismaUI->Hide(g_view);

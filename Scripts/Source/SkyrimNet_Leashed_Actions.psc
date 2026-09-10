@@ -1,4 +1,4 @@
-Scriptname SkyrimNet_Leash_Actions extends Quest
+Scriptname SkyrimNet_Leashed_Actions extends Quest
 
 Float Property PullCooldown = 8.0 Auto Hidden
 Float Property NarrateSuppressWindow = 2.0 Auto Hidden
@@ -47,7 +47,7 @@ Function RepushCachedPairs()
             String kind = CachedKinds[i]
             String bodyPart = CachedBodyParts[i]
             String distance = CachedDistances[i]
-            SkyrimNet_Leash_Native.NotifyLeash(holder, leashed, kind, distance, bodyPart, tied)
+            SkyrimNet_Leashed_Native.NotifyLeash(holder, leashed, kind, distance, bodyPart, tied)
             if bodyPart == "wrists"
                 ApplyWristBind(leashed)
             endif
@@ -65,7 +65,7 @@ Function RepushStruggling()
             if who.IsDead() || (!LeashFramework.IsLeashed(who) && FindLeashedIndex(who) < 0)
                 EndStruggle(who, false)
             else
-                SkyrimNet_Leash_Native.NotifyStruggle(who, true)
+                SkyrimNet_Leashed_Native.NotifyStruggle(who, true)
             endif
         endif
         i += 1
@@ -150,7 +150,7 @@ String Function PossessivePronoun(Actor who)
 EndFunction
 
 String Function NormalizeKind(String leashType)
-    String t = SkyrimNet_Leash_Native.NormalizeToken(leashType)
+    String t = SkyrimNet_Leashed_Native.NormalizeToken(leashType)
     if t == "chain" || t == "neck_chain"
         return "chain"
     elseif t == "magic" || t == "magic_rope" || t == "runic" || t == "neck_magic"
@@ -167,7 +167,7 @@ String Function NormalizeKind(String leashType)
 EndFunction
 
 String Function NormalizeBodyPart(String bodyPart)
-    String t = SkyrimNet_Leash_Native.NormalizeToken(bodyPart)
+    String t = SkyrimNet_Leashed_Native.NormalizeToken(bodyPart)
     if t == "waist" || t == "body" || t == "body_rope" || t == "waist_rope" || t == "waist_chain" || t == "waist_magic"
         return "waist"
     endif
@@ -184,7 +184,7 @@ String Function NormalizeBodyPart(String bodyPart)
 EndFunction
 
 String Function NormalizeDistance(String leashDistance)
-    String t = SkyrimNet_Leash_Native.NormalizeToken(leashDistance)
+    String t = SkyrimNet_Leashed_Native.NormalizeToken(leashDistance)
     if t == "tight"
         return "tight"
     elseif t == "short" || t == "close"
@@ -201,7 +201,7 @@ String Function NormalizeDistance(String leashDistance)
 EndFunction
 
 String Function StyleWord(String style)
-    String s = SkyrimNet_Leash_Native.NormalizeToken(style)
+    String s = SkyrimNet_Leashed_Native.NormalizeToken(style)
     if s == "forceful" || s == "forcefully"
         return "forcefully"
     elseif s == "gentle" || s == "gently"
@@ -219,11 +219,11 @@ Float Function DistanceMax(String leashDistance)
     if d == ""
         d = "middle"
     endif
-    return SkyrimNet_Leash_Native.DistanceMax(d)
+    return SkyrimNet_Leashed_Native.DistanceMax(d)
 EndFunction
 
 String Function DistanceFromLength(Float maxLength)
-    return SkyrimNet_Leash_Native.DistanceFromLength(maxLength)
+    return SkyrimNet_Leashed_Native.DistanceFromLength(maxLength)
 EndFunction
 
 String Function ParentBoneFor(String kind, String bodyPart)
@@ -327,7 +327,7 @@ Function ApplyWristBind(Actor leashed)
             leashed.EquipItem(cuffs, true, true)
         endif
     else
-        Debug.Trace("[SkyrimNet_Leash] ApplyWristBind missing PrisonerCuffsPlayer 0x10E039")
+        Debug.Trace("[SkyrimNet_Leashed] ApplyWristBind missing PrisonerCuffsPlayer 0x10E039")
     endif
     Idle boundIdle = BoundStandingIdle()
     Bool played = false
@@ -383,7 +383,7 @@ EndFunction
 
 Bool Function WaitForLeashMesh(Actor meshOwner, Armor leashArmor)
     if meshOwner == None || leashArmor == None
-        Debug.Trace("[SkyrimNet_Leash] WaitForLeashMesh skipped: missing owner or armor")
+        Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh skipped: missing owner or armor")
         return false
     endif
     Int tries = 0
@@ -392,9 +392,9 @@ Bool Function WaitForLeashMesh(Actor meshOwner, Armor leashArmor)
         tries += 1
     endwhile
     Bool worn = meshOwner.IsEquipped(leashArmor)
-    Debug.Trace("[SkyrimNet_Leash] WaitForLeashMesh armor=" + leashArmor + " equipped=" + worn)
+    Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh armor=" + leashArmor + " equipped=" + worn)
     if worn
-        SkyrimNet_Leash_Native.TraceLeashBones(meshOwner)
+        SkyrimNet_Leashed_Native.TraceLeashBones(meshOwner)
     endif
     return worn
 EndFunction
@@ -721,7 +721,7 @@ Function UnequipTrackedFor(Actor who)
             CachedTied[i] = false
             LastPullTimes[i] = 0.0
             LastTautTimes[i] = 0.0
-            SkyrimNet_Leash_Native.NotifyUnleash(leashed)
+            SkyrimNet_Leashed_Native.NotifyUnleash(leashed)
         endif
         i += 1
     endwhile
@@ -800,7 +800,7 @@ Function OffsetTiePoint(Actor leashed, String tiePoint, Float[] xyz)
     Float a = leashed.GetAngleZ()
     Float h = 100.0
     Float d = 50.0
-    String t = SkyrimNet_Leash_Native.NormalizeToken(tiePoint)
+    String t = SkyrimNet_Leashed_Native.NormalizeToken(tiePoint)
     if t == "wall"
         t = "front"
     endif
@@ -825,7 +825,7 @@ Function OffsetTiePoint(Actor leashed, String tiePoint, Float[] xyz)
 EndFunction
 
 String Function NormalizeTiePoint(String tiePoint)
-    String t = SkyrimNet_Leash_Native.NormalizeToken(tiePoint)
+    String t = SkyrimNet_Leashed_Native.NormalizeToken(tiePoint)
     if t == "left" || t == "back" || t == "front" || t == "right" || t == "floor" || t == "wall"
         return t
     endif
@@ -837,7 +837,7 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
         return false
     endif
     if holder == leashed
-        Debug.Trace("[SkyrimNet_Leash] ApplyToHolder refused: " + ActorLabel(holder) + " cannot leash themselves")
+        Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder refused: " + ActorLabel(holder) + " cannot leash themselves")
         return false
     endif
     bodyPart = NormalizeBodyPart(bodyPart)
@@ -847,20 +847,20 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
     kind = KindForBodyPart(kind, bodyPart)
     Armor leashArmor = ArmorForKind(kind, bodyPart)
     if leashArmor == None
-        Debug.Trace("[SkyrimNet_Leash] ApplyToHolder missing armor kind=" + kind + " body=" + bodyPart)
+        Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder missing armor kind=" + kind + " body=" + bodyPart)
         return false
     endif
     UnequipStaleBodyArmor(leashed, kind, bodyPart)
     Actor meshOwner = MeshOwnerFor(holder, leashed, kind)
     EquipTypeArmor(meshOwner, leashArmor)
     if !WaitForLeashMesh(meshOwner, leashArmor)
-        Debug.Trace("[SkyrimNet_Leash] ApplyToHolder armor not worn on " + ActorLabel(meshOwner))
+        Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder armor not worn on " + ActorLabel(meshOwner))
         UnequipTypeArmor(meshOwner, leashArmor)
         return false
     endif
     RememberPair(holder, leashed, kind, bodyPart, style, leashDistance, false)
     MarkSuppressed(leashed)
-    Debug.Trace("[SkyrimNet_Leash] ApplyToHolder holder=" + ActorLabel(holder) + " leashed=" + ActorLabel(leashed) + " kind=" + kind + " body=" + bodyPart + " distance=" + leashDistance)
+    Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder holder=" + ActorLabel(holder) + " leashed=" + ActorLabel(leashed) + " kind=" + kind + " body=" + bodyPart + " distance=" + leashDistance)
     String bone = ParentBoneFor(kind, bodyPart)
     Float minLen = DistanceMin()
     Float maxLen = DistanceMax(leashDistance)
@@ -871,12 +871,12 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
         ok = LeashFramework.ApplyLeashToHand(holder, leashed, bone, LeashBoneMatch(), minLen, maxLen, true, false)
     endif
     if !ok
-        Debug.Trace("[SkyrimNet_Leash] ApplyToHolder returned false")
+        Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder returned false")
         UnequipTypeArmor(meshOwner, leashArmor)
         ForgetPair(leashed)
         return false
     endif
-    SkyrimNet_Leash_Native.NotifyLeash(holder, leashed, kind, leashDistance, bodyPart, false)
+    SkyrimNet_Leashed_Native.NotifyLeash(holder, leashed, kind, leashDistance, bodyPart, false)
     if bodyPart == "wrists"
         ApplyWristBind(leashed)
     endif
@@ -912,8 +912,8 @@ Bool Function ApplyDangling(Actor leashed, String style, String leashDistance, S
     EquipTypeArmor(leashed, leashArmor)
     RememberPair(None, leashed, kind, bodyPart, style, leashDistance, false)
     MarkSuppressed(leashed)
-    Debug.Trace("[SkyrimNet_Leash] ApplyDangling leashed=" + ActorLabel(leashed) + " kind=" + kind + " body=" + bodyPart + " distance=" + leashDistance)
-    SkyrimNet_Leash_Native.NotifyLeash(None, leashed, kind, leashDistance, bodyPart, false)
+    Debug.Trace("[SkyrimNet_Leashed] ApplyDangling leashed=" + ActorLabel(leashed) + " kind=" + kind + " body=" + bodyPart + " distance=" + leashDistance)
+    SkyrimNet_Leashed_Native.NotifyLeash(None, leashed, kind, leashDistance, bodyPart, false)
     if bodyPart == "wrists"
         ApplyWristBind(leashed)
     endif
@@ -935,13 +935,13 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
     kind = KindForBodyPart(kind, bodyPart)
     Armor leashArmor = ArmorForKind(kind, bodyPart)
     if leashArmor == None
-        Debug.Trace("[SkyrimNet_Leash] ApplyToTiePoint missing armor kind=" + kind + " body=" + bodyPart)
+        Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint missing armor kind=" + kind + " body=" + bodyPart)
         return false
     endif
     UnequipStaleBodyArmor(leashed, kind, bodyPart)
     EquipTypeArmor(leashed, leashArmor)
     if !WaitForLeashMesh(leashed, leashArmor)
-        Debug.Trace("[SkyrimNet_Leash] ApplyToTiePoint armor not worn on " + ActorLabel(leashed))
+        Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint armor not worn on " + ActorLabel(leashed))
         UnequipTypeArmor(leashed, leashArmor)
         return false
     endif
@@ -952,12 +952,12 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
     String bone = ParentBoneFor(kind, bodyPart)
     Bool ok = LeashFramework.ApplyLeashAtPosition(leashed, parentCell, xyz[0], xyz[1], xyz[2], bone, LeashBoneMatch(), DistanceMin(), DistanceMax(leashDistance), true)
     if !ok
-        Debug.Trace("[SkyrimNet_Leash] ApplyToTiePoint returned false")
+        Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint returned false")
         UnequipTypeArmor(leashed, leashArmor)
         ForgetPair(leashed)
         return false
     endif
-    SkyrimNet_Leash_Native.NotifyLeash(None, leashed, kind, leashDistance, bodyPart, true)
+    SkyrimNet_Leashed_Native.NotifyLeash(None, leashed, kind, leashDistance, bodyPart, true)
     if bodyPart == "wrists"
         ApplyWristBind(leashed)
     endif
@@ -1039,11 +1039,11 @@ EndFunction
 
 Function LeashedToHolder(Actor subject, Actor leashed, Actor holder, String style, String leashDistance, String leashType, String body_part)
     if leashed == None
-        Debug.Trace("[SkyrimNet_Leash] LeashedToHolder skipped: missing leashed")
+        Debug.Trace("[SkyrimNet_Leashed] LeashedToHolder skipped: missing leashed")
         return
     endif
     if holder == leashed
-        Debug.Trace("[SkyrimNet_Leash] LeashedToHolder refused: " + ActorLabel(holder) + " cannot leash themselves")
+        Debug.Trace("[SkyrimNet_Leashed] LeashedToHolder refused: " + ActorLabel(holder) + " cannot leash themselves")
         return
     endif
     String kind = ResolveKind(holder, leashed, leashType)
@@ -1059,14 +1059,14 @@ Function LeashedToHolder(Actor subject, Actor leashed, Actor holder, String styl
     if holder == None
         kind = KindForDangling(kind)
         if !ApplyDangling(leashed, style, distance, kind, bodyPart)
-            Debug.Trace("[SkyrimNet_Leash] LeashedToHolder dangling failed for " + ActorLabel(leashed))
+            Debug.Trace("[SkyrimNet_Leashed] LeashedToHolder dangling failed for " + ActorLabel(leashed))
             return
         endif
         NarrateApply(subject, leashed, None, style, distance, kind, bodyPart)
         return
     endif
     if !ApplyToHolder(holder, leashed, style, distance, kind, bodyPart)
-        Debug.Trace("[SkyrimNet_Leash] LeashedToHolder failed for " + ActorLabel(holder) + " -> " + ActorLabel(leashed))
+        Debug.Trace("[SkyrimNet_Leashed] LeashedToHolder failed for " + ActorLabel(holder) + " -> " + ActorLabel(leashed))
         return
     endif
     NarrateApply(subject, leashed, holder, style, distance, kind, bodyPart)
@@ -1081,7 +1081,7 @@ Function TakeLeash(Actor subject, Actor leashed)
     String distance = ResolveDistance(leashed, "")
     String style = CachedStyle(leashed)
     if !ApplyToHolder(subject, leashed, style, distance, kind, bodyPart)
-        Debug.Trace("[SkyrimNet_Leash] TakeLeash failed for " + ActorLabel(subject) + " -> " + ActorLabel(leashed))
+        Debug.Trace("[SkyrimNet_Leashed] TakeLeash failed for " + ActorLabel(subject) + " -> " + ActorLabel(leashed))
         return
     endif
     Narrate(ActorLabel(subject) + " takes " + Possessive(leashed) + " leash.", subject, NarrateListener(subject, leashed, subject), "playerSensitive", leashed, subject)
@@ -1092,11 +1092,11 @@ Function GiveLeash(Actor subject, Actor leashed, Actor receiver)
         return
     endif
     if receiver == leashed
-        Debug.Trace("[SkyrimNet_Leash] GiveLeash skipped: receiver cannot be the leashed actor")
+        Debug.Trace("[SkyrimNet_Leashed] GiveLeash skipped: receiver cannot be the leashed actor")
         return
     endif
     if receiver && receiver == subject
-        Debug.Trace("[SkyrimNet_Leash] GiveLeash skipped: receiver cannot be the subject")
+        Debug.Trace("[SkyrimNet_Leashed] GiveLeash skipped: receiver cannot be the subject")
         return
     endif
     String kind = DetectKind(receiver, leashed)
@@ -1106,14 +1106,14 @@ Function GiveLeash(Actor subject, Actor leashed, Actor receiver)
     if receiver == None
         kind = KindForDangling(kind)
         if !ApplyDangling(leashed, style, distance, kind, bodyPart)
-            Debug.Trace("[SkyrimNet_Leash] GiveLeash dangling failed for " + ActorLabel(leashed))
+            Debug.Trace("[SkyrimNet_Leashed] GiveLeash dangling failed for " + ActorLabel(leashed))
             return
         endif
         Narrate(ActorLabel(subject) + " drops " + Possessive(leashed) + " leash.", subject, NarrateListener(subject, leashed, None), "playerSensitive", leashed, None)
         return
     endif
     if !ApplyToHolder(receiver, leashed, style, distance, kind, bodyPart)
-        Debug.Trace("[SkyrimNet_Leash] GiveLeash failed for " + ActorLabel(subject) + " -> " + ActorLabel(receiver))
+        Debug.Trace("[SkyrimNet_Leashed] GiveLeash failed for " + ActorLabel(subject) + " -> " + ActorLabel(receiver))
         return
     endif
     Narrate(ActorLabel(subject) + " gives " + Possessive(leashed) + " leash to " + ActorLabel(receiver) + ".", subject, leashed, "playerSensitive", leashed, receiver)
@@ -1143,7 +1143,7 @@ Function LeashedToTiePoint(Actor subject, Actor leashed, String style, String le
         subject = leashed
     endif
     if !ApplyToTiePoint(leashed, style, distance, kind, bodyPart, point)
-        Debug.Trace("[SkyrimNet_Leash] LeashedToTiePoint failed for " + ActorLabel(leashed))
+        Debug.Trace("[SkyrimNet_Leashed] LeashedToTiePoint failed for " + ActorLabel(leashed))
         return
     endif
     Narrate(ActorLabel(subject) + " ties " + Possessive(leashed) + " leash to the " + point + ".", subject, NarrateListener(subject, leashed, None), "playerSensitive", leashed, None)
@@ -1170,7 +1170,7 @@ Function PlayStruggleAnim(Actor who)
         return
     endif
     String eventName = StruggleAnimEvent(CachedBodyPart(who))
-    Debug.Trace("[SkyrimNet_Leash] PlayStruggleAnim " + ActorLabel(who) + " " + eventName)
+    Debug.Trace("[SkyrimNet_Leashed] PlayStruggleAnim " + ActorLabel(who) + " " + eventName)
     Debug.SendAnimationEvent(who, eventName)
 EndFunction
 
@@ -1202,7 +1202,7 @@ Function EndStruggle(Actor who, Bool narrateStop)
         return
     endif
     ClearStruggleSlot(i)
-    SkyrimNet_Leash_Native.NotifyStruggle(who, false)
+    SkyrimNet_Leashed_Native.NotifyStruggle(who, false)
     StopStruggleAnim(who)
     RefreshStruggleUpdates()
     if narrateStop
@@ -1215,11 +1215,11 @@ Function EndStruggle(Actor who, Bool narrateStop)
 EndFunction
 
 Float Function EscapeDirectNarrateWait()
-    Float interval = SkyrimNet_Leash_Native.StruggleNarrationInterval()
+    Float interval = SkyrimNet_Leashed_Native.StruggleNarrationInterval()
     if interval < 1.0
         interval = 5.0
     endif
-    Float cooldown = SkyrimNet_Leash_Native.StruggleCooldown()
+    Float cooldown = SkyrimNet_Leashed_Native.StruggleCooldown()
     if cooldown < 1.0
         cooldown = 20.0
     endif
@@ -1243,7 +1243,7 @@ Function PulseStruggleEvent(Actor subject)
         target = None
     endif
     String content = ActorLabel(subject) + " continues to struggle with " + PossessivePronoun(subject) + " leash."
-    Debug.Trace("[SkyrimNet_Leash] PulseStruggleEvent " + content)
+    Debug.Trace("[SkyrimNet_Leashed] PulseStruggleEvent " + content)
     SkyrimNetApi.RegisterShortLivedEvent(eventId, "leash", content, "", 1500, subject, target)
 EndFunction
 
@@ -1256,7 +1256,7 @@ Function NarrateStillStruggling(Actor subject)
         holder = CachedHolder(subject)
     endif
     String content = "Despite " + Possessive(subject) + " attempts, the leash holds."
-    Debug.Trace("[SkyrimNet_Leash] NarrateStillStruggling " + content)
+    Debug.Trace("[SkyrimNet_Leashed] NarrateStillStruggling " + content)
     Narrate(content, subject, NarrateListener(subject, subject, holder), "optional", subject, holder)
 EndFunction
 
@@ -1285,21 +1285,21 @@ EndEvent
 
 Function StruggleExecute(Actor subject)
     if subject == None
-        Debug.Trace("[SkyrimNet_Leash] StruggleExecute skipped: missing subject")
+        Debug.Trace("[SkyrimNet_Leashed] StruggleExecute skipped: missing subject")
         return
     endif
-    Debug.Trace("[SkyrimNet_Leash] StruggleExecute " + ActorLabel(subject) + " dd")
+    Debug.Trace("[SkyrimNet_Leashed] StruggleExecute " + ActorLabel(subject) + " dd")
     if !LeashFramework.IsLeashed(subject) && FindLeashedIndex(subject) < 0
-        Debug.Trace("[SkyrimNet_Leash] StruggleExecute skipped: " + ActorLabel(subject) + " is not leashed")
+        Debug.Trace("[SkyrimNet_Leashed] StruggleExecute skipped: " + ActorLabel(subject) + " is not leashed")
         return
     endif
     if FindStruggleIndex(subject) >= 0
-        Debug.Trace("[SkyrimNet_Leash] StruggleExecute skipped: already struggling " + ActorLabel(subject))
+        Debug.Trace("[SkyrimNet_Leashed] StruggleExecute skipped: already struggling " + ActorLabel(subject))
         return
     endif
     Int i = EnsureStruggleIndex(subject)
     if i < 0
-        Debug.Trace("[SkyrimNet_Leash] StruggleExecute skipped: no struggle slot for " + ActorLabel(subject))
+        Debug.Trace("[SkyrimNet_Leashed] StruggleExecute skipped: no struggle slot for " + ActorLabel(subject))
         return
     endif
     Actor holder = LeashFramework.GetLeashHolder(subject)
@@ -1309,7 +1309,7 @@ Function StruggleExecute(Actor subject)
     String kind = SpokenKind(DetectKind(holder, subject))
     String bodyPart = DetectBodyPart(holder, subject)
     StruggleLastNarrate[i] = Utility.GetCurrentRealTime()
-    SkyrimNet_Leash_Native.NotifyStruggle(subject, true)
+    SkyrimNet_Leashed_Native.NotifyStruggle(subject, true)
     RefreshStruggleUpdates()
     PlayStruggleAnim(subject)
     PulseStruggleEvent(subject)
@@ -1318,12 +1318,12 @@ EndFunction
 
 Function StopStruggleExecute(Actor subject)
     if subject == None
-        Debug.Trace("[SkyrimNet_Leash] StopStruggleExecute skipped: missing subject")
+        Debug.Trace("[SkyrimNet_Leashed] StopStruggleExecute skipped: missing subject")
         return
     endif
-    Debug.Trace("[SkyrimNet_Leash] StopStruggleExecute " + ActorLabel(subject))
+    Debug.Trace("[SkyrimNet_Leashed] StopStruggleExecute " + ActorLabel(subject))
     if FindStruggleIndex(subject) < 0
-        Debug.Trace("[SkyrimNet_Leash] StopStruggleExecute skipped: not struggling " + ActorLabel(subject))
+        Debug.Trace("[SkyrimNet_Leashed] StopStruggleExecute skipped: not struggling " + ActorLabel(subject))
         return
     endif
     Actor holder = LeashFramework.GetLeashHolder(subject)
@@ -1357,11 +1357,11 @@ Function UnleashTargetExecute(Actor subject, Actor target)
         holder = CachedHolder(target)
     endif
     if leashed == None
-        Debug.Trace("[SkyrimNet_Leash] UnleashTargetExecute skipped: could not resolve leashed")
+        Debug.Trace("[SkyrimNet_Leashed] UnleashTargetExecute skipped: could not resolve leashed")
         return
     endif
     if leashed == subject
-        Debug.Trace("[SkyrimNet_Leash] UnleashTargetExecute rejected: speaker cannot free themselves")
+        Debug.Trace("[SkyrimNet_Leashed] UnleashTargetExecute rejected: speaker cannot free themselves")
         return
     endif
     String kind = DetectKind(holder, leashed)
@@ -1385,7 +1385,7 @@ Function UnleashTargetExecute(Actor subject, Actor target)
         Narrate(ActorLabel(subject) + " unclips the " + kind + " leash from " + Possessive(leashed) + " " + bodyPart + ".", subject, NarrateListener(subject, leashed, holder), "playerSensitive", leashed, holder)
         UnequipPairArmor(holder, leashed, kind, bodyPart)
         ForgetPair(leashed)
-        SkyrimNet_Leash_Native.NotifyUnleash(leashed)
+        SkyrimNet_Leashed_Native.NotifyUnleash(leashed)
     endif
 EndFunction
 
@@ -1424,7 +1424,7 @@ Function UnleashSpeakerExecute(Actor subject)
     LeashFramework.UnleashAll(subject)
     UnequipTrackedFor(subject)
     EndStruggle(subject, false)
-    SkyrimNet_Leash_Native.NotifyUnleash(subject)
+    SkyrimNet_Leashed_Native.NotifyUnleash(subject)
 EndFunction
 
 Function NarrateLeash(Actor leashed, String reason)
@@ -1520,9 +1520,9 @@ Function NarratePull(Actor leashed, Bool ragdoll)
     endif
     if !ConsumePullCooldown(leashed, ragdoll)
         if ragdoll
-            Debug.Trace("[SkyrimNet_Leash] ragdoll pull skipped: cooldown " + ActorLabel(leashed))
+            Debug.Trace("[SkyrimNet_Leashed] ragdoll pull skipped: cooldown " + ActorLabel(leashed))
         else
-            Debug.Trace("[SkyrimNet_Leash] taut pull skipped: cooldown " + ActorLabel(leashed))
+            Debug.Trace("[SkyrimNet_Leashed] taut pull skipped: cooldown " + ActorLabel(leashed))
         endif
         return
     endif
@@ -1557,9 +1557,9 @@ Function NarratePull(Actor leashed, Bool ragdoll)
         pullKind = "stumble"
     endif
     if ragdoll
-        Debug.Trace("[SkyrimNet_Leash] ragdoll pull " + leashedName)
+        Debug.Trace("[SkyrimNet_Leashed] ragdoll pull " + leashedName)
     else
-        Debug.Trace("[SkyrimNet_Leash] taut pull " + leashedName)
+        Debug.Trace("[SkyrimNet_Leashed] taut pull " + leashedName)
     endif
     Narrate(content, originator, targetActor, pullKind, leashed, holder)
 EndFunction
@@ -1572,7 +1572,7 @@ Event OnLeashFrameworkLeash(String eventName, String strArg, Float numArg, Form 
     if leashed
         Actor holder = LeashFramework.GetLeashHolder(leashed)
         Bool tied = holder == None
-        SkyrimNet_Leash_Native.NotifyLeash(holder, leashed, DetectKind(holder, leashed), ResolveDistance(leashed, ""), DetectBodyPart(holder, leashed), tied)
+        SkyrimNet_Leashed_Native.NotifyLeash(holder, leashed, DetectKind(holder, leashed), ResolveDistance(leashed, ""), DetectBodyPart(holder, leashed), tied)
     endif
     NarrateLeash(leashed, strArg)
 EndEvent
@@ -1584,7 +1584,7 @@ Event OnLeashFrameworkUnleash(String eventName, String strArg, Float numArg, For
     ; Suppressed disconnects (ApplyDangling) already wrote the new native record.
     if leashed && strArg != "replaced" && !IsSuppressed(leashed)
         EndStruggle(leashed, false)
-        SkyrimNet_Leash_Native.NotifyUnleash(leashed)
+        SkyrimNet_Leashed_Native.NotifyUnleash(leashed)
     endif
     NarrateUnleash(leashed, strArg)
 EndEvent

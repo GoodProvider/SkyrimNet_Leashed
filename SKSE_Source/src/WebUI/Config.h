@@ -5,7 +5,7 @@
 #include <string>
 #include <string_view>
 
-namespace SkyrimNetLeash::WebUI::Config {
+namespace SkyrimNetLeashed::WebUI::Config {
     [[nodiscard]] bool HotkeyEnabled();
     [[nodiscard]] std::uint32_t HotkeyVk();
     [[nodiscard]] std::uint32_t HotkeyDx();

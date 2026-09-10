@@ -2,7 +2,7 @@
 
 #include "PCH.h"
 
-namespace SkyrimNetLeash {
+namespace SkyrimNetLeashed {
     constexpr std::string_view kLeashPluginName = "Leash.esm";
     constexpr RE::FormID kLeashedFactionFormID = 0xD6A;
     constexpr RE::FormID kLeasherFactionFormID = 0xD6B;

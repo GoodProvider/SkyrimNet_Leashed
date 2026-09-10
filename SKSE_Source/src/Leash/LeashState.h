@@ -6,7 +6,7 @@
 #include <string_view>
 #include <vector>
 
-namespace SkyrimNetLeash::LeashState {
+namespace SkyrimNetLeashed::LeashState {
     struct RecordedPair {
         RE::FormID holderID{};
         std::string kind;
