@@ -1,6 +1,6 @@
 # SkyrimNet_Leashed
 
-![image of man holding woman on leash](images/skyrim_leash_small.png)
+![image of man holding woman on leash](images/SkyrimNet_Leashed_small.png)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/goodprovider)
 
