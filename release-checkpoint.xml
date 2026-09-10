@@ -12,7 +12,7 @@
     <project>SkyrimNet_Leashed</project>
     <summary>Bridge mod between SkyrimNet (LLM) and Leash Framework.</summary>
     <repository_root>c:\Skyrim\dev\mods\SkyrimNet_Leashed</repository_root>
-    <updated>2026-09-08</updated>
+    <updated>2026-09-09</updated>
     <base_tag>none</base_tag>
     <next_version>0.1.0</next_version>
     <version_status>Makefile VERSION=0.1.0 (authoritative); CMake / vcpkg.json / FOMOD / manifest all 0.1.0; git tag and GitHub Release still pending</version_status>
@@ -41,7 +41,7 @@
     <note>Ship set includes uncommitted working-tree: root leash_target_unleash (deleted leash_unleash_speaker/target), intent on category parents, struggle Papyrus, PlayerAlias.psc, PrismaUI_API.h, compiled pex.</note>
     <note>Does not ship: UnforgivingDevices/, checkpoints/, escape-*.md, z-plan.md, SKSE_Source/build/, versions/ staging until pack.</note>
     <note>2026-09-08: Docs re-aligned to current code (50bc47e wrists=chain, 19fa065 bound-standing idle / GetUpEnd, uncommitted PrismaUI lockWristType). README / CHANGELOG* now match KindForBodyPart, ApplyWristBind, manifest leash.ui.bodyPart.</note>
-    <note>Package versions/SkyrimNet_Leash 0.1.0.7z is obsolete: the plugin was renamed to SkyrimNet_Leashed, so pack_release.ps1 now emits versions/SkyrimNet_Leashed ${VERSION}.7z. Repack from the renamed tree (make pack still hits empty $PSScriptRoot; use pack_release.ps1 -RepoRoot).</note>
+    <note>2026-09-09: Packed versions/SkyrimNet_Leashed 0.1.0.7z (single ESP/DLL, no PDBs, no old plugin names). Makefile now passes -RepoRoot "$(CURDIR)" so Chocolatey make no longer hits empty $PSScriptRoot.</note>
     <note>2026-09-09: Renamed plugin identity SkyrimNet_Leash to SkyrimNet_Leashed — ESP, quest EditorID, three Papyrus scripts, DLL/CMake project, PrismaUI view folder, SkyrimNet plugin manifest folder and plugin.name, 14 action YAML questEditorId/scriptName, FOMOD, packaging. GitHub repo URLs still point at GoodProvider/SkyrimNet_Leash until the remote is renamed.</note>
     <note>Open: commit remaining working tree; rebuild 7z; MO2 playtest; git tag 0.1.0; GitHub Release; Nexus.</note>
   </status>
