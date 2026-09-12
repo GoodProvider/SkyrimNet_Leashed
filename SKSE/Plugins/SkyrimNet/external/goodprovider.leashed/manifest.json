@@ -1,0 +1,20 @@
+{
+  "id": "goodprovider.leashed",
+  "type": "bundle",
+  "title": "SkyrimNet Leashed",
+  "tagline": "LLM actions and prompts for Leash Framework.",
+  "description": "Ships the leash, change, escape, and unleash actions plus action prompts and the character-bio overlay used by SkyrimNet_Leashed. Requires `SkyrimNet_Leashed.esp`.\n\nPlugin menu settings stay in `config/plugins/SkyrimNet_Leashed/` (`leash.*` keys). Decorators and Papyrus execute live in this mod's SKSE plugin and scripts, not in this content folder.",
+  "author": "goodprovider",
+  "tags": ["leash", "nsfw"],
+  "nsfw": true,
+  "icon": "sparkles",
+  "version": "0.4.0",
+  "min_skyrimnet_version": "0.25.0",
+  "mods": [
+    {
+      "name": "SkyrimNet Leashed",
+      "file": "SkyrimNet_Leashed.esp",
+      "required": true
+    }
+  ]
+}

@@ -11,13 +11,13 @@
 | Quirks / dependency pins | KNOWLEDGE.md |
 | Dependency drift | .cursor/skills/dependency_drift/SKILL.md, checkpoints/<dependency-name>-<version>.md |
 | Leash Framework 1.1.3 pin | checkpoints/leashframework-1.1.3.md |
-| SkyrimNet beta25-rc6 pin | checkpoints/skyrimnet-beta25-rc6.md |
+| SkyrimNet beta25-rc7 pin | checkpoints/skyrimnet-beta25-rc7.md |
 | Release documentation | release-guide.md, release-checkpoint.xml |
 | Changelog | CHANGELOG.md, CHANGELOG-user.md |
-| Action YAML | SKSE/Plugins/SkyrimNet/config/actions/ |
-| Prompts | SKSE/Plugins/SkyrimNet/prompts/submodules/character_bio/0409_leashframework.prompt |
+| Action YAML | SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/actions/ |
+| Prompts | SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/prompts/submodules/character_bio/0409_leashframework.prompt |
 | Escape design (UD inspiration, later) | escape-summary.md (agent), escape-human.md |
-| Escape category (try-only struggle / stop children) | SKSE/Plugins/SkyrimNet/config/actions/leash_escape_.yaml |
+| Escape category (try-only struggle / stop children) | SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/actions/leashed_escape.yaml |
 | Escape minigame handoff (later) | checkpoints/escape-checkpoint.md |
 | SKSE / CMake | SKSE_Source/ |
 | ESP | Spriggit/SkyrimNet_Leashed/ |

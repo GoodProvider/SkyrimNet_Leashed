@@ -13,6 +13,7 @@ SkyrimNet ↔ Leash Framework bridge.
 - Repo: `c:\Skyrim\dev\mods\SkyrimNet_Leashed`
 - Papyrus: `Scripts/Source/` → `Scripts/`; project `skyrimse.ppj`
 - SKSE: `SKSE_Source/`
+- LLM plugin: `SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/`
 
 ## Compile / commits / safety
 

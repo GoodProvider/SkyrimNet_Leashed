@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.4.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.0) — since [0.3.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.3.0)
+
+### Actions
+
+- LLM actions and prompts ship as SkyrimNet Beta 25 external plugin `goodprovider.leashed` ([`SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/`](SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/)). Loose `config/actions/` and `prompts/` are removed; Beta 25 does not read those folders.
+- Action YAML `name`, `customCategory`, and filename prefix `leash_` → `leashed_` (e.g. `leashed_leash`, `leashed_change`, `leashed_escape`, `leashed_none_target_unleash`). Category parents drop the trailing `_` in the filename so it equals `name` (`leashed_leash.yaml`). Prompt paths `leash_actions/` and `0409_leashframework.prompt` are unchanged.
+- Per-action enabled/cooldown settings keyed by the old names reset once.
+
+### SKSE / WebUI
+
+- Settings schema stays at [`config/plugins/SkyrimNet_Leashed/manifest.yaml`](SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml) (`plugin.name` SkyrimNet_Leashed, `leash.*` keys). C++ still calls `PublicGetPluginConfigValue("SkyrimNet_Leashed", …)`. PublicAPI pin remains v10.
+- CMake Release post-build `copy_directory` of `SKSE/Plugins/SkyrimNet` (settings + external plugin). DLL FileVersion **0.4.0**.
+
+### Install / FOMOD
+
+- Requires SkyrimNet **0.25.0+**. Plugin `goodprovider.leashed` should appear under Installed Plugins with an **External** badge. Do not use **Plugins > Import Old Content** for this mod's files.
+
+### Docs
+
+- Player front door: `README.md` (SkyrimNet 0.25.0+, `leashed_*` action names). SkyrimNet pin: `checkpoints/skyrimnet-beta25-rc7.md`. Settings vs content plugin split: `KNOWLEDGE.md`.
+
 ## [0.3.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.3.0) — since [0.2.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.2.0)
 
 ### Papyrus

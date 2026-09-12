@@ -14,7 +14,7 @@ Changelog: [CHANGELOG.md](CHANGELOG.md) · [CHANGELOG-user.md](CHANGELOG-user.md
 
 Requirements:
 
-- [SkyrimNet](https://github.com/MinLL/SkyrimNet-GamePlugin)
+- [SkyrimNet](https://github.com/MinLL/SkyrimNet-GamePlugin) **0.25.0+** (Beta 25). LLM actions and prompts ship as plugin `goodprovider.leashed` under `Data/SKSE/Plugins/SkyrimNet/external/`. It should appear under Installed Plugins with an **External** badge. Do not use **Plugins > Import Old Content** for this mod's files — that copy would hide later updates. Older SkyrimNet that only reads `prompts/` and `config/actions/` will not load them.
 - [Leash Framework (Nexus 187303)](https://www.nexusmods.com/skyrimspecialedition/mods/187303) , [Leash Framework (Sexlab 50377)](https://www.loverslab.com/files/file/50377-leash-framework/) — `Leash.esm` and `SKSE\Plugins\LeashFramework.dll`. Tested with **1.1.3**.
 - SKSE, Address Library
 
@@ -52,7 +52,7 @@ With PrismaUI installed and the hotkey on, `\` opens a horizontal leash bar. Ver
 
 Press `\` again or Escape to close. The game pauses while the panel is focused.
 
-**Unleash on this bar is full power**, including the player's own collar: pick yourself as the leashed actor (the default when you are leashed and not aiming at someone else) and **unleash** still disconnects. LLM `leash_escape` never does that.
+**Unleash on this bar is full power**, including the player's own collar: pick yourself as the leashed actor (the default when you are leashed and not aiming at someone else) and **unleash** still disconnects. LLM `leashed_escape` never does that.
 
 Remap the key and default **distance** / **type** / **body part** / **tie point** in the same plugin page. Distance tokens have a **settle** (stop gap) and a **catch-up** bound; while the holder walks, follow sits 40% of the way between them. SkyrimNet_SexLab’s Start Sex hotkey also defaults to `\` but is off unless you turn it on — do not bind both to the same key.
 
@@ -79,43 +79,43 @@ Settle is how close they stand when the holder stops. Catch-up is the yank bound
 
 **Wrists is chain only** — Papyrus and the panel force type to `chain`. Distance picks the hand-chain armor: tight/short `Leash_hand_chain`, middle `Leash_hand_chain_long`, long `Leash_hand_chain_xlong` (falls back to the standard mesh if a form is missing). Holder and give-receiver may be `None` to leave the leash hanging from the collared actor (not tied to a world point). Take still picks that leash up.
 
-**Root actions** (no category parent; `leash_none_*`)
+**Root actions** (no category parent; `leashed_none_*`)
 
 | Action | Effect |
 | --- | --- |
-| leash_none_target_unleash | Speaker unclips a nearby collared actor (including someone held by a third party). Never the speaker themselves. |
-| leash_none_struggle_stop | Collared speaker who is already struggling gives up and returns to default stance. Opposite of Escape. |
+| leashed_none_target_unleash | Speaker unclips a nearby collared actor (including someone held by a third party). Never the speaker themselves. |
+| leashed_none_struggle_stop | Collared speaker who is already struggling gives up and returns to default stance. Opposite of Escape. |
 
-**leash_leash** (start a leash)
-
-| Action | Effect |
-| --- | --- |
-| leash_leash_target | Speaker leashes the target. Holder is the speaker, another nearby actor, or None (dangling). Wrists uses the chain hand mesh and prisoner cuffs / bound-standing idle. |
-| leash_leash_speaker | A nearby actor leashes the speaker. Holder is that actor or None. Speaker must not already be leashed. |
-| leash_leash_tie_target | Speaker ties an unleashed target to a world point. |
-| leash_leash_refused_speaker | Speaker refuses to be leashed by a nearby actor. |
-| leash_leash_refused_target | A nearby actor refuses to be leashed by the speaker. |
-
-**leash_change** (move an existing leash)
+**leashed_leash** (start a leash)
 
 | Action | Effect |
 | --- | --- |
-| leash_change_take_target | Speaker takes a collared actor's leash. |
-| leash_change_take_speaker | A nearby actor takes the speaker's leash. Speaker must be leashed. |
-| leash_change_give_target | Speaker gives a collared actor's leash to another nearby actor, or to None (drops it). |
-| leash_change_give_speaker | A nearby actor gives the speaker's leash to another nearby actor, or to None. |
-| leash_change_tie_target | Speaker re-ties a collared actor's leash to a world point. |
-| leash_change_tie_speaker | A nearby actor re-ties the speaker's leash to a world point. |
+| leashed_leash_target | Speaker leashes the target. Holder is the speaker, another nearby actor, or None (dangling). Wrists uses the chain hand mesh and prisoner cuffs / bound-standing idle. |
+| leashed_leash_speaker | A nearby actor leashes the speaker. Holder is that actor or None. Speaker must not already be leashed. |
+| leashed_leash_tie_target | Speaker ties an unleashed target to a world point. |
+| leashed_leash_refused_speaker | Speaker refuses to be leashed by a nearby actor. |
+| leashed_leash_refused_target | A nearby actor refuses to be leashed by the speaker. |
 
-**leash_escape** (try to get free of your own leash)
+**leashed_change** (move an existing leash)
 
 | Action | Effect |
 | --- | --- |
-| leash_escape_struggle | Collared speaker starts struggling: looping `IdleNervous` while standing (optional DD clip by body part if those FNIS events are registered), and they keep struggling if they walk. Ends on `leash_none_struggle_stop`, a yank (world-tie or catch-up), ragdoll, or unclip — not on ordinary following. First line is DirectNarration. The leash does not come off. |
+| leashed_change_take_target | Speaker takes a collared actor's leash. |
+| leashed_change_take_speaker | A nearby actor takes the speaker's leash. Speaker must be leashed. |
+| leashed_change_give_target | Speaker gives a collared actor's leash to another nearby actor, or to None (drops it). |
+| leashed_change_give_speaker | A nearby actor gives the speaker's leash to another nearby actor, or to None. |
+| leashed_change_tie_target | Speaker re-ties a collared actor's leash to a world point. |
+| leashed_change_tie_speaker | A nearby actor re-ties the speaker's leash to a world point. |
+
+**leashed_escape** (try to get free of your own leash)
+
+| Action | Effect |
+| --- | --- |
+| leashed_escape_struggle | Collared speaker starts struggling: looping `IdleNervous` while standing (optional DD clip by body part if those FNIS events are registered), and they keep struggling if they walk. Ends on `leashed_none_struggle_stop`, a yank (world-tie or catch-up), ragdoll, or unclip — not on ordinary following. First line is DirectNarration. The leash does not come off. |
 
 **Enable struggle** in SkyrimNet’s plugin menu (`leash.escape.enabled`, on by default) shows this category. Off hides Escape struggle from the LLM and stops anyone already looping.
 
-Children may be leashed. Free self-unleash is **not** an LLM action — NPCs cannot pick `leash_escape` and come off. The player still can: the PrismaUI `\` panel **unleash** verb fully unclips, including the player's own leash. `leash_escape_struggle` only plays an idle and narrates; a later minigame will be the NPC self-free path.
+Children may be leashed. Free self-unleash is **not** an LLM action — NPCs cannot pick `leashed_escape` and come off. The player still can: the PrismaUI `\` panel **unleash** verb fully unclips, including the player's own leash. `leashed_escape_struggle` only plays an idle and narrates; a later minigame will be the NPC self-free path.
 
 Higher importance uses SkyrimNet DirectNarration so nearby NPCs react immediately; lower importance records a `leash` event for context without interrupting speech. If the player is not the subject, leashed actor, or holder and has no line of sight on the leashed actor, the line is always an event.
 
@@ -169,10 +169,9 @@ Those tasks copy `SkyrimNet_Leashed.dll` to `SKSE/Plugins/`. If `SKYRIM_MODS_FOL
 Confirm the mod folder contains:
 
 - `SKSE/Plugins/SkyrimNet_Leashed.dll`
-- `SKSE/Plugins/SkyrimNet/config/actions/`
+- `SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/` (actions + prompts + `manifest.json`)
 - `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml`
 - `PrismaUI/views/SkyrimNet_Leashed/index.html`
-- `SKSE/Plugins/SkyrimNet/prompts/submodules/character_bio/0409_leashframework.prompt`
 - `SkyrimNet_Leashed.esp`
 - compiled `Scripts/SkyrimNet_Leashed_Actions.pex`, `Scripts/SkyrimNet_Leashed_PlayerAlias.pex`, and `Scripts/SkyrimNet_Leashed_Native.pex`
 

@@ -24,6 +24,7 @@ One release version. If these disagree, stop and ask — do not invent.
 | [SKSE_Source/vcpkg.json](SKSE_Source/vcpkg.json) | `version-string` | vcpkg manifest |
 | [FOMOD/info.xml](FOMOD/info.xml) | `Version` | From `FOMOD_source` during `make release` |
 | [SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml](SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml) | `plugin.version` | SkyrimNet plugin menu |
+| [SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/manifest.json](SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/manifest.json) | `version` | Beta 25 content plugin |
 | git tag matching `VERSION` | — | Created only when the maintainer ships |
 
 Also reconcile checkpoint `base_tag` / `next_version` and the latest version tag.

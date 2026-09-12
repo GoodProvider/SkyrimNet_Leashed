@@ -24,7 +24,7 @@ Read, in order:
 Then:
 
 1. Take `base_tag` and `next_version` from the checkpoint (fallback: `git describe` / latest version tag). `base_tag` of `none` means first public version.
-2. Reconcile with Makefile `VERSION`, `SKSE_Source/CMakeLists.txt` project version, `SKSE_Source/vcpkg.json`, `FOMOD/info.xml`, `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml` `plugin.version`, and the latest version tag. **If they disagree, stop and ask. Do not invent a version.**
+2. Reconcile with Makefile `VERSION`, `SKSE_Source/CMakeLists.txt` project version, `SKSE_Source/vcpkg.json`, `FOMOD/info.xml`, `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml` `plugin.version`, `SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/manifest.json` `version`, and the latest version tag. **If they disagree, stop and ask. Do not invent a version.**
 3. Diff `base_tag...HEAD` (or the full shipping tree when `base_tag` is `none`) plus uncommitted files that will ship.
 
 Ignore the `llms.txt` denylist unless the maintainer says those paths ship (`SKSE_Source/build/`, `versions/`, `dist/`, `z-*`, `UnforgivingDevices/`, submodule internals, crash logs).

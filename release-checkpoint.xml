@@ -13,9 +13,9 @@
     <summary>Bridge mod between SkyrimNet (LLM) and Leash Framework.</summary>
     <repository_root>c:\Skyrim\dev\mods\SkyrimNet_Leashed</repository_root>
     <updated>2026-09-12</updated>
-    <base_tag>0.2.0</base_tag>
-    <next_version>0.3.0</next_version>
-    <version_status>Makefile VERSION=0.3.0 (authoritative); CMake / vcpkg.json / FOMOD / manifest all 0.3.0; git tags 0.1.0 and 0.2.0 exist; 0.3.0 git tag and GitHub Release still pending</version_status>
+    <base_tag>0.3.0</base_tag>
+    <next_version>0.4.0</next_version>
+    <version_status>Makefile VERSION=0.4.0 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.0; git tags 0.1.0 and 0.2.0 exist; 0.3.0 and 0.4.0 git tags still pending</version_status>
     <related_artifacts>
       <artifact role="release rules">release-guide.md</artifact>
       <artifact role="agent procedure">.cursor/skills/release/SKILL.md</artifact>
@@ -25,7 +25,7 @@
       <artifact role="end-user front door">README.md</artifact>
       <artifact role="quirks / dependency pins">KNOWLEDGE.md</artifact>
       <artifact role="LF 1.1.3 drift">checkpoints/leashframework-1.1.3.md</artifact>
-      <artifact role="SkyrimNet beta25-rc6 pin">checkpoints/skyrimnet-beta25-rc6.md</artifact>
+      <artifact role="SkyrimNet beta25-rc7 pin">checkpoints/skyrimnet-beta25-rc7.md</artifact>
     </related_artifacts>
   </metadata>
 
@@ -41,12 +41,13 @@
   </doc_files>
 
   <status>
+    <note>2026-09-12: Beta 25 content plugin `goodprovider.leashed` (external layer). Actions renamed leash_* to leashed_*. Filename equals name; category trailing _ dropped. Settings schema stays at config/plugins. y-MIGRATING_TO_BETA25.md remains user scratch, not shipped. DLL FileVersion 0.4.0. Do not pack or tag unless asked.</note>
     <note>2026-09-12: 0.3.0 packed. versions/SkyrimNet_Leashed 0.3.0.7z. DLL FileVersion 0.3.0 (CMake Release after version bump). pex from compile: pyro 2026-09-12. ESP deserialized from Spriggit (unchanged vs 0.2.0). Do not tag unless asked.</note>
     <note>2026-09-12: 0.2.0 review fixes were written into the 0.2.0 changelog before the remote tag was fetched; those bullets now live under 0.3.0. GitHub Release 0.2.0 exists (2026-09-10).</note>
     <note>2026-09-10: Adapted to Leash Framework 1.1.3. Header + submodule bf3b33c. Follow-start OnActorPulled does not end struggle. Per-token settle/catch-up defaults. Wrist meshes 0xD69/0x1/0x3. dependency_drift skill + KNOWLEDGE.md. Maintainer playtest passed (looked fine); override natives stay unused. Shipped as 0.3.0, not 0.2.0.</note>
     <note>2026-09-08: Maintainer asked to stay on 0.1.0 (not 1.0.0) for first public; 0.2.0 was rename + Enable struggle + DD struggle anims.</note>
     <note>Does not ship: UnforgivingDevices/, escape-*.md, z-plan.md, SKSE_Source/build/, versions/ staging until pack. Agent checkpoints/ may live in git; not in the FOMOD 7z. Must git-add SKSE_Source/src/Papyrus/Bridge.h, lib/PrismaUI/PrismaUI_API.h, include/SkyrimNet/PublicAPIMemoryQuery.h (untracked; required to compile).</note>
-    <note>Open: commit (include the three SKSE headers; do not add UnforgivingDevices/, handoff-checkpoint.md, SKSE_Source/build/, or SKSE/Plugins/*.pdb); MO2 playtest of versions/SkyrimNet_Leashed 0.3.0.7z; git tag 0.3.0; GitHub Release; Nexus.</note>
+    <note>Open: commit (include the three SKSE headers; do not add UnforgivingDevices/, handoff-checkpoint.md, SKSE_Source/build/, or SKSE/Plugins/*.pdb); MO2 playtest of 0.4.0 (plugin appears External, no skipped files in SkyrimNet.log); git tag 0.4.0; GitHub Release; Nexus. 0.3.0 tag was never cut.</note>
   </status>
 
   <conventions>
@@ -58,6 +59,7 @@
     <convention>Do not vendor or recompile LeashFramework.psc; call the runtime natives.</convention>
     <convention>SE ≠ VR — never assume parity.</convention>
     <convention>Wrists is chain only. Distance picks Leash_hand_chain 0xD69 (tight/short), 0x1 long (middle), 0x3 xlong (long). KindForBodyPart and PrismaUI lockWristType force type to chain.</convention>
-    <convention>Dependency update reviews use skill dependency_drift and checkpoints/&lt;dependency-name&gt;-&lt;version&gt;.md. LF pin: checkpoints/leashframework-1.1.3.md.</convention>
+    <convention>Dependency update reviews use skill dependency_drift and checkpoints/&lt;dependency-name&gt;-&lt;version&gt;.md. LF pin: checkpoints/leashframework-1.1.3.md. SkyrimNet pin: checkpoints/skyrimnet-beta25-rc7.md.</convention>
+    <convention>Beta 25 LLM content ships as SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/. Action YAML filename equals in-file name. Settings schema stays at config/plugins/SkyrimNet_Leashed/. Do not ship into library/.</convention>
   </conventions>
 </checkpoint>

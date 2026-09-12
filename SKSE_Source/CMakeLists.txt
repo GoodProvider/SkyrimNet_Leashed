@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 
-project(SkyrimNet_Leashed VERSION 0.3.0 LANGUAGES CXX RC)
+project(SkyrimNet_Leashed VERSION 0.4.0 LANGUAGES CXX RC)
 
 set(MOD_FOLDER_NAME "SkyrimNet_Leashed")
 
@@ -56,8 +56,7 @@ if(DEFINED OUTPUT_FOLDER)
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:${PROJECT_NAME}>" "${DLL_FOLDER}/$<TARGET_FILE_NAME:${PROJECT_NAME}>"
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_PDB_FILE:${PROJECT_NAME}>" "${DLL_FOLDER}/$<TARGET_PDB_FILE_NAME:${PROJECT_NAME}>"
         COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../PrismaUI" "${OUTPUT_FOLDER}/PrismaUI"
-        COMMAND "${CMAKE_COMMAND}" -E make_directory "${DLL_FOLDER}/SkyrimNet/config/plugins/SkyrimNet_Leashed"
-        COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml" "${DLL_FOLDER}/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml"
+        COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../SKSE/Plugins/SkyrimNet" "${DLL_FOLDER}/SkyrimNet"
     )
 endif()
 

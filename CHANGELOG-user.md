@@ -1,8 +1,9 @@
-https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.3.0
+https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.0
 
-- Built for Leash Framework **1.1.3**. Walking while someone holds the leash no longer counts as a yank, so Escape struggle keeps going until a real snap, ragdoll, unclip, or they pick stop.
-- Distance tokens now have a **settle** (how close when standing still) and a **catch-up** (when the leash yanks). Defaults are looser than 0.2.0 so “middle” and “long” actually feel different while walking. Reset the plugin-menu length numbers if you want the new catch-up defaults; settle is a new set of fields.
-- Wrists is still chain-only. Middle uses the long hand-chain mesh, long uses extra-long; tight and short keep the original hand chain.
-- Struggle loops the vanilla nervous idle while standing, then optional Devious Devices clips (neck / wrists / waist) if those animation files are installed and FNIS/Nemesis/Pandora was rebuilt. Walking does not end struggle and skips the nervous idle so they can keep following. Without the DD files, they stay on the nervous idle.
-- Unleash takes off the worn leash mesh copy and leaves extra copies you kept in inventory.
-- SkyrimNet_SexLab’s Start Sex SkyMessage can open this same leash bar even if the Leashed hotkey is off.
+Requires SkyrimNet **0.25.0+** (Beta 25 plugin layout)
+
+- Needs SkyrimNet 0.25.0 or newer. Older builds that only read `prompts/` and `config/actions/` will not load this mod's LLM actions or prompts.
+- Those files now ship as plugin `goodprovider.leashed`. After install it should show under Installed Plugins with an **External** badge.
+- Action names changed from `leash_*` to `leashed_*` (Leash, Change, Escape, Unleash, stop struggling). If you customized enabled/cooldown for the old names, set them again once.
+- Do not use **Plugins > Import Old Content** for this mod. An imported copy hides later updates of ours.
+- Hotkey, distances, and struggle toggles stay in **Settings → Plugins → SkyrimNet_Leashed**. Those keys did not change.

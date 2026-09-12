@@ -14,8 +14,8 @@ Bridge mod between SkyrimNet (LLM) and Leash Framework.
 | `Scripts/` | Compiled `.pex` |
 | `skyrimse.ppj` | Pyro project |
 | `SKSE_Source/` | C++ SKSE plugin |
-| `SKSE/Plugins/SkyrimNet/config/actions/` | LLM action YAML |
-| `SKSE/Plugins/SkyrimNet/prompts/` | Prompt overlays |
+| `SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/` | Beta 25 LLM plugin (actions + prompts) |
+| `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/` | Settings schema (`leash.*`) |
 | `Spriggit/SkyrimNet_Leashed/` | ESP source of truth |
 
 Repo root: `c:\Skyrim\dev\mods\SkyrimNet_Leashed`.
@@ -28,7 +28,8 @@ Repo root: `c:\Skyrim\dev\mods\SkyrimNet_Leashed`.
 | Release docs | [release-guide.md](release-guide.md) + [release-checkpoint.xml](release-checkpoint.xml) |
 | Changelog | [CHANGELOG.md](CHANGELOG.md), [CHANGELOG-user.md](CHANGELOG-user.md) |
 | Quirks / dependency pins | [KNOWLEDGE.md](KNOWLEDGE.md) |
-| Leash Framework drift | [checkpoints/leashframework-1.1.3.md](checkpoints/leashframework-1.1.3.md); skill `dependency_drift` |
+| Leash Framework 1.1.3 pin | [checkpoints/leashframework-1.1.3.md](checkpoints/leashframework-1.1.3.md); skill `dependency_drift` |
+| SkyrimNet beta25-rc7 pin | [checkpoints/skyrimnet-beta25-rc7.md](checkpoints/skyrimnet-beta25-rc7.md) |
 
 ## Compile
 
@@ -62,9 +63,9 @@ First ~72 characters summarize the commit. Prefer a multi-line body with concret
 
 ## SkyrimNet action YAML
 
-- **Category descriptors always carry `intent`.** A category parent file (`customCategory` + `name`, no `scriptName` / `executionFunctionName`, e.g. `leash_leash_.yaml`) includes a `parameterMapping` with a single `dynamic` param named `intent`. SkyrimNet consumes it during the category-selection stage; there is no execution function to validate it against, so this is correct and not a defect. Precedent: OStimNet `tton_CategoryStart.yaml` / `tton_CategoryManage.yaml`.
-- **Root actions may omit `customCategory`.** Root names are `leash_none_*`: third-party Unleash (`leash_none_target_unleash`) and stop struggling (`leash_none_struggle_stop`). No parent descriptor and no `intent` param. Do not invent a category parent for them unless SkyrimNet starts requiring one.
-- **Escape is a category.** `leash_escape_.yaml` carries `intent`. Only child: `leash_escape_struggle` (start looping `IdleNervous`, then optional DD FNIS names by body part with no ESM gate; the leash does not come off). Category copy may say they get it off so the LLM selects it; execute still never disconnects. Do not gate the category on `is_leash_available` (combat). Gate the category the same as struggle: `is_struggle_enabled` (`leash.escape.enabled`), `speaker_is_leashed`, and not `speaker_is_struggling`. Stop is the root `leash_none_struggle_stop`, gated on `speaker_is_struggling`. First struggle is DirectNarration; while struggling, a short-lived `leash` event (`{name} continues to struggle with {her/his/their} leash.`) refreshes every second. Later spoken beats wait for the longer of `leash.escape.narrationInterval` (default 5) and `leash.escape.cooldown` (default 20): `Despite {name}'s attempts, the leash holds.` Walking does not end the state. Under Leash Framework 1.1.3, actor-held `OnActorPulled` can fire when following starts before maxLength — treat that as follow, not a yank (`numArg < GetMaxLeashLength` and a holder). World-tie, `numArg >= maxLength`, ragdoll pull, unclip, or `leash_none_struggle_stop` still end it. The PrismaUI panel **unleash** path stays full power, including the player unclipping themselves (`UnleashSpeakerExecute` when subject is the leashed actor). Do not route the hotkey through `StruggleExecute`.
+- **Category descriptors always carry `intent`.** A category parent file (`customCategory` + `name`, no `scriptName` / `executionFunctionName`, e.g. `leashed_leash.yaml`) includes a `parameterMapping` with a single `dynamic` param named `intent`. SkyrimNet consumes it during the category-selection stage; there is no execution function to validate it against, so this is correct and not a defect. Precedent: OStimNet `tton_CategoryStart.yaml` / `tton_CategoryManage.yaml`. Filename stem must equal in-file `name` (Beta 25).
+- **Root actions may omit `customCategory`.** Root names are `leashed_none_*`: third-party Unleash (`leashed_none_target_unleash`) and stop struggling (`leashed_none_struggle_stop`). No parent descriptor and no `intent` param. Do not invent a category parent for them unless SkyrimNet starts requiring one.
+- **Escape is a category.** `leashed_escape.yaml` carries `intent`. Only child: `leashed_escape_struggle` (start looping `IdleNervous`, then optional DD FNIS names by body part with no ESM gate; the leash does not come off). Category copy may say they get it off so the LLM selects it; execute still never disconnects. Do not gate the category on `is_leash_available` (combat). Gate the category the same as struggle: `is_struggle_enabled` (`leash.escape.enabled`), `speaker_is_leashed`, and not `speaker_is_struggling`. Stop is the root `leashed_none_struggle_stop`, gated on `speaker_is_struggling`. First struggle is DirectNarration; while struggling, a short-lived `leash` event (`{name} continues to struggle with {her/his/their} leash.`) refreshes every second. Later spoken beats wait for the longer of `leash.escape.narrationInterval` (default 5) and `leash.escape.cooldown` (default 20): `Despite {name}'s attempts, the leash holds.` Walking does not end the state. Under Leash Framework 1.1.3, actor-held `OnActorPulled` can fire when following starts before maxLength — treat that as follow, not a yank (`numArg < GetMaxLeashLength` and a holder). World-tie, `numArg >= maxLength`, ragdoll pull, unclip, or `leashed_none_struggle_stop` still end it. The PrismaUI panel **unleash** path stays full power, including the player unclipping themselves (`UnleashSpeakerExecute` when subject is the leashed actor). Do not route the hotkey through `StruggleExecute`.
 - **Category eligibility must not be stricter than its children.** A parent gate hides every child, so never gate a category on a condition a child does not need.
 - Child actions are positional: map every Papyrus parameter, using empty `static` values where Papyrus detects the real value at runtime.
 
