@@ -15,7 +15,7 @@ Changelog: [CHANGELOG.md](CHANGELOG.md) · [CHANGELOG-user.md](CHANGELOG-user.md
 Requirements:
 
 - [SkyrimNet](https://github.com/MinLL/SkyrimNet-GamePlugin)
-- [Leash Framework (Nexus 187303)](https://www.nexusmods.com/skyrimspecialedition/mods/187303) , [Leash Framework (Sexlab 50377)](https://www.loverslab.com/files/file/50377-leash-framework/) — `Leash.esm` and `SKSE\Plugins\LeashFramework.dll`
+- [Leash Framework (Nexus 187303)](https://www.nexusmods.com/skyrimspecialedition/mods/187303) , [Leash Framework (Sexlab 50377)](https://www.loverslab.com/files/file/50377-leash-framework/) — `Leash.esm` and `SKSE\Plugins\LeashFramework.dll`. Tested with **1.1.3**.
 - SKSE, Address Library
 
 Optional:
@@ -38,6 +38,8 @@ Leash apply still needs leash bones on the target (Leash.esm armor / SMP node na
 
 The panel hotkey is **off by default**. Enable it in SkyrimNet’s WebUI under **Settings → Plugins → SkyrimNet_Leashed**.
 
+SkyrimNet_SexLab’s Start Sex SkyMessage also has a **leash** button when `SkyrimNet_Leashed.esp` is loaded. That opens this same panel even if the Leashed hotkey is off.
+
 With PrismaUI installed and the hotkey on, `\` opens a horizontal leash bar. Verb options depend on whether the selected leashed actor is already collared. Extra columns appear only for the chosen verb. If **body** is wrists, **type** is locked to chain.
 
 | Target | Verb | Extra columns |
@@ -52,7 +54,7 @@ Press `\` again or Escape to close. The game pauses while the panel is focused.
 
 **Unleash on this bar is full power**, including the player's own collar: pick yourself as the leashed actor (the default when you are leashed and not aiming at someone else) and **unleash** still disconnects. LLM `leash_escape` never does that.
 
-Remap the key and default **distance** / **type** / **body part** / **tie point** in the same plugin page. SkyrimNet_SexLab’s Start Sex hotkey also defaults to `\` but is off unless you turn it on — do not bind both to the same key.
+Remap the key and default **distance** / **type** / **body part** / **tie point** in the same plugin page. Distance tokens have a **settle** (stop gap) and a **catch-up** bound; while the holder walks, follow sits 40% of the way between them. SkyrimNet_SexLab’s Start Sex hotkey also defaults to `\` but is off unless you turn it on — do not bind both to the same key.
 
 ### Actions
 
@@ -66,7 +68,16 @@ Three categories plus one root-level action.
 | Body part | `neck` \| `wrists` \| `waist` |
 | Tie point | `floor` \| `left` \| `back` \| `front` \| `right` \| `wall` |
 
-**Wrists is chain only** — Leash.esm only ships `Leash_hand_chain`; Papyrus and the panel force type to `chain`. Holder and give-receiver may be `None` to leave the leash hanging from the collared actor (not tied to a world point). Take still picks that leash up.
+| Distance | Settle | Catch-up | Follow (while walking) |
+| --- | --- | --- | --- |
+| `tight` | 50 | 120 | ~78 |
+| `short` | 90 | 220 | ~142 |
+| `middle` | 150 | 380 | ~242 |
+| `long` | 240 | 580 | ~376 |
+
+Settle is how close they stand when the holder stops. Catch-up is the yank bound. Existing plugin-menu catch-up overrides are kept; settle keys are new.
+
+**Wrists is chain only** — Papyrus and the panel force type to `chain`. Distance picks the hand-chain armor: tight/short `Leash_hand_chain`, middle `Leash_hand_chain_long`, long `Leash_hand_chain_xlong` (falls back to the standard mesh if a form is missing). Holder and give-receiver may be `None` to leave the leash hanging from the collared actor (not tied to a world point). Take still picks that leash up.
 
 **Root actions** (no category parent; `leash_none_*`)
 
@@ -100,7 +111,7 @@ Three categories plus one root-level action.
 
 | Action | Effect |
 | --- | --- |
-| leash_escape_struggle | Collared speaker starts struggling: looping `IdleNervous` while standing (optional DD clip by body part if those FNIS events are registered), and they keep struggling if they walk. Ends on `leash_none_struggle_stop`, a yank, or unclip. First line is DirectNarration. The leash does not come off. |
+| leash_escape_struggle | Collared speaker starts struggling: looping `IdleNervous` while standing (optional DD clip by body part if those FNIS events are registered), and they keep struggling if they walk. Ends on `leash_none_struggle_stop`, a yank (world-tie or catch-up), ragdoll, or unclip — not on ordinary following. First line is DirectNarration. The leash does not come off. |
 
 **Enable struggle** in SkyrimNet’s plugin menu (`leash.escape.enabled`, on by default) shows this category. Off hides Escape struggle from the LLM and stops anyone already looping.
 

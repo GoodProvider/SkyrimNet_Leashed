@@ -15,7 +15,8 @@ event was sent. OnLeash uses "applied", "replaced", or "loaded". OnUnleash uses 
 while starting or loading a game does not send OnUnleash.
 
 Pull mod events:
-- LeashFramework_OnActorPulled: sent once when normal direct-locomotion pulling starts.
+- LeashFramework_OnActorPulled: sent once when normal direct-locomotion pulling starts, including following
+  an actor holder before maxLength is reached.
 - LeashFramework_OnActorRagdollPulled: sent once when forced ragdoll pulling starts.
 
 Register for these events with RegisterForModEvent. Both pull events use the leashed Actor as sender, leave
@@ -32,8 +33,9 @@ leashed: Actor wearing the leash mesh. An actor can have only one active leash.
 parentBone: Exact node name to find on the leashed actor before searching its descendants.
 leashBoneMatch: Text found anywhere in each ordered leash bone name beneath parentBone. For example,
 Main_ matches hdtSSEPhysics_AutoRename_Armor_00000004 Main_01 after SMP renames the node.
-minLength: Distance where active leash pulling stops. Must be zero or greater.
-maxLength: Maximum holder-to-collar distance. Must be positive and at least minLength.
+minLength: Settling distance when the holder stops, with a small arrival tolerance. Must be zero or greater.
+maxLength: Catch-up boundary. Must be positive and at least minLength. Actor-held leashes can start following
+before this distance; while the holder moves, the target gap is 40% of the way from minLength to maxLength.
 persistent: When true, the leash is saved and restored until explicitly disconnected.
 
 Applying another leash to the same leashed actor replaces its current leash.
@@ -88,7 +90,8 @@ Connects a holderless leash from a fixed position to leash bones on an actor.
 anchorCell: Cell containing the world-space position. It must correspond to the supplied coordinates.
 x, y, z: Fixed world-space coordinates of the leash anchor.
 All other arguments and replacement behavior match ApplyLeash.
-Pull distances are measured from the fixed anchor instead of a holder.
+Pull distances are measured from the fixed anchor instead of a holder. Unlike actor-held following,
+pulling starts only beyond maxLength and stops upon returning to minLength.
 
 World-position leashes do not assign LeasherFaction, have no result from GetLeashHolder, and do not
 use holder teleport recovery. Use DisconnectLeash(None, leashed) to disconnect one.
@@ -158,3 +161,30 @@ newLength must be positive and cannot be less than the current minimum length.
 Returns false when leashed has no active leash or newLength is invalid.
 /;
 Bool Function SetMaxLeashLength(Actor leashed, Float newLength) Global Native
+
+;/
+Overrides forced ragdoll recovery for leashed's active leash, for either a player or NPC.
+
+mode: -1 uses the current player/NPC config setting, 0 disables recovery, and 1 enables it.
+Enabling still respects actor restrictions and recovery eligibility. Disabling releases the framework's
+ragdoll hold and recovery state; Skyrim handles any remaining get-up. Ordinary engine ragdolls are unaffected.
+
+The override lasts until this leash is replaced or disconnected and is saved only with persistent leashes.
+Set mode back to -1 to remove the override. Returns false for an absent leash or a mode outside -1 through 1.
+/;
+Bool Function SetRagdollOverride(Actor leashed, Int mode = -1) Global Native
+
+;/
+Overrides teleport recovery for leashed's active leash, for either a player or NPC.
+
+mode: -1 uses current config/default behavior, 0 disables all leash teleport handling, and 1 enables it.
+This covers both following a player holder after positioning and separation recovery for NPC holders.
+For NPC holders, mode 1 uses the configured player/NPC extra distance when positive, or the default
+2,048 units when the configured distance is 0 or less. Grace time still comes from the config.
+Enabling still respects actor restrictions, holderless anchors, and the minLength > 99,999 disable rule.
+Changing the override clears pending teleport recovery.
+
+The override lasts until this leash is replaced or disconnected and is saved only with persistent leashes.
+Set mode back to -1 to remove the override. Returns false for an absent leash or a mode outside -1 through 1.
+/;
+Bool Function SetTeleportOverride(Actor leashed, Int mode = -1) Global Native

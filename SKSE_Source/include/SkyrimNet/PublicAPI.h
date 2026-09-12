@@ -2,6 +2,7 @@
 #include <string>
 #include <windows.h>
 #include <functional>
+#include "PublicAPIMemoryQuery.h"
 
 /**
  * SkyrimNet Public API — loaded at runtime via LoadLibraryA + GetProcAddress.
@@ -57,14 +58,15 @@ extern "C" {
 // =============================================================================
 
 /**
- * Returns the runtime API version (currently 9).
+ * Returns the runtime API version (currently 10).
  * Version history: 2 = action registration, 3 = data queries + UUID + config,
  *                  4 = diary queries,
  *                  5 = decorator registration + event callbacks + memory creation,
  *                  6 = actor busy state,
  *                  7 = save unique ID + world knowledge CRUD,
  *                  8 = send custom prompt to LLM,
- *                  9 = per-actor world knowledge for prompt enrichment.
+ *                  9 = per-actor world knowledge for prompt enrichment,
+ *                 10 = filtered memory queries.
  */
 int (*PublicGetVersion)() = nullptr;
 
@@ -185,6 +187,27 @@ std::string (*PublicGetBioTemplateName)(uint32_t formId) = nullptr;
  * @endcode
  */
 std::string (*PublicGetMemoriesForActor)(uint32_t formId, int maxCount, const char* contextQuery) = nullptr;
+
+/**
+ * Retrieve memories for an actor with explicit filtering and ordering (v10+).
+ *
+ * Prefer the typed QueryMemoriesForActor() wrapper at the bottom of this
+ * header — it builds queryJSON for you from a MemoryQuery struct.
+ *
+ * Filtering happens in SQL before the result is truncated, which is what
+ * PublicGetMemoriesForActor cannot express: it ranks the actor's whole store
+ * and cuts at maxCount, so under recency ordering a plugin's own recently
+ * written memories crowd out everything else.
+ *
+ * @param formId    Actor FormID.
+ * @param queryJSON JSON object describing the filter. Empty or "{}" uses the
+ *                  defaults, which behave close to
+ *                  PublicGetMemoriesForActor(formId, 50, "").
+ *
+ * @return The same JSON array shape PublicGetMemoriesForActor returns.
+ *         "[]" on error or malformed JSON.
+ */
+std::string (*PublicQueryMemoriesForActor)(uint32_t formId, const char* queryJSON) = nullptr;
 
 /**
  * Retrieve recent world events, optionally filtered.
@@ -834,9 +857,37 @@ inline bool FindFunctions() {
                 PublicGetWorldKnowledgeForActor = reinterpret_cast<std::string(*)(uint32_t, int, const char*)>(
                     GetProcAddress(hDLL, "PublicGetWorldKnowledgeForActor"));
             }
+
+            // v10+ functions
+            if (version >= 10) {
+                PublicQueryMemoriesForActor = reinterpret_cast<std::string(*)(uint32_t, const char*)>(
+                    GetProcAddress(hDLL, "PublicQueryMemoriesForActor"));
+            }
         }
         return true;
     }
     return false;
 }
+}
+
+/**
+ * Typed wrapper over PublicQueryMemoriesForActor (v10+).
+ *
+ * Serializes the query and calls the export. Returns "[]" if the installed
+ * SkyrimNet predates v10, so callers can treat an older install the same way
+ * they treat an empty result.
+ *
+ * @code
+ *   MemoryQuery q;
+ *   q.excludeTags   = {"mymod_writeback"};
+ *   q.minImportance = 0.4f;
+ *   q.orderBy       = MemoryOrder::ImportanceDesc;
+ *   q.maxCount      = 10;
+ *
+ *   std::string memories = QueryMemoriesForActor(formId, q);
+ * @endcode
+ */
+inline std::string QueryMemoriesForActor(uint32_t formId, const MemoryQuery& query) {
+    if (PublicQueryMemoriesForActor == nullptr) return "[]";
+    return PublicQueryMemoriesForActor(formId, MemoryQueryToJSON(query).c_str());
 }

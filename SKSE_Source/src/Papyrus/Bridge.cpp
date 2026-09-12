@@ -2,6 +2,7 @@
 
 #include "Leash/LeashState.h"
 #include "WebUI/Config.h"
+#include "WebUI/WebUI.h"
 
 #include <cctype>
 #include <string>
@@ -126,6 +127,11 @@ namespace SkyrimNetLeashed::Papyrus {
             SKSE::log::info("TraceLeashBones parent '{}' leash descendants={}", a_parentName, count);
         }
 
+        float DistanceMin(RE::StaticFunctionTag*, RE::BSFixedString a_leashDistance) {
+            const char* token = a_leashDistance.c_str() ? a_leashDistance.c_str() : "";
+            return WebUI::Config::DistanceMin(token);
+        }
+
         float DistanceMax(RE::StaticFunctionTag*, RE::BSFixedString a_leashDistance) {
             const char* token = a_leashDistance.c_str() ? a_leashDistance.c_str() : "";
             return WebUI::Config::DistanceMax(token);
@@ -145,6 +151,10 @@ namespace SkyrimNetLeashed::Papyrus {
 
         bool StruggleEnabled(RE::StaticFunctionTag*) {
             return WebUI::Config::StruggleEnabled();
+        }
+
+        void OpenPanel(RE::StaticFunctionTag*) {
+            WebUI::Open();
         }
 
         void TraceLeashBones(RE::StaticFunctionTag*, RE::Actor* a_who) {
@@ -177,12 +187,14 @@ namespace SkyrimNetLeashed::Papyrus {
         a_vm->RegisterFunction("NotifyUnleash", kScriptName, NotifyUnleash);
         a_vm->RegisterFunction("NotifyStruggle", kScriptName, NotifyStruggle);
         a_vm->RegisterFunction("NormalizeToken", kScriptName, NormalizeToken);
+        a_vm->RegisterFunction("DistanceMin", kScriptName, DistanceMin);
         a_vm->RegisterFunction("DistanceMax", kScriptName, DistanceMax);
         a_vm->RegisterFunction("DistanceFromLength", kScriptName, DistanceFromLength);
         a_vm->RegisterFunction("StruggleNarrationInterval", kScriptName, StruggleNarrationInterval);
         a_vm->RegisterFunction("StruggleCooldown", kScriptName, StruggleCooldown);
         a_vm->RegisterFunction("StruggleEnabled", kScriptName, StruggleEnabled);
         a_vm->RegisterFunction("TraceLeashBones", kScriptName, TraceLeashBones);
+        a_vm->RegisterFunction("OpenPanel", kScriptName, OpenPanel);
         SKSE::log::info("Registered {} Papyrus functions", kScriptName);
         return true;
     }

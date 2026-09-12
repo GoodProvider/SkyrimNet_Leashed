@@ -5,4 +5,5 @@
 namespace SkyrimNetLeashed::WebUI {
     void Init();
     void SetGameReady();
+    void Open();
 }

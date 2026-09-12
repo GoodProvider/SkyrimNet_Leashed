@@ -27,14 +27,20 @@ Function RegisterLeashEvents()
     UnregisterForModEvent("LeashFramework_OnUnleash")
     UnregisterForModEvent("LeashFramework_OnActorPulled")
     UnregisterForModEvent("LeashFramework_OnActorRagdollPulled")
+    UnregisterForModEvent("SkyrimNet_Leashed_OpenPanel")
 
     RegisterForModEvent("LeashFramework_OnLeash", "OnLeashFrameworkLeash")
     RegisterForModEvent("LeashFramework_OnUnleash", "OnLeashFrameworkUnleash")
     RegisterForModEvent("LeashFramework_OnActorPulled", "OnLeashFrameworkPulled")
     RegisterForModEvent("LeashFramework_OnActorRagdollPulled", "OnLeashFrameworkRagdollPulled")
+    RegisterForModEvent("SkyrimNet_Leashed_OpenPanel", "OnLeashedOpenPanel")
     RepushCachedPairs()
     RepushStruggling()
 EndFunction
+
+Event OnLeashedOpenPanel()
+    SkyrimNet_Leashed_Native.OpenPanel()
+EndEvent
 
 Function RepushCachedPairs()
     EnsureCache()
@@ -210,8 +216,12 @@ String Function StyleWord(String style)
     return "normally"
 EndFunction
 
-Float Function DistanceMin()
-    return 50.0
+Float Function DistanceMin(String leashDistance)
+    String d = NormalizeDistance(leashDistance)
+    if d == ""
+        d = "middle"
+    endif
+    return SkyrimNet_Leashed_Native.DistanceMin(d)
 EndFunction
 
 Float Function DistanceMax(String leashDistance)
@@ -250,7 +260,7 @@ String Function KindForDangling(String kind)
     return kind
 EndFunction
 
-; Leash.esm only ships Leash_hand_chain (0xD69) for wrists. Rope/magic wrist meshes do not exist.
+; Wrists is chain only. Rope/magic wrist meshes do not exist. Distance picks the chain length armor.
 String Function KindForBodyPart(String kind, String bodyPart)
     if NormalizeBodyPart(bodyPart) == "wrists"
         return "chain"
@@ -276,13 +286,78 @@ Actor Function MeshOwnerFor(Actor holder, Actor leashed, String kind)
     return leashed
 EndFunction
 
-Armor Function ArmorForKind(String kind, String bodyPart)
+Armor Function WristArmorById(Int formId)
+    return Game.GetFormFromFile(formId, "Leash.esm") as Armor
+EndFunction
+
+Bool Function IsWristChainArmor(Armor item)
+    if item == None
+        return false
+    endif
+    Armor standard = WristArmorById(0xD69)
+    Armor longArmor = WristArmorById(0x1)
+    Armor xlongArmor = WristArmorById(0x3)
+    return (standard && item == standard) || (longArmor && item == longArmor) || (xlongArmor && item == xlongArmor)
+EndFunction
+
+Bool Function ActorWearsWristChain(Actor who)
+    if who == None
+        return false
+    endif
+    Armor standard = WristArmorById(0xD69)
+    if standard && who.IsEquipped(standard)
+        return true
+    endif
+    Armor longArmor = WristArmorById(0x1)
+    if longArmor && who.IsEquipped(longArmor)
+        return true
+    endif
+    Armor xlongArmor = WristArmorById(0x3)
+    if xlongArmor && who.IsEquipped(xlongArmor)
+        return true
+    endif
+    return false
+EndFunction
+
+Function UnequipWristChainArmors(Actor who, Armor keep)
+    if who == None
+        return
+    endif
+    Armor standard = WristArmorById(0xD69)
+    if standard && standard != keep
+        UnequipTypeArmor(who, standard)
+    endif
+    Armor longArmor = WristArmorById(0x1)
+    if longArmor && longArmor != keep
+        UnequipTypeArmor(who, longArmor)
+    endif
+    Armor xlongArmor = WristArmorById(0x3)
+    if xlongArmor && xlongArmor != keep
+        UnequipTypeArmor(who, xlongArmor)
+    endif
+EndFunction
+
+Armor Function ArmorForWrists(String leashDistance)
+    String d = NormalizeDistance(leashDistance)
+    Int formId = 0xD69
+    if d == "long"
+        formId = 0x3
+    elseif d == "middle"
+        formId = 0x1
+    endif
+    Armor picked = WristArmorById(formId)
+    if picked
+        return picked
+    endif
+    return WristArmorById(0xD69)
+EndFunction
+
+Armor Function ArmorForKind(String kind, String bodyPart, String leashDistance)
     Int formId = 0x800
     if kind == "holder_shield"
         formId = 0xD69
     elseif bodyPart == "wrists"
-        ; Only Leash_hand_chain exists; KindForBodyPart already coerced kind to chain.
-        formId = 0xD69
+        return ArmorForWrists(leashDistance)
     elseif bodyPart == "neck"
         if kind == "chain"
             formId = 0x806
@@ -315,9 +390,8 @@ Function ApplyWristBind(Actor leashed)
     endif
     Armor cuffs = PrisonerCuffsArmor()
     if cuffs
-        Armor wristLeash = ArmorForKind("rope", "wrists")
         Armor worn = leashed.GetWornForm(cuffs.GetSlotMask()) as Armor
-        if worn && worn != cuffs && worn != wristLeash
+        if worn && worn != cuffs && !IsWristChainArmor(worn)
             leashed.UnequipItem(worn, false, true)
         endif
         if leashed.GetItemCount(cuffs) < 1
@@ -379,6 +453,14 @@ Function EquipTypeArmor(Actor meshOwner, Armor leashArmor)
     if !meshOwner.IsEquipped(leashArmor)
         meshOwner.EquipItem(leashArmor, true, true)
     endif
+    ; EquipItem can spawn a spare; keep only the worn copy.
+    Int extra = meshOwner.GetItemCount(leashArmor) - 1
+    if extra > 0
+        meshOwner.RemoveItem(leashArmor, extra, true)
+        if !meshOwner.IsEquipped(leashArmor)
+            meshOwner.EquipItem(leashArmor, true, true)
+        endif
+    endif
 EndFunction
 
 Bool Function WaitForLeashMesh(Actor meshOwner, Armor leashArmor)
@@ -405,6 +487,10 @@ Function UnequipTypeArmor(Actor meshOwner, Armor leashArmor)
     endif
     if meshOwner.IsEquipped(leashArmor)
         meshOwner.UnequipItem(leashArmor, false, true)
+    endif
+    ; Drop the copy we added for wear; leave any extra player-owned stacks.
+    if meshOwner.GetItemCount(leashArmor) > 0
+        meshOwner.RemoveItem(leashArmor, 1, true)
     endif
 EndFunction
 
@@ -576,28 +662,28 @@ Bool Function CachedIsTied(Actor leashed)
 EndFunction
 
 String Function DetectKind(Actor holder, Actor leashed)
-    Armor shieldArmor = ArmorForKind("holder_shield", "waist")
+    Armor shieldArmor = ArmorForKind("holder_shield", "waist", "")
     if holder && shieldArmor && holder.IsEquipped(shieldArmor)
         return "holder_shield"
     endif
     if leashed
-        ; Leashed-worn 0xD69 is wrists chain, not holder_shield.
-        if shieldArmor && leashed.IsEquipped(shieldArmor)
+        ; Leashed-worn hand-chain armors (0xD69 / 0x1 / 0x3) are wrists chain, not holder_shield.
+        if ActorWearsWristChain(leashed)
             return "chain"
         endif
-        Armor chainArmor = ArmorForKind("chain", "neck")
+        Armor chainArmor = ArmorForKind("chain", "neck", "")
         if chainArmor && leashed.IsEquipped(chainArmor)
             return "chain"
         endif
-        Armor magicArmor = ArmorForKind("magic", "neck")
+        Armor magicArmor = ArmorForKind("magic", "neck", "")
         if magicArmor && leashed.IsEquipped(magicArmor)
             return "magic"
         endif
-        Armor neckArmor = ArmorForKind("rope", "neck")
+        Armor neckArmor = ArmorForKind("rope", "neck", "")
         if neckArmor && leashed.IsEquipped(neckArmor)
             return "rope"
         endif
-        Armor bodyArmor = ArmorForKind("rope", "waist")
+        Armor bodyArmor = ArmorForKind("rope", "waist", "")
         if bodyArmor && leashed.IsEquipped(bodyArmor)
             return "rope"
         endif
@@ -610,22 +696,22 @@ String Function DetectKind(Actor holder, Actor leashed)
 EndFunction
 
 String Function DetectBodyPart(Actor holder, Actor leashed)
-    Armor shieldArmor = ArmorForKind("holder_shield", "waist")
-    ; Leashed-worn 0xD69 is the wrists body part, not holder_shield.
-    if leashed && shieldArmor && leashed.IsEquipped(shieldArmor)
+    Armor shieldArmor = ArmorForKind("holder_shield", "waist", "")
+    ; Leashed-worn hand-chain armors are the wrists body part, not holder_shield.
+    if ActorWearsWristChain(leashed)
         return "wrists"
     endif
     if holder && shieldArmor && holder.IsEquipped(shieldArmor)
         return "waist"
     endif
     if leashed
-        Armor chainArmor = ArmorForKind("chain", "neck")
-        Armor magicArmor = ArmorForKind("magic", "neck")
-        Armor neckArmor = ArmorForKind("rope", "neck")
+        Armor chainArmor = ArmorForKind("chain", "neck", "")
+        Armor magicArmor = ArmorForKind("magic", "neck", "")
+        Armor neckArmor = ArmorForKind("rope", "neck", "")
         if (chainArmor && leashed.IsEquipped(chainArmor)) || (magicArmor && leashed.IsEquipped(magicArmor)) || (neckArmor && leashed.IsEquipped(neckArmor))
             return "neck"
         endif
-        Armor bodyArmor = ArmorForKind("rope", "waist")
+        Armor bodyArmor = ArmorForKind("rope", "waist", "")
         if bodyArmor && leashed.IsEquipped(bodyArmor)
             return "waist"
         endif
@@ -672,13 +758,16 @@ String Function ResolveDistance(Actor leashed, String leashDistance)
 EndFunction
 
 Function UnequipPairArmor(Actor holder, Actor leashed, String kind, String bodyPart)
-    UnequipTypeArmor(MeshOwnerFor(holder, leashed, kind), ArmorForKind(kind, bodyPart))
+    Actor meshOwner = MeshOwnerFor(holder, leashed, kind)
     if NormalizeBodyPart(bodyPart) == "wrists"
+        UnequipWristChainArmors(meshOwner, None)
         ClearWristBind(leashed)
+        return
     endif
+    UnequipTypeArmor(meshOwner, ArmorForKind(kind, bodyPart, CachedDistance(leashed)))
 EndFunction
 
-Function UnequipStaleBodyArmor(Actor leashed, String kind, String bodyPart)
+Function UnequipStaleBodyArmor(Actor leashed, String kind, String bodyPart, String leashDistance)
     String prevKind = CachedKind(leashed)
     String prevBody = CachedBodyPart(leashed)
     if prevKind == "" && prevBody == ""
@@ -688,9 +777,17 @@ Function UnequipStaleBodyArmor(Actor leashed, String kind, String bodyPart)
     if prevBody == "wrists" && nextBody != "wrists"
         ClearWristBind(leashed)
     endif
-    Armor prevArmor = ArmorForKind(prevKind, prevBody)
-    Armor nextArmor = ArmorForKind(kind, bodyPart)
+    Armor prevArmor = ArmorForKind(prevKind, prevBody, CachedDistance(leashed))
+    Armor nextArmor = ArmorForKind(kind, bodyPart, leashDistance)
     Actor prevOwner = MeshOwnerFor(CachedHolder(leashed), leashed, prevKind)
+    if prevBody == "wrists" || nextBody == "wrists"
+        UnequipWristChainArmors(prevOwner, nextArmor)
+        Actor nextOwner = MeshOwnerFor(CachedHolder(leashed), leashed, kind)
+        if nextOwner != prevOwner
+            UnequipWristChainArmors(nextOwner, nextArmor)
+        endif
+        return
+    endif
     if prevArmor == None
         return
     endif
@@ -845,12 +942,12 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
         bodyPart = "neck"
     endif
     kind = KindForBodyPart(kind, bodyPart)
-    Armor leashArmor = ArmorForKind(kind, bodyPart)
+    Armor leashArmor = ArmorForKind(kind, bodyPart, leashDistance)
     if leashArmor == None
         Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder missing armor kind=" + kind + " body=" + bodyPart)
         return false
     endif
-    UnequipStaleBodyArmor(leashed, kind, bodyPart)
+    UnequipStaleBodyArmor(leashed, kind, bodyPart, leashDistance)
     Actor meshOwner = MeshOwnerFor(holder, leashed, kind)
     EquipTypeArmor(meshOwner, leashArmor)
     if !WaitForLeashMesh(meshOwner, leashArmor)
@@ -862,7 +959,7 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
     MarkSuppressed(leashed)
     Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder holder=" + ActorLabel(holder) + " leashed=" + ActorLabel(leashed) + " kind=" + kind + " body=" + bodyPart + " distance=" + leashDistance)
     String bone = ParentBoneFor(kind, bodyPart)
-    Float minLen = DistanceMin()
+    Float minLen = DistanceMin(leashDistance)
     Float maxLen = DistanceMax(leashDistance)
     Bool ok = false
     if IsHolderOwnedKind(kind)
@@ -907,8 +1004,8 @@ Bool Function ApplyDangling(Actor leashed, String style, String leashDistance, S
     kind = KindForBodyPart(kind, bodyPart)
     MarkSuppressed(leashed)
     DisconnectFramework(leashed)
-    Armor leashArmor = ArmorForKind(kind, bodyPart)
-    UnequipStaleBodyArmor(leashed, kind, bodyPart)
+    Armor leashArmor = ArmorForKind(kind, bodyPart, leashDistance)
+    UnequipStaleBodyArmor(leashed, kind, bodyPart, leashDistance)
     EquipTypeArmor(leashed, leashArmor)
     RememberPair(None, leashed, kind, bodyPart, style, leashDistance, false)
     MarkSuppressed(leashed)
@@ -933,12 +1030,12 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
         bodyPart = "neck"
     endif
     kind = KindForBodyPart(kind, bodyPart)
-    Armor leashArmor = ArmorForKind(kind, bodyPart)
+    Armor leashArmor = ArmorForKind(kind, bodyPart, leashDistance)
     if leashArmor == None
         Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint missing armor kind=" + kind + " body=" + bodyPart)
         return false
     endif
-    UnequipStaleBodyArmor(leashed, kind, bodyPart)
+    UnequipStaleBodyArmor(leashed, kind, bodyPart, leashDistance)
     EquipTypeArmor(leashed, leashArmor)
     if !WaitForLeashMesh(leashed, leashArmor)
         Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint armor not worn on " + ActorLabel(leashed))
@@ -950,7 +1047,7 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
     Float[] xyz = new Float[3]
     OffsetTiePoint(leashed, tiePoint, xyz)
     String bone = ParentBoneFor(kind, bodyPart)
-    Bool ok = LeashFramework.ApplyLeashAtPosition(leashed, parentCell, xyz[0], xyz[1], xyz[2], bone, LeashBoneMatch(), DistanceMin(), DistanceMax(leashDistance), true)
+    Bool ok = LeashFramework.ApplyLeashAtPosition(leashed, parentCell, xyz[0], xyz[1], xyz[2], bone, LeashBoneMatch(), DistanceMin(leashDistance), DistanceMax(leashDistance), true)
     if !ok
         Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint returned false")
         UnequipTypeArmor(leashed, leashArmor)
@@ -1165,19 +1262,30 @@ String Function StruggleAnimEvent(String bodyPart)
     return "DDCollarStruggle01"
 EndFunction
 
+String Function StruggleBodyPart(Actor who)
+    Actor holder = LeashFramework.GetLeashHolder(who)
+    if holder == None
+        holder = CachedHolder(who)
+    endif
+    return DetectBodyPart(holder, who)
+EndFunction
+
 Function PlayStruggleAnim(Actor who)
     if who == None
         return
     endif
-    String eventName = StruggleAnimEvent(CachedBodyPart(who))
+    String eventName = StruggleAnimEvent(StruggleBodyPart(who))
     Debug.Trace("[SkyrimNet_Leashed] PlayStruggleAnim " + ActorLabel(who) + " " + eventName)
+    if !ActorIsLocomoting(who)
+        Debug.SendAnimationEvent(who, "IdleNervous")
+    endif
     Debug.SendAnimationEvent(who, eventName)
 EndFunction
 
 Function StopStruggleAnim(Actor who)
     if who
         Debug.SendAnimationEvent(who, "IdleForceDefaultState")
-        if CachedBodyPart(who) == "wrists"
+        if StruggleBodyPart(who) == "wrists"
             ApplyWristBind(who)
         endif
     endif
@@ -1595,15 +1703,28 @@ EndEvent
 
 Event OnLeashFrameworkPulled(String eventName, String strArg, Float numArg, Form sender)
     Actor leashed = sender as Actor
-    EndStruggle(leashed, false)
-    NarratePull(leashed, false)
+    if leashed == None || leashed.IsDead()
+        return
+    endif
+    Actor holder = LeashFramework.GetLeashHolder(leashed)
+    Float maxLen = LeashFramework.GetMaxLeashLength(leashed)
+    ; Actor-held follow-start (1.1.3) fires before maxLength. Walking must not end struggle.
+    ; World-tie and at-or-beyond catch-up are yanks.
+    Bool yank = holder == None || (maxLen > 0.0 && numArg >= maxLen)
+    if yank
+        EndStruggle(leashed, false)
+        NarratePull(leashed, false)
+    endif
 EndEvent
 
 Event OnLeashFrameworkRagdollPulled(String eventName, String strArg, Float numArg, Form sender)
     Actor leashed = sender as Actor
+    if leashed == None || leashed.IsDead()
+        return
+    endif
     EndStruggle(leashed, false)
     NarratePull(leashed, true)
-    if leashed && CachedBodyPart(leashed) == "wrists"
+    if CachedBodyPart(leashed) == "wrists"
         RegisterForAnimationEvent(leashed, "GetUpEnd")
     endif
 EndEvent

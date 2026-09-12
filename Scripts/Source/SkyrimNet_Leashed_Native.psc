@@ -58,7 +58,13 @@ Used to normalize the free-text style and leash type tokens supplied by the LLM.
 String Function NormalizeToken(String value) Global Native
 
 ;/
-Maximum leash length in game units for tight, short/close, middle, or long.
+Settle (minLength) in game units for tight, short/close, middle, or long.
+Reads the SkyrimNet plugin config; unknown tokens use middle. Clamped to DistanceMax.
+/;
+Float Function DistanceMin(String leashDistance) Global Native
+
+;/
+Catch-up (maxLength) in game units for tight, short/close, middle, or long.
 Reads the SkyrimNet plugin config; unknown tokens use middle.
 /;
 Float Function DistanceMax(String leashDistance) Global Native
@@ -74,3 +80,10 @@ Logs every third-person node whose name contains "Leash", plus how many of those
 sit under NPC Neck, NPC Spine1, and NPC Spine2. Used to diagnose Framework bind.
 /;
 Function TraceLeashBones(Actor who) Global Native
+
+;/
+Shows the PrismaUI leash panel (same as the panel hotkey open path). Does not
+require leash.controls.hotkeyEnabled. No-ops if PrismaUI is missing or no save
+is loaded.
+/;
+Function OpenPanel() Global Native

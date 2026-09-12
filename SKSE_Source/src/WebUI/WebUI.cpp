@@ -520,4 +520,8 @@ namespace SkyrimNetLeashed::WebUI {
         g_gameReady = true;
         SKSE::log::info("WebUI: game ready");
     }
+
+    void Open() {
+        Show();
+    }
 }

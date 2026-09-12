@@ -1,9 +1,9 @@
 # Checkpoint: SkyrimNet beta25-rc6
 
-**Status:** SkyrimNet_Leashed **0.2.0** reviewed against installed SkyrimNet **beta25-rc6** (product **0.25.0**, PublicAPI **v10**). Header pin only. No caller, YAML, prompt, or Papyrus changes. Next SkyrimNet bump: skill `dependency_drift`, then a new `checkpoints/skyrimnet-<version>.md`.
+**Status:** SkyrimNet_Leashed **0.3.0** reviewed against installed SkyrimNet **beta25-rc6** (product **0.25.0**, PublicAPI **v10**). Header pin only. No caller, YAML, prompt, or Papyrus changes. Next SkyrimNet bump: skill `dependency_drift`, then a new `checkpoints/skyrimnet-<version>.md`.
 
 **Repo:** `c:\Skyrim\dev\mods\SkyrimNet_Leashed`  
-**Compared:** this repo 0.2.0 vs `../SkyrimNet` (`skyrimnet-bundle-beta25-rc6.zip`, MO2 `version=d2026.9.10.0`). Runtime log `SkyrimNet 0.25.0` / `PublicGetVersion() = 10`. GitHub tag `MinLL/SkyrimNet-GamePlugin` **`vbeta25-rc6`**.
+**Compared:** this repo 0.3.0 vs `../SkyrimNet` (`skyrimnet-bundle-beta25-rc6.zip`, MO2 `version=d2026.9.10.0`). Runtime log `SkyrimNet 0.25.0` / `PublicGetVersion() = 10`. GitHub tag `MinLL/SkyrimNet-GamePlugin` **`vbeta25-rc6`**.
 
 Read first: [KNOWLEDGE.md](../KNOWLEDGE.md), [AGENTS.md](../AGENTS.md), `.cursor/skills/dependency_drift/SKILL.md`.
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 
-project(SkyrimNet_Leashed VERSION 0.1.0 LANGUAGES CXX RC)
+project(SkyrimNet_Leashed VERSION 0.3.0 LANGUAGES CXX RC)
 
 set(MOD_FOLDER_NAME "SkyrimNet_Leashed")
 

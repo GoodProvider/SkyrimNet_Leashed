@@ -1,14 +1,64 @@
 # Changelog
 
-## Unreleased
+## [0.3.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.3.0) — since [0.2.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.2.0)
 
-- SkyrimNet plugin menu **Enable struggle** (`leash.escape.enabled`, default on). Off hides `leash_escape` / `leash_escape_struggle` (`is_struggle_enabled`) and silently ends anyone already looping. `StruggleExecute` no-ops. Root `leash_none_struggle_stop` stays gated only on `speaker_is_struggling`.
-- Renamed the plugin identity from `SkyrimNet_Leash` to `SkyrimNet_Leashed`: `SkyrimNet_Leashed.esp` (quest EditorID `SkyrimNet_Leashed`, FormID `000800` unchanged), `SkyrimNet_Leashed_Actions` / `_PlayerAlias` / `_Native`, `SkyrimNet_Leashed.dll` (and `SkyrimNet_Leashed.log`), `PrismaUI/views/SkyrimNet_Leashed/`, `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml` (`plugin.name`), and `questEditorId` / `scriptName` in all 14 executable action YAMLs. Action names, `leash.*` config keys, and decorator IDs are unchanged.
-- Packaging renamed with it: FOMOD `SkyrimNet Leashed`, `versions/SkyrimNet_Leashed ${VERSION}.7z`, CMake project `SkyrimNet_Leashed`, MO2 deploy folder `SkyrimNet_Leashed`. Existing installs must be removed rather than updated in place, or the old ESP and DLL keep loading alongside the new ones.
-- `leash_escape_struggle` is a looping struggle state (`IdleNervous` while standing, then optional DD FNIS events by body part: neck `DDCollarStruggle01`, wrists `DDRegCuffsFrontStruggle01`, waist `DDChastityBeltStruggle01`). No ESM check; unregistered events stay on `IdleNervous`. Walking does not end it; yank, unclip, or `leash_none_struggle_stop` does. While struggling, a short-lived `leash` event (`{name} continues to struggle with {her/his/their} leash.`) refreshes every second. DirectNarration still-beats wait for the longer of `leash.escape.narrationInterval` (default 5) and `leash.escape.cooldown` (default 20): `Despite {name}'s attempts, the leash holds.`
-- Root `leash_none_struggle_stop` (`StopStruggleExecute`), gated on `speaker_is_struggling`. Opposite of Escape; no `customCategory`. Optional DirectNarration: `{name} stops struggling to remove their leash.`
-- Root Unleash is `leash_none_target_unleash`. Escape category gates match struggle (`is_struggle_enabled`, `speaker_is_leashed`, and not `speaker_is_struggling`).
+### Papyrus
+
+- Compile header [`Headers/LeashFramework.psc`](Headers/LeashFramework.psc) matches Leash Framework **1.1.3** comments plus `SetRagdollOverride` / `SetTeleportOverride` (declared, not called). Submodule `Skyrim-Leash-Framework` stays `bf3b33c`.
+- `OnLeashFrameworkPulled`: actor-held follow-start (`holder` set and `numArg < GetMaxLeashLength`) does not `EndStruggle` or taut-narrate. Yank is world-tie, `numArg >= GetMaxLeashLength`, ragdoll, unclip, or `leash_none_struggle_stop`. Dead senders are ignored.
+- Native `DistanceMin` (settle / minLength). Apply uses per-token settle plus catch-up (`DistanceMax`).
+- Wrists stays chain-only. Distance picks `Leash_hand_chain` `0xD69` (tight/short), `Leash_hand_chain_long` `0x1` (middle), `Leash_hand_chain_xlong` `0x3` (long); missing forms fall back to `0xD69`.
+- `PlayStruggleAnim` sends `IdleNervous` when the actor is not locomoting, then the DD FNIS event from `DetectBodyPart` (not the Papyrus pair cache): neck `DDCollarStruggle01`, wrists `DDRegCuffsFrontStruggle01`, waist `DDChastityBeltStruggle01`. `StopStruggleAnim` still `IdleForceDefaultState` and rebinds wrists from `DetectBodyPart`.
+- `UnequipTypeArmor` unequips the worn copy then `RemoveItem` 1 (the copy added for wear). It does not drain remaining player-owned stacks. `EquipTypeArmor` strips extras `EquipItem` can spawn.
+- Mod event `SkyrimNet_Leashed_OpenPanel` calls native `OpenPanel`.
+
+### SKSE / WebUI
+
+- Natives `DistanceMin` and `OpenPanel`. `OpenPanel` → `WebUI::Open()` / `Show()` and does not require `leash.controls.hotkeyEnabled`.
+- Manifest settle keys `leash.settle.*` (minLength) and catch-up `leash.distance.*` (maxLength). Defaults: tight 50/120, short 90/220, middle 150/380, long 240/580. C++ clamps settle ≤ catch-up. Actor-held follow gap is Framework 40% from settle to catch-up.
+- SkyrimNet `PublicAPI.h` pin v10 plus `PublicAPIMemoryQuery.h`; this plugin does not call the memory-query API.
+- Compile headers that must stay in git: `SKSE_Source/src/Papyrus/Bridge.h`, `SKSE_Source/lib/PrismaUI/PrismaUI_API.h`, `SKSE_Source/include/SkyrimNet/PublicAPIMemoryQuery.h`. CRT stays `/MD` (`x64-windows-static-md`).
+
+### Escape / HUD
+
+- Actor-held follow-start `OnActorPulled` (Leash Framework 1.1.3, before maxLength) does not end struggle. Walking skips `IdleNervous` so follow-walk is not cancelled every `RegisterForUpdate(1.0)`. World-tie, catch-up yank, ragdoll, unclip, or `leash_none_struggle_stop` still end it.
+- PrismaUI **unleash** stays full power, including the player unclipping themselves. Other plugins (e.g. SkyrimNet_SexLab) can fire `SkyrimNet_Leashed_OpenPanel`.
+
+### Install / FOMOD
+
+- FOMOD still refuses unless `Leash.esm` is active. Tested with Leash Framework **1.1.3**.
+
+### Docs
+
+- Player front door: `README.md` (settle / catch-up table, wrist meshes, SexLab panel button). Quirks / pins: `KNOWLEDGE.md`. LF 1.1.3 drift: `checkpoints/leashframework-1.1.3.md`. SkyrimNet beta25-rc6 pin: `checkpoints/skyrimnet-beta25-rc6.md`. Dependency updates: skill `dependency_drift`.
+
+## [0.2.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.2.0) — since [0.1.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.1.0)
+
+### Actions
+
+- Renamed `questEditorId` / `scriptName` in all 14 executable action YAMLs to `SkyrimNet_Leashed` / `SkyrimNet_Leashed_Actions`. Action names, `leash.*` config keys, and decorator IDs are unchanged.
+- `leash_escape_.yaml` and `leash_escape_struggle.yaml` share gates: `is_struggle_enabled`, `speaker_is_leashed`, and not `speaker_is_struggling`. Category is not stricter than the child.
+- Root `leash_none_struggle_stop` stays gated only on `speaker_is_struggling` (no `customCategory`). Root Unleash remains `leash_none_target_unleash`.
+
+### Papyrus
+
+- Scripts renamed `SkyrimNet_Leashed_Actions` / `_PlayerAlias` / `_Native`.
+- `leash_escape_struggle` is a looping struggle state (`IdleNervous` while standing, then optional DD FNIS events by cached body part: neck `DDCollarStruggle01`, wrists `DDRegCuffsFrontStruggle01`, waist `DDChastityBeltStruggle01`). No ESM check; unregistered events stay on `IdleNervous`. Walking does not end it; yank, unclip, or `leash_none_struggle_stop` does.
+- `StruggleExecute` no-ops when `StruggleEnabled` is off; `OnUpdate` silently `EndStruggle`s anyone already looping.
+
+### SKSE / WebUI
+
+- Plugin identity renamed from `SkyrimNet_Leash` to `SkyrimNet_Leashed`: `SkyrimNet_Leashed.dll` / `.log`, `PrismaUI/views/SkyrimNet_Leashed/`, manifest `plugin.name`. ESP EditorID `SkyrimNet_Leashed`, FormID `000800` unchanged.
+- SkyrimNet plugin menu **Enable struggle** (`leash.escape.enabled`, default on) → decorator `is_struggle_enabled`.
+
+### Escape / HUD
+
+- While struggling, a short-lived `leash` event (`{name} continues to struggle with {her/his/their} leash.`) refreshes every second. DirectNarration still-beats wait for the longer of `leash.escape.narrationInterval` (default 5) and `leash.escape.cooldown` (default 20): `Despite {name}'s attempts, the leash holds.`
 - Dropped ZaZ body-part clips and the 20s attempt-count window.
+
+### Install / FOMOD
+
+- Packaging renamed: FOMOD `SkyrimNet Leashed`, `versions/SkyrimNet_Leashed ${VERSION}.7z`, CMake project `SkyrimNet_Leashed`, MO2 deploy folder `SkyrimNet_Leashed`. Existing `SkyrimNet_Leash` installs must be removed rather than updated in place, or the old ESP and DLL keep loading alongside the new ones.
 
 ## [0.1.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.1.0)
 

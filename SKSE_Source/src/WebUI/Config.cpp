@@ -57,11 +57,15 @@ namespace SkyrimNetLeashed::WebUI::Config {
         constexpr float kLengthFloor = 50.0F;
         constexpr float kLengthCeil = 2000.0F;
 
-        // Keep in sync with the leash.distance.* defaultValue entries in the manifest.
-        constexpr float kTightLength = 80.0F;
-        constexpr float kShortLength = 150.0F;
-        constexpr float kMiddleLength = 220.0F;
-        constexpr float kLongLength = 300.0F;
+        // Keep in sync with the leash.settle.* / leash.distance.* defaultValue entries in the manifest.
+        constexpr float kTightSettle = 50.0F;
+        constexpr float kShortSettle = 90.0F;
+        constexpr float kMiddleSettle = 150.0F;
+        constexpr float kLongSettle = 240.0F;
+        constexpr float kTightLength = 120.0F;
+        constexpr float kShortLength = 220.0F;
+        constexpr float kMiddleLength = 380.0F;
+        constexpr float kLongLength = 580.0F;
 
         float ReadLength(const char* a_path, float a_default) {
             const auto fallback = std::to_string(static_cast<int>(a_default));
@@ -111,6 +115,25 @@ namespace SkyrimNetLeashed::WebUI::Config {
             return ReadLength("leash.distance.long", kLongLength);
         }
         return ReadLength("leash.distance.middle", kMiddleLength);
+    }
+
+    float DistanceMin(std::string_view a_token) {
+        const auto token = Lower(std::string{a_token});
+        float settle = kMiddleSettle;
+        if (token == "tight") {
+            settle = ReadLength("leash.settle.tight", kTightSettle);
+        } else if (token == "short" || token == "close") {
+            settle = ReadLength("leash.settle.short", kShortSettle);
+        } else if (token == "long") {
+            settle = ReadLength("leash.settle.long", kLongSettle);
+        } else {
+            settle = ReadLength("leash.settle.middle", kMiddleSettle);
+        }
+        const float catchUp = DistanceMax(token);
+        if (settle > catchUp) {
+            return catchUp;
+        }
+        return settle;
     }
 
     std::string DistanceFromLength(float a_maxLength) {

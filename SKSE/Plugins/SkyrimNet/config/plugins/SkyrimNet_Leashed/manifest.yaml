@@ -1,6 +1,6 @@
 plugin:
   name: "SkyrimNet_Leashed"
-  version: "0.1.0"
+  version: "0.3.0"
   description: "Leash Framework-SkyrimNet integration"
   icon: "🪢"
 
@@ -36,40 +36,76 @@ schema:
         - "long"
       category: "Leash"
 
-    - name: "Tight"
+    - name: "Tight settle"
+      path: "leash.settle.tight"
+      type: "int"
+      description: "Stop distance in game units for the tight token (holder standing still)."
+      min: 50
+      max: 2000
+      defaultValue: 50
+      category: "Leash"
+
+    - name: "Tight catch-up"
       path: "leash.distance.tight"
       type: "int"
-      description: "Maximum leash length in game units for the tight distance token."
+      description: "Catch-up bound in game units for the tight token. While the holder walks, follow gap is 40% of the way from settle to this value."
       min: 50
       max: 2000
-      defaultValue: 80
+      defaultValue: 120
       category: "Leash"
 
-    - name: "Short"
+    - name: "Short settle"
+      path: "leash.settle.short"
+      type: "int"
+      description: "Stop distance in game units for the short token (holder standing still)."
+      min: 50
+      max: 2000
+      defaultValue: 90
+      category: "Leash"
+
+    - name: "Short catch-up"
       path: "leash.distance.short"
       type: "int"
-      description: "Maximum leash length in game units for the short distance token."
-      min: 50
-      max: 2000
-      defaultValue: 150
-      category: "Leash"
-
-    - name: "Middle"
-      path: "leash.distance.middle"
-      type: "int"
-      description: "Maximum leash length in game units for the middle distance token."
+      description: "Catch-up bound in game units for the short token. While the holder walks, follow gap is 40% of the way from settle to this value."
       min: 50
       max: 2000
       defaultValue: 220
       category: "Leash"
 
-    - name: "Long"
-      path: "leash.distance.long"
+    - name: "Middle settle"
+      path: "leash.settle.middle"
       type: "int"
-      description: "Maximum leash length in game units for the long distance token."
+      description: "Stop distance in game units for the middle token (holder standing still)."
       min: 50
       max: 2000
-      defaultValue: 300
+      defaultValue: 150
+      category: "Leash"
+
+    - name: "Middle catch-up"
+      path: "leash.distance.middle"
+      type: "int"
+      description: "Catch-up bound in game units for the middle token. While the holder walks, follow gap is 40% of the way from settle to this value."
+      min: 50
+      max: 2000
+      defaultValue: 380
+      category: "Leash"
+
+    - name: "Long settle"
+      path: "leash.settle.long"
+      type: "int"
+      description: "Stop distance in game units for the long token (holder standing still)."
+      min: 50
+      max: 2000
+      defaultValue: 240
+      category: "Leash"
+
+    - name: "Long catch-up"
+      path: "leash.distance.long"
+      type: "int"
+      description: "Catch-up bound in game units for the long token. While the holder walks, follow gap is 40% of the way from settle to this value."
+      min: 50
+      max: 2000
+      defaultValue: 580
       category: "Leash"
 
     - name: "Leash type"
@@ -86,7 +122,7 @@ schema:
     - name: "Leash body part"
       path: "leash.ui.bodyPart"
       type: "select"
-      description: "Default attachment point used by the panel pulldown and Start. Wrists uses Leash_hand_chain; type is forced to chain."
+      description: "Default attachment point used by the panel pulldown and Start. Wrists forces type to chain. Wrist mesh is Leash_hand_chain (tight/short), Leash_hand_chain_long (middle), or Leash_hand_chain_xlong (long)."
       defaultValue: "neck"
       options:
         - "neck"

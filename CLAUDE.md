@@ -2,7 +2,7 @@
 
 Guidance for Claude Code / Cursor agents on SkyrimNet_Leashed.
 
-**Primary agent doc:** [AGENTS.md](AGENTS.md). **Router:** [llms.txt](llms.txt).
+**Primary agent doc:** [AGENTS.md](AGENTS.md). **Router:** [llms.txt](llms.txt). **Quirks:** [KNOWLEDGE.md](KNOWLEDGE.md).
 
 ## What this is
 

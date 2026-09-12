@@ -2,7 +2,7 @@
 <fomod>
   <!-- this file is generated from FOMOD_source/info.xml -->
   <Name>SkyrimNet Leashed</Name>
-  <Version>0.1.0</Version>
+  <Version>0.3.0</Version>
   <Author>GoodProvider</Author>
   <Website>https://github.com/GoodProvider/SkyrimNet_Leash</Website>
   <Description>SkyrimNet bridge for Leash Framework. Requires Leash Framework (Leash.esm + LeashFramework.dll) and SkyrimNet.</Description>

@@ -10,6 +10,7 @@ namespace SkyrimNetLeashed::WebUI::Config {
     [[nodiscard]] std::uint32_t HotkeyVk();
     [[nodiscard]] std::uint32_t HotkeyDx();
     [[nodiscard]] std::string Distance();
+    [[nodiscard]] float DistanceMin(std::string_view a_token);
     [[nodiscard]] float DistanceMax(std::string_view a_token);
     [[nodiscard]] std::string DistanceFromLength(float a_maxLength);
     [[nodiscard]] std::string LeashType();

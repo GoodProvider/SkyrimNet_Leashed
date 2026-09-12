@@ -12,10 +12,10 @@
     <project>SkyrimNet_Leashed</project>
     <summary>Bridge mod between SkyrimNet (LLM) and Leash Framework.</summary>
     <repository_root>c:\Skyrim\dev\mods\SkyrimNet_Leashed</repository_root>
-    <updated>2026-09-09</updated>
-    <base_tag>none</base_tag>
-    <next_version>0.1.0</next_version>
-    <version_status>Makefile VERSION=0.1.0 (authoritative); CMake / vcpkg.json / FOMOD / manifest all 0.1.0; git tag and GitHub Release still pending</version_status>
+    <updated>2026-09-12</updated>
+    <base_tag>0.2.0</base_tag>
+    <next_version>0.3.0</next_version>
+    <version_status>Makefile VERSION=0.3.0 (authoritative); CMake / vcpkg.json / FOMOD / manifest all 0.3.0; git tags 0.1.0 and 0.2.0 exist; 0.3.0 git tag and GitHub Release still pending</version_status>
     <related_artifacts>
       <artifact role="release rules">release-guide.md</artifact>
       <artifact role="agent procedure">.cursor/skills/release/SKILL.md</artifact>
@@ -23,6 +23,9 @@
       <artifact role="changelog since last tag">CHANGELOG.md</artifact>
       <artifact role="player changelog summary">CHANGELOG-user.md</artifact>
       <artifact role="end-user front door">README.md</artifact>
+      <artifact role="quirks / dependency pins">KNOWLEDGE.md</artifact>
+      <artifact role="LF 1.1.3 drift">checkpoints/leashframework-1.1.3.md</artifact>
+      <artifact role="SkyrimNet beta25-rc6 pin">checkpoints/skyrimnet-beta25-rc6.md</artifact>
     </related_artifacts>
   </metadata>
 
@@ -30,6 +33,7 @@
     <file>README.md</file>
     <file>llms.txt</file>
     <file>AGENTS.md</file>
+    <file>KNOWLEDGE.md</file>
     <file>CHANGELOG.md</file>
     <file>CHANGELOG-user.md</file>
     <file>release-guide.md</file>
@@ -37,13 +41,12 @@
   </doc_files>
 
   <status>
-    <note>2026-09-08: Maintainer asked to stay on 0.1.0 (not 1.0.0). First-public changelogs written from the shipping tree (base_tag none). README already matched the action tables / hotkey / escape rules.</note>
-    <note>Ship set includes uncommitted working-tree: root leash_target_unleash (deleted leash_unleash_speaker/target), intent on category parents, struggle Papyrus, PlayerAlias.psc, PrismaUI_API.h, compiled pex.</note>
-    <note>Does not ship: UnforgivingDevices/, checkpoints/, escape-*.md, z-plan.md, SKSE_Source/build/, versions/ staging until pack.</note>
-    <note>2026-09-08: Docs re-aligned to current code (50bc47e wrists=chain, 19fa065 bound-standing idle / GetUpEnd, uncommitted PrismaUI lockWristType). README / CHANGELOG* now match KindForBodyPart, ApplyWristBind, manifest leash.ui.bodyPart.</note>
-    <note>2026-09-09: Packed versions/SkyrimNet_Leashed 0.1.0.7z (single ESP/DLL, no PDBs, no old plugin names). Makefile now passes -RepoRoot "$(CURDIR)" so Chocolatey make no longer hits empty $PSScriptRoot.</note>
-    <note>2026-09-09: Renamed plugin identity SkyrimNet_Leash to SkyrimNet_Leashed — ESP, quest EditorID, three Papyrus scripts, DLL/CMake project, PrismaUI view folder, SkyrimNet plugin manifest folder and plugin.name, 14 action YAML questEditorId/scriptName, FOMOD, packaging. GitHub repo URLs still point at GoodProvider/SkyrimNet_Leash until the remote is renamed.</note>
-    <note>Open: commit remaining working tree; rebuild 7z; MO2 playtest; git tag 0.1.0; GitHub Release; Nexus.</note>
+    <note>2026-09-12: 0.3.0 packed. versions/SkyrimNet_Leashed 0.3.0.7z. DLL FileVersion 0.3.0 (CMake Release after version bump). pex from compile: pyro 2026-09-12. ESP deserialized from Spriggit (unchanged vs 0.2.0). Do not tag unless asked.</note>
+    <note>2026-09-12: 0.2.0 review fixes were written into the 0.2.0 changelog before the remote tag was fetched; those bullets now live under 0.3.0. GitHub Release 0.2.0 exists (2026-09-10).</note>
+    <note>2026-09-10: Adapted to Leash Framework 1.1.3. Header + submodule bf3b33c. Follow-start OnActorPulled does not end struggle. Per-token settle/catch-up defaults. Wrist meshes 0xD69/0x1/0x3. dependency_drift skill + KNOWLEDGE.md. Maintainer playtest passed (looked fine); override natives stay unused. Shipped as 0.3.0, not 0.2.0.</note>
+    <note>2026-09-08: Maintainer asked to stay on 0.1.0 (not 1.0.0) for first public; 0.2.0 was rename + Enable struggle + DD struggle anims.</note>
+    <note>Does not ship: UnforgivingDevices/, escape-*.md, z-plan.md, SKSE_Source/build/, versions/ staging until pack. Agent checkpoints/ may live in git; not in the FOMOD 7z. Must git-add SKSE_Source/src/Papyrus/Bridge.h, lib/PrismaUI/PrismaUI_API.h, include/SkyrimNet/PublicAPIMemoryQuery.h (untracked; required to compile).</note>
+    <note>Open: commit (include the three SKSE headers; do not add UnforgivingDevices/, handoff-checkpoint.md, SKSE_Source/build/, or SKSE/Plugins/*.pdb); MO2 playtest of versions/SkyrimNet_Leashed 0.3.0.7z; git tag 0.3.0; GitHub Release; Nexus.</note>
   </status>
 
   <conventions>
@@ -54,6 +57,7 @@
     <convention>ESP source of truth is Spriggit/SkyrimNet_Leashed/, not a hand-edited .esp.</convention>
     <convention>Do not vendor or recompile LeashFramework.psc; call the runtime natives.</convention>
     <convention>SE ≠ VR — never assume parity.</convention>
-    <convention>Wrists is chain only (Leash_hand_chain 0xD69). KindForBodyPart and PrismaUI lockWristType force type to chain.</convention>
+    <convention>Wrists is chain only. Distance picks Leash_hand_chain 0xD69 (tight/short), 0x1 long (middle), 0x3 xlong (long). KindForBodyPart and PrismaUI lockWristType force type to chain.</convention>
+    <convention>Dependency update reviews use skill dependency_drift and checkpoints/&lt;dependency-name&gt;-&lt;version&gt;.md. LF pin: checkpoints/leashframework-1.1.3.md.</convention>
   </conventions>
 </checkpoint>
