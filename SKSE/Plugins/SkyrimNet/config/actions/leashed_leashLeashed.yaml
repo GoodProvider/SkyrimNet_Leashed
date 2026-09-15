@@ -1,0 +1,9 @@
+customCategory: leashed_leashLeashed
+name: leashed_leashLeashed
+label: Get leashed
+description: "Someone else (including the player) puts a new collar and leash on you. Use when narration already said you were leashed. Dialogue may object; still pick this so the game applies it. Not when you collar someone else, and not for changing or removing an existing leash."
+parameterMapping:
+  - type: dynamic
+    name: intent
+    description: Who puts the collar on you, who holds it (or None), how, and why. Example — Bob puts a rope leash on my neck and holds it.
+enabled: true

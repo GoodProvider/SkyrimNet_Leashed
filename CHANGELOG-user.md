@@ -1,3 +1,7 @@
+Unreleased
+
+- LLM actions and prompts ship in both the Beta 25 plugin folder and the older SkyrimNet folders, so this version still works on pre-0.25 SkyrimNet.
+
 https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.0
 
 Requires SkyrimNet **0.25.0+** (Beta 25 plugin layout)

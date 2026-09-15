@@ -1,0 +1,26 @@
+customCategory: leashed_change
+name: leashed_change_give_target
+description: "{{render_template(\"leash_actions/leash_action_give_target\")}}"
+questEditorId: SkyrimNet_Leashed
+scriptName: SkyrimNet_Leashed_Actions
+executionFunctionName: GiveLeash
+parameterMapping:
+  - type: speaker
+    name: subject
+    description: Speaker handing over an existing leash
+  - type: dynamic
+    name: leashed
+    description: Display name of the collared actor whose existing leash is given, exactly as listed under available targets. Never the receiver.
+    useNearbyActors: false
+  - type: dynamic
+    name: receiver
+    description: Display name of who will hold the leash after the handoff, or None to leave it hanging from the collar (not tied to a point). Never the leashed actor.
+    useNearbyActors: false
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: collared_nearby
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"

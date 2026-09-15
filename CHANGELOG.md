@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Actions
+- Dual-ship LLM actions and prompts: canonical `external/goodprovider.leashed/` plus pre-0.25 copies at `config/actions/` and `prompts/` (`tools/sync_legacy_skyrimnet_content.py`)
+
 ## [0.4.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.0) — since [0.3.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.3.0)
 
 ### Actions
@@ -20,6 +25,10 @@
 ### Docs
 
 - Player front door: `README.md` (SkyrimNet 0.25.0+, `leashed_*` action names). SkyrimNet pin: `checkpoints/skyrimnet-beta25-rc7.md`. Settings vs content plugin split: `KNOWLEDGE.md`.
+
+### Papyrus
+
+- Unclip restores the pre-apply `GetItemCount` of the worn Leash.esm mesh (`CachedArmorCounts`). A copy they already had stays; extras `EquipItem` spawned of that form are removed. Panel cache-miss still unequips the detected worn form. Take/give do not strip the collar.
 
 ## [0.3.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.3.0) — since [0.2.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.2.0)
 

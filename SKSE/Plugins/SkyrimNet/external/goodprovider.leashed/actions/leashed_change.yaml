@@ -1,11 +1,11 @@
-customCategory: leash_leash
-name: leash_leash
-label: Leash
-description: "Put a collar and leash on a nearby person or on yourself — hold the leash, leave it hanging, or tie them to a point. Not for changing or removing an existing leash."
+customCategory: leashed_change
+name: leashed_change
+label: Change leash
+description: "Take, give, or re-tie an existing leash. Hand it to someone else, take it yourself, leave it hanging, or fasten it to a nearby point. Not for putting a new leash on, and not for taking one off."
 parameterMapping:
   - type: dynamic
     name: intent
-    description: Who gets the leash, who holds it (or None / tied), how, and why. Example — put a rope leash on Tom's neck and hold it myself because he asked to be led.
+    description: Who holds the existing leash after the change, where it is tied, and why. Example — take Tom's leash from Nina so I can lead him.
 enabled: true
 eligibilityRules:
   - conditions:
@@ -17,7 +17,7 @@ eligibilityRules:
     logicalOperator: AND
     required: true
   - conditions:
-      - decoratorName: unleashed_nearby
+      - decoratorName: collared_nearby
         arguments:
           - currentActor
         comparisonOperator: ==
@@ -26,6 +26,6 @@ eligibilityRules:
         arguments:
           - currentActor
         comparisonOperator: ==
-        expectedValue: "unavailable"
+        expectedValue: "available"
     logicalOperator: OR
     required: true

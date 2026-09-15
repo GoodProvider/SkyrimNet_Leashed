@@ -1,5 +1,5 @@
-customCategory: leash_leash
-name: leash_leash_speaker
+customCategory: leashed_leashLeashed
+name: leashed_leash_speaker
 description: "{{render_template(\"leash_actions/leash_action_leash_speaker\")}}"
 questEditorId: SkyrimNet_Leashed
 scriptName: SkyrimNet_Leashed_Actions
@@ -29,10 +29,3 @@ parameterMapping:
     name: body_part
     description: "Where the collar attaches: neck, wrists, or waist. Wrists uses the chain hand mesh."
 enabled: true
-eligibilityRules:
-  - conditions:
-      - decoratorName: speaker_is_leashed
-        arguments:
-          - currentActor
-        comparisonOperator: ==
-        expectedValue: "unavailable"

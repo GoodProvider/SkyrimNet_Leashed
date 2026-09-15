@@ -1,5 +1,5 @@
-customCategory: leash_change
-name: leash_change_take_target
+customCategory: leashed_change
+name: leashed_change_take_target
 description: "{{render_template(\"leash_actions/leash_action_take_target\")}}"
 questEditorId: SkyrimNet_Leashed
 scriptName: SkyrimNet_Leashed_Actions

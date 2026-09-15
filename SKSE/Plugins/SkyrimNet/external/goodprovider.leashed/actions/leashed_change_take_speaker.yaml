@@ -1,0 +1,22 @@
+customCategory: leashed_change
+name: leashed_change_take_speaker
+description: "{{render_template(\"leash_actions/leash_action_take_speaker\")}}"
+questEditorId: SkyrimNet_Leashed
+scriptName: SkyrimNet_Leashed_Actions
+executionFunctionName: TakeLeash
+parameterMapping:
+  - type: dynamic
+    name: subject
+    description: Display name of the actor who takes hold of the speaker's existing leash, exactly as listed under available actors.
+    useNearbyActors: false
+  - type: speaker
+    name: leashed
+    description: Speaker whose existing leash is taken
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: speaker_is_leashed
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"

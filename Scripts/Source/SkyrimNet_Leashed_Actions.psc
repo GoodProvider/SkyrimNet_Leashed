@@ -10,6 +10,7 @@ String[] CachedBodyParts
 String[] CachedDistances
 String[] CachedStyles
 Bool[] CachedTied
+Int[] CachedArmorCounts
 Float[] LastPullTimes
 Float[] LastTautTimes
 Actor[] SuppressActors
@@ -97,11 +98,15 @@ Function EnsureCache()
         CachedDistances = new String[32]
         CachedStyles = new String[32]
         CachedTied = new Bool[32]
+        CachedArmorCounts = new Int[32]
         LastPullTimes = new Float[32]
         LastTautTimes = new Float[32]
     endif
     if CachedTied.Length != CacheSize()
         CachedTied = new Bool[32]
+    endif
+    if CachedArmorCounts.Length != CacheSize()
+        CachedArmorCounts = new Int[32]
     endif
     if LastTautTimes.Length != CacheSize()
         LastTautTimes = new Float[32]
@@ -319,21 +324,41 @@ Bool Function ActorWearsWristChain(Actor who)
     return false
 EndFunction
 
-Function UnequipWristChainArmors(Actor who, Armor keep)
+Function UnequipWristChainArmors(Actor who, Armor keep, Int keepCount = 0)
     if who == None
         return
     endif
     Armor standard = WristArmorById(0xD69)
-    if standard && standard != keep
-        UnequipTypeArmor(who, standard)
-    endif
     Armor longArmor = WristArmorById(0x1)
-    if longArmor && longArmor != keep
-        UnequipTypeArmor(who, longArmor)
-    endif
     Armor xlongArmor = WristArmorById(0x3)
+    Armor worn = None
+    if standard && who.IsEquipped(standard)
+        worn = standard
+    elseif longArmor && who.IsEquipped(longArmor)
+        worn = longArmor
+    elseif xlongArmor && who.IsEquipped(xlongArmor)
+        worn = xlongArmor
+    endif
+    if standard && standard != keep
+        Int k = who.GetItemCount(standard)
+        if standard == worn
+            k = keepCount
+        endif
+        UnequipTypeArmor(who, standard, k)
+    endif
+    if longArmor && longArmor != keep
+        Int k = who.GetItemCount(longArmor)
+        if longArmor == worn
+            k = keepCount
+        endif
+        UnequipTypeArmor(who, longArmor, k)
+    endif
     if xlongArmor && xlongArmor != keep
-        UnequipTypeArmor(who, xlongArmor)
+        Int k = who.GetItemCount(xlongArmor)
+        if xlongArmor == worn
+            k = keepCount
+        endif
+        UnequipTypeArmor(who, xlongArmor, k)
     endif
 EndFunction
 
@@ -439,10 +464,11 @@ Function ClearWristBind(Actor leashed)
     endif
 EndFunction
 
-Function EquipTypeArmor(Actor meshOwner, Armor leashArmor)
+Int Function EquipTypeArmor(Actor meshOwner, Armor leashArmor)
     if meshOwner == None || leashArmor == None
-        return
+        return 0
     endif
+    Int keepCount = meshOwner.GetItemCount(leashArmor)
     Armor worn = meshOwner.GetWornForm(leashArmor.GetSlotMask()) as Armor
     if worn && worn != leashArmor
         meshOwner.UnequipItem(worn, false, true)
@@ -453,14 +479,26 @@ Function EquipTypeArmor(Actor meshOwner, Armor leashArmor)
     if !meshOwner.IsEquipped(leashArmor)
         meshOwner.EquipItem(leashArmor, true, true)
     endif
-    ; EquipItem can spawn a spare; keep only the worn copy.
-    Int extra = meshOwner.GetItemCount(leashArmor) - 1
+    ; EquipItem can spawn a spare; restore to the pre-apply count, or one worn copy if we added it.
+    Int target = keepCount
+    if target < 1
+        target = 1
+    endif
+    Int extra = meshOwner.GetItemCount(leashArmor) - target
     if extra > 0
         meshOwner.RemoveItem(leashArmor, extra, true)
         if !meshOwner.IsEquipped(leashArmor)
             meshOwner.EquipItem(leashArmor, true, true)
         endif
     endif
+    extra = meshOwner.GetItemCount(leashArmor) - target
+    if extra > 0
+        meshOwner.RemoveItem(leashArmor, extra, true)
+        if !meshOwner.IsEquipped(leashArmor)
+            meshOwner.EquipItem(leashArmor, true, true)
+        endif
+    endif
+    return keepCount
 EndFunction
 
 Bool Function WaitForLeashMesh(Actor meshOwner, Armor leashArmor)
@@ -481,16 +519,25 @@ Bool Function WaitForLeashMesh(Actor meshOwner, Armor leashArmor)
     return worn
 EndFunction
 
-Function UnequipTypeArmor(Actor meshOwner, Armor leashArmor)
+Function UnequipTypeArmor(Actor meshOwner, Armor leashArmor, Int keepCount = 0)
     if meshOwner == None || leashArmor == None
         return
     endif
     if meshOwner.IsEquipped(leashArmor)
         meshOwner.UnequipItem(leashArmor, false, true)
     endif
-    ; Drop the copy we added for wear; leave any extra player-owned stacks.
-    if meshOwner.GetItemCount(leashArmor) > 0
-        meshOwner.RemoveItem(leashArmor, 1, true)
+    ; keepCount < 0: unrecorded. Unequip, but leave a single copy if one remains (may be pre-owned).
+    if keepCount < 0
+        Int count = meshOwner.GetItemCount(leashArmor)
+        if count > 1
+            keepCount = 1
+        else
+            keepCount = count
+        endif
+    endif
+    Int extra = meshOwner.GetItemCount(leashArmor) - keepCount
+    if extra > 0
+        meshOwner.RemoveItem(leashArmor, extra, true)
     endif
 EndFunction
 
@@ -561,13 +608,21 @@ Function RefreshStruggleUpdates()
     endif
 EndFunction
 
-Function RememberPair(Actor holder, Actor leashed, String kind, String bodyPart, String style, String leashDistance, Bool tied)
+Function RememberPair(Actor holder, Actor leashed, String kind, String bodyPart, String style, String leashDistance, Bool tied, Int armorCount = -1)
     if leashed == None
         return
     endif
     EnsureCache()
     Int i = FindLeashedIndex(leashed)
-    if i < 0
+    Bool existed = i >= 0
+    String prevKind = ""
+    String prevBody = ""
+    String prevDistance = ""
+    if existed
+        prevKind = CachedKinds[i]
+        prevBody = CachedBodyParts[i]
+        prevDistance = CachedDistances[i]
+    else
         i = FindLeashedIndex(None)
     endif
     if i < 0
@@ -580,6 +635,14 @@ Function RememberPair(Actor holder, Actor leashed, String kind, String bodyPart,
     CachedStyles[i] = style
     CachedDistances[i] = leashDistance
     CachedTied[i] = holder == None && tied
+    if armorCount >= 0
+        Bool sameMesh = existed && prevKind == kind && prevBody == bodyPart && prevDistance == leashDistance
+        if !sameMesh
+            CachedArmorCounts[i] = armorCount
+        endif
+    elseif !existed
+        CachedArmorCounts[i] = 0
+    endif
 EndFunction
 
 Function ForgetPair(Actor leashed)
@@ -594,6 +657,7 @@ Function ForgetPair(Actor leashed)
     CachedDistances[i] = ""
     CachedStyles[i] = ""
     CachedTied[i] = false
+    CachedArmorCounts[i] = 0
     LastPullTimes[i] = 0.0
     LastTautTimes[i] = 0.0
 EndFunction
@@ -609,7 +673,10 @@ Int Function EnsureLeashedSlot(Actor leashed)
     endif
     Actor holder = LeashFramework.GetLeashHolder(leashed)
     Bool tied = holder == None && LeashFramework.IsLeashed(leashed)
-    RememberPair(holder, leashed, DetectKind(holder, leashed), DetectBodyPart(holder, leashed), "normally", ResolveDistance(leashed, ""), tied)
+    String kind = DetectKind(holder, leashed)
+    String bodyPart = DetectBodyPart(holder, leashed)
+    String distance = ResolveDistance(leashed, "")
+    RememberPair(holder, leashed, kind, bodyPart, "normally", distance, tied, OwnedArmorCount(holder, leashed, kind, bodyPart, distance))
     return FindLeashedIndex(leashed)
 EndFunction
 
@@ -659,6 +726,23 @@ Bool Function CachedIsTied(Actor leashed)
         return CachedTied[i]
     endif
     return false
+EndFunction
+
+Int Function CachedArmorCount(Actor leashed)
+    Int i = FindLeashedIndex(leashed)
+    if i >= 0
+        return CachedArmorCounts[i]
+    endif
+    return -1
+EndFunction
+
+Int Function OwnedArmorCount(Actor holder, Actor leashed, String kind, String bodyPart, String leashDistance)
+    Actor owner = MeshOwnerFor(holder, leashed, kind)
+    Armor item = ArmorForKind(kind, bodyPart, leashDistance)
+    if owner == None || item == None
+        return 0
+    endif
+    return owner.GetItemCount(item)
 EndFunction
 
 String Function DetectKind(Actor holder, Actor leashed)
@@ -758,13 +842,22 @@ String Function ResolveDistance(Actor leashed, String leashDistance)
 EndFunction
 
 Function UnequipPairArmor(Actor holder, Actor leashed, String kind, String bodyPart)
+    String wornKind = DetectKind(holder, leashed)
+    String wornBody = DetectBodyPart(holder, leashed)
+    if wornKind != ""
+        kind = wornKind
+    endif
+    if wornBody != ""
+        bodyPart = wornBody
+    endif
     Actor meshOwner = MeshOwnerFor(holder, leashed, kind)
+    Int keepCount = CachedArmorCount(leashed)
     if NormalizeBodyPart(bodyPart) == "wrists"
-        UnequipWristChainArmors(meshOwner, None)
+        UnequipWristChainArmors(meshOwner, None, keepCount)
         ClearWristBind(leashed)
         return
     endif
-    UnequipTypeArmor(meshOwner, ArmorForKind(kind, bodyPart, CachedDistance(leashed)))
+    UnequipTypeArmor(meshOwner, ArmorForKind(kind, bodyPart, CachedDistance(leashed)), keepCount)
 EndFunction
 
 Function UnequipStaleBodyArmor(Actor leashed, String kind, String bodyPart, String leashDistance)
@@ -781,10 +874,11 @@ Function UnequipStaleBodyArmor(Actor leashed, String kind, String bodyPart, Stri
     Armor nextArmor = ArmorForKind(kind, bodyPart, leashDistance)
     Actor prevOwner = MeshOwnerFor(CachedHolder(leashed), leashed, prevKind)
     if prevBody == "wrists" || nextBody == "wrists"
-        UnequipWristChainArmors(prevOwner, nextArmor)
+        Int keepCount = CachedArmorCount(leashed)
+        UnequipWristChainArmors(prevOwner, nextArmor, keepCount)
         Actor nextOwner = MeshOwnerFor(CachedHolder(leashed), leashed, kind)
         if nextOwner != prevOwner
-            UnequipWristChainArmors(nextOwner, nextArmor)
+            UnequipWristChainArmors(nextOwner, nextArmor, keepCount)
         endif
         return
     endif
@@ -795,7 +889,7 @@ Function UnequipStaleBodyArmor(Actor leashed, String kind, String bodyPart, Stri
     if prevArmor == nextArmor && prevOwner == leashed
         return
     endif
-    UnequipTypeArmor(prevOwner, prevArmor)
+    UnequipTypeArmor(prevOwner, prevArmor, CachedArmorCount(leashed))
 EndFunction
 
 Function UnequipTrackedFor(Actor who)
@@ -816,6 +910,7 @@ Function UnequipTrackedFor(Actor who)
             CachedDistances[i] = ""
             CachedStyles[i] = ""
             CachedTied[i] = false
+            CachedArmorCounts[i] = 0
             LastPullTimes[i] = 0.0
             LastTautTimes[i] = 0.0
             SkyrimNet_Leashed_Native.NotifyUnleash(leashed)
@@ -949,13 +1044,13 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
     endif
     UnequipStaleBodyArmor(leashed, kind, bodyPart, leashDistance)
     Actor meshOwner = MeshOwnerFor(holder, leashed, kind)
-    EquipTypeArmor(meshOwner, leashArmor)
+    Int keepCount = EquipTypeArmor(meshOwner, leashArmor)
     if !WaitForLeashMesh(meshOwner, leashArmor)
         Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder armor not worn on " + ActorLabel(meshOwner))
-        UnequipTypeArmor(meshOwner, leashArmor)
+        UnequipTypeArmor(meshOwner, leashArmor, keepCount)
         return false
     endif
-    RememberPair(holder, leashed, kind, bodyPart, style, leashDistance, false)
+    RememberPair(holder, leashed, kind, bodyPart, style, leashDistance, false, keepCount)
     MarkSuppressed(leashed)
     Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder holder=" + ActorLabel(holder) + " leashed=" + ActorLabel(leashed) + " kind=" + kind + " body=" + bodyPart + " distance=" + leashDistance)
     String bone = ParentBoneFor(kind, bodyPart)
@@ -969,7 +1064,7 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
     endif
     if !ok
         Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder returned false")
-        UnequipTypeArmor(meshOwner, leashArmor)
+        UnequipTypeArmor(meshOwner, leashArmor, keepCount)
         ForgetPair(leashed)
         return false
     endif
@@ -1006,8 +1101,8 @@ Bool Function ApplyDangling(Actor leashed, String style, String leashDistance, S
     DisconnectFramework(leashed)
     Armor leashArmor = ArmorForKind(kind, bodyPart, leashDistance)
     UnequipStaleBodyArmor(leashed, kind, bodyPart, leashDistance)
-    EquipTypeArmor(leashed, leashArmor)
-    RememberPair(None, leashed, kind, bodyPart, style, leashDistance, false)
+    Int keepCount = EquipTypeArmor(leashed, leashArmor)
+    RememberPair(None, leashed, kind, bodyPart, style, leashDistance, false, keepCount)
     MarkSuppressed(leashed)
     Debug.Trace("[SkyrimNet_Leashed] ApplyDangling leashed=" + ActorLabel(leashed) + " kind=" + kind + " body=" + bodyPart + " distance=" + leashDistance)
     SkyrimNet_Leashed_Native.NotifyLeash(None, leashed, kind, leashDistance, bodyPart, false)
@@ -1036,13 +1131,13 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
         return false
     endif
     UnequipStaleBodyArmor(leashed, kind, bodyPart, leashDistance)
-    EquipTypeArmor(leashed, leashArmor)
+    Int keepCount = EquipTypeArmor(leashed, leashArmor)
     if !WaitForLeashMesh(leashed, leashArmor)
         Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint armor not worn on " + ActorLabel(leashed))
-        UnequipTypeArmor(leashed, leashArmor)
+        UnequipTypeArmor(leashed, leashArmor, keepCount)
         return false
     endif
-    RememberPair(None, leashed, kind, bodyPart, style, leashDistance, true)
+    RememberPair(None, leashed, kind, bodyPart, style, leashDistance, true, keepCount)
     MarkSuppressed(leashed)
     Float[] xyz = new Float[3]
     OffsetTiePoint(leashed, tiePoint, xyz)
@@ -1050,7 +1145,7 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
     Bool ok = LeashFramework.ApplyLeashAtPosition(leashed, parentCell, xyz[0], xyz[1], xyz[2], bone, LeashBoneMatch(), DistanceMin(leashDistance), DistanceMax(leashDistance), true)
     if !ok
         Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint returned false")
-        UnequipTypeArmor(leashed, leashArmor)
+        UnequipTypeArmor(leashed, leashArmor, keepCount)
         ForgetPair(leashed)
         return false
     endif
@@ -1511,14 +1606,8 @@ Function UnleashSpeakerExecute(Actor subject)
         Actor leashed = CachedLeashed[i]
         Actor holder = CachedHolders[i]
         if leashed && (leashed == subject || holder == subject)
-            String kind = CachedKinds[i]
-            if kind == ""
-                kind = DetectKind(holder, leashed)
-            endif
-            String bodyPart = CachedBodyParts[i]
-            if bodyPart == ""
-                bodyPart = DetectBodyPart(holder, leashed)
-            endif
+            String kind = DetectKind(holder, leashed)
+            String bodyPart = DetectBodyPart(holder, leashed)
             MarkSuppressed(leashed)
             Actor originator = subject
             EndStruggle(leashed, false)
@@ -1526,15 +1615,20 @@ Function UnleashSpeakerExecute(Actor subject)
         endif
         i += 1
     endwhile
-    if LeashFramework.IsLeashed(subject) && FindLeashedIndex(subject) < 0
-        Actor holder = LeashFramework.GetLeashHolder(subject)
-        String kind = DetectKind(holder, subject)
-        String bodyPart = DetectBodyPart(holder, subject)
+    Bool cacheMiss = LeashFramework.IsLeashed(subject) && FindLeashedIndex(subject) < 0
+    Actor missHolder = None
+    if cacheMiss
+        missHolder = LeashFramework.GetLeashHolder(subject)
+        String kind = DetectKind(missHolder, subject)
+        String bodyPart = DetectBodyPart(missHolder, subject)
         MarkSuppressed(subject)
-        Narrate(ActorLabel(subject) + " unclips the " + kind + " leash from " + Possessive(subject) + " " + bodyPart + ".", subject, holder, "playerSensitive", subject, holder)
+        Narrate(ActorLabel(subject) + " unclips the " + kind + " leash from " + Possessive(subject) + " " + bodyPart + ".", subject, missHolder, "playerSensitive", subject, missHolder)
     endif
     LeashFramework.UnleashAll(subject)
     UnequipTrackedFor(subject)
+    if cacheMiss
+        UnequipPairArmor(missHolder, subject, DetectKind(missHolder, subject), DetectBodyPart(None, subject))
+    endif
     EndStruggle(subject, false)
     SkyrimNet_Leashed_Native.NotifyUnleash(subject)
 EndFunction
@@ -1605,7 +1699,10 @@ Bool Function ConsumePullCooldown(Actor leashed, Bool ragdoll)
     Int i = FindLeashedIndex(leashed)
     if i < 0
         Bool tied = leashed && LeashFramework.IsLeashed(leashed) && LeashFramework.GetLeashHolder(leashed) == None
-        RememberPair(None, leashed, DetectKind(None, leashed), DetectBodyPart(None, leashed), "normally", ResolveDistance(leashed, ""), tied)
+        String kind = DetectKind(None, leashed)
+        String bodyPart = DetectBodyPart(None, leashed)
+        String distance = ResolveDistance(leashed, "")
+        RememberPair(None, leashed, kind, bodyPart, "normally", distance, tied, OwnedArmorCount(None, leashed, kind, bodyPart, distance))
         i = FindLeashedIndex(leashed)
     endif
     if i < 0

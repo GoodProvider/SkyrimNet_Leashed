@@ -1,0 +1,4 @@
+{% set speakingNpc = decnpc(npc.UUID) %}
+{% set nearby = get_nearby_collared_actors(npc.UUID) %}
+{{speakingNpc.name}} takes hold of a nearby collared person's existing leash. Not for putting a new collar on, and not for taking the collar off.
+Available targets: {{ nearby.actorsNameString }}. Never pick anyone not listed.

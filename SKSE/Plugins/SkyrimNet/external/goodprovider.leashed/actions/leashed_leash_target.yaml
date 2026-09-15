@@ -1,0 +1,31 @@
+customCategory: leashed_leashSubject
+name: leashed_leash_target
+description: "{{render_template(\"leash_actions/leash_action_leash_target\")}}"
+questEditorId: SkyrimNet_Leashed
+scriptName: SkyrimNet_Leashed_Actions
+executionFunctionName: LeashedToHolder
+parameterMapping:
+  - type: speaker
+    name: subject
+    description: Speaker putting the collar on
+  - type: dynamic
+    name: leashed
+    description: Display name of the unleashed actor who gets the collar, exactly as listed under available targets.
+    useNearbyActors: false
+  - type: dynamic
+    name: holder
+    description: "Display name of who holds the leash: the speaker, another listed actor, or None to leave it hanging. Never the leashed actor."
+    useNearbyActors: false
+  - type: dynamic
+    name: style
+    description: "How roughly the collar goes on: forcefully, normally, or gently."
+  - type: dynamic
+    name: leashDistance
+    description: "How long the leash is: tight (almost no slack), short, middle, or long."
+  - type: dynamic
+    name: leashType
+    description: "What the leash is made of: chain, rope, or magic. Wrists is chain only."
+  - type: dynamic
+    name: body_part
+    description: "Where the collar attaches: neck, wrists, or waist. Wrists uses the chain hand mesh."
+enabled: true

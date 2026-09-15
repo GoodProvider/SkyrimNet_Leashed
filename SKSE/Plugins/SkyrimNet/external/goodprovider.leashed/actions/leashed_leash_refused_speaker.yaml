@@ -1,0 +1,15 @@
+customCategory: leashed_leashLeashed
+name: leashed_leash_refused_speaker
+description: "{{render_template(\"leash_actions/leash_action_refused_speaker\")}}"
+questEditorId: SkyrimNet_Leashed
+scriptName: SkyrimNet_Leashed_Actions
+executionFunctionName: LeashedRefused
+parameterMapping:
+  - type: dynamic
+    name: subject
+    description: Display name of the actor whose attempt the speaker is able to stop, exactly as listed under available actors.
+    useNearbyActors: false
+  - type: speaker
+    name: leashed
+    description: Speaker who is able to prevent the collar
+enabled: true

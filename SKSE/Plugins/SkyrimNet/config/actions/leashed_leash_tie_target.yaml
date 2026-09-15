@@ -1,5 +1,5 @@
-customCategory: leash_leash
-name: leash_leash_tie_target
+customCategory: leashed_leashSubject
+name: leashed_leash_tie_target
 description: "{{render_template(\"leash_actions/leash_action_leash_tie_target\")}}"
 questEditorId: SkyrimNet_Leashed
 scriptName: SkyrimNet_Leashed_Actions
@@ -28,10 +28,3 @@ parameterMapping:
     name: tiePoint
     description: "Where to fasten the free end, relative to the collared person: floor, left, back, front, right, or wall (same as front)."
 enabled: true
-eligibilityRules:
-  - conditions:
-      - decoratorName: unleashed_nearby
-        arguments:
-          - currentActor
-        comparisonOperator: ==
-        expectedValue: "available"

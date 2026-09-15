@@ -1,0 +1,30 @@
+customCategory: leashed_leashSubject
+name: leashed_leash_tie_target
+description: "{{render_template(\"leash_actions/leash_action_leash_tie_target\")}}"
+questEditorId: SkyrimNet_Leashed
+scriptName: SkyrimNet_Leashed_Actions
+executionFunctionName: LeashedToTiePoint
+parameterMapping:
+  - type: speaker
+    name: subject
+    description: Speaker tying the new leash to a point
+  - type: dynamic
+    name: leashed
+    description: Display name of the unleashed actor to collar and tie, exactly as listed under available targets.
+    useNearbyActors: false
+  - type: dynamic
+    name: style
+    description: "How roughly the collar goes on: forcefully, normally, or gently."
+  - type: dynamic
+    name: leashDistance
+    description: "How long the leash is: tight (almost no slack), short, middle, or long."
+  - type: dynamic
+    name: leashType
+    description: "What the leash is made of: chain, rope, or magic. Wrists is chain only."
+  - type: dynamic
+    name: body_part
+    description: "Where the collar attaches: neck, wrists, or waist. Wrists uses the chain hand mesh."
+  - type: dynamic
+    name: tiePoint
+    description: "Where to fasten the free end, relative to the collared person: floor, left, back, front, right, or wall (same as front)."
+enabled: true

@@ -1,0 +1,26 @@
+customCategory: leashed_escape
+name: leashed_escape
+label: Escape
+description: "Get your own leash off — yank, wriggle, work the knot, or unclip the collar. Always pick this when you struggle or take it off. Not for unclipping someone else, not for giving up, and not for handing a leash to anyone."
+parameterMapping:
+  - type: dynamic
+    name: intent
+    description: How you get the leash off and why. Example — yank the collar over my head because I will not be led.
+enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: is_struggle_enabled
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"
+      - decoratorName: speaker_is_leashed
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "available"
+      - decoratorName: speaker_is_struggling
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "unavailable"

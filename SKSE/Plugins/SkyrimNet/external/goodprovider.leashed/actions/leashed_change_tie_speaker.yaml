@@ -1,17 +1,17 @@
-customCategory: leash_change
-name: leash_change_tie_target
-description: "{{render_template(\"leash_actions/leash_action_change_tie_target\")}}"
+customCategory: leashed_change
+name: leashed_change_tie_speaker
+description: "{{render_template(\"leash_actions/leash_action_change_tie_speaker\")}}"
 questEditorId: SkyrimNet_Leashed
 scriptName: SkyrimNet_Leashed_Actions
 executionFunctionName: LeashedToTiePoint
 parameterMapping:
-  - type: speaker
-    name: subject
-    description: Speaker re-tying an existing leash
   - type: dynamic
-    name: leashed
-    description: Display name of the collared actor whose existing leash is re-tied, exactly as listed under available targets.
+    name: subject
+    description: Display name of the actor who ties the speaker's existing leash, exactly as listed under available actors.
     useNearbyActors: false
+  - type: speaker
+    name: leashed
+    description: Speaker whose existing leash is re-tied
   - type: static
     name: style
     value: ""
@@ -30,7 +30,7 @@ parameterMapping:
 enabled: true
 eligibilityRules:
   - conditions:
-      - decoratorName: collared_nearby
+      - decoratorName: speaker_is_leashed
         arguments:
           - currentActor
         comparisonOperator: ==

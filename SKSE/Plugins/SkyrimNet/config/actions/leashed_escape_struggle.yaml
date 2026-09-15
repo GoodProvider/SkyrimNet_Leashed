@@ -1,11 +1,13 @@
-customCategory: leash_escape
-name: leash_escape
-label: Escape
-description: "Get your own leash off — yank, wriggle, work the knot, or unclip the collar. Always pick this when you struggle or take it off. Not for unclipping someone else, not for giving up, and not for handing a leash to anyone."
+customCategory: leashed_escape
+name: leashed_escape_struggle
+description: "{{render_template(\"leash_actions/leash_action_struggle\")}}"
+questEditorId: SkyrimNet_Leashed
+scriptName: SkyrimNet_Leashed_Actions
+executionFunctionName: StruggleExecute
 parameterMapping:
-  - type: dynamic
-    name: intent
-    description: How you get the leash off and why. Example — yank the collar over my head because I will not be led.
+  - type: speaker
+    name: subject
+    description: Speaker struggling against their own leash
 enabled: true
 eligibilityRules:
   - conditions:

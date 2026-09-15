@@ -1,0 +1,9 @@
+customCategory: leashed_leashSubject
+name: leashed_leashSubject
+label: Leash someone
+description: "You put a new collar and leash on someone nearby. Hold it, leave it hanging, or tie them to a point. Not when you are the one getting collared, and not for changing or removing an existing leash."
+parameterMapping:
+  - type: dynamic
+    name: intent
+    description: Who you collar, who holds it (you / another / None / tied), how, and why. Example — put a rope leash on Tom's neck and hold it myself.
+enabled: true

@@ -1,0 +1,5 @@
+{% set speakingNpc = decnpc(npc.UUID) %}
+{% set nearby = get_nearby_actors(npc.UUID) %}
+A nearby person puts a new leash on {{speakingNpc.name}}. That person either holds it or leaves it hanging (holder None). Use when someone else collars the speaker, not when the speaker collars someone else.
+Available actors (who puts the collar on): {{ nearby.actorsNameString }}.
+Holder must be that same actor or None. Never pick {{speakingNpc.name}} as holder. Never pick anyone not listed except None.

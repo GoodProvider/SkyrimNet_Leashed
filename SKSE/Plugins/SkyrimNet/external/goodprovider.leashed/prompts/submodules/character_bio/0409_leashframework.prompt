@@ -1,0 +1,15 @@
+{% if render_mode == "full" or render_mode == "thoughts" or render_mode == "transform" %}
+{% set leash = leashframework_visible_pairs(actorUUID) %}
+{% if leash.pairs and length(leash.pairs) > 0 %}
+### Leashes
+{% for pair in leash.pairs %}
+{% if pair.tied %}
+- {{ pair.leashed }} is tied in place with a{% if pair.distance %} {{ pair.distance }}{% endif %}{% if pair.kind %} {{ pair.kind }}{% endif %} leash{% if pair.bodyPart %} at the {{ pair.bodyPart }}{% endif %}
+{% elif pair.dangling %}
+- {{ pair.leashed }} wears a dangling{% if pair.distance %} {{ pair.distance }}{% endif %}{% if pair.kind %} {{ pair.kind }}{% endif %} leash{% if pair.bodyPart %} at the {{ pair.bodyPart }}{% endif %}
+{% else %}
+- {{ pair.holder }} holds {{ pair.leashed }} on a{% if pair.distance %} {{ pair.distance }}{% endif %}{% if pair.kind %} {{ pair.kind }}{% endif %} leash{% if pair.bodyPart %} at the {{ pair.bodyPart }}{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}

@@ -1,5 +1,5 @@
-customCategory: leash_change
-name: leash_change_take_speaker
+customCategory: leashed_change
+name: leashed_change_take_speaker
 description: "{{render_template(\"leash_actions/leash_action_take_speaker\")}}"
 questEditorId: SkyrimNet_Leashed
 scriptName: SkyrimNet_Leashed_Actions

@@ -1,4 +1,4 @@
-name: leash_none_struggle_stop
+name: leashed_none_struggle_stop
 description: "{{render_template(\"leash_actions/leash_action_stop_struggling\")}}"
 questEditorId: SkyrimNet_Leashed
 scriptName: SkyrimNet_Leashed_Actions

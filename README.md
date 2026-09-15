@@ -14,7 +14,7 @@ Changelog: [CHANGELOG.md](CHANGELOG.md) · [CHANGELOG-user.md](CHANGELOG-user.md
 
 Requirements:
 
-- [SkyrimNet](https://github.com/MinLL/SkyrimNet-GamePlugin) **0.25.0+** (Beta 25). LLM actions and prompts ship as plugin `goodprovider.leashed` under `Data/SKSE/Plugins/SkyrimNet/external/`. It should appear under Installed Plugins with an **External** badge. Do not use **Plugins > Import Old Content** for this mod's files — that copy would hide later updates. Older SkyrimNet that only reads `prompts/` and `config/actions/` will not load them.
+- [SkyrimNet](https://github.com/MinLL/SkyrimNet-GamePlugin) (narration enabled). This zip ships LLM content in both layouts: 0.25+ reads plugin `goodprovider.leashed` under `Data/SKSE/Plugins/SkyrimNet/external/` (External on Installed Plugins); older SkyrimNet reads `prompts/` and `config/actions/`. Do not use **Plugins > Import Old Content** for this mod's files — that copy would hide later updates.
 - [Leash Framework (Nexus 187303)](https://www.nexusmods.com/skyrimspecialedition/mods/187303) , [Leash Framework (Sexlab 50377)](https://www.loverslab.com/files/file/50377-leash-framework/) — `Leash.esm` and `SKSE\Plugins\LeashFramework.dll`. Tested with **1.1.3**.
 - SKSE, Address Library
 
@@ -86,15 +86,20 @@ Settle is how close they stand when the holder stops. Catch-up is the yank bound
 | leashed_none_target_unleash | Speaker unclips a nearby collared actor (including someone held by a third party). Never the speaker themselves. |
 | leashed_none_struggle_stop | Collared speaker who is already struggling gives up and returns to default stance. Opposite of Escape. |
 
-**leashed_leash** (start a leash)
+**leashed_leashSubject** (you leash someone)
 
 | Action | Effect |
 | --- | --- |
 | leashed_leash_target | Speaker leashes the target. Holder is the speaker, another nearby actor, or None (dangling). Wrists uses the chain hand mesh and prisoner cuffs / bound-standing idle. |
-| leashed_leash_speaker | A nearby actor leashes the speaker. Holder is that actor or None. Speaker must not already be leashed. |
 | leashed_leash_tie_target | Speaker ties an unleashed target to a world point. |
-| leashed_leash_refused_speaker | Speaker refuses to be leashed by a nearby actor. |
-| leashed_leash_refused_target | A nearby actor refuses to be leashed by the speaker. |
+| leashed_leash_refused_target | A nearby actor is able to stop the speaker from leashing them (not merely unwilling). |
+
+**leashed_leashLeashed** (you get leashed)
+
+| Action | Effect |
+| --- | --- |
+| leashed_leash_speaker | A nearby actor leashes the speaker. Holder is that actor or None. Speaker must not already be leashed. |
+| leashed_leash_refused_speaker | Speaker is able to stop a nearby actor from leashing them (not merely unwilling). |
 
 **leashed_change** (move an existing leash)
 
@@ -170,6 +175,7 @@ Confirm the mod folder contains:
 
 - `SKSE/Plugins/SkyrimNet_Leashed.dll`
 - `SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/` (actions + prompts + `manifest.json`)
+- `SKSE/Plugins/SkyrimNet/config/actions/` and `SKSE/Plugins/SkyrimNet/prompts/` (pre-0.25 copies; edit the plugin then run `tools/sync_legacy_skyrimnet_content.py`)
 - `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml`
 - `PrismaUI/views/SkyrimNet_Leashed/index.html`
 - `SkyrimNet_Leashed.esp`

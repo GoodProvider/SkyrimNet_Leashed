@@ -1,20 +1,20 @@
-customCategory: leash_leash
-name: leash_leash_target
-description: "{{render_template(\"leash_actions/leash_action_leash_target\")}}"
+customCategory: leashed_leashLeashed
+name: leashed_leash_speaker
+description: "{{render_template(\"leash_actions/leash_action_leash_speaker\")}}"
 questEditorId: SkyrimNet_Leashed
 scriptName: SkyrimNet_Leashed_Actions
 executionFunctionName: LeashedToHolder
 parameterMapping:
-  - type: speaker
-    name: subject
-    description: Speaker putting the collar on
   - type: dynamic
-    name: leashed
-    description: Display name of the unleashed actor who gets the collar, exactly as listed under available targets.
+    name: subject
+    description: Display name of the actor who puts the collar on the speaker, exactly as listed under available actors.
     useNearbyActors: false
+  - type: speaker
+    name: leashed
+    description: Speaker who gets the collar
   - type: dynamic
     name: holder
-    description: "Display name of who holds the leash: the speaker, another listed actor, or None to leave it hanging. Never the leashed actor."
+    description: "Display name of who holds the leash: the same actor who put the collar on, or None to leave it hanging. Never the speaker."
     useNearbyActors: false
   - type: dynamic
     name: style
@@ -29,10 +29,3 @@ parameterMapping:
     name: body_part
     description: "Where the collar attaches: neck, wrists, or waist. Wrists uses the chain hand mesh."
 enabled: true
-eligibilityRules:
-  - conditions:
-      - decoratorName: unleashed_nearby
-        arguments:
-          - currentActor
-        comparisonOperator: ==
-        expectedValue: "available"

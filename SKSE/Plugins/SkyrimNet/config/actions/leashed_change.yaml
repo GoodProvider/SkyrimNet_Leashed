@@ -1,5 +1,5 @@
-customCategory: leash_change
-name: leash_change
+customCategory: leashed_change
+name: leashed_change
 label: Change leash
 description: "Take, give, or re-tie an existing leash. Hand it to someone else, take it yourself, leave it hanging, or fasten it to a nearby point. Not for putting a new leash on, and not for taking one off."
 parameterMapping:

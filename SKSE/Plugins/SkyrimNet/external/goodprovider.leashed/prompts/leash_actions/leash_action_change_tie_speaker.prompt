@@ -1,0 +1,4 @@
+{% set speakingNpc = decnpc(npc.UUID) %}
+{% set nearby = get_nearby_actors(npc.UUID) %}
+A nearby person ties {{speakingNpc.name}}'s existing leash to a nearby point. The collar stays on; only the free end moves. Not for putting a new leash on.
+Available actors: {{ nearby.actorsNameString }}. Never pick anyone not listed.

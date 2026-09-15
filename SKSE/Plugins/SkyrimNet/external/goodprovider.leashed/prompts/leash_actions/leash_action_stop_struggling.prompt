@@ -1,0 +1,2 @@
+{% set speakingNpc = decnpc(npc.UUID) %}
+{{speakingNpc.name}} gives up and stops struggling against their own leash. Opposite of Escape. Pick this when they stop yanking or accept the collar for now. Walking is not giving up. Not for unclipping anyone, and not for handing a leash to anyone.
