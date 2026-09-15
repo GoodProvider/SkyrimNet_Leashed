@@ -105,8 +105,8 @@ jobs:
         shell: pwsh
         run: |
           python python_scripts/fomod-update-name-version.py -v $env:VERSION -n "SkyrimNet Leashed" -o FOMOD/info.xml FOMOD_source/info.xml
-          powershell -NoProfile -File python_scripts/deserialize_esp.ps1
-          powershell -NoProfile -File python_scripts/pack_release.ps1 -Version $env:VERSION -Name "SkyrimNet Leashed"
+          powershell -NoProfile -ExecutionPolicy Bypass -File python_scripts/deserialize_esp.ps1
+          powershell -NoProfile -ExecutionPolicy Bypass -File python_scripts/pack_release.ps1 -Version $env:VERSION -Name "SkyrimNet Leashed"
 
       - name: Upload FOMOD package
         if: github.event_name == 'workflow_dispatch'

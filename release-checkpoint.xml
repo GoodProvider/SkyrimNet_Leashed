@@ -15,7 +15,7 @@
     <updated>2026-09-15</updated>
     <base_tag>0.3.0</base_tag>
     <next_version>0.4.0</next_version>
-    <version_status>Makefile VERSION=0.4.0 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.0; versions/SkyrimNet_Leashed 0.4.0.7z exists but is stale vs 13:25 DLL and 13:48 pex; git tags 0.1.0 and 0.2.0 exist; 0.3.0 and 0.4.0 git tags still pending</version_status>
+    <version_status>Makefile VERSION=0.4.0 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.0; versions/SkyrimNet_Leashed 0.4.0.7z packed 2026-09-15 14:03 (Release DLL 13:25 FileVersion 0.4.0 with HasLeashBones; pex 13:57); git tags 0.1.0 and 0.2.0 exist; 0.3.0 and 0.4.0 git tags still pending</version_status>
     <related_artifacts>
       <artifact role="release rules">release-guide.md</artifact>
       <artifact role="agent procedure">.cursor/skills/release/SKILL.md</artifact>
@@ -41,14 +41,15 @@
   </doc_files>
 
   <status>
-    <note>2026-09-15: 0.4.0 release-doc pass. Dual-ship, start-leash split, CachedArmorCounts, HasLeashBones / WaitForLeashMesh (skip Framework if no Leash1). compile: pyro 13:48 (Actions/Native). Release DLL FileVersion 0.4.0 (13:25, includes HasLeashBones). versions/SkyrimNet_Leashed 0.4.0.7z is stale (13:11, before DLL and pex) — re-run make release after commit. ESP deserialized from Spriggit (unchanged). Do not tag unless asked.</note>
+    <note>2026-09-15 14:03: make release packed versions/SkyrimNet_Leashed 0.4.0.7z (280168 bytes). DLL source SKSE/Plugins/SkyrimNet_Leashed.dll (13:25, FileVersion 0.4.0, HasLeashBones present). pex from 9fdb8bf (13:57). ESP deserialized from Spriggit (same content). Dual-ship actions+prompts in the zip. Do not tag unless asked.</note>
+    <note>2026-09-15: 0.4.0 release-doc pass. Dual-ship, start-leash split, CachedArmorCounts, HasLeashBones / WaitForLeashMesh (skip Framework if no Leash1). compile: pyro then commit 9fdb8bf. Release DLL FileVersion 0.4.0 (13:25, includes HasLeashBones). ESP deserialized from Spriggit (unchanged).</note>
     <note>2026-09-12: Beta 25 content plugin `goodprovider.leashed` (external layer). Actions renamed leash_* to leashed_*. Filename equals name; category trailing _ dropped. Settings schema stays at config/plugins. y-MIGRATING_TO_BETA25.md remains user scratch, not shipped. DLL FileVersion 0.4.0. Do not pack or tag unless asked.</note>
     <note>2026-09-12: 0.3.0 packed. versions/SkyrimNet_Leashed 0.3.0.7z. DLL FileVersion 0.3.0 (CMake Release after version bump). pex from compile: pyro 2026-09-12. ESP deserialized from Spriggit (unchanged vs 0.2.0). Do not tag unless asked.</note>
     <note>2026-09-12: 0.2.0 review fixes were written into the 0.2.0 changelog before the remote tag was fetched; those bullets now live under 0.3.0. GitHub Release 0.2.0 exists (2026-09-10).</note>
     <note>2026-09-10: Adapted to Leash Framework 1.1.3. Header + submodule bf3b33c. Follow-start OnActorPulled does not end struggle. Per-token settle/catch-up defaults. Wrist meshes 0xD69/0x1/0x3. dependency_drift skill + KNOWLEDGE.md. Maintainer playtest passed (looked fine); override natives stay unused. Shipped as 0.3.0, not 0.2.0.</note>
     <note>2026-09-08: Maintainer asked to stay on 0.1.0 (not 1.0.0) for first public; 0.2.0 was rename + Enable struggle + DD struggle anims.</note>
     <note>Does not ship: UnforgivingDevices/, escape-*.md, z-plan.md, SKSE_Source/build/, versions/ staging until pack. Agent checkpoints/ may live in git; not in the FOMOD 7z. Must git-add SKSE_Source/src/Papyrus/Bridge.h, lib/PrismaUI/PrismaUI_API.h, include/SkyrimNet/PublicAPIMemoryQuery.h (untracked; required to compile).</note>
-    <note>Open: commit changelog/checkpoint/README/psc/pex/Bridge.cpp (HasLeashBones); git-add untracked SKSE headers (Bridge.h, PrismaUI_API.h, PublicAPIMemoryQuery.h) required to compile; re-pack 0.4.0.7z; MO2 playtest (plugin External on 0.25+, pre-0.25 loads config/actions + prompts; HasLeashBones first-person/beast skip; no skipped files in SkyrimNet.log); git tag 0.4.0; GitHub Release; Nexus. 0.3.0 tag was never cut.</note>
+    <note>Open: git-add untracked SKSE headers (Bridge.h, PrismaUI_API.h, PublicAPIMemoryQuery.h) required to compile; checkpoint XML after this pack is uncommitted; MO2 playtest (plugin External on 0.25+, pre-0.25 loads config/actions + prompts; HasLeashBones first-person/beast skip; no skipped files in SkyrimNet.log); git tag 0.4.0; GitHub Release; Nexus. 0.3.0 tag was never cut.</note>
   </status>
 
   <conventions>
