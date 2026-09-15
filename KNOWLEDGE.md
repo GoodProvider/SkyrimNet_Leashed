@@ -29,6 +29,14 @@ CMake **Configure** may run `git submodule update --init --recursive` from `SKSE
 
 Beta 25 does not read `prompts/`, `config/triggers/`, or `config/actions/`. Canonical LLM content is `SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/` (`manifest.json` `id` must equal the folder name). The same actions and prompts are also copied to `config/actions/` and `prompts/` so pre-0.25 SkyrimNet still loads them (`tools/sync_legacy_skyrimnet_content.py`; do not edit those copies by hand). Prompt paths inside the plugin are unchanged (`prompts/leash_actions/…`, `0409_leashframework.prompt`). Action YAML filename (before `.yaml`) must equal the in-file `name` (case-insensitive); keep `name` casing. Settings schema stays at `config/plugins/SkyrimNet_Leashed/manifest.yaml` — that is not a content-plugin folder. Do not ship into `library/`. Upstream: SkyrimNet `docs/modding/MIGRATING_TO_BETA25.md`.
 
+## IsEquipped is not Framework-bind ready (2026-09-15)
+
+Direct narration `!nina leashes Bob` ran `leashed_leash_target` and Framework **accepted** the pair (`OnLeash` applied, `ApplyLeashToHand` true). No visible rope: `Unable to bind … found 0 child bone(s) containing 'Leash1' under 'NPC Spine2 [Spn2]'`. `TraceLeashBones` on the player found Neck/Spine1/Spine2 but **zero** nodes named `Leash`.
+
+**Cause:** `WaitForLeashMesh` treated `IsEquipped` as ready. Papyrus can mark `Leash_neck` (0x804) worn before the collar NIF attaches `Leash1_*` children — beast/male ArmorAddon miss, first-person third-person armor 3D not loaded, or missing mesh. Framework returns true when the pair is accepted, not when the spline bound.
+
+**Fix:** native `HasLeashBones` walks third-person 3D the same way as `TraceLeashBones`. After `EquipTypeArmor`, `QueueNiNodeUpdate` then poll `HasLeashBones` (~2s). If still none, do **not** call `ApplyLeashToHand` / `ApplyLeashAtPosition`; unequip, `ForgetPair`. If the mesh owner is the player and `Game.GetCameraState()` is 0 (first person), `Debug.Notification("You must be in third person view for the leash to work")`. Otherwise `NarrateMeshFailed`: same line as `Debug.Notification` and DirectNarration (Argonian scales / Khajiit fur / generic “will not stay on.”). Do not invent an Argonian collar mesh. Playtest: Nina (Nord) visual OK; Bob (Argonian) `bones=False` in third person.
+
 ## Papyrus quirks
 
 - Full unclip restores the pre-apply count of the **one** Leash.esm mesh we equipped. A copy they already had stays. `EquipItem` spares of that form are removed. Do not `RemoveItem` every leash type or the whole stack. Vanilla prisoner cuffs stay `RemoveItem` 1.

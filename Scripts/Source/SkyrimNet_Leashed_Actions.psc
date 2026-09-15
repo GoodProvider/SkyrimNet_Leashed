@@ -160,6 +160,48 @@ String Function PossessivePronoun(Actor who)
     return "their"
 EndFunction
 
+Bool Function PlayerInFirstPerson(Actor who)
+    if who == None
+        return false
+    endif
+    return who == Game.GetPlayer() && Game.GetCameraState() == 0
+EndFunction
+
+; Leash.esm collars are human meshes. Argonian / Khajiit names (including vampires) for fail copy.
+String Function BeastRaceLabel(Actor who)
+    if who == None
+        return ""
+    endif
+    Race r = who.GetRace()
+    if r == None
+        return ""
+    endif
+    String n = SkyrimNet_Leashed_Native.NormalizeToken(r.GetName())
+    if StringUtil.Find(n, "argonian") >= 0
+        return "Argonian"
+    endif
+    if StringUtil.Find(n, "khajiit") >= 0
+        return "Khajiit"
+    endif
+    Race vanilla = Game.GetFormFromFile(0x13740, "Skyrim.esm") as Race
+    if vanilla && r == vanilla
+        return "Argonian"
+    endif
+    vanilla = Game.GetFormFromFile(0x8883A, "Skyrim.esm") as Race
+    if vanilla && r == vanilla
+        return "Argonian"
+    endif
+    vanilla = Game.GetFormFromFile(0x13745, "Skyrim.esm") as Race
+    if vanilla && r == vanilla
+        return "Khajiit"
+    endif
+    vanilla = Game.GetFormFromFile(0x88840, "Skyrim.esm") as Race
+    if vanilla && r == vanilla
+        return "Khajiit"
+    endif
+    return ""
+EndFunction
+
 String Function NormalizeKind(String leashType)
     String t = SkyrimNet_Leashed_Native.NormalizeToken(leashType)
     if t == "chain" || t == "neck_chain"
@@ -506,17 +548,25 @@ Bool Function WaitForLeashMesh(Actor meshOwner, Armor leashArmor)
         Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh skipped: missing owner or armor")
         return false
     endif
+    meshOwner.QueueNiNodeUpdate()
     Int tries = 0
-    while tries < 4 && !meshOwner.IsEquipped(leashArmor)
+    while tries < 8 && !SkyrimNet_Leashed_Native.HasLeashBones(meshOwner)
         Utility.Wait(0.25)
         tries += 1
     endwhile
+    Bool ready = SkyrimNet_Leashed_Native.HasLeashBones(meshOwner)
     Bool worn = meshOwner.IsEquipped(leashArmor)
-    Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh armor=" + leashArmor + " equipped=" + worn)
-    if worn
+    Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh armor=" + leashArmor + " equipped=" + worn + " bones=" + ready)
+    if !ready
         SkyrimNet_Leashed_Native.TraceLeashBones(meshOwner)
+        if PlayerInFirstPerson(meshOwner)
+            Debug.Notification("You must be in third person view for the leash to work")
+            Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; player is in first person. Skip Framework apply.")
+        else
+            Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; collar NIF did not attach (beast/male race or missing mesh). Skip Framework apply.")
+        endif
     endif
-    return worn
+    return ready
 EndFunction
 
 Function UnequipTypeArmor(Actor meshOwner, Armor leashArmor, Int keepCount = 0)
@@ -1046,8 +1096,12 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
     Actor meshOwner = MeshOwnerFor(holder, leashed, kind)
     Int keepCount = EquipTypeArmor(meshOwner, leashArmor)
     if !WaitForLeashMesh(meshOwner, leashArmor)
-        Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder armor not worn on " + ActorLabel(meshOwner))
+        Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder skipped Framework apply: no leash bones on " + ActorLabel(meshOwner))
         UnequipTypeArmor(meshOwner, leashArmor, keepCount)
+        ForgetPair(leashed)
+        if !PlayerInFirstPerson(meshOwner)
+            NarrateMeshFailed(holder, leashed)
+        endif
         return false
     endif
     RememberPair(holder, leashed, kind, bodyPart, style, leashDistance, false, keepCount)
@@ -1133,8 +1187,12 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
     UnequipStaleBodyArmor(leashed, kind, bodyPart, leashDistance)
     Int keepCount = EquipTypeArmor(leashed, leashArmor)
     if !WaitForLeashMesh(leashed, leashArmor)
-        Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint armor not worn on " + ActorLabel(leashed))
+        Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint skipped Framework apply: no leash bones on " + ActorLabel(leashed))
         UnequipTypeArmor(leashed, leashArmor, keepCount)
+        ForgetPair(leashed)
+        if !PlayerInFirstPerson(leashed)
+            NarrateMeshFailed(None, leashed)
+        endif
         return false
     endif
     RememberPair(None, leashed, kind, bodyPart, style, leashDistance, true, keepCount)
@@ -1216,6 +1274,33 @@ Actor Function NarrateListener(Actor subject, Actor leashed, Actor holder)
         return holder
     endif
     return None
+EndFunction
+
+Function NarrateMeshFailed(Actor holder, Actor leashed)
+    if leashed == None
+        return
+    endif
+    String raceLabel = BeastRaceLabel(leashed)
+    String content
+    if holder
+        if raceLabel == "Argonian"
+            content = ActorLabel(holder) + " tries to leash " + ActorLabel(leashed) + ", but the collar will not sit on Argonian scales."
+        elseif raceLabel == "Khajiit"
+            content = ActorLabel(holder) + " tries to leash " + ActorLabel(leashed) + ", but the collar will not sit on Khajiit fur."
+        else
+            content = ActorLabel(holder) + " tries to leash " + ActorLabel(leashed) + ", but the collar will not stay on."
+        endif
+    else
+        if raceLabel == "Argonian"
+            content = "The collar will not sit on " + Possessive(leashed) + " Argonian scales."
+        elseif raceLabel == "Khajiit"
+            content = "The collar will not sit on " + Possessive(leashed) + " Khajiit fur."
+        else
+            content = "The collar will not stay on " + ActorLabel(leashed) + "."
+        endif
+    endif
+    Debug.Notification(content)
+    Narrate(content, holder, leashed, "playerSensitive", leashed, holder)
 EndFunction
 
 Function NarrateApply(Actor subject, Actor leashed, Actor holder, String style, String leashDistance, String kind, String bodyPart)

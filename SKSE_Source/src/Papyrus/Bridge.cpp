@@ -177,6 +177,17 @@ namespace SkyrimNetLeashed::Papyrus {
             LogParentLeashCount(root, "NPC Spine1 [Spn1]");
             LogParentLeashCount(root, "NPC Spine2 [Spn2]");
         }
+
+        bool HasLeashBones(RE::StaticFunctionTag*, RE::Actor* a_who) {
+            if (!a_who) {
+                return false;
+            }
+            auto* root = a_who->Get3D(false);
+            if (!root) {
+                return false;
+            }
+            return CountLeashDescendants(root) > 0;
+        }
     }
 
     bool Register(RE::BSScript::IVirtualMachine* a_vm) {
@@ -194,6 +205,7 @@ namespace SkyrimNetLeashed::Papyrus {
         a_vm->RegisterFunction("StruggleCooldown", kScriptName, StruggleCooldown);
         a_vm->RegisterFunction("StruggleEnabled", kScriptName, StruggleEnabled);
         a_vm->RegisterFunction("TraceLeashBones", kScriptName, TraceLeashBones);
+        a_vm->RegisterFunction("HasLeashBones", kScriptName, HasLeashBones);
         a_vm->RegisterFunction("OpenPanel", kScriptName, OpenPanel);
         SKSE::log::info("Registered {} Papyrus functions", kScriptName);
         return true;

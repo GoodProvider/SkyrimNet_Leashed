@@ -82,6 +82,12 @@ sit under NPC Neck, NPC Spine1, and NPC Spine2. Used to diagnose Framework bind.
 Function TraceLeashBones(Actor who) Global Native
 
 ;/
+True when the actor's third-person 3D has any node whose name contains "Leash".
+Framework bind needs Leash1 children under the parent bone; IsEquipped is not enough.
+/;
+Bool Function HasLeashBones(Actor who) Global Native
+
+;/
 Shows the PrismaUI leash panel (same as the panel hotkey open path). Does not
 require leash.controls.hotkeyEnabled. No-ops if PrismaUI is missing or no save
 is loaded.

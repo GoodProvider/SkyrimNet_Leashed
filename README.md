@@ -31,7 +31,7 @@ The FOMOD installer **refuses to install** unless `Leash.esm` is active.
 
 Load `SkyrimNet_Leashed.esp` after `Leash.esm`. Enable the mod in MO2 or Vortex.
 
-Leash apply still needs leash bones on the target (Leash.esm armor / SMP node names). See the Leash Framework Nexus page. 
+Leash apply still needs leash bones on the target (Leash.esm armor / SMP node names). See the Leash Framework Nexus page. If you are in first person when a collar is put on you, switch to third person — first-person armor 3D has no leash nodes. Argonian and Khajiit collars from Leash.esm often never attach those nodes; the leash is skipped and narrated instead of hanging invisibly. 
 
 ---
 ### Leash panel hotkey
