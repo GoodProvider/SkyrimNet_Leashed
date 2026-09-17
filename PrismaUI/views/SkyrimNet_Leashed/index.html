@@ -43,6 +43,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            width: max-content;
+            max-width: calc(100% - 10em);
             background: var(--bg-surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
@@ -56,18 +58,31 @@
             flex-direction: row;
             align-items: flex-start;
             gap: var(--space-sm);
+            width: max-content;
+            max-width: 100%;
         }
         .col {
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            min-width: 8em;
+            flex: 1 1 auto;
+            min-width: 0;
         }
-        .col.word {
+        .col.word,
+        .col.action {
+            flex: 0 0 auto;
+            min-width: auto;
+        }
+        .col .control {
+            min-width: 0;
+            width: 100%;
+        }
+        .col.word .control,
+        .col.action .control {
+            width: auto;
             min-width: auto;
         }
         .col.word .control {
-            min-width: auto;
             min-height: var(--target-min);
             display: flex;
             align-items: center;
@@ -81,26 +96,37 @@
             text-align: center;
             padding-top: var(--space-xs);
             min-height: 1.4em;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .col .label .status {
             display: block;
             color: var(--text-muted);
             font-size: 24px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .pulldown {
             position: relative;
-            min-width: 8em;
+            width: 100%;
+            min-width: 0;
         }
         .pulldown-value {
             background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: var(--space-xs) var(--space-sm);
+            padding: 0 var(--space-sm);
             min-height: var(--target-min);
-            display: flex;
-            align-items: center;
-            cursor: pointer;
+            line-height: calc(var(--target-min) - 2px);
+            display: block;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
             white-space: nowrap;
+            cursor: pointer;
         }
         .pulldown-value:hover,
         .pulldown.open .pulldown-value {
@@ -113,7 +139,10 @@
             top: calc(100% + var(--space-xs));
             z-index: 20;
             min-width: 100%;
+            width: max-content;
+            max-width: calc(100vw - 10em);
             max-height: 50vh;
+            overflow-x: auto;
             overflow-y: auto;
             background: rgba(24, 24, 28, 0.96);
             border: 1px solid var(--border);
@@ -293,9 +322,9 @@
             grid.appendChild(wrap);
         }
 
-        function addColumn(grid, control, labelText, statusText) {
+        function addColumn(grid, control, labelText, statusText, extraClass) {
             const wrap = document.createElement('div');
-            wrap.className = 'col';
+            wrap.className = extraClass ? ('col ' + extraClass) : 'col';
             const controlHost = document.createElement('div');
             controlHost.className = 'control';
             if (control) controlHost.appendChild(control);
@@ -417,10 +446,46 @@
             startBtn.className = 'action-btn' + (canStart() ? '' : ' disabled');
             startBtn.textContent = 'Start';
             startBtn.onclick = () => fireStart();
-            addColumn(grid, startBtn, '');
+            addColumn(grid, startBtn, '', null, 'action');
 
             bar.appendChild(grid);
             bar.classList.add('open');
+            fitBar();
+        }
+
+        function fitBar() {
+            const bar = document.getElementById('bar');
+            if (!bar || !bar.classList.contains('open')) return;
+            const cols = [...bar.querySelectorAll('.col:not(.word):not(.action)')];
+            cols.forEach((c) => {
+                c.style.flex = '';
+                c.style.width = '';
+                c.style.maxWidth = '';
+            });
+            const vw = document.documentElement.clientWidth;
+            const em = parseFloat(getComputedStyle(document.body).fontSize);
+            const maxW = vw - 10 * em;
+            bar.style.maxWidth = 'none';
+            const natural = bar.offsetWidth;
+            bar.style.maxWidth = '';
+            if (natural <= maxW + 1) return;
+            const grid = bar.querySelector('.grid');
+            if (!grid || !cols.length) return;
+            const gap = parseFloat(getComputedStyle(grid).gap) || 0;
+            const barStyle = getComputedStyle(bar);
+            const chrome = (parseFloat(barStyle.paddingLeft) || 0)
+                + (parseFloat(barStyle.paddingRight) || 0)
+                + (parseFloat(barStyle.borderLeftWidth) || 0)
+                + (parseFloat(barStyle.borderRightWidth) || 0);
+            const gapTotal = gap * Math.max(0, grid.children.length - 1);
+            const fixed = [...bar.querySelectorAll('.col.word, .col.action')]
+                .reduce((sum, el) => sum + el.offsetWidth, 0);
+            const each = Math.max(0, (maxW - chrome - gapTotal - fixed) / cols.length);
+            cols.forEach((c) => {
+                c.style.flex = '0 0 ' + each + 'px';
+                c.style.width = each + 'px';
+                c.style.maxWidth = each + 'px';
+            });
         }
 
         function openLeashPanel(payload) {
@@ -457,6 +522,7 @@
         }
 
         document.addEventListener('click', () => closeAllPulldowns());
+        window.addEventListener('resize', () => fitBar());
         window.openLeashPanel = openLeashPanel;
     </script>
 </body>
