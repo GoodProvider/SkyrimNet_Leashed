@@ -157,6 +157,12 @@ namespace SkyrimNetLeashed::Papyrus {
             WebUI::Open();
         }
 
+        void OpenPanelFor(RE::StaticFunctionTag*, RE::Actor* a_leashed, RE::BSFixedString a_layout, RE::BSFixedString a_verb) {
+            const char* layout = a_layout.c_str() ? a_layout.c_str() : "";
+            const char* verb = a_verb.c_str() ? a_verb.c_str() : "";
+            WebUI::OpenFor(a_leashed, layout, verb);
+        }
+
         void TraceLeashBones(RE::StaticFunctionTag*, RE::Actor* a_who) {
             if (!a_who) {
                 SKSE::log::warn("TraceLeashBones skipped: null actor");
@@ -207,6 +213,7 @@ namespace SkyrimNetLeashed::Papyrus {
         a_vm->RegisterFunction("TraceLeashBones", kScriptName, TraceLeashBones);
         a_vm->RegisterFunction("HasLeashBones", kScriptName, HasLeashBones);
         a_vm->RegisterFunction("OpenPanel", kScriptName, OpenPanel);
+        a_vm->RegisterFunction("OpenPanelFor", kScriptName, OpenPanelFor);
         SKSE::log::info("Registered {} Papyrus functions", kScriptName);
         return true;
     }

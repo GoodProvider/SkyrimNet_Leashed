@@ -40,6 +40,8 @@ The panel hotkey is **off by default**. Enable it in SkyrimNet’s WebUI under *
 
 SkyrimNet_SexLab’s Start Sex SkyMessage also has a **leash** button when `SkyrimNet_Leashed.esp` is loaded. That opens this same panel even if the Leashed hotkey is off.
 
+SexLab’s PrismaUI Target Menu overlays **leash** (focus actor not collared) and **unleash** (focus actor collared) from this zip (`SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/`). Those rows close SexLab’s overlay and open this panel in a **vertical** layout, seeded to the Target Menu actor. They do not use SexLab’s built-in leash ParameterPanel.
+
 With PrismaUI installed and the hotkey on, `\` opens a horizontal leash bar. Verb options depend on whether the selected leashed actor is already collared. Extra columns appear only for the chosen verb. If **body** is wrists, **type** is locked to chain. Long actor names shrink with an ellipsis so the bar stays 5em from each screen edge; short names keep the bar content-sized.
 
 | Target | Verb | Extra columns |

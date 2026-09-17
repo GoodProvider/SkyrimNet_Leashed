@@ -38,6 +38,9 @@ namespace SkyrimNetLeashed::WebUI {
         std::string leashType{};
         std::string bodyPart{};
         std::string tiePoint{};
+        std::string layout{};
+        std::uint32_t presetLeashed{};
+        std::string presetVerb{};
     };
 
     struct StartPayload {
@@ -58,6 +61,15 @@ namespace SkyrimNetLeashed::WebUI {
         constexpr const char* kQuestPlugin = "SkyrimNet_Leashed.esp";
         constexpr const char* kActionsScript = "SkyrimNet_Leashed_Actions";
         constexpr float kNearbyRadius = 1024.f;
+
+        struct OpenRequest {
+            std::uint32_t presetLeashed{};
+            std::string layout{};
+            std::string verb{};
+        };
+
+        std::mutex g_openMutex;
+        OpenRequest g_openRequest;
 
         void OnMenuHotkey();
         void OnEscape();
@@ -263,12 +275,15 @@ namespace SkyrimNetLeashed::WebUI {
             a_out.push_back(a_actor);
         }
 
-        OpenPayload BuildOpenPayload() {
+        OpenPayload BuildOpenPayload(const OpenRequest& a_request) {
             OpenPayload payload;
             payload.distance = Config::Distance();
             payload.leashType = Config::LeashType();
             payload.bodyPart = Config::BodyPart();
             payload.tiePoint = Config::TiePoint();
+            payload.layout = a_request.layout == "vertical" ? "vertical" : "";
+            payload.presetLeashed = a_request.presetLeashed;
+            payload.presetVerb = a_request.verb;
 
             auto* player = RE::PlayerCharacter::GetSingleton();
             if (!player) {
@@ -281,6 +296,7 @@ namespace SkyrimNetLeashed::WebUI {
 
             std::vector<RE::Actor*> scanned;
             PushUnique(scanned, player);
+            PushUnique(scanned, ActorFromFormID(a_request.presetLeashed));
 
             const float radiusSq = kNearbyRadius * kNearbyRadius;
             const auto playerPos = player->GetPosition();
@@ -325,7 +341,22 @@ namespace SkyrimNetLeashed::WebUI {
                 return;
             }
 
-            const auto payload = BuildOpenPayload();
+            OpenRequest request;
+            {
+                std::lock_guard lock(g_openMutex);
+                request = std::move(g_openRequest);
+                g_openRequest = {};
+            }
+
+            const auto payload = BuildOpenPayload(request);
+            if (payload.presetLeashed) {
+                auto* preset = ActorFromFormID(payload.presetLeashed);
+                SKSE::log::info("WebUI: preset leashed {} {:08X} layout={} verb={}",
+                    preset ? LeashState::DisplayName(preset) : "?",
+                    payload.presetLeashed,
+                    payload.layout,
+                    payload.presetVerb);
+            }
             if (payload.crosshair) {
                 auto* crosshair = ActorFromFormID(payload.crosshair);
                 SKSE::log::info("WebUI: crosshair {} {:08X}", crosshair ? LeashState::DisplayName(crosshair) : "?", payload.crosshair);
@@ -522,6 +553,24 @@ namespace SkyrimNetLeashed::WebUI {
     }
 
     void Open() {
+        {
+            std::lock_guard lock(g_openMutex);
+            g_openRequest = {};
+        }
         Show();
+    }
+
+    void OpenFor(RE::Actor* a_leashed, std::string_view a_layout, std::string_view a_verb) {
+        {
+            std::lock_guard lock(g_openMutex);
+            g_openRequest.presetLeashed = a_leashed ? a_leashed->GetFormID() : 0;
+            g_openRequest.layout = a_layout == "vertical" ? "vertical" : "";
+            g_openRequest.verb = std::string{a_verb};
+        }
+        if (auto* tasks = SKSE::GetTaskInterface()) {
+            tasks->AddTask([]() { Show(); });
+        } else {
+            Show();
+        }
     }
 }

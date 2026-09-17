@@ -40,3 +40,7 @@ Direct narration `!nina leashes Bob` ran `leashed_leash_target` and Framework **
 ## Papyrus quirks
 
 - Full unclip restores the pre-apply count of the **one** Leash.esm mesh we equipped. A copy they already had stays. `EquipItem` spares of that form are removed. Do not `RemoveItem` every leash type or the whole stack. Vanilla prisoner cuffs stay `RemoveItem` 1.
+
+## SexLab TargetMenu overlay (2026-09-16)
+
+SkyrimNet_SexLab concatenates `Data/SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/*.json` on save load. This repo ships `0700_leash.json` / `0701_unleash.json` at that path (MO2 overlay). `type: papyrus`, `source: leashed`, `closeWebUI: true`, **no** `panel`. Click dispatches `SkyrimNet_Leashed_Actions.TM_OpenLeash` / `TM_OpenUnleash` so SexLab does not host a second leash ParameterPanel (that would drift from this overlay). Eligibility is `is_in_faction` / `LeashedFaction`. `OpenPanelFor` defers Show to the next SKSE task because SexLab runs Papyrus then Hide; do not `RegisterForSingleUpdate` for this (struggle already owns `OnUpdate`).

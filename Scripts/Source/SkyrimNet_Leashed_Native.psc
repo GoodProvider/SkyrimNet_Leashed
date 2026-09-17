@@ -93,3 +93,10 @@ require leash.controls.hotkeyEnabled. No-ops if PrismaUI is missing or no save
 is loaded.
 /;
 Function OpenPanel() Global Native
+
+;/
+Shows the PrismaUI leash panel seeded to leashed, with layout ("vertical" or empty)
+and verb ("leash" / "unleash" / empty). Defers Show to the next SKSE task so a
+caller that is about to hide another overlay (SexLab TargetMenu) can Unfocus first.
+/;
+Function OpenPanelFor(Actor leashed, String layout, String verb) Global Native

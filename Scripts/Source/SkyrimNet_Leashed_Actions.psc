@@ -43,6 +43,14 @@ Event OnLeashedOpenPanel()
     SkyrimNet_Leashed_Native.OpenPanel()
 EndEvent
 
+Function TM_OpenLeash(Actor speaker, Actor target)
+    SkyrimNet_Leashed_Native.OpenPanelFor(target, "vertical", "leash")
+EndFunction
+
+Function TM_OpenUnleash(Actor speaker, Actor target)
+    SkyrimNet_Leashed_Native.OpenPanelFor(target, "vertical", "unleash")
+EndFunction
+
 Function RepushCachedPairs()
     EnsureCache()
     Int i = 0

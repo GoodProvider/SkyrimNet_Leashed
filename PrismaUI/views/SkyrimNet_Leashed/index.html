@@ -53,6 +53,32 @@
             pointer-events: auto;
         }
         #bar.open { display: block; }
+        #bar.vertical {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: max-content;
+            max-width: 22em;
+            max-height: calc(100% - 10em);
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        #bar.vertical .grid {
+            flex-direction: column;
+            width: 100%;
+            max-width: 100%;
+        }
+        #bar.vertical .col {
+            flex: 0 0 auto;
+            width: 100%;
+        }
+        #bar.vertical .col.word .control {
+            min-height: auto;
+            padding: var(--space-xs) 0;
+        }
+        #bar.vertical .col .label {
+            text-align: left;
+        }
         .grid {
             display: flex;
             flex-direction: row;
@@ -206,7 +232,8 @@
             distance: 'middle',
             leashType: 'rope',
             bodyPart: 'neck',
-            tiePoint: 'floor'
+            tiePoint: 'floor',
+            layout: ''
         };
 
         function formId(v) { return (v >>> 0); }
@@ -449,6 +476,7 @@
             addColumn(grid, startBtn, '', null, 'action');
 
             bar.appendChild(grid);
+            bar.classList.toggle('vertical', state.layout === 'vertical');
             bar.classList.add('open');
             fitBar();
         }
@@ -462,6 +490,7 @@
                 c.style.width = '';
                 c.style.maxWidth = '';
             });
+            if (bar.classList.contains('vertical')) return;
             const vw = document.documentElement.clientWidth;
             const em = parseFloat(getComputedStyle(document.body).fontSize);
             const maxW = vw - 10 * em;
@@ -493,6 +522,7 @@
             state.actors = Array.isArray(src.actors) ? src.actors : [];
             state.player = formId(src.player);
             state.crosshair = formId(src.crosshair);
+            state.layout = src.layout === 'vertical' ? 'vertical' : '';
             state.distance = DISTANCES.includes(src.distance) ? src.distance : 'middle';
             state.leashType = TYPES.includes(src.leashType) ? src.leashType : 'rope';
             state.bodyPart = BODY_PARTS.includes(src.bodyPart) ? src.bodyPart : 'neck';
@@ -501,8 +531,11 @@
 
             const playerActor = findActor(state.player) || state.actors[0];
             const crossActor = findActor(state.crosshair);
+            const presetLeashed = formId(src.presetLeashed);
             state.subject = playerActor ? formId(playerActor.formId) : 0;
-            if (crossActor && formId(crossActor.formId) !== state.subject) {
+            if (presetLeashed && findActor(presetLeashed)) {
+                state.leashed = presetLeashed;
+            } else if (crossActor && formId(crossActor.formId) !== state.subject) {
                 state.leashed = formId(crossActor.formId);
             } else if (playerActor && playerActor.isLeashed) {
                 state.leashed = state.subject;
@@ -516,6 +549,8 @@
                 if (DISTANCES.includes(rec.distance)) state.distance = rec.distance;
                 if (BODY_PARTS.includes(rec.bodyPart)) state.bodyPart = rec.bodyPart;
             }
+            if (src.presetVerb)
+                state.verb = String(src.presetVerb);
             lockWristType();
             seedVerb();
             render();

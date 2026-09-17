@@ -16,6 +16,7 @@ Bridge mod between SkyrimNet (LLM) and Leash Framework.
 | `SKSE_Source/` | C++ SKSE plugin |
 | `SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/` | Canonical Beta 25 LLM plugin (actions + prompts). Pre-0.25 copies: `config/actions/`, `prompts/` |
 | `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/` | Settings schema (`leash.*`) |
+| `SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/` | SexLab TargetMenu overlay (`0700_leash.json` / `0701_unleash.json`) |
 | `Spriggit/SkyrimNet_Leashed/` | ESP source of truth |
 
 Repo root: `c:\Skyrim\dev\mods\SkyrimNet_Leashed`.
