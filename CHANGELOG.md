@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.1) — since [0.4.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.0)
+
+### Escape / HUD
+
+- PrismaUI leash bar (`PrismaUI/views/SkyrimNet_Leashed/index.html`): `#bar` stays `width: max-content` with `max-width: calc(100% - 10em)` (5em each side). Pulldown columns `flex: 1 1 auto; min-width: 0`; `.col.word` and `.col.action` (Start) stay `flex: 0 0 auto`.
+- Closed pulldown values and column labels ellipsize. `fitBar()` equal-shares leftover width when the natural row exceeds the cap; `resize` re-runs it. Open menus stay `width: max-content` with `max-width: calc(100vw - 10em)` so they do not widen the bar.
+
+### Docs
+
+- Player front door: `README.md` leash panel notes the 5em side gap and shrinking names.
+
 ## [0.4.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.0) — since [0.3.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.3.0)
 
 ### Actions

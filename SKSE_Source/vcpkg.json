@@ -1,6 +1,6 @@
 {
   "name": "skyrimnet-leashed",
-  "version-string": "0.4.0",
+  "version-string": "0.4.1",
   "dependencies": [
     "commonlibsse-ng-fork",
     "directxtk",

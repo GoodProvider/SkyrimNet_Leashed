@@ -1,4 +1,4 @@
-VERSION=0.4.0
+VERSION=0.4.1
 NAME=SkyrimNet Leashed
 
 RELEASE_FILE=versions/SkyrimNet_Leashed ${VERSION}.7z
