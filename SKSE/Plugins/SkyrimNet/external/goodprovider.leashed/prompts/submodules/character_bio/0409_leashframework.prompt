@@ -4,11 +4,11 @@
 ### Leashes
 {% for pair in leash.pairs %}
 {% if pair.tied %}
-- {{ pair.leashed }} is tied in place with a{% if pair.distance %} {{ pair.distance }}{% endif %}{% if pair.kind %} {{ pair.kind }}{% endif %} leash{% if pair.bodyPart %} at the {{ pair.bodyPart }}{% endif %}
+- {{ pair.leashed }} is tied in place with a{% if pair.distance %} {{ pair.distance }} length{% endif %}{% if pair.kind %} {{ pair.kind }}{% endif %} leash{% if pair.bodyPart %} at the {{ pair.bodyPart }}{% endif %}
 {% elif pair.dangling %}
-- {{ pair.leashed }} wears a dangling{% if pair.distance %} {{ pair.distance }}{% endif %}{% if pair.kind %} {{ pair.kind }}{% endif %} leash{% if pair.bodyPart %} at the {{ pair.bodyPart }}{% endif %}
+- {{ pair.leashed }} wears a dangling{% if pair.distance %} {{ pair.distance }} length{% endif %}{% if pair.kind %} {{ pair.kind }}{% endif %} leash{% if pair.bodyPart %} at the {{ pair.bodyPart }}{% endif %}
 {% else %}
-- {{ pair.holder }} holds {{ pair.leashed }} on a{% if pair.distance %} {{ pair.distance }}{% endif %}{% if pair.kind %} {{ pair.kind }}{% endif %} leash{% if pair.bodyPart %} at the {{ pair.bodyPart }}{% endif %}
+- {{ pair.holder }} holds {{ pair.leashed }} on a{% if pair.distance %} {{ pair.distance }} length{% endif %}{% if pair.kind %} {{ pair.kind }}{% endif %} leash{% if pair.bodyPart %} at the {{ pair.bodyPart }}{% endif %}
 {% endif %}
 {% endfor %}
 {% endif %}

@@ -1,8 +1,8 @@
-https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.1
+https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.2
 
-- Long names in the leash panel pulldowns no longer push the bar off the screen.
-- The bar stays at least 5em from each screen edge; extra-long names shrink and show an ellipsis.
-- Short names still keep a compact centered bar instead of stretching to the full width.
-- Style, verb, distance, type, and body pulldowns share leftover width the same way as actor names.
-- Words like “with” / “held by” and the Start button stay full size.
-- Opening a list still shows the full actor name; the bar itself does not grow.
+- The leash panel can open in a vertical stack aimed at a chosen actor, not only as the horizontal hotkey bar.
+- Spoken leash lines now say “middle length” (and the other distance words) so they are not read as a leash type.
+- Character bios use the same “length” wording for tied, dangling, and held leashes.
+- Distance phrases like “middle length” still map to the same settle and catch-up distances as before.
+- The README no longer uses the old hero image. LoversLab and Devious Devices links are marked NSFW.
+- A collared NPC still cannot unclip themselves. The player can still do that from the panel hotkey.

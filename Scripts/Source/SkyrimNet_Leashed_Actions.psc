@@ -246,13 +246,13 @@ EndFunction
 
 String Function NormalizeDistance(String leashDistance)
     String t = SkyrimNet_Leashed_Native.NormalizeToken(leashDistance)
-    if t == "tight"
+    if t == "tight" || t == "tight_length"
         return "tight"
-    elseif t == "short" || t == "close"
+    elseif t == "short" || t == "close" || t == "short_length"
         return "short"
-    elseif t == "long"
+    elseif t == "long" || t == "long_length"
         return "long"
-    elseif t == "middle" || t == "near" || t == "normal" || t == "medium"
+    elseif t == "middle" || t == "near" || t == "normal" || t == "medium" || t == "middle_length" || t == "medium_length"
         return "middle"
     endif
     if t == ""
@@ -328,6 +328,15 @@ String Function SpokenKind(String kind)
         return "shield"
     endif
     return kind
+EndFunction
+
+; DirectNarration / bio copy: "middle" alone reads as a type, so say "middle length".
+String Function SpokenDistance(String leashDistance)
+    String d = NormalizeDistance(leashDistance)
+    if d == ""
+        return ""
+    endif
+    return d + " length"
 EndFunction
 
 Bool Function IsHolderOwnedKind(String kind)
@@ -1313,7 +1322,7 @@ EndFunction
 
 Function NarrateApply(Actor subject, Actor leashed, Actor holder, String style, String leashDistance, String kind, String bodyPart)
     String spokenKind = SpokenKind(kind)
-    String content = ActorLabel(subject) + " " + StyleWord(style) + " leashes " + Possessive(leashed) + " " + bodyPart + " with a " + leashDistance + " " + spokenKind + " leash"
+    String content = ActorLabel(subject) + " " + StyleWord(style) + " leashes " + Possessive(leashed) + " " + bodyPart + " with a " + SpokenDistance(leashDistance) + " " + spokenKind + " leash"
     if holder
         content += "."
     else
@@ -1736,7 +1745,7 @@ Function NarrateLeash(Actor leashed, String reason)
     endif
     String kind = DetectKind(holder, leashed)
     String bodyPart = DetectBodyPart(holder, leashed)
-    String distance = ResolveDistance(leashed, "")
+    String distance = SpokenDistance(ResolveDistance(leashed, ""))
     String style = CachedStyle(leashed)
     Actor originator = holder
     Actor targetActor = leashed

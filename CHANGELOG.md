@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.4.2](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.2) — since [0.4.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.1)
+
+### Papyrus
+
+- Native `OpenPanelFor(Actor leashed, String layout, String verb)` on `SkyrimNet_Leashed_Native`. `TM_OpenLeash` / `TM_OpenUnleash` call it with `"vertical"` and `"leash"` / `"unleash"`.
+- `NormalizeDistance` accepts `tight_length` / `short_length` / `middle_length` / `medium_length` / `long_length`. `SpokenDistance` appends ` length` in `NarrateApply` and `NarrateLeash`.
+
+### SKSE / WebUI
+
+- `WebUI::OpenFor` sends payload `layout` (`vertical` or empty), `presetLeashed`, and `presetVerb`. `Show` runs on the next SKSE task so a caller that hides another overlay can Unfocus first.
+- Overlay JSON `SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/0700_leash.json` and `0701_unleash.json` (`type: papyrus`, `source: leashed`, `closeWebUI: true`, `TM_OpenLeash` / `TM_OpenUnleash`, `is_in_faction` / `LeashedFaction`).
+
+### Escape / HUD
+
+- PrismaUI `#bar.vertical`: centered column, `max-width: 22em`, `max-height: calc(100% - 10em)`. `fitBar()` returns while vertical. `openLeashPanel` seeds `layout` and `presetLeashed`.
+
+### Docs
+
+- Dual-ship `0409_leashframework.prompt`: distance tokens render as `{{ pair.distance }} length`.
+- Player README is SFW: dropped `images/SkyrimNet_Leashed_small.png`; LoversLab Leash Framework and Devious Devices links labeled NSFW.
+
 ## [0.4.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.1) — since [0.4.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.0)
 
 ### Escape / HUD
