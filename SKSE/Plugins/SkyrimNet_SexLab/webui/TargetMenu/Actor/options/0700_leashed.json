@@ -1,12 +1,12 @@
 {
   "type": "papyrus",
   "label": "leash",
-  "source": "leashed",
+  "source": "leash",
   "requiresPlugin": "SkyrimNet_Leashed.esp",
   "plugin": "SkyrimNet_Leashed.esp",
   "questFormId": "0x800",
   "scriptName": "SkyrimNet_Leashed_Actions",
-  "executionFunctionName": "TM_OpenLeash",
+  "executionFunctionName": "TM_OpenUnleash",
   "closeWebUI": true,
   "parameterMapping": [
     { "type": "speaker", "name": "speaker" },
@@ -19,7 +19,7 @@
           "decoratorName": "is_in_faction",
           "arguments": ["currentActor", "LeashedFaction"],
           "comparisonOperator": "==",
-          "expectedValue": false
+          "expectedValue": true
         }
       ],
       "logicalOperator": "AND",
