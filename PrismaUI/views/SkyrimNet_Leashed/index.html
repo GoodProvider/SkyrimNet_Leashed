@@ -37,103 +37,75 @@
             font-family: var(--font-ui);
             font-size: var(--text-base);
         }
-        #bar {
+        /* Panel + cascade columns to its right (SkyrimNet_SexLab TargetMenu pulldown_cascade model). */
+        #leash-root {
             display: none;
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: max-content;
-            max-width: calc(100% - 10em);
+            top: 10%;
+            left: 10%;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: var(--space-md);
+            max-width: 80vw;
+            pointer-events: auto;
+        }
+        #leash-root.open { display: flex; }
+        .panel {
             background: var(--bg-surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             box-shadow: var(--shadow-lg);
             padding: var(--space-sm) var(--space-md);
-            pointer-events: auto;
-        }
-        #bar.open { display: block; }
-        #bar.vertical {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: max-content;
-            max-width: 22em;
-            max-height: calc(100% - 10em);
-            overflow-x: hidden;
+            flex: 0 0 auto;
+            max-height: 80vh;
             overflow-y: auto;
         }
-        #bar.vertical .grid {
-            flex-direction: column;
-            width: 100%;
-            max-width: 100%;
+        #leash-panel { min-width: min(320px, 40vw); }
+        .cascade-col {
+            min-width: min(240px, 30vw);
+            max-width: min(360px, 40vw);
         }
-        #bar.vertical .col {
-            flex: 0 0 auto;
-            width: 100%;
-        }
-        #bar.vertical .col.word .control {
-            min-height: auto;
-            padding: var(--space-xs) 0;
-        }
-        #bar.vertical .col .label {
-            text-align: left;
-        }
-        .grid {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            gap: var(--space-sm);
-            width: max-content;
-            max-width: 100%;
-        }
-        .col {
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            flex: 1 1 auto;
-            min-width: 0;
-        }
-        .col.word,
-        .col.action {
-            flex: 0 0 auto;
-            min-width: auto;
-        }
-        .col .control {
-            min-width: 0;
-            width: 100%;
-        }
-        .col.word .control,
-        .col.action .control {
-            width: auto;
-            min-width: auto;
-        }
-        .col.word .control {
-            min-height: var(--target-min);
-            display: flex;
-            align-items: center;
-            color: var(--text-secondary);
-            white-space: nowrap;
-            padding: 0 var(--space-xs);
-        }
-        .col .label {
+        .section-header {
             font-size: var(--text-sm);
-            color: var(--text-secondary);
-            text-align: center;
-            padding-top: var(--space-xs);
-            min-height: 1.4em;
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .col .label .status {
-            display: block;
             color: var(--text-muted);
-            font-size: 24px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: var(--space-xs);
+            margin: var(--space-xs) 0;
+        }
+        .top-bar {
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: var(--space-sm);
+            margin-bottom: var(--space-sm);
+        }
+        .top-bar .pulldown { width: auto; min-width: 8em; }
+        .labeled-fields {
+            display: grid;
+            grid-template-columns: max-content minmax(8em, 1fr);
+            column-gap: var(--space-sm);
+            row-gap: var(--space-xs);
+            align-items: center;
+        }
+        .dyn-field { display: contents; }
+        .dyn-field > label {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .dyn-field > .pulldown,
+        .dyn-field > span {
+            justify-self: stretch;
+            min-width: 8em;
+        }
+        .dyn-field > span { color: var(--text-secondary); }
+        .dyn-field.disabled > * {
+            opacity: 0.45;
+            pointer-events: none;
         }
         .pulldown {
             position: relative;
@@ -146,47 +118,61 @@
             border-radius: var(--radius);
             padding: 0 var(--space-sm);
             min-height: var(--target-min);
-            line-height: calc(var(--target-min) - 2px);
-            display: block;
+            display: flex;
+            align-items: center;
             min-width: 0;
             overflow: hidden;
-            text-overflow: ellipsis;
             white-space: nowrap;
             cursor: pointer;
         }
         .pulldown-value:hover,
-        .pulldown.open .pulldown-value {
+        .pulldown.cascade-open .pulldown-value {
             border-color: rgba(201, 168, 76, 0.45);
         }
-        .pulldown-menu {
-            display: none;
-            position: absolute;
-            left: 0;
-            top: calc(100% + var(--space-xs));
-            z-index: 20;
-            min-width: 100%;
-            width: max-content;
-            max-width: calc(100vw - 10em);
-            max-height: 50vh;
-            overflow-x: auto;
-            overflow-y: auto;
-            background: rgba(24, 24, 28, 0.96);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            padding: var(--space-xs) 0;
+        .pulldown-cascade .pulldown-value::after {
+            content: '❯';
+            margin-left: auto;
+            padding-left: var(--space-sm);
+            opacity: 0.6;
         }
-        .pulldown.open .pulldown-menu { display: block; }
-        .pulldown-option {
+        .option-row {
+            display: flex;
+            align-items: stretch;
+            gap: var(--space-xs);
+        }
+        .option-row .option { flex: 1; min-width: 0; }
+        .option {
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-md);
+            min-height: var(--target-min);
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+        .option:hover,
+        .option.selected {
+            color: var(--accent);
+            box-shadow: inset 2px 0 0 var(--accent);
+        }
+        .option.disabled {
+            color: var(--text-muted);
+            cursor: default;
+            pointer-events: none;
+            opacity: 0.55;
+        }
+        .option-expand {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
             padding: var(--space-sm) var(--space-md);
             min-height: var(--target-min);
             display: flex;
             align-items: center;
-            cursor: pointer;
-            white-space: nowrap;
+            flex-shrink: 0;
         }
-        .pulldown-option:hover,
-        .pulldown-option.selected {
+        .option-expand:hover,
+        .option-row.selected .option-expand {
             color: var(--accent);
             background: var(--accent-muted);
         }
@@ -211,7 +197,7 @@
     </style>
 </head>
 <body>
-    <div id="bar"></div>
+    <div id="leash-root"></div>
     <script>
         const STYLES = ['forcefully', 'normally', 'gently'];
         const DISTANCES = ['tight', 'short', 'middle', 'long'];
@@ -219,6 +205,7 @@
         const BODY_PARTS = ['neck', 'wrists', 'waist'];
         const TIE_POINTS = ['floor', 'left', 'back', 'front', 'right', 'wall'];
         const NONE_ID = 0;
+        const HOVER_DELAY_MS = 150;
 
         let state = {
             actors: [],
@@ -232,9 +219,13 @@
             distance: 'middle',
             leashType: 'rope',
             bodyPart: 'neck',
-            tiePoint: 'floor',
-            layout: ''
+            tiePoint: 'floor'
         };
+
+        // Open cascade: { key, path } (branch index per column); specs rebuilt each render.
+        let cascade = null;
+        let cascadeSpecs = {};
+        let hoverTimer = null;
 
         function formId(v) { return (v >>> 0); }
 
@@ -268,48 +259,14 @@
                 state.leashType = 'chain';
         }
 
-        function closeAllPulldowns(except) {
-            document.querySelectorAll('.pulldown.open').forEach((el) => {
-                if (el !== except) el.classList.remove('open');
-            });
-        }
-
-        function createPulldown(values, current, onChange) {
-            const root = document.createElement('div');
-            root.className = 'pulldown';
-            const valueEl = document.createElement('div');
-            valueEl.className = 'pulldown-value';
-            const menu = document.createElement('div');
-            menu.className = 'pulldown-menu';
-
-            const paint = (selected) => {
-                valueEl.textContent = selected || '';
-                menu.innerHTML = '';
-                values.forEach((v) => {
-                    const item = document.createElement('div');
-                    item.className = 'pulldown-option' + (v === selected ? ' selected' : '');
-                    item.textContent = v;
-                    item.onclick = (e) => {
-                        e.stopPropagation();
-                        paint(v);
-                        root.classList.remove('open');
-                        if (onChange) onChange(v, values.indexOf(v));
-                    };
-                    menu.appendChild(item);
-                });
-            };
-
-            valueEl.onclick = (e) => {
-                e.stopPropagation();
-                const willOpen = !root.classList.contains('open');
-                closeAllPulldowns(root);
-                root.classList.toggle('open', willOpen);
-            };
-
-            paint(current || values[0] || '');
-            root.appendChild(valueEl);
-            root.appendChild(menu);
-            return root;
+        // Existing leash: adopt its kind / distance / body so re-tie or give keeps them.
+        function seedFromRecord() {
+            const rec = leashedRecord();
+            if (rec && rec.isLeashed) {
+                if (TYPES.includes(rec.kind)) state.leashType = rec.kind;
+                if (DISTANCES.includes(rec.distance)) state.distance = rec.distance;
+                if (BODY_PARTS.includes(rec.bodyPart)) state.bodyPart = rec.bodyPart;
+            }
         }
 
         function actorEntries(includeNone, excludeId) {
@@ -324,49 +281,239 @@
             return entries;
         }
 
-        function createActorPulldown(includeNone, excludeId, currentId, onChange) {
-            const entries = actorEntries(includeNone, excludeId);
-            const labels = entries.map((e) => e.name || '?');
-            let current = entries.find((e) => formId(e.formId) === formId(currentId));
-            if (!current) current = entries[0] || { formId: NONE_ID, name: 'None' };
-            return createPulldown(labels, current.name, (_label, idx) => {
-                const picked = entries[idx] || current;
-                if (onChange) onChange(formId(picked.formId));
+        function actorName(id) {
+            if (!formId(id)) return 'None';
+            const rec = findActor(id);
+            return rec ? (rec.name || '?') : '?';
+        }
+
+        // ── pulldown_cascade (ported from SkyrimNet_SexLab createPulldownCascade) ──
+        // Looks like a pulldown showing the value, but opens columns right of the panel
+        // (hover drill, ❯ branches, ‹ back header). spec: { key, caption, display,
+        // tree: [{ label, value, children, current, disabled }], onPick(node) }.
+
+        function bindHoverDrill(el, isOpen, drill) {
+            el.addEventListener('mouseenter', () => {
+                clearTimeout(hoverTimer);
+                if (isOpen()) return;
+                hoverTimer = setTimeout(() => {
+                    if (!isOpen()) drill();
+                }, HOVER_DELAY_MS);
+            });
+            el.addEventListener('mouseleave', () => clearTimeout(hoverTimer));
+        }
+
+        function createPulldownCascade(spec, disabled) {
+            cascadeSpecs[spec.key] = spec;
+            const isOpen = () => !!cascade && cascade.key === spec.key;
+            const root = document.createElement('div');
+            root.className = 'pulldown pulldown-cascade' + (isOpen() ? ' cascade-open' : '');
+            const valueEl = document.createElement('div');
+            valueEl.className = 'pulldown-value';
+            valueEl.textContent = spec.display || '—';
+            root.appendChild(valueEl);
+            if (disabled) return root;
+            const open = () => {
+                cascade = { key: spec.key, path: [] };
+                render();
+            };
+            valueEl.onclick = (e) => {
+                e.stopPropagation();
+                if (isOpen()) {
+                    cascade = null;
+                    render();
+                } else {
+                    open();
+                }
+            };
+            bindHoverDrill(root, isOpen, open);
+            return root;
+        }
+
+        function cascadeNodes(spec, level) {
+            let nodes = spec.tree || [];
+            for (let i = 0; i < level; i++) {
+                const n = nodes[cascade.path[i]];
+                if (!n || !n.children) return null;
+                nodes = n.children;
+            }
+            return nodes;
+        }
+
+        function cascadeRow(spec, node, idx, level) {
+            const deeperOpen = () => !!cascade && cascade.key === spec.key && cascade.path.length > level;
+            if (node.children) {
+                const isOpen = () => !!cascade && cascade.key === spec.key && cascade.path[level] === idx;
+                const drill = () => {
+                    if (!cascade) return;
+                    cascade.path = cascade.path.slice(0, level).concat([idx]);
+                    render();
+                };
+                const row = document.createElement('div');
+                row.className = 'option-row' + (isOpen() ? ' selected' : '');
+                const main = document.createElement('div');
+                main.className = 'option' + (isOpen() || node.current ? ' selected' : '');
+                main.textContent = node.label;
+                main.onclick = (e) => {
+                    e.stopPropagation();
+                    drill();
+                };
+                const expand = document.createElement('div');
+                expand.className = 'option-expand';
+                expand.textContent = '❯';
+                expand.onclick = (e) => {
+                    e.stopPropagation();
+                    drill();
+                };
+                bindHoverDrill(row, isOpen, drill);
+                row.appendChild(main);
+                row.appendChild(expand);
+                return row;
+            }
+            const row = document.createElement('div');
+            row.className = 'option' + (node.current ? ' selected' : '') + (node.disabled ? ' disabled' : '');
+            row.textContent = node.label;
+            if (node.disabled) return row;
+            row.onclick = (e) => {
+                e.stopPropagation();
+                cascade = null;
+                spec.onPick(node);
+            };
+            // Resting on a leaf folds columns opened from a sibling branch.
+            bindHoverDrill(row, () => !deeperOpen(), () => {
+                if (!cascade) return;
+                cascade.path = cascade.path.slice(0, level);
+                render();
+            });
+            return row;
+        }
+
+        function renderCascadeColumns(host) {
+            if (!cascade) return;
+            const spec = cascadeSpecs[cascade.key];
+            if (!spec) {
+                cascade = null;
+                return;
+            }
+            for (let level = 0; level <= cascade.path.length; level++) {
+                const nodes = cascadeNodes(spec, level);
+                if (!nodes) break;
+                const panel = document.createElement('div');
+                panel.className = 'panel cascade-col';
+                panel.onclick = (e) => e.stopPropagation();
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                if (level > 0) {
+                    const parent = cascadeNodes(spec, level - 1)[cascade.path[level - 1]];
+                    header.textContent = '‹ ' + (parent ? parent.label : '');
+                    header.style.cursor = 'pointer';
+                    header.onclick = (e) => {
+                        e.stopPropagation();
+                        cascade.path = cascade.path.slice(0, level - 1);
+                        render();
+                    };
+                } else {
+                    header.textContent = spec.caption || spec.key;
+                }
+                panel.appendChild(header);
+                nodes.forEach((node, idx) => panel.appendChild(cascadeRow(spec, node, idx, level)));
+                host.appendChild(panel);
+            }
+        }
+
+        // Escape: peel one column, then close. True when a cascade was open.
+        function peelCascade() {
+            if (!cascade) return false;
+            if (cascade.path.length) cascade.path = cascade.path.slice(0, -1);
+            else cascade = null;
+            render();
+            return true;
+        }
+
+        function listCascade(key, caption, values, current, onPick, disabled) {
+            return createPulldownCascade({
+                key: key,
+                caption: caption,
+                display: current,
+                tree: values.map(v => ({ label: v, value: v, current: v === current })),
+                onPick: (node) => onPick(node.value)
+            }, disabled);
+        }
+
+        function actorNodes(includeNone, excludeId, currentId) {
+            const cur = formId(currentId);
+            return actorEntries(includeNone, excludeId).map(a => ({
+                label: a.name || '?',
+                value: formId(a.formId),
+                current: formId(a.formId) === cur
+            }));
+        }
+
+        function actorCascade(key, caption, currentId, onPick) {
+            return createPulldownCascade({
+                key: key,
+                caption: caption,
+                display: actorName(currentId),
+                tree: actorNodes(false, 0, currentId),
+                onPick: (node) => onPick(node.value)
             });
         }
 
-        function addWord(grid, text) {
-            const wrap = document.createElement('div');
-            wrap.className = 'col word';
-            const controlHost = document.createElement('div');
-            controlHost.className = 'control';
-            controlHost.textContent = text;
-            const label = document.createElement('div');
-            label.className = 'label';
-            label.textContent = '\u00a0';
-            wrap.appendChild(controlHost);
-            wrap.appendChild(label);
-            grid.appendChild(wrap);
+        // ── action row: verb → object tree; a leaf sets verb + holder/tiePoint and starts at once ──
+
+        function tieNodes(verb) {
+            return TIE_POINTS.map(t => ({
+                label: t,
+                value: { verb: verb, tiePoint: t },
+                current: state.verb === verb && state.tiePoint === t
+            }));
         }
 
-        function addColumn(grid, control, labelText, statusText, extraClass) {
-            const wrap = document.createElement('div');
-            wrap.className = extraClass ? ('col ' + extraClass) : 'col';
-            const controlHost = document.createElement('div');
-            controlHost.className = 'control';
-            if (control) controlHost.appendChild(control);
-            const label = document.createElement('div');
-            label.className = 'label';
-            label.appendChild(document.createTextNode(labelText || '\u00a0'));
-            if (statusText) {
-                const st = document.createElement('span');
-                st.className = 'status';
-                st.textContent = statusText;
-                label.appendChild(st);
+        function holderNodes(verb, includeNone) {
+            const cur = state.verb === verb ? state.holder : -1;
+            return actorNodes(includeNone, state.leashed, cur).map(n => ({
+                label: n.label,
+                value: { verb: verb, holder: n.value },
+                current: n.current
+            }));
+        }
+
+        function actionDisplay() {
+            switch (state.verb) {
+                case 'leash': return 'leash: held by ' + actorName(state.holder);
+                case 'leash to': return 'leash to: ' + state.tiePoint;
+                case 'tie to': return 'tie to: ' + state.tiePoint;
+                case 'give to': return 'give to: ' + actorName(state.holder);
+                default: return state.verb;
             }
-            wrap.appendChild(controlHost);
-            wrap.appendChild(label);
-            grid.appendChild(wrap);
+        }
+
+        function actionCascade() {
+            const branch = (verb, children) => ({ label: verb, current: state.verb === verb, children: children });
+            const tree = isLeashed()
+                ? [
+                    { label: 'unleash', value: { verb: 'unleash' }, current: state.verb === 'unleash' },
+                    branch('tie to', tieNodes('tie to')),
+                    branch('give to', holderNodes('give to', false))
+                ]
+                : [
+                    branch('leash', holderNodes('leash', true)),
+                    branch('leash to', tieNodes('leash to'))
+                ];
+            return createPulldownCascade({
+                key: 'action',
+                caption: 'action',
+                display: actionDisplay(),
+                tree: tree,
+                onPick: (node) => {
+                    const v = node.value || {};
+                    state.verb = v.verb;
+                    if (v.holder !== undefined) state.holder = v.holder;
+                    if (v.tiePoint) state.tiePoint = v.tiePoint;
+                    render();
+                    fireStart();
+                }
+            });
         }
 
         function canStart() {
@@ -374,6 +521,7 @@
             if ((state.verb === 'leash' || state.verb === 'give to')
                 && state.holder && formId(state.holder) === formId(state.leashed))
                 return false;
+            if (state.verb === 'give to' && !state.holder) return false;
             return true;
         }
 
@@ -395,6 +543,7 @@
                 window.onStart(JSON.stringify(payload));
         }
 
+        // Layout: [Start] style / subject / leashed / (status) / action / distance / type / body.
         function render() {
             seedVerb();
             lockWristType();
@@ -402,119 +551,89 @@
             if (state.holder && formId(state.holder) === formId(state.leashed))
                 state.holder = state.subject || 0;
 
-            const bar = document.getElementById('bar');
-            bar.innerHTML = '';
-            const grid = document.createElement('div');
-            grid.className = 'grid';
-
-            addColumn(grid, createActorPulldown(false, 0, state.subject, (id) => {
-                state.subject = id;
+            const root = document.getElementById('leash-root');
+            root.innerHTML = '';
+            cascadeSpecs = {};
+            const panel = document.createElement('div');
+            panel.id = 'leash-panel';
+            panel.className = 'panel';
+            // Clicks inside the panel (off a field) close an open cascade, not the overlay.
+            panel.onclick = (e) => {
+                e.stopPropagation();
+                if (!cascade) return;
+                cascade = null;
                 render();
-            }), 'subject');
+            };
 
-            addColumn(grid, createPulldown(STYLES, state.style, (v) => {
-                state.style = v;
-            }), 'style');
-
-            addColumn(grid, createPulldown(verbValues(), state.verb, (v) => {
-                state.verb = v;
-                render();
-            }), 'verb');
-
-            let status = '';
-            if (rec && rec.isLeashed) {
-                status = rec.holderFormId ? ('by ' + (rec.holderName || '?')) : 'tied to world';
-            }
-            addColumn(grid, createActorPulldown(false, 0, state.leashed, (id) => {
-                state.leashed = id;
-                render();
-            }), 'leashed', status);
-
-            const leashedNow = isLeashed();
-            if (!leashedNow && (state.verb === 'leash' || state.verb === 'leash to')) {
-                addWord(grid, 'with');
-                addColumn(grid, createPulldown(DISTANCES, state.distance, (v) => {
-                    state.distance = v;
-                }), 'distance');
-                addColumn(grid, createPulldown(state.bodyPart === 'wrists' ? ['chain'] : TYPES, state.leashType, (v) => {
-                    state.leashType = v;
-                }), 'type');
-                addColumn(grid, createPulldown(BODY_PARTS, state.bodyPart, (v) => {
-                    state.bodyPart = v;
-                    lockWristType();
-                    render();
-                }), 'body');
-                if (state.verb === 'leash') {
-                    addWord(grid, 'held by');
-                    addColumn(grid, createActorPulldown(true, state.leashed, state.holder, (id) => {
-                        state.holder = id;
-                        render();
-                    }), 'holder');
-                } else {
-                    addWord(grid, 'tied to');
-                    addColumn(grid, createPulldown(TIE_POINTS, state.tiePoint, (v) => {
-                        state.tiePoint = v;
-                    }), 'location');
-                }
-            } else if (leashedNow && state.verb === 'give to') {
-                addWord(grid, 'to');
-                addColumn(grid, createActorPulldown(true, state.leashed, state.holder, (id) => {
-                    state.holder = id;
-                    render();
-                }), 'holder');
-            } else if (leashedNow && state.verb === 'tie to') {
-                addWord(grid, 'to');
-                addColumn(grid, createPulldown(TIE_POINTS, state.tiePoint, (v) => {
-                    state.tiePoint = v;
-                }), 'location');
-            }
-
+            const bar = document.createElement('div');
+            bar.className = 'top-bar';
             const startBtn = document.createElement('div');
             startBtn.className = 'action-btn' + (canStart() ? '' : ' disabled');
             startBtn.textContent = 'Start';
-            startBtn.onclick = () => fireStart();
-            addColumn(grid, startBtn, '', null, 'action');
+            startBtn.onclick = (e) => {
+                e.stopPropagation();
+                fireStart();
+            };
+            bar.appendChild(startBtn);
+            bar.appendChild(listCascade('style', 'style', STYLES, state.style, (v) => {
+                state.style = v;
+                render();
+            }));
+            panel.appendChild(bar);
 
-            bar.appendChild(grid);
-            bar.classList.toggle('vertical', state.layout === 'vertical');
-            bar.classList.add('open');
-            fitBar();
-        }
+            const fields = document.createElement('div');
+            fields.className = 'labeled-fields';
+            const addField = (labelText, node, disabled) => {
+                const field = document.createElement('div');
+                field.className = 'dyn-field' + (disabled ? ' disabled' : '');
+                const lab = document.createElement('label');
+                lab.textContent = labelText || ' ';
+                field.appendChild(lab);
+                if (node) field.appendChild(node);
+                fields.appendChild(field);
+            };
 
-        function fitBar() {
-            const bar = document.getElementById('bar');
-            if (!bar || !bar.classList.contains('open')) return;
-            const cols = [...bar.querySelectorAll('.col:not(.word):not(.action)')];
-            cols.forEach((c) => {
-                c.style.flex = '';
-                c.style.width = '';
-                c.style.maxWidth = '';
-            });
-            if (bar.classList.contains('vertical')) return;
-            const vw = document.documentElement.clientWidth;
-            const em = parseFloat(getComputedStyle(document.body).fontSize);
-            const maxW = vw - 10 * em;
-            bar.style.maxWidth = 'none';
-            const natural = bar.offsetWidth;
-            bar.style.maxWidth = '';
-            if (natural <= maxW + 1) return;
-            const grid = bar.querySelector('.grid');
-            if (!grid || !cols.length) return;
-            const gap = parseFloat(getComputedStyle(grid).gap) || 0;
-            const barStyle = getComputedStyle(bar);
-            const chrome = (parseFloat(barStyle.paddingLeft) || 0)
-                + (parseFloat(barStyle.paddingRight) || 0)
-                + (parseFloat(barStyle.borderLeftWidth) || 0)
-                + (parseFloat(barStyle.borderRightWidth) || 0);
-            const gapTotal = gap * Math.max(0, grid.children.length - 1);
-            const fixed = [...bar.querySelectorAll('.col.word, .col.action')]
-                .reduce((sum, el) => sum + el.offsetWidth, 0);
-            const each = Math.max(0, (maxW - chrome - gapTotal - fixed) / cols.length);
-            cols.forEach((c) => {
-                c.style.flex = '0 0 ' + each + 'px';
-                c.style.width = each + 'px';
-                c.style.maxWidth = each + 'px';
-            });
+            addField('subject', actorCascade('subject', 'subject', state.subject, (id) => {
+                state.subject = id;
+                render();
+            }));
+            addField('leashed', actorCascade('leashed', 'leashed', state.leashed, (id) => {
+                state.leashed = id;
+                seedFromRecord();
+                render();
+            }));
+
+            const leashedNow = isLeashed();
+            if (leashedNow) {
+                const st = document.createElement('span');
+                st.textContent = rec.holderFormId ? (rec.holderName || '?') : 'world';
+                addField(rec.holderFormId ? 'is leashed by' : 'is tied to', st);
+            }
+
+            addField('action', actionCascade());
+
+            // New leash only; an existing leash keeps its settings.
+            if (!leashedNow) {
+                addField('distance', listCascade('distance', 'distance', DISTANCES, state.distance, (v) => {
+                    state.distance = v;
+                    render();
+                }));
+                const wrists = state.bodyPart === 'wrists';
+                addField('type', listCascade('type', 'type', TYPES, state.leashType, (v) => {
+                    state.leashType = v;
+                    render();
+                }, wrists), wrists);
+                addField('body', listCascade('body', 'body', BODY_PARTS, state.bodyPart, (v) => {
+                    state.bodyPart = v;
+                    lockWristType();
+                    render();
+                }));
+            }
+
+            panel.appendChild(fields);
+            root.appendChild(panel);
+            renderCascadeColumns(root);
+            root.classList.add('open');
         }
 
         function openLeashPanel(payload) {
@@ -522,7 +641,6 @@
             state.actors = Array.isArray(src.actors) ? src.actors : [];
             state.player = formId(src.player);
             state.crosshair = formId(src.crosshair);
-            state.layout = src.layout === 'vertical' ? 'vertical' : '';
             state.distance = DISTANCES.includes(src.distance) ? src.distance : 'middle';
             state.leashType = TYPES.includes(src.leashType) ? src.leashType : 'rope';
             state.bodyPart = BODY_PARTS.includes(src.bodyPart) ? src.bodyPart : 'neck';
@@ -543,21 +661,26 @@
                 state.leashed = formId((state.actors.find(a => formId(a.formId) !== state.subject) || playerActor || { formId: 0 }).formId);
             }
             state.holder = state.subject;
-            const rec = findActor(state.leashed);
-            if (rec && rec.isLeashed) {
-                if (TYPES.includes(rec.kind)) state.leashType = rec.kind;
-                if (DISTANCES.includes(rec.distance)) state.distance = rec.distance;
-                if (BODY_PARTS.includes(rec.bodyPart)) state.bodyPart = rec.bodyPart;
-            }
+            seedFromRecord();
             if (src.presetVerb)
                 state.verb = String(src.presetVerb);
+            cascade = null;
             lockWristType();
             seedVerb();
             render();
         }
 
-        document.addEventListener('click', () => closeAllPulldowns());
-        window.addEventListener('resize', () => fitBar());
+        document.addEventListener('click', () => {
+            if (!cascade) return;
+            cascade = null;
+            render();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && peelCascade()) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
+        });
         window.openLeashPanel = openLeashPanel;
     </script>
 </body>
