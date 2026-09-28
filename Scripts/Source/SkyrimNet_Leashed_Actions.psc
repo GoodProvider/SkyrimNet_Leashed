@@ -1139,6 +1139,8 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
         ForgetPair(leashed)
         return false
     endif
+    ; Always give slack: the holder can keep walking once the rope is fully extended.
+    LeashFramework.SetPreventOverstretchOverride(leashed, 0)
     SkyrimNet_Leashed_Native.NotifyLeash(holder, leashed, kind, leashDistance, bodyPart, false)
     if bodyPart == "wrists"
         ApplyWristBind(leashed)

@@ -245,7 +245,13 @@
         }
 
         function verbValues() {
-            return isLeashed() ? ['unleash', 'tie to', 'give to'] : ['leash', 'leash to'];
+            if (!isLeashed()) return ['leash', 'leash to'];
+            return ['unleash', 'tie to', 'give to'];
+        }
+
+        function hasHolder() {
+            const rec = leashedRecord();
+            return !!(rec && rec.holderFormId);
         }
 
         function seedVerb() {

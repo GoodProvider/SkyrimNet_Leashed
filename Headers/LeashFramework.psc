@@ -188,3 +188,22 @@ The override lasts until this leash is replaced or disconnected and is saved onl
 Set mode back to -1 to remove the override. Returns false for an absent leash or a mode outside -1 through 1.
 /;
 Bool Function SetTeleportOverride(Actor leashed, Int mode = -1) Global Native
+
+;/
+Controls whether the actor holding leashed's active leash can walk farther away once the rope is fully
+extended. Pass the leashed actor, not the actor holding the leash. This works for player and NPC holders.
+
+mode: -1 follows the "Prevent holder overstretch" menu setting, 0 lets the holder move freely for this
+leash, and 1 limits the holder's movement even if that menu setting is off. When limited, the holder
+can still move toward or around the leashed actor. The limit uses the rope's actual length, allows
+room for the leashed actor to lean, and includes the menu's "Holder stretch allowance". It is separate
+from maxLength, which controls when the leashed actor is pulled.
+
+This has no effect on leashes tied to a world position or while the leashed actor is being dragged by
+forced recovery. If the holder has other leashes, those can still limit its movement.
+
+The choice lasts until this leash is replaced or disconnected and is saved only with persistent leashes.
+Use mode -1 to follow the menu setting again. Returns false if leashed has no active leash or mode is
+not -1, 0, or 1.
+/;
+Bool Function SetPreventOverstretchOverride(Actor leashed, Int mode = -1) Global Native

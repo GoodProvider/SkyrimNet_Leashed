@@ -52,10 +52,12 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
             bool speakerIsLeashed{false};
             bool collaredNearby{false};
             bool speakerIsStruggling{false};
+            bool speakerHoldsLeash{false};
             std::string visiblePairs{kEmptyPairs};
             std::string leashedActors{kEmptyActors};
             std::string unleashedActors{kEmptyActors};
             std::string leashPartners{kEmptyActors};
+            std::string heldActors{kEmptyActors};
             std::string collaredActors{kEmptyActors};
             std::string nearbyActors{kEmptyActors};
         };
@@ -170,6 +172,7 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
 
             PairsJson visible;
             std::vector<RE::Actor*> partners;
+            std::vector<RE::Actor*> held;
             for (const auto& pair : a_pairs) {
                 const bool endpoint = pair.holderID == speakerID || pair.leashedID == speakerID;
                 if (endpoint || CanSee(a_speaker, pair.holder) || CanSee(a_speaker, pair.leashed)) {
@@ -179,11 +182,16 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
                     partners.push_back(pair.holder);
                 } else if (pair.holderID == speakerID && pair.leashed) {
                     partners.push_back(pair.leashed);
+                    if (!pair.tied && !pair.dangling) {
+                        held.push_back(pair.leashed);
+                    }
                 }
             }
             snapshot.visiblePairs = WriteJson(visible, kEmptyPairs);
             snapshot.leashPartners = ActorsPayload(partners);
             snapshot.speakerOnLeash = !partners.empty();
+            snapshot.heldActors = ActorsPayload(held);
+            snapshot.speakerHoldsLeash = !held.empty();
             snapshot.speakerIsLeashed = LeashState::IsLeashed(a_speaker);
             snapshot.speakerIsStruggling = LeashState::IsStruggling(a_speaker);
 
@@ -318,6 +326,8 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
                 return it->second.collaredNearby;
             case Flag::SpeakerIsStruggling:
                 return it->second.speakerIsStruggling;
+            case Flag::SpeakerHoldsLeash:
+                return it->second.speakerHoldsLeash;
         }
         return false;
     }
@@ -344,6 +354,8 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
                 return it->second.unleashedActors;
             case Payload::LeashPartners:
                 return it->second.leashPartners;
+            case Payload::HeldActors:
+                return it->second.heldActors;
             case Payload::CollaredActors:
                 return it->second.collaredActors;
             case Payload::NearbyActors:

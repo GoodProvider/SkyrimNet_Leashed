@@ -4,7 +4,7 @@ description: >-
   Diffs SkyrimNet_Leashed against an updated named dependency, writes
   checkpoints/<dependency-name>-<version>.md, and updates KNOWLEDGE.md.
   Use when the user asks to review current code against a dependency update
-  (Leash Framework, SkyrimNet, PrismaUI, or another), ../LeashFramework,
+  (Leash Framework, SkyrimNet, PrismaUI, or another), ../Leash Framework,
   Nexus 187303, or version drift.
 ---
 
@@ -27,7 +27,7 @@ Read, in order:
 
 ## Workflow
 
-1. Name the dependency and version. Default LF install: `../LeashFramework`.
+1. Name the dependency and version. Default LF install: `../Leash Framework`.
 2. Diff public API / assets / events against what this repo pins (`Headers/`, YAML, C++, form IDs).
 3. Re-map every caller. For LF: every `LeashFramework.*` native and `LeashFramework_*` mod event in `Scripts/Source/`, plus armor IDs vs `Leash.esm`.
 4. Report additive APIs, signature breaks, behavior/event semantics, new meshes/IDs. Do not assume SE = VR.

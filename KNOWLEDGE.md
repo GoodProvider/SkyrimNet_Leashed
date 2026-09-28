@@ -22,7 +22,7 @@ When reviewing current code against a **dependency update**, follow the `depende
 
 | Dependency | Latest checkpoint |
 | --- | --- |
-| Leash Framework | [checkpoints/leashframework-1.1.3.md](checkpoints/leashframework-1.1.3.md) (0.3.0 adapted; playtest 2026-09-10 looked fine) |
+| Leash Framework | [checkpoints/leashframework-1.1.4.md](checkpoints/leashframework-1.1.4.md) (no drift from 1.1.3; holder always given slack) |
 | SkyrimNet | [checkpoints/skyrimnet-beta25-rc7.md](checkpoints/skyrimnet-beta25-rc7.md) (0.4.0; PublicAPI v10; content plugin `goodprovider.leashed`) |
 
 CMake **Configure** may run `git submodule update --init --recursive` from `SKSE_Source` and reset `Skyrim-Leash-Framework` to the **parent gitlink**. After a pin, the index must record the new SHA (`git add Skyrim-Leash-Framework`) or Configure will walk it back. Do not compile or ship Framework `.pex` / DLL from the submodule.
