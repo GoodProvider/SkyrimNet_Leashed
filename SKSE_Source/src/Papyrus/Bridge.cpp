@@ -216,6 +216,23 @@ namespace SkyrimNetLeashed::Papyrus {
             }
             return CountLeashDescendants(root) > 0;
         }
+
+        // Same test LeashFramework's ForcedRecoveryController uses before it touches an actor.
+        bool IsKnockedDown(RE::StaticFunctionTag*, RE::Actor* a_who) {
+            if (!a_who || !a_who->Is3DLoaded()) {
+                return false;
+            }
+            const auto* state = a_who->AsActorState();
+            return a_who->IsInRagdollState() || (state && state->GetKnockState() != RE::KNOCK_STATE_ENUM::kNormal);
+        }
+
+        std::int32_t KnockState(RE::StaticFunctionTag*, RE::Actor* a_who) {
+            if (!a_who || !a_who->Is3DLoaded()) {
+                return -1;
+            }
+            const auto* state = a_who->AsActorState();
+            return state ? static_cast<std::int32_t>(state->GetKnockState()) : -1;
+        }
     }
 
     bool Register(RE::BSScript::IVirtualMachine* a_vm) {
@@ -234,6 +251,8 @@ namespace SkyrimNetLeashed::Papyrus {
         a_vm->RegisterFunction("StruggleEnabled", kScriptName, StruggleEnabled);
         a_vm->RegisterFunction("TraceLeashBones", kScriptName, TraceLeashBones);
         a_vm->RegisterFunction("HasLeashBones", kScriptName, HasLeashBones);
+        a_vm->RegisterFunction("IsKnockedDown", kScriptName, IsKnockedDown);
+        a_vm->RegisterFunction("KnockState", kScriptName, KnockState);
         a_vm->RegisterFunction("OpenPanel", kScriptName, OpenPanel);
         a_vm->RegisterFunction("OpenPanelFor", kScriptName, OpenPanelFor);
         SKSE::log::info("Registered {} Papyrus functions", kScriptName);

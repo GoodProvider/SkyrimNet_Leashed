@@ -17,6 +17,10 @@ Actor[] SuppressActors
 Float[] SuppressTimes
 Actor[] StrugglingActors
 Float[] StruggleLastNarrate
+Actor[] DownedActors
+Float[] DownedStarted
+Float[] DownedStuckTime
+Int[] DownedStage
 Bool DeviceHiderHintShown
 
 Event OnInit()
@@ -86,7 +90,7 @@ Function RepushStruggling()
         endif
         i += 1
     endwhile
-    RefreshStruggleUpdates()
+    RefreshUpdates()
 EndFunction
 
 String Function LeashBoneMatch()
@@ -127,6 +131,12 @@ Function EnsureCache()
     if StrugglingActors.Length != CacheSize()
         StrugglingActors = new Actor[32]
         StruggleLastNarrate = new Float[32]
+    endif
+    if DownedActors.Length != CacheSize()
+        DownedActors = new Actor[32]
+        DownedStarted = new Float[32]
+        DownedStuckTime = new Float[32]
+        DownedStage = new Int[32]
     endif
 EndFunction
 
@@ -666,7 +676,7 @@ Bool Function LeashMeshSurvivesHider(Actor meshOwner)
     if SkyrimNet_Leashed_Native.HasLeashBones(meshOwner)
         return true
     endif
-    Debug.Trace("[SkyrimNet_Leashed] DD hider removed leash 3D on bound NPC " + ActorLabel(meshOwner) + "; add 45 to aiHiderOverrideSlots in DeviousDevices.ini")
+    Debug.Trace("[SkyrimNet_Leashed] DD hider removed leash 3D on bound NPC " + ActorLabel(meshOwner) + "; add 45 and 58 to aiHiderOverrideSlots in DeviousDevices.ini")
     SkyrimNet_Leashed_Native.TraceLeashBones(meshOwner)
     return false
 EndFunction
@@ -691,7 +701,7 @@ Bool Function WaitForLeashMesh(Actor meshOwner, Armor leashArmor)
             Debug.Notification("You must be in third person view for the leash to work")
             Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; player is in first person. Skip Framework apply.")
         elseif IsDeviousBoundNPC(meshOwner)
-            Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; DD hider hides armor on bound NPCs (add 45 to aiHiderOverrideSlots). Skip Framework apply.")
+            Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; DD hider hides armor on bound NPCs (add 45 and 58 to aiHiderOverrideSlots). Skip Framework apply.")
         else
             Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; collar NIF did not attach (beast/male race or missing mesh). Skip Framework apply.")
         endif
@@ -780,11 +790,135 @@ Int Function CountStruggling()
     return n
 EndFunction
 
-Function RefreshStruggleUpdates()
-    if CountStruggling() > 0
+; One 1s tick drives both the struggle loop and the stuck-knockdown watchdog.
+Function RefreshUpdates()
+    if CountStruggling() > 0 || CountDowned() > 0
         RegisterForUpdate(1.0)
     else
         UnregisterForUpdate()
+    endif
+EndFunction
+
+Int Function FindDownedIndex(Actor who)
+    EnsureCache()
+    Int i = 0
+    while i < DownedActors.Length
+        if DownedActors[i] == who
+            return i
+        endif
+        i += 1
+    endwhile
+    return -1
+EndFunction
+
+Int Function CountDowned()
+    EnsureCache()
+    Int n = 0
+    Int i = 0
+    while i < DownedActors.Length
+        if DownedActors[i]
+            n += 1
+        endif
+        i += 1
+    endwhile
+    return n
+EndFunction
+
+Function ClearDownedSlot(Int i)
+    if i < 0 || i >= DownedActors.Length
+        return
+    endif
+    DownedActors[i] = None
+    DownedStarted[i] = 0.0
+    DownedStuckTime[i] = 0.0
+    DownedStage[i] = 0
+EndFunction
+
+; Starts (or restarts) the stuck-knockdown watch after a Framework ragdoll pull.
+Function WatchDowned(Actor who)
+    if who == None
+        return
+    endif
+    Int i = FindDownedIndex(who)
+    if i < 0
+        i = FindDownedIndex(None)
+    endif
+    if i < 0
+        return
+    endif
+    DownedActors[i] = who
+    DownedStarted[i] = Utility.GetCurrentRealTime()
+    DownedStuckTime[i] = 0.0
+    DownedStage[i] = 0
+    RefreshUpdates()
+EndFunction
+
+Function UnwatchDowned(Actor who)
+    Int i = FindDownedIndex(who)
+    if i >= 0
+        ClearDownedSlot(i)
+        RefreshUpdates()
+    endif
+EndFunction
+
+; Port of PAH Diary of Mine "Fix unresponsive or invisible actor" (DOM_Keys.SpecialReset).
+Function ResetStuckActor(Actor who)
+    if who == None
+        return
+    endif
+    Debug.Trace("[SkyrimNet_Leashed] ResetStuckActor " + ActorLabel(who) + " knock=" + SkyrimNet_Leashed_Native.KnockState(who))
+    who.Disable()
+    who.Enable()
+    who.SetAlpha(1.0)
+    Debug.SendAnimationEvent(who, "IdleForceDefaultState")
+    who.QueueNiNodeUpdate()
+    if CachedBodyPart(who) == "wrists"
+        ApplyWristBind(who)
+    endif
+EndFunction
+
+; A ragdoll pull normally ends in a get-up within a few seconds. Time only counts while the
+; actor is down inside leash range (Framework is no longer dragging), with 3D loaded.
+Function TickDowned()
+    Float now = Utility.GetCurrentRealTime()
+    Bool changed = false
+    Int i = 0
+    while i < DownedActors.Length
+        Actor who = DownedActors[i]
+        if who
+            if who.IsDead() || who.IsDisabled() || (now - DownedStarted[i]) > 60.0
+                ClearDownedSlot(i)
+                changed = true
+            elseif who.Is3DLoaded()
+                if !SkyrimNet_Leashed_Native.IsKnockedDown(who)
+                    if (now - DownedStarted[i]) >= 1.0
+                        ClearDownedSlot(i)
+                        changed = true
+                    endif
+                else
+                    Actor holder = LeashFramework.GetLeashHolder(who)
+                    Float maxLen = LeashFramework.GetMaxLeashLength(who)
+                    if holder && maxLen > 0.0 && holder.GetDistance(who) > maxLen
+                        DownedStuckTime[i] = 0.0
+                    else
+                        DownedStuckTime[i] = DownedStuckTime[i] + 1.0
+                        if DownedStage[i] == 0 && DownedStuckTime[i] >= 8.0
+                            DownedStage[i] = 1
+                            Debug.Trace("[SkyrimNet_Leashed] stuck knockdown " + ActorLabel(who) + " knock=" + SkyrimNet_Leashed_Native.KnockState(who) + "; BleedOutStop")
+                            Debug.SendAnimationEvent(who, "BleedOutStop")
+                        elseif DownedStage[i] == 1 && DownedStuckTime[i] >= 14.0
+                            ClearDownedSlot(i)
+                            changed = true
+                            ResetStuckActor(who)
+                        endif
+                    endif
+                endif
+            endif
+        endif
+        i += 1
+    endwhile
+    if changed
+        RefreshUpdates()
     endif
 EndFunction
 
@@ -840,6 +974,7 @@ Function ForgetPair(Actor leashed)
     CachedArmorCounts[i] = 0
     LastPullTimes[i] = 0.0
     LastTautTimes[i] = 0.0
+    UnwatchDowned(leashed)
 EndFunction
 
 Int Function EnsureLeashedSlot(Actor leashed)
@@ -1503,7 +1638,7 @@ Function NarrateMeshFailed(Actor holder, Actor leashed, String kind)
         endif
         if !DeviceHiderHintShown
             DeviceHiderHintShown = true
-            Debug.MessageBox("Devious Devices hides normal armor on bound NPCs, including leash collars. To show leashes on them, add 45 to aiHiderOverrideSlots in SKSE/Plugins/DeviousDevices.ini, or install the optional 'Devious Devices NG: show leash collars' patch from the SkyrimNet Leashed installer. Restart the game afterwards.")
+            Debug.MessageBox("Devious Devices hides normal armor on bound NPCs, including leash collars and ropes. To show leashes on them, add 45 (collars, neck ropes) and 58 (waist rope) to aiHiderOverrideSlots in SKSE/Plugins/DeviousDevices.ini, or install the optional 'Devious Devices NG: show leash collars and ropes' patch from the SkyrimNet Leashed installer. Restart the game afterwards.")
         endif
     elseif holder
         if raceLabel == "Argonian"
@@ -1683,6 +1818,11 @@ Function PlayStruggleAnim(Actor who)
     if who == None
         return
     endif
+    ; Idle events into a ragdolled/knocked-down actor can leave it unable to get up.
+    if !who.Is3DLoaded() || SkyrimNet_Leashed_Native.IsKnockedDown(who)
+        Debug.Trace("[SkyrimNet_Leashed] PlayStruggleAnim skipped: knocked down or no 3D " + ActorLabel(who))
+        return
+    endif
     String eventName = StruggleAnimEvent(StruggleBodyPart(who))
     Debug.Trace("[SkyrimNet_Leashed] PlayStruggleAnim " + ActorLabel(who) + " " + eventName)
     if !ActorIsLocomoting(who)
@@ -1692,7 +1832,8 @@ Function PlayStruggleAnim(Actor who)
 EndFunction
 
 Function StopStruggleAnim(Actor who)
-    if who
+    ; Knocked down: the get-up resets the graph; GetUpEnd / the watchdog reapply the wrist bind.
+    if who && !SkyrimNet_Leashed_Native.IsKnockedDown(who)
         Debug.SendAnimationEvent(who, "IdleForceDefaultState")
         if StruggleBodyPart(who) == "wrists"
             ApplyWristBind(who)
@@ -1721,7 +1862,7 @@ Function EndStruggle(Actor who, Bool narrateStop)
     ClearStruggleSlot(i)
     SkyrimNet_Leashed_Native.NotifyStruggle(who, false)
     StopStruggleAnim(who)
-    RefreshStruggleUpdates()
+    RefreshUpdates()
     if narrateStop
         Actor holder = LeashFramework.GetLeashHolder(who)
         if holder == None
@@ -1798,6 +1939,7 @@ Event OnUpdate()
         endif
         i += 1
     endwhile
+    TickDowned()
 EndEvent
 
 Function StruggleExecute(Actor subject)
@@ -1831,7 +1973,7 @@ Function StruggleExecute(Actor subject)
     String bodyPart = DetectBodyPart(holder, subject)
     StruggleLastNarrate[i] = Utility.GetCurrentRealTime()
     SkyrimNet_Leashed_Native.NotifyStruggle(subject, true)
-    RefreshStruggleUpdates()
+    RefreshUpdates()
     PlayStruggleAnim(subject)
     PulseStruggleEvent(subject)
     Narrate(ActorLabel(subject) + " struggles against the " + kind + " leash at their " + bodyPart + ", but it holds.", subject, NarrateListener(subject, subject, holder), "playerSensitive", subject, holder)
@@ -2145,6 +2287,7 @@ Event OnLeashFrameworkRagdollPulled(String eventName, String strArg, Float numAr
     endif
     EndStruggle(leashed, false)
     NarratePull(leashed, true)
+    WatchDowned(leashed)
     if CachedBodyPart(leashed) == "wrists"
         RegisterForAnimationEvent(leashed, "GetUpEnd")
     endif

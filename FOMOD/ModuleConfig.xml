@@ -15,10 +15,12 @@
       <optionalFileGroups order="Explicit">
         <group name="Optional patches" type="SelectAny">
           <plugins order="Explicit">
-            <plugin name="Devious Devices NG: show leash collars on bound NPCs">
-              <description>Devious Devices NG hides normal armor on NPCs in heavy bondage (armbinders and similar), which makes their leash collar invisible. This installs a copy of the Devious Devices NG 0.4.3 DeviousDevices.ini with slot 45 added to aiHiderOverrideSlots (aiHiderOverrideSlots = 60, 45).
+            <plugin name="Devious Devices NG: show leash collars and ropes on bound NPCs">
+              <description>Devious Devices NG hides normal armor on NPCs in heavy bondage (armbinders and similar), which makes their leash collars and ropes invisible. This installs a copy of the Devious Devices NG 0.4.3 DeviousDevices.ini with slots 45 (collars and neck ropes) and 58 (waist rope) added to aiHiderOverrideSlots (aiHiderOverrideSlots = 60, 45, 58).
 
-It REPLACES your Devious Devices NG ini. In MO2, SkyrimNet Leashed must be below Devious Devices NG in the left pane. If you changed DeviousDevices.ini yourself, skip this and add 45 to aiHiderOverrideSlots by hand instead. Restart the game after installing: DD reads the ini once at startup.</description>
+WARNING: Devious Devices corsets and harnesses also use slot 58. With this patch, DD no longer hides them under body armor (on the player and NPCs), and they skip DD's force-strip check, so they may show or clip through armor and clothing. If you don't want that, skip this patch and set aiHiderOverrideSlots = 60, 45 by hand: leash collars and neck ropes still show, and waist ropes on bound NPCs fall back to a neck rope.
+
+It REPLACES your Devious Devices NG ini. In MO2, SkyrimNet Leashed must be below Devious Devices NG in the left pane. If you changed DeviousDevices.ini yourself, skip this and add 45 and 58 to aiHiderOverrideSlots by hand instead. Restart the game after installing: DD reads the ini once at startup.</description>
               <files>
                 <folder source="Optional\DDNG_LeashCollars\SKSE" destination="SKSE"/>
               </files>

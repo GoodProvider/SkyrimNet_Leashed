@@ -9,6 +9,7 @@
 - DD bound NPCs: `IsDeviousBoundNPC` (`zad_DeviousHeavyBondage`, non-player). DD NG's DeviceHider (`CheckNPCArmor`, `sBoundNakedNPCs`) renders no non-device armor on them, so the Leash.esm mesh vanishes after Framework binds. `LeashMeshSurvivesHider` re-checks bones 3s after apply and backs out; `ApplyToHolder` then skips candidates worn by that NPC and goes to `holder_shield`; tie points skip fallbacks. `NarrateMeshFailed` DD variant (`<holder> tries and fails to leash <leashed> with a <kind> leash.`; the back-out `MarkSuppressed`s so OnUnleash stays quiet) plus a one-time MessageBox pointing at `aiHiderOverrideSlots`. When the only DD-safe candidate is `holder_shield` on a first-person player, `ApplyToHolder` forces third person first; DD failures narrate even in first person.
 - Hider hint (MessageBox + traces) now says slot `45` only (58 is DD's corset slot, 39 shields) and points at the optional FOMOD ini patch.
 - `NarrateUnleash` holder-less branch follows what the player sees. If `HasLeashBones(leashed)` is true, `ApplyDangling` keeps the mesh on and the line is "The <kind> leash comes loose and now dangles from <X>'s <bodyPart>." Otherwise it unequips, `ForgetPair`s, and the line is "The <kind> leash will not stay on <X>'s <bodyPart>, and <X> is no longer leashed." This replaces "fails to hold and falls off".
+- Stuck ragdoll fix. Native `IsKnockedDown(Actor)` / `KnockState(Actor)`. `PlayStruggleAnim` / `StopStruggleAnim` send no animation events to a ragdolled or knocked-down actor (that stopped LF forced recovery from ever getting the actor up). `OnLeashFrameworkRagdollPulled` starts a watchdog (`WatchDowned` / `TickDowned` on the 1s update, now `RefreshUpdates`): stuck 8s inside leash range → `BleedOutStop`; 14s → `ResetStuckActor` (PAH Diary of Mine SpecialReset port: Disable/Enable, SetAlpha, `IdleForceDefaultState`, `QueueNiNodeUpdate`).
 - `NormalizeDistance` accepts `tight_length` / `short_length` / `middle_length` / `medium_length` / `long_length`. `SpokenDistance` appends ` length` in `NarrateApply` and `NarrateLeash`.
 
 ### SKSE / WebUI
@@ -20,7 +21,7 @@
 ### FOMOD / build
 
 - New optional install step (`SelectAny`):
-  - **Devious Devices NG: show leash collars on bound NPCs** installs `Optional/DDNG_LeashCollars/SKSE/Plugins/DeviousDevices.ini`, the DD NG 0.4.3 ini with `aiHiderOverrideSlots = 60, 45`. It replaces the DD ini and must win the MO2 conflict.
+  - **Devious Devices NG: show leash collars and ropes on bound NPCs** installs `Optional/DDNG_LeashCollars/SKSE/Plugins/DeviousDevices.ini`, the DD NG 0.4.3 ini with `aiHiderOverrideSlots = 60, 45, 58` (58 = waist rope; the FOMOD warns that it also stops DD hiding corsets and harnesses under armor). It replaces the DD ini and must win the MO2 conflict.
   - **Beast-race leash meshes** installs `SkyrimNet_Leashed_BeastRaces.esp` (ESL, masters Skyrim.esm and Leash.esm). It overrides all 7 Leash.esm ArmorAddons and adds ArgonianRace, ArgonianRaceVampire, KhajiitRace and KhajiitRaceVampire. Source: `Spriggit/SkyrimNet_Leashed_BeastRaces/`.
 - `deserialize_esp.ps1` builds every `Spriggit/*` folder (ModKey from `spriggit-meta.json`). `pack_release.ps1` stages and requires the beast-race ESP and `Optional/`.
 

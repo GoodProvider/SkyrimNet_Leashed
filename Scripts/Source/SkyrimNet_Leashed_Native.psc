@@ -88,6 +88,20 @@ Framework bind needs Leash1 children under the parent bone; IsEquipped is not en
 Bool Function HasLeashBones(Actor who) Global Native
 
 ;/
+True when who has loaded 3D and is ragdolled or in any knock state other than normal
+(knockdown, get-up, explode). Animation events sent in that state can stop the actor
+from ever getting up.
+/;
+Bool Function IsKnockedDown(Actor who) Global Native
+
+;/
+Raw KNOCK_STATE_ENUM value for who (0 normal, 1 explode, 2 explode lead-in, 3 out,
+4 out lead-in, 5 queued, 6 get-up, 7 down, 8 wait for task queue). -1 when who is None
+or has no 3D. For logs.
+/;
+Int Function KnockState(Actor who) Global Native
+
+;/
 Shows the PrismaUI leash panel (same as the panel hotkey open path). Does not
 require leash.controls.hotkeyEnabled. No-ops if PrismaUI is missing or no save
 is loaded.
