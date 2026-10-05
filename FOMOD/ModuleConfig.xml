@@ -10,4 +10,34 @@
     <folder source="Scripts" destination="Scripts"/>
     <folder source="PrismaUI" destination="PrismaUI"/>
   </requiredInstallFiles>
+  <installSteps order="Explicit">
+    <installStep name="Optional patches">
+      <optionalFileGroups order="Explicit">
+        <group name="Optional patches" type="SelectAny">
+          <plugins order="Explicit">
+            <plugin name="Devious Devices NG: show leash collars on bound NPCs">
+              <description>Devious Devices NG hides normal armor on NPCs in heavy bondage (armbinders and similar), which makes their leash collar invisible. This installs a copy of the Devious Devices NG 0.4.3 DeviousDevices.ini with slot 45 added to aiHiderOverrideSlots (aiHiderOverrideSlots = 60, 45).
+
+It REPLACES your Devious Devices NG ini. In MO2, SkyrimNet Leashed must be below Devious Devices NG in the left pane. If you changed DeviousDevices.ini yourself, skip this and add 45 to aiHiderOverrideSlots by hand instead. Restart the game after installing: DD reads the ini once at startup.</description>
+              <files>
+                <folder source="Optional\DDNG_LeashCollars\SKSE" destination="SKSE"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Beast-race leash meshes (Argonian / Khajiit)">
+              <description>Leash.esm leash meshes do not list the Argonian or Khajiit races, so collars, ropes and the holder's hand chain do not render on them. This ESL-flagged plugin adds ArgonianRace, KhajiitRace and their vampire races to every Leash.esm armor addon. It uses the human meshes, so the fit on beast bodies may clip. Load it after Leash.esm.</description>
+              <files>
+                <file source="SkyrimNet_Leashed_BeastRaces.esp" destination="SkyrimNet_Leashed_BeastRaces.esp"/>
+              </files>
+              <typeDescriptor>
+                <type name="Optional"/>
+              </typeDescriptor>
+            </plugin>
+          </plugins>
+        </group>
+      </optionalFileGroups>
+    </installStep>
+  </installSteps>
 </config>

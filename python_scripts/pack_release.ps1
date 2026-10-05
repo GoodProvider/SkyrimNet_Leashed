@@ -1,4 +1,4 @@
-# Stage a FOMOD 7z: ESP + SKSE + Scripts + PrismaUI, no PDBs.
+# Stage a FOMOD 7z: ESPs + SKSE + Scripts + PrismaUI + Optional, no PDBs.
 param(
     [Parameter(Mandatory = $true)]
     [string]$Version,
@@ -38,6 +38,16 @@ if (-not (Test-Path $esp)) {
     throw "SkyrimNet_Leashed.esp not found. Run python_scripts/deserialize_esp.ps1 first."
 }
 
+$beastEsp = Join-Path $RepoRoot "SkyrimNet_Leashed_BeastRaces.esp"
+if (-not (Test-Path $beastEsp)) {
+    throw "SkyrimNet_Leashed_BeastRaces.esp not found. Run python_scripts/deserialize_esp.ps1 first."
+}
+
+$optional = Join-Path $RepoRoot "Optional"
+if (-not (Test-Path (Join-Path $optional "DDNG_LeashCollars\SKSE\Plugins\DeviousDevices.ini"))) {
+    throw "Optional\DDNG_LeashCollars\SKSE\Plugins\DeviousDevices.ini not found."
+}
+
 $sevenZip = Get-Command 7z -ErrorAction SilentlyContinue
 $sevenZipPath = if ($sevenZip) { $sevenZip.Source } else { "C:\Program Files\7-Zip\7z.exe" }
 if (-not (Test-Path $sevenZipPath)) {
@@ -55,6 +65,8 @@ New-Item -ItemType Directory -Force -Path $versionsDir | Out-Null
 
 Copy-Item -Path (Join-Path $RepoRoot "FOMOD") -Destination (Join-Path $stage "FOMOD") -Recurse -Force
 Copy-Item -Path $esp -Destination (Join-Path $stage "SkyrimNet_Leashed.esp") -Force
+Copy-Item -Path $beastEsp -Destination (Join-Path $stage "SkyrimNet_Leashed_BeastRaces.esp") -Force
+Copy-Item -Path $optional -Destination (Join-Path $stage "Optional") -Recurse -Force
 Copy-Item -Path (Join-Path $RepoRoot "Scripts") -Destination (Join-Path $stage "Scripts") -Recurse -Force
 Copy-Item -Path (Join-Path $RepoRoot "PrismaUI") -Destination (Join-Path $stage "PrismaUI") -Recurse -Force
 Copy-Item -Path (Join-Path $RepoRoot "SKSE") -Destination (Join-Path $stage "SKSE") -Recurse -Force
@@ -69,7 +81,7 @@ if (Test-Path $releaseFile) { Remove-Item -Force $releaseFile }
 
 Push-Location $stage
 try {
-    & $sevenZipPath -bb1 a $releaseFile -aoa FOMOD SkyrimNet_Leashed.esp SKSE Scripts PrismaUI
+    & $sevenZipPath -bb1 a $releaseFile -aoa FOMOD SkyrimNet_Leashed.esp SkyrimNet_Leashed_BeastRaces.esp SKSE Scripts PrismaUI Optional
     if ($LASTEXITCODE -ne 0) { throw "7z failed with exit $LASTEXITCODE" }
 } finally {
     Pop-Location

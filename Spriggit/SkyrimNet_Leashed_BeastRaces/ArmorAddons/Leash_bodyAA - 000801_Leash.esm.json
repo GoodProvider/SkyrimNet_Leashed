@@ -1,0 +1,61 @@
+{
+  "FormKey": "000801:Leash.esm",
+  "EditorID": "Leash_bodyAA",
+  "BodyTemplate": {
+    "FirstPersonFlags": [
+      "0x10000000"
+    ],
+    "ArmorType": "Clothing",
+    "ActsLike44": true
+  },
+  "Race": "000019:Skyrim.esm",
+  "Priority": {
+    "Male": 8,
+    "Female": 8
+  },
+  "WeightSliderEnabled": {
+    "Male": true,
+    "Female": true
+  },
+  "DetectionSoundValue": 76,
+  "Unknown2": 23,
+  "WeaponAdjust": 1.0,
+  "WorldModel": {
+    "Male": {
+      "File": "Leash\\body_rope_1.nif",
+      "Data": "0x020000000000000000000000"
+    },
+    "Female": {
+      "File": "Leash\\body_rope_1.nif",
+      "Data": "0x020000000000000000000000"
+    }
+  },
+  "AdditionalRaces": [
+    "000D53:Skyrim.esm",
+    "0131F0:Skyrim.esm",
+    "013741:Skyrim.esm",
+    "013742:Skyrim.esm",
+    "013743:Skyrim.esm",
+    "013744:Skyrim.esm",
+    "013746:Skyrim.esm",
+    "013747:Skyrim.esm",
+    "013748:Skyrim.esm",
+    "013749:Skyrim.esm",
+    "067CD8:Skyrim.esm",
+    "088794:Skyrim.esm",
+    "08883C:Skyrim.esm",
+    "08883D:Skyrim.esm",
+    "088840:Skyrim.esm",
+    "088844:Skyrim.esm",
+    "088846:Skyrim.esm",
+    "088884:Skyrim.esm",
+    "0A82B9:Skyrim.esm",
+    "0A82BA:Skyrim.esm",
+    "0B7998:Skyrim.esm",
+    "10760A:Skyrim.esm",
+    "013740:Skyrim.esm",
+    "08883A:Skyrim.esm",
+    "013745:Skyrim.esm",
+    "088845:Skyrim.esm"
+  ]
+}

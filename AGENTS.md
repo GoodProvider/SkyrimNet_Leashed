@@ -18,6 +18,8 @@ Bridge mod between SkyrimNet (LLM) and Leash Framework.
 | `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/` | Settings schema (`leash.*`) |
 | `SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/` | SexLab TargetMenu overlay (`0700_leashed_panel.json`, `panel: leash`) |
 | `Spriggit/SkyrimNet_Leashed/` | ESP source of truth |
+| `Spriggit/SkyrimNet_Leashed_BeastRaces/` | Optional ESL source: Leash.esm ARMA overrides adding Argonian/Khajiit races |
+| `Optional/` | Optional FOMOD files (DD NG ini patch) |
 
 Repo root: `c:\Skyrim\dev\mods\SkyrimNet_Leashed`.
 
@@ -47,7 +49,7 @@ Locked while the game is running:
 - `PrismaUI/views/SkyrimNet_Leashed/` (overlay HTML)
 - `SKSE/Plugins/*.dll`
 - `Scripts/*.pex`
-- `SkyrimNet_Leashed.esp`
+- `SkyrimNet_Leashed.esp`, `SkyrimNet_Leashed_BeastRaces.esp`
 
 Papyrus source (`Scripts/Source/`) and YAML/prompts are usually writable with the game open.
 
@@ -75,11 +77,22 @@ First ~72 characters summarize the commit. Prefer a multi-line body with concret
 
 State confidence 0–100% before game, script, or ESP changes. Target ≥ 90%.
 
-## Log files 
+## Log files
 
-SkyrimNet: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet.log
-SkyrimNet_Leashed: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet_Leashed.log
-LeashFramework: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\LeashFramework.log
-SkyrimNet_SexLab: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet_SexLab.log
-LeashFramework: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\LeashFramework.log
-DeviousDevices: C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\deviousdevicesng.log
+Documents is OneDrive-redirected — not `%USERPROFILE%\Documents\...`.
+
+- SKSE log dir: `C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\`
+- SkyrimNet logs dir: `C:\Skyrim\dev\overwrite\SKSE\Plugins\SkyrimNet\logs\`
+
+| Log | Path |
+|-----|------|
+| SkyrimNet | `C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet.log` |
+| SkyrimNet_Leashed | `C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet_Leashed.log` |
+| LeashFramework | `C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\LeashFramework.log` |
+| SkyrimNet_SexLab | `C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\SkyrimNet_SexLab.log` |
+| DeviousDevices | `C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\deviousdevicesng.log` |
+| Crash Logger | `C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\SKSE\crash-*.log` |
+| Papyrus | `C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\Logs\Script\Papyrus.0.log` |
+| SkyrimNet conversation (dialogue history) | `C:\Skyrim\dev\overwrite\SKSE\Plugins\SkyrimNet\logs\conversation_log.log` |
+| SkyrimNet LLM requests (full prompts sent) | `C:\Skyrim\dev\overwrite\SKSE\Plugins\SkyrimNet\logs\openrouter_input.log` (rotated: `openrouter_input.<timestamp>.log`) |
+| SkyrimNet LLM responses | `C:\Skyrim\dev\overwrite\SKSE\Plugins\SkyrimNet\logs\openrouter_output.log` (rotated: `openrouter_output.<timestamp>.log`) |

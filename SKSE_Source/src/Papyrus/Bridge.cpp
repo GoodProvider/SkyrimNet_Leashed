@@ -127,6 +127,27 @@ namespace SkyrimNetLeashed::Papyrus {
             SKSE::log::info("TraceLeashBones parent '{}' leash descendants={}", a_parentName, count);
         }
 
+        // One line per occupied third-person body slot (30-61). An equipped collar whose slot
+        // shows another item, no addon, or no 3D was dropped by a hider (e.g. DD NG DeviceHider).
+        void LogBipedSlots(RE::Actor* a_who) {
+            const auto& biped = a_who->GetBiped(false);
+            if (!biped) {
+                SKSE::log::info("TraceLeashBones no third-person biped");
+                return;
+            }
+            for (std::uint32_t i = 0; i < 32; ++i) {
+                const auto& object = biped->objects[i];
+                if (!object.item) {
+                    continue;
+                }
+                const char* nodeName = "(no 3D)";
+                if (object.partClone && object.partClone->name.c_str()) {
+                    nodeName = object.partClone->name.c_str();
+                }
+                SKSE::log::info("TraceLeashBones slot {} item={:08X} addon={:08X} 3D='{}'", i + 30, object.item->GetFormID(), object.addon ? object.addon->GetFormID() : 0, nodeName);
+            }
+        }
+
         float DistanceMin(RE::StaticFunctionTag*, RE::BSFixedString a_leashDistance) {
             const char* token = a_leashDistance.c_str() ? a_leashDistance.c_str() : "";
             return WebUI::Config::DistanceMin(token);
@@ -182,6 +203,7 @@ namespace SkyrimNetLeashed::Papyrus {
             LogParentLeashCount(root, "NPC Neck [Neck]");
             LogParentLeashCount(root, "NPC Spine1 [Spn1]");
             LogParentLeashCount(root, "NPC Spine2 [Spn2]");
+            LogBipedSlots(a_who);
         }
 
         bool HasLeashBones(RE::StaticFunctionTag*, RE::Actor* a_who) {

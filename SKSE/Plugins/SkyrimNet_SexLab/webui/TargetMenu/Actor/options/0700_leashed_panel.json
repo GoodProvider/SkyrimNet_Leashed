@@ -16,7 +16,7 @@
     { "type": "dynamic", "name": "style", "description": "forcefully|normally|gently" },
     { "type": "dynamic", "name": "leashDistance", "description": "tight|short|middle|long" },
     { "type": "dynamic", "name": "leashType", "description": "chain|rope|magic" },
-    { "type": "dynamic", "name": "body_part", "description": "neck|waist" },
+    { "type": "dynamic", "name": "body_part", "description": "neck|wrists|waist" },
     { "type": "dynamic", "name": "tiePoint", "description": "floor|left|back|front|right|wall" }
   ]
 }

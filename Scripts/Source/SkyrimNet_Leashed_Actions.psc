@@ -17,6 +17,7 @@ Actor[] SuppressActors
 Float[] SuppressTimes
 Actor[] StrugglingActors
 Float[] StruggleLastNarrate
+Bool DeviceHiderHintShown
 
 Event OnInit()
     EnsureCache()
@@ -455,6 +456,89 @@ Armor Function ArmorForKind(String kind, String bodyPart, String leashDistance)
     return Game.GetFormFromFile(formId, "Leash.esm") as Armor
 EndFunction
 
+; Leash catalog: one id per distinct Leash.esm mesh. Waist chain/magic share the 0x800 rope;
+; wrists is chain only (distance picks the armor).
+String Function LeashIdFor(String kind, String bodyPart)
+    if kind == "holder_shield"
+        return "holder_shield"
+    endif
+    String b = NormalizeBodyPart(bodyPart)
+    if b == "wrists"
+        return "wrists_chain"
+    elseif b == "waist"
+        return "waist_rope"
+    endif
+    if kind == "chain"
+        return "neck_chain"
+    elseif kind == "magic"
+        return "neck_magic"
+    endif
+    return "neck_rope"
+EndFunction
+
+String Function LeashIdKind(String id)
+    if id == "neck_chain" || id == "wrists_chain"
+        return "chain"
+    elseif id == "neck_magic"
+        return "magic"
+    elseif id == "holder_shield"
+        return "holder_shield"
+    endif
+    return "rope"
+EndFunction
+
+String Function LeashIdBody(String id)
+    if id == "waist_rope"
+        return "waist"
+    elseif id == "wrists_chain"
+        return "wrists"
+    endif
+    return "neck"
+EndFunction
+
+; Other leashes, most similar first: same body part, then same material, then leashed-worn, then holder-worn.
+String[] Function LeashFallbacks(String id)
+    String[] r = new String[5]
+    if id == "neck_chain"
+        r[0] = "neck_rope"
+        r[1] = "neck_magic"
+        r[2] = "wrists_chain"
+        r[3] = "waist_rope"
+        r[4] = "holder_shield"
+    elseif id == "neck_magic"
+        r[0] = "neck_rope"
+        r[1] = "neck_chain"
+        r[2] = "waist_rope"
+        r[3] = "wrists_chain"
+        r[4] = "holder_shield"
+    elseif id == "waist_rope"
+        r[0] = "neck_rope"
+        r[1] = "neck_chain"
+        r[2] = "neck_magic"
+        r[3] = "wrists_chain"
+        r[4] = "holder_shield"
+    elseif id == "wrists_chain"
+        r[0] = "neck_chain"
+        r[1] = "neck_rope"
+        r[2] = "neck_magic"
+        r[3] = "waist_rope"
+        r[4] = "holder_shield"
+    elseif id == "holder_shield"
+        r[0] = "neck_chain"
+        r[1] = "neck_rope"
+        r[2] = "neck_magic"
+        r[3] = "wrists_chain"
+        r[4] = "waist_rope"
+    else
+        r[0] = "neck_chain"
+        r[1] = "neck_magic"
+        r[2] = "waist_rope"
+        r[3] = "wrists_chain"
+        r[4] = "holder_shield"
+    endif
+    return r
+EndFunction
+
 Armor Function PrisonerCuffsArmor()
     return Game.GetFormFromFile(0x10E039, "Skyrim.esm") as Armor
 EndFunction
@@ -560,6 +644,33 @@ Int Function EquipTypeArmor(Actor meshOwner, Armor leashArmor)
     return keepCount
 EndFunction
 
+; DD NG's DeviceHider renders no non-device armor on a bound NPC (sBoundNakedNPCs), so a
+; Leash.esm mesh worn by one vanishes on the next 3D update unless its slot is in
+; DeviousDevices.ini aiHiderOverrideSlots. The player is exempt. No hard DD dependency:
+; the keyword is looked up by EditorID and is None without DD.
+Bool Function IsDeviousBoundNPC(Actor who)
+    if who == None || who == Game.GetPlayer()
+        return false
+    endif
+    Keyword heavy = Keyword.GetKeyword("zad_DeviousHeavyBondage")
+    return heavy && who.WornHasKeyword(heavy)
+EndFunction
+
+; After Framework bound the mesh on a DD-bound NPC, wait out DD's next 3D update and
+; report whether the leash bones survived it.
+Bool Function LeashMeshSurvivesHider(Actor meshOwner)
+    if !IsDeviousBoundNPC(meshOwner)
+        return true
+    endif
+    Utility.Wait(3.0)
+    if SkyrimNet_Leashed_Native.HasLeashBones(meshOwner)
+        return true
+    endif
+    Debug.Trace("[SkyrimNet_Leashed] DD hider removed leash 3D on bound NPC " + ActorLabel(meshOwner) + "; add 45 to aiHiderOverrideSlots in DeviousDevices.ini")
+    SkyrimNet_Leashed_Native.TraceLeashBones(meshOwner)
+    return false
+EndFunction
+
 Bool Function WaitForLeashMesh(Actor meshOwner, Armor leashArmor)
     if meshOwner == None || leashArmor == None
         Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh skipped: missing owner or armor")
@@ -579,6 +690,8 @@ Bool Function WaitForLeashMesh(Actor meshOwner, Armor leashArmor)
         if PlayerInFirstPerson(meshOwner)
             Debug.Notification("You must be in third person view for the leash to work")
             Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; player is in first person. Skip Framework apply.")
+        elseif IsDeviousBoundNPC(meshOwner)
+            Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; DD hider hides armor on bound NPCs (add 45 to aiHiderOverrideSlots). Skip Framework apply.")
         else
             Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; collar NIF did not attach (beast/male race or missing mesh). Skip Framework apply.")
         endif
@@ -1091,14 +1204,54 @@ String Function NormalizeTiePoint(String tiePoint)
     return "floor"
 EndFunction
 
-Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String leashDistance, String kind, String bodyPart)
+; Returns the leash id that went on, or "" if the requested leash and every fallback failed.
+String Function ApplyToHolder(Actor holder, Actor leashed, String style, String leashDistance, String kind, String bodyPart)
     if holder == None || leashed == None
-        return false
+        return ""
     endif
     if holder == leashed
         Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder refused: " + ActorLabel(holder) + " cannot leash themselves")
-        return false
+        return ""
     endif
+    String requested = LeashIdFor(kind, bodyPart)
+    if TryApplyToHolder(holder, leashed, style, leashDistance, kind, bodyPart)
+        return requested
+    endif
+    ; Once the DD hider ate the mesh on a bound NPC, every other mesh that NPC wears fails the same way.
+    Actor hiddenOwner = MeshOwnerFor(holder, leashed, LeashIdKind(requested))
+    if !IsDeviousBoundNPC(hiddenOwner)
+        hiddenOwner = None
+    endif
+    String[] fallbacks = LeashFallbacks(requested)
+    Int i = 0
+    while i < fallbacks.Length
+        String id = fallbacks[i]
+        String k = LeashIdKind(id)
+        Actor owner = MeshOwnerFor(holder, leashed, k)
+        if hiddenOwner && id == "holder_shield" && PlayerInFirstPerson(owner)
+            ; The hand chain is the only mesh DD leaves visible; it needs third-person 3D.
+            Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder forcing third person for holder_shield (DD hides the leash on " + ActorLabel(hiddenOwner) + ")")
+            Game.ForceThirdPerson()
+            Utility.Wait(0.5)
+        endif
+        if owner == hiddenOwner
+            Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder skipping " + id + ": DD hider hides it on " + ActorLabel(owner))
+        elseif !PlayerInFirstPerson(owner)
+            Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder " + requested + " failed; trying " + id)
+            if TryApplyToHolder(holder, leashed, style, leashDistance, k, LeashIdBody(id))
+                return id
+            endif
+        endif
+        i += 1
+    endwhile
+    ; A DD failure is not a camera problem, so it narrates even in first person.
+    if hiddenOwner || (!PlayerInFirstPerson(leashed) && !PlayerInFirstPerson(holder))
+        NarrateMeshFailed(holder, leashed, LeashIdKind(requested))
+    endif
+    return ""
+EndFunction
+
+Bool Function TryApplyToHolder(Actor holder, Actor leashed, String style, String leashDistance, String kind, String bodyPart)
     bodyPart = NormalizeBodyPart(bodyPart)
     if bodyPart == ""
         bodyPart = "neck"
@@ -1116,9 +1269,6 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
         Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder skipped Framework apply: no leash bones on " + ActorLabel(meshOwner))
         UnequipTypeArmor(meshOwner, leashArmor, keepCount)
         ForgetPair(leashed)
-        if !PlayerInFirstPerson(meshOwner)
-            NarrateMeshFailed(holder, leashed)
-        endif
         return false
     endif
     RememberPair(holder, leashed, kind, bodyPart, style, leashDistance, false, keepCount)
@@ -1135,6 +1285,14 @@ Bool Function ApplyToHolder(Actor holder, Actor leashed, String style, String le
     endif
     if !ok
         Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder returned false")
+        UnequipTypeArmor(meshOwner, leashArmor, keepCount)
+        ForgetPair(leashed)
+        return false
+    endif
+    if !LeashMeshSurvivesHider(meshOwner)
+        ; A fallback or NarrateMeshFailed speaks for this; skip the OnUnleash line.
+        MarkSuppressed(leashed)
+        DisconnectFramework(leashed)
         UnequipTypeArmor(meshOwner, leashArmor, keepCount)
         ForgetPair(leashed)
         return false
@@ -1185,7 +1343,38 @@ Bool Function ApplyDangling(Actor leashed, String style, String leashDistance, S
     return true
 EndFunction
 
-Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance, String kind, String bodyPart, String tiePoint)
+; Returns the leash id that went on, or "" if the requested leash and every fallback failed.
+; holder_shield needs a holder, so tie points never fall back to it.
+String Function ApplyToTiePoint(Actor leashed, String style, String leashDistance, String kind, String bodyPart, String tiePoint)
+    if leashed == None
+        return ""
+    endif
+    String requested = LeashIdFor(kind, bodyPart)
+    if TryApplyToTiePoint(leashed, style, leashDistance, kind, bodyPart, tiePoint)
+        return requested
+    endif
+    if PlayerInFirstPerson(leashed)
+        return ""
+    endif
+    ; Every tie-point mesh is worn by the leashed actor; the DD hider hides them all on a bound NPC.
+    Bool hidden = IsDeviousBoundNPC(leashed)
+    String[] fallbacks = LeashFallbacks(requested)
+    Int i = 0
+    while i < fallbacks.Length && !hidden
+        String id = fallbacks[i]
+        if id != "holder_shield"
+            Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint " + requested + " failed; trying " + id)
+            if TryApplyToTiePoint(leashed, style, leashDistance, LeashIdKind(id), LeashIdBody(id), tiePoint)
+                return id
+            endif
+        endif
+        i += 1
+    endwhile
+    NarrateMeshFailed(None, leashed, LeashIdKind(requested))
+    return ""
+EndFunction
+
+Bool Function TryApplyToTiePoint(Actor leashed, String style, String leashDistance, String kind, String bodyPart, String tiePoint)
     if leashed == None
         return false
     endif
@@ -1209,9 +1398,6 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
         Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint skipped Framework apply: no leash bones on " + ActorLabel(leashed))
         UnequipTypeArmor(leashed, leashArmor, keepCount)
         ForgetPair(leashed)
-        if !PlayerInFirstPerson(leashed)
-            NarrateMeshFailed(None, leashed)
-        endif
         return false
     endif
     RememberPair(None, leashed, kind, bodyPart, style, leashDistance, true, keepCount)
@@ -1222,6 +1408,14 @@ Bool Function ApplyToTiePoint(Actor leashed, String style, String leashDistance,
     Bool ok = LeashFramework.ApplyLeashAtPosition(leashed, parentCell, xyz[0], xyz[1], xyz[2], bone, LeashBoneMatch(), DistanceMin(leashDistance), DistanceMax(leashDistance), true)
     if !ok
         Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint returned false")
+        UnequipTypeArmor(leashed, leashArmor, keepCount)
+        ForgetPair(leashed)
+        return false
+    endif
+    if !LeashMeshSurvivesHider(leashed)
+        ; A fallback or NarrateMeshFailed speaks for this; skip the OnUnleash line.
+        MarkSuppressed(leashed)
+        DisconnectFramework(leashed)
         UnequipTypeArmor(leashed, leashArmor, keepCount)
         ForgetPair(leashed)
         return false
@@ -1295,13 +1489,23 @@ Actor Function NarrateListener(Actor subject, Actor leashed, Actor holder)
     return None
 EndFunction
 
-Function NarrateMeshFailed(Actor holder, Actor leashed)
+Function NarrateMeshFailed(Actor holder, Actor leashed, String kind)
     if leashed == None
         return
     endif
     String raceLabel = BeastRaceLabel(leashed)
     String content
-    if holder
+    if IsDeviousBoundNPC(leashed)
+        if holder
+            content = ActorLabel(holder) + " tries and fails to leash " + ActorLabel(leashed) + " with a " + SpokenKind(kind) + " leash."
+        else
+            content = "The collar will not stay on over " + Possessive(leashed) + " bindings."
+        endif
+        if !DeviceHiderHintShown
+            DeviceHiderHintShown = true
+            Debug.MessageBox("Devious Devices hides normal armor on bound NPCs, including leash collars. To show leashes on them, add 45 to aiHiderOverrideSlots in SKSE/Plugins/DeviousDevices.ini, or install the optional 'Devious Devices NG: show leash collars' patch from the SkyrimNet Leashed installer. Restart the game afterwards.")
+        endif
+    elseif holder
         if raceLabel == "Argonian"
             content = ActorLabel(holder) + " tries to leash " + ActorLabel(leashed) + ", but the collar will not sit on Argonian scales."
         elseif raceLabel == "Khajiit"
@@ -1361,9 +1565,15 @@ Function LeashedToHolder(Actor subject, Actor leashed, Actor holder, String styl
         NarrateApply(subject, leashed, None, style, distance, kind, bodyPart)
         return
     endif
-    if !ApplyToHolder(holder, leashed, style, distance, kind, bodyPart)
+    String used = ApplyToHolder(holder, leashed, style, distance, kind, bodyPart)
+    if used == ""
         Debug.Trace("[SkyrimNet_Leashed] LeashedToHolder failed for " + ActorLabel(holder) + " -> " + ActorLabel(leashed))
         return
+    endif
+    ; A fallback leash went on: narrate that one, not the requested one.
+    if used != LeashIdFor(kind, bodyPart)
+        kind = LeashIdKind(used)
+        bodyPart = LeashIdBody(used)
     endif
     NarrateApply(subject, leashed, holder, style, distance, kind, bodyPart)
 EndFunction
@@ -1376,7 +1586,7 @@ Function TakeLeash(Actor subject, Actor leashed)
     String bodyPart = DetectBodyPart(subject, leashed)
     String distance = ResolveDistance(leashed, "")
     String style = CachedStyle(leashed)
-    if !ApplyToHolder(subject, leashed, style, distance, kind, bodyPart)
+    if ApplyToHolder(subject, leashed, style, distance, kind, bodyPart) == ""
         Debug.Trace("[SkyrimNet_Leashed] TakeLeash failed for " + ActorLabel(subject) + " -> " + ActorLabel(leashed))
         return
     endif
@@ -1408,7 +1618,7 @@ Function GiveLeash(Actor subject, Actor leashed, Actor receiver)
         Narrate(ActorLabel(subject) + " drops " + Possessive(leashed) + " leash.", subject, NarrateListener(subject, leashed, None), "playerSensitive", leashed, None)
         return
     endif
-    if !ApplyToHolder(receiver, leashed, style, distance, kind, bodyPart)
+    if ApplyToHolder(receiver, leashed, style, distance, kind, bodyPart) == ""
         Debug.Trace("[SkyrimNet_Leashed] GiveLeash failed for " + ActorLabel(subject) + " -> " + ActorLabel(receiver))
         return
     endif
@@ -1438,7 +1648,7 @@ Function LeashedToTiePoint(Actor subject, Actor leashed, String style, String le
     if subject == None
         subject = leashed
     endif
-    if !ApplyToTiePoint(leashed, style, distance, kind, bodyPart, point)
+    if ApplyToTiePoint(leashed, style, distance, kind, bodyPart, point) == ""
         Debug.Trace("[SkyrimNet_Leashed] LeashedToTiePoint failed for " + ActorLabel(leashed))
         return
     endif
@@ -1785,7 +1995,17 @@ Function NarrateUnleash(Actor leashed, String reason)
     Actor targetActor = leashed
     String content = ""
     if holder == None
-        content = "The " + kind + " leash is unclipped from " + Possessive(leashed) + " " + bodyPart + "."
+        ; Narration mirrors what the player sees. The leashed actor owns every holder-less
+        ; mesh: if it still renders, the leash stays on as dangling; if not, take it off.
+        if SkyrimNet_Leashed_Native.HasLeashBones(leashed)
+            String dangleKind = KindForBodyPart(KindForDangling(kind), bodyPart)
+            if ApplyDangling(leashed, CachedStyle(leashed), ResolveDistance(leashed, ""), kind, bodyPart)
+                content = "The " + dangleKind + " leash comes loose and now dangles from " + Possessive(leashed) + " " + bodyPart + "."
+                Narrate(content, None, leashed, "playerSensitive", leashed, None)
+                return
+            endif
+        endif
+        content = "The " + kind + " leash will not stay on " + Possessive(leashed) + " " + bodyPart + ", and " + ActorLabel(leashed) + " is no longer leashed."
         originator = None
     else
         content = ActorLabel(holder) + " unclips the " + kind + " leash from " + Possessive(leashed) + " " + bodyPart + "."
