@@ -19,7 +19,7 @@ Bridge mod between SkyrimNet (LLM) and Leash Framework.
 | `SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/` | SexLab TargetMenu overlay (`0700_leashed_panel.json`, `panel: leash`) |
 | `Spriggit/SkyrimNet_Leashed/` | ESP source of truth |
 | `Spriggit/SkyrimNet_Leashed_BeastRaces/` | Optional ESL source: Leash.esm ARMA overrides adding Argonian/Khajiit races |
-| `Optional/` | Optional FOMOD files (DD NG ini patch) |
+| `SKSE/Plugins/DeviousDevices.ini` | Optional DD NG ini patch, kept in its test location; `make release` packs it into `Optional/DDNG_LeashCollars/` |
 
 Repo root: `c:\Skyrim\dev\mods\SkyrimNet_Leashed`.
 

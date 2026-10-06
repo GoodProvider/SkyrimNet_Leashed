@@ -22,6 +22,8 @@ Float[] DownedStarted
 Float[] DownedStuckTime
 Int[] DownedStage
 Bool DeviceHiderHintShown
+; Set by TryApplyToHolder when the mesh was fine but LeashFramework's apply returned false.
+Bool FrameworkRefused
 
 Event OnInit()
     EnsureCache()
@@ -666,6 +668,19 @@ Bool Function IsDeviousBoundNPC(Actor who)
     return heavy && who.WornHasKeyword(heavy)
 EndFunction
 
+; True when the DD hider will hide this armor on who: a bound NPC and no armor slot in aiHiderOverrideSlots.
+Bool Function DDHidesArmor(Actor who, Armor leashArmor)
+    if leashArmor == None || !IsDeviousBoundNPC(who)
+        return false
+    endif
+    return !SkyrimNet_Leashed_Native.DDHiderOverridesSlotMask(leashArmor.GetSlotMask())
+EndFunction
+
+; DDHidesArmor for a catalog leash id (see LeashIdFor).
+Bool Function DDHidesLeash(Actor who, String id)
+    return DDHidesArmor(who, ArmorForKind(LeashIdKind(id), LeashIdBody(id), ""))
+EndFunction
+
 ; After Framework bound the mesh on a DD-bound NPC, wait out DD's next 3D update and
 ; report whether the leash bones survived it.
 Bool Function LeashMeshSurvivesHider(Actor meshOwner)
@@ -704,8 +719,10 @@ Bool Function WaitForLeashMesh(Actor meshOwner, Armor leashArmor)
                 Debug.Notification("You must be in third person view for the leash to work")
             endif
             Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; player is in first person. Skip Framework apply.")
-        elseif IsDeviousBoundNPC(meshOwner)
+        elseif DDHidesArmor(meshOwner, leashArmor)
             Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; DD hider hides armor on bound NPCs (add 45 and 58 to aiHiderOverrideSlots). Skip Framework apply.")
+        elseif !worn
+            Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; the leash armor did not equip (slot taken by a device?). Skip Framework apply.")
         else
             Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; collar NIF did not attach (beast/male race or missing mesh). Skip Framework apply.")
         endif
@@ -871,8 +888,11 @@ Function ResetStuckActor(Actor who)
         return
     endif
     Debug.Trace("[SkyrimNet_Leashed] ResetStuckActor " + ActorLabel(who) + " knock=" + SkyrimNet_Leashed_Native.KnockState(who))
-    who.Disable()
-    who.Enable()
+    ; Never Disable/Enable the player.
+    if who != Game.GetPlayer()
+        who.Disable()
+        who.Enable()
+    endif
     who.SetAlpha(1.0)
     Debug.SendAnimationEvent(who, "IdleForceDefaultState")
     who.QueueNiNodeUpdate()
@@ -902,7 +922,8 @@ Function TickDowned()
                 else
                     Actor holder = LeashFramework.GetLeashHolder(who)
                     Float maxLen = LeashFramework.GetMaxLeashLength(who)
-                    if holder && maxLen > 0.0 && holder.GetDistance(who) > maxLen
+                    ; Paralysis is a legitimate long knockdown, not a stuck one.
+                    if (holder && maxLen > 0.0 && holder.GetDistance(who) > maxLen) || who.GetActorValue("Paralysis") > 0.0
                         DownedStuckTime[i] = 0.0
                     else
                         DownedStuckTime[i] = DownedStuckTime[i] + 1.0
@@ -1356,45 +1377,52 @@ String Function ApplyToHolder(Actor holder, Actor leashed, String style, String 
     if TryApplyToHolder(holder, leashed, style, leashDistance, kind, bodyPart)
         return requested
     endif
-    ; Once the DD hider ate the mesh on a bound NPC, every other mesh that NPC wears fails the same way.
-    Actor hiddenOwner = MeshOwnerFor(holder, leashed, LeashIdKind(requested))
-    if !IsDeviousBoundNPC(hiddenOwner)
-        hiddenOwner = None
+    ; Framework refused the pair: no other mesh will change that, and it is not a mesh failure.
+    if FrameworkRefused
+        return ""
     endif
+    ; On a DD-bound NPC the hider eats every mesh whose slot is not in aiHiderOverrideSlots.
+    Actor requestedOwner = MeshOwnerFor(holder, leashed, LeashIdKind(requested))
+    Bool requestedHidden = DDHidesLeash(requestedOwner, requested)
     String[] fallbacks = LeashFallbacks(requested)
     Int i = 0
     while i < fallbacks.Length
         String id = fallbacks[i]
         String k = LeashIdKind(id)
         Actor owner = MeshOwnerFor(holder, leashed, k)
-        if hiddenOwner && id == "holder_shield" && PlayerInFirstPerson(owner)
+        Bool idHidden = DDHidesLeash(owner, id)
+        if requestedHidden && !idHidden && id == "holder_shield" && PlayerInFirstPerson(owner)
             ; The hand chain is the only mesh DD leaves visible; it needs third-person 3D.
             if SkyrimNet_Leashed_Native.IsVR()
-                Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder VR: third person unavailable, not forcing it for holder_shield (DD hides the leash on " + ActorLabel(hiddenOwner) + ")")
+                Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder VR: third person unavailable, not forcing it for holder_shield (DD hides the leash on " + ActorLabel(requestedOwner) + ")")
             else
-                Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder forcing third person for holder_shield (DD hides the leash on " + ActorLabel(hiddenOwner) + ")")
+                Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder forcing third person for holder_shield (DD hides the leash on " + ActorLabel(requestedOwner) + ")")
                 Game.ForceThirdPerson()
                 Utility.Wait(0.5)
             endif
         endif
-        if owner == hiddenOwner
+        if idHidden
             Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder skipping " + id + ": DD hider hides it on " + ActorLabel(owner))
         elseif !PlayerInFirstPerson(owner)
             Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder " + requested + " failed; trying " + id)
             if TryApplyToHolder(holder, leashed, style, leashDistance, k, LeashIdBody(id))
                 return id
             endif
+            if FrameworkRefused
+                return ""
+            endif
         endif
         i += 1
     endwhile
     ; A DD failure is not a camera problem, so it narrates even in first person.
-    if hiddenOwner || (!PlayerInFirstPerson(leashed) && !PlayerInFirstPerson(holder))
-        NarrateMeshFailed(holder, leashed, LeashIdKind(requested))
+    if requestedHidden || (!PlayerInFirstPerson(leashed) && !PlayerInFirstPerson(holder))
+        NarrateMeshFailed(holder, leashed, requested)
     endif
     return ""
 EndFunction
 
 Bool Function TryApplyToHolder(Actor holder, Actor leashed, String style, String leashDistance, String kind, String bodyPart)
+    FrameworkRefused = false
     bodyPart = NormalizeBodyPart(bodyPart)
     if bodyPart == ""
         bodyPart = "neck"
@@ -1430,6 +1458,7 @@ Bool Function TryApplyToHolder(Actor holder, Actor leashed, String style, String
         Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder returned false")
         UnequipTypeArmor(meshOwner, leashArmor, keepCount)
         ForgetPair(leashed)
+        FrameworkRefused = true
         return false
     endif
     if !LeashMeshSurvivesHider(meshOwner)
@@ -1487,25 +1516,36 @@ Bool Function ApplyDangling(Actor leashed, String style, String leashDistance, S
 EndFunction
 
 ; Returns the leash id that went on, or "" if the requested leash and every fallback failed.
-; holder_shield needs a holder, so tie points never fall back to it.
+; holder_shield needs a holder, so tie points never use it: a retie of a holder_shield
+; leash requests its first fallback (a leashed-worn leash) instead.
 String Function ApplyToTiePoint(Actor leashed, String style, String leashDistance, String kind, String bodyPart, String tiePoint)
     if leashed == None
         return ""
     endif
     String requested = LeashIdFor(kind, bodyPart)
-    if TryApplyToTiePoint(leashed, style, leashDistance, kind, bodyPart, tiePoint)
-        return requested
+    if requested == "holder_shield"
+        String[] shieldFallbacks = LeashFallbacks(requested)
+        requested = shieldFallbacks[0]
+        kind = LeashIdKind(requested)
+        bodyPart = LeashIdBody(requested)
+        Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint holder_shield needs a holder; using " + requested)
     endif
-    if PlayerInFirstPerson(leashed)
+    ; Every tie-point mesh is worn by the leashed actor; on a DD-bound NPC skip the ones the hider hides.
+    if DDHidesLeash(leashed, requested)
+        Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint skipping " + requested + ": DD hider hides it on " + ActorLabel(leashed))
+    elseif TryApplyToTiePoint(leashed, style, leashDistance, kind, bodyPart, tiePoint)
+        return requested
+    elseif PlayerInFirstPerson(leashed)
         return ""
     endif
-    ; Every tie-point mesh is worn by the leashed actor; the DD hider hides them all on a bound NPC.
-    Bool hidden = IsDeviousBoundNPC(leashed)
     String[] fallbacks = LeashFallbacks(requested)
     Int i = 0
-    while i < fallbacks.Length && !hidden
+    while i < fallbacks.Length
         String id = fallbacks[i]
-        if id != "holder_shield"
+        if id == "holder_shield"
+        elseif DDHidesLeash(leashed, id)
+            Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint skipping " + id + ": DD hider hides it on " + ActorLabel(leashed))
+        else
             Debug.Trace("[SkyrimNet_Leashed] ApplyToTiePoint " + requested + " failed; trying " + id)
             if TryApplyToTiePoint(leashed, style, leashDistance, LeashIdKind(id), LeashIdBody(id), tiePoint)
                 return id
@@ -1513,7 +1553,7 @@ String Function ApplyToTiePoint(Actor leashed, String style, String leashDistanc
         endif
         i += 1
     endwhile
-    NarrateMeshFailed(None, leashed, LeashIdKind(requested))
+    NarrateMeshFailed(None, leashed, requested)
     return ""
 EndFunction
 
@@ -1632,13 +1672,16 @@ Actor Function NarrateListener(Actor subject, Actor leashed, Actor holder)
     return None
 EndFunction
 
-Function NarrateMeshFailed(Actor holder, Actor leashed, String kind)
+; id: the requested catalog leash (LeashIdFor). The DD wording and hint only apply when the
+; hider hides that leash; with its slot in aiHiderOverrideSlots the failure is something else.
+Function NarrateMeshFailed(Actor holder, Actor leashed, String id)
     if leashed == None
         return
     endif
+    String kind = LeashIdKind(id)
     String raceLabel = BeastRaceLabel(leashed)
     String content
-    if IsDeviousBoundNPC(leashed)
+    if DDHidesLeash(MeshOwnerFor(holder, leashed, kind), id)
         if holder
             content = ActorLabel(holder) + " tries and fails to leash " + ActorLabel(leashed) + " with a " + SpokenKind(kind) + " leash."
         else
@@ -1719,6 +1762,19 @@ Function LeashedToHolder(Actor subject, Actor leashed, Actor holder, String styl
         bodyPart = LeashIdBody(used)
     endif
     NarrateApply(subject, leashed, holder, style, distance, kind, bodyPart)
+EndFunction
+
+; SexLab TargetMenu leash panel (papyrusQuery): '' = not leashed, 'world' = tied to a point,
+; '<holderFormId>|<holderName>' = held.
+String Function LeashStatus(Actor leashed) Global
+    if leashed == None || !LeashFramework.IsLeashed(leashed)
+        return ""
+    endif
+    Actor holder = LeashFramework.GetLeashHolder(leashed)
+    if holder == None
+        return "world"
+    endif
+    return holder.GetFormID() + "|" + holder.GetDisplayName()
 EndFunction
 
 Function TakeLeash(Actor subject, Actor leashed)

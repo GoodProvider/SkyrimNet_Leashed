@@ -329,6 +329,13 @@ namespace SkyrimNetLeashed::WebUI {
         }
 
         void Show() {
+            // Consume the request first so a blocked open can't leak its preset into a later one.
+            OpenRequest request;
+            {
+                std::lock_guard lock(g_openMutex);
+                request = std::move(g_openRequest);
+                g_openRequest = {};
+            }
             if (!g_prismaUI) {
                 return;
             }
@@ -339,13 +346,6 @@ namespace SkyrimNetLeashed::WebUI {
             if (!IsReady()) {
                 SKSE::log::error("WebUI: overlay not ready (missing PrismaUI/views/SkyrimNet_Leashed/index.html?)");
                 return;
-            }
-
-            OpenRequest request;
-            {
-                std::lock_guard lock(g_openMutex);
-                request = std::move(g_openRequest);
-                g_openRequest = {};
             }
 
             const auto payload = BuildOpenPayload(request);

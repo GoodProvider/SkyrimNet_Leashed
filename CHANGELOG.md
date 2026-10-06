@@ -12,6 +12,7 @@
 - `NarrateUnleash` holder-less branch follows what the player sees. If `HasLeashBones(leashed)` is true, `ApplyDangling` keeps the mesh on and the line is "The <kind> leash comes loose and now dangles from <X>'s <bodyPart>." Otherwise it unequips, `ForgetPair`s, and the line is "The <kind> leash will not stay on <X>'s <bodyPart>, and <X> is no longer leashed." This replaces "fails to hold and falls off".
 - Stuck ragdoll fix. Native `IsKnockedDown(Actor)` / `KnockState(Actor)`. `PlayStruggleAnim` / `StopStruggleAnim` send no animation events to a ragdolled or knocked-down actor (that stopped LF forced recovery from ever getting the actor up). `OnLeashFrameworkRagdollPulled` starts a watchdog (`WatchDowned` / `TickDowned` on the 1s update, now `RefreshUpdates`): stuck 8s inside leash range → `BleedOutStop`; 14s → `ResetStuckActor` (PAH Diary of Mine SpecialReset port: Disable/Enable, SetAlpha, `IdleForceDefaultState`, `QueueNiNodeUpdate`).
 - `NormalizeDistance` accepts `tight_length` / `short_length` / `middle_length` / `medium_length` / `long_length`. `SpokenDistance` appends ` length` in `NarrateApply` and `NarrateLeash`.
+- DD hider checks are per leash. `DDHidesArmor` / `DDHidesLeash` skip a candidate only when its slot is not in `aiHiderOverrideSlots`, so with the optional ini patch, neck and waist leashes are tried on DD-bound NPCs instead of going straight to `holder_shield` (holders) or failing (tie points). The DD MessageBox and wording only show when the hider hides the requested leash. Retying a `holder_shield` leash to a tie point uses `neck_chain` (and its fallbacks) instead of equipping the holder's hand chain on the leashed actor. `WaitForLeashMesh` traces an unequipped leash armor separately.
 
 ### SKSE / WebUI
 
@@ -19,6 +20,7 @@
 - `TraceLeashBones` also logs each occupied third-person biped slot (item, addon, 3D node) to diagnose hidden collars.
 - `WebUI::OpenFor` sends payload `layout` (`vertical` or empty), `presetLeashed`, and `presetVerb`. `Show` runs on the next SKSE task so a caller that hides another overlay can Unfocus first.
 - Overlay JSON `SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/0700_leash.json` and `0701_unleash.json` (`type: papyrus`, `source: leashed`, `closeWebUI: true`, `TM_OpenLeash` / `TM_OpenUnleash`, `is_in_faction` / `LeashedFaction`).
+- Native `DDHiderOverridesSlotMask(Int slotMask)`: reads `Data/SKSE/Plugins/DeviousDevices.ini` `[DeviceHider] aiHiderOverrideSlots` once and logs the slots.
 
 ### FOMOD / build
 

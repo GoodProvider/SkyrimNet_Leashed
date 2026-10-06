@@ -5,6 +5,8 @@
 #include "WebUI/WebUI.h"
 
 #include <cctype>
+#include <cstdlib>
+#include <fstream>
 #include <string>
 #include <string_view>
 
@@ -237,6 +239,65 @@ namespace SkyrimNetLeashed::Papyrus {
             const auto* state = a_who->AsActorState();
             return state ? static_cast<std::int32_t>(state->GetKnockState()) : -1;
         }
+
+        // DD NG reads Data\SKSE\Plugins\DeviousDevices.ini [DeviceHider] aiHiderOverrideSlots once
+        // at startup; armor in those slots is not hidden on bound NPCs. Read it the same way.
+        std::uint32_t ReadDDHiderOverrideMask() {
+            std::ifstream in("Data/SKSE/Plugins/DeviousDevices.ini");
+            if (!in) {
+                SKSE::log::info("DD hider override slots: DeviousDevices.ini not found");
+                return 0;
+            }
+            std::uint32_t mask = 0;
+            std::string slots;
+            std::string section;
+            std::string line;
+            while (std::getline(in, line)) {
+                const auto first = line.find_first_not_of(" \t");
+                if (first == std::string::npos || line[first] == '#' || line[first] == ';') {
+                    continue;
+                }
+                if (line[first] == '[') {
+                    const auto close = line.find(']', first);
+                    section = line.substr(first + 1, close == std::string::npos ? std::string::npos : close - first - 1);
+                    continue;
+                }
+                const auto eq = line.find('=');
+                if (eq == std::string::npos || _stricmp(section.c_str(), "DeviceHider") != 0) {
+                    continue;
+                }
+                std::string key = line.substr(first, eq - first);
+                key.erase(key.find_last_not_of(" \t") + 1);
+                if (_stricmp(key.c_str(), "aiHiderOverrideSlots") != 0) {
+                    continue;
+                }
+                std::string value = line.substr(eq + 1);
+                if (const auto comment = value.find_first_of("#;"); comment != std::string::npos) {
+                    value.erase(comment);
+                }
+                std::string token;
+                for (std::size_t i = 0; i <= value.size(); ++i) {
+                    const char c = i < value.size() ? value[i] : ',';
+                    if (std::isdigit(static_cast<unsigned char>(c))) {
+                        token.push_back(c);
+                    } else if (c == ',' && !token.empty()) {
+                        const int slot = std::atoi(token.c_str());
+                        if (slot >= 30 && slot <= 61) {
+                            mask |= 1u << (slot - 30);
+                            slots += (slots.empty() ? "" : ", ") + token;
+                        }
+                        token.clear();
+                    }
+                }
+            }
+            SKSE::log::info("DD hider override slots: {}", slots.empty() ? "(none)" : slots);
+            return mask;
+        }
+
+        bool DDHiderOverridesSlotMask(RE::StaticFunctionTag*, std::int32_t a_slotMask) {
+            static const std::uint32_t overrideMask = ReadDDHiderOverrideMask();
+            return (static_cast<std::uint32_t>(a_slotMask) & overrideMask) != 0;
+        }
     }
 
     bool Register(RE::BSScript::IVirtualMachine* a_vm) {
@@ -258,6 +319,7 @@ namespace SkyrimNetLeashed::Papyrus {
         a_vm->RegisterFunction("IsVR", kScriptName, IsVR);
         a_vm->RegisterFunction("IsKnockedDown", kScriptName, IsKnockedDown);
         a_vm->RegisterFunction("KnockState", kScriptName, KnockState);
+        a_vm->RegisterFunction("DDHiderOverridesSlotMask", kScriptName, DDHiderOverridesSlotMask);
         a_vm->RegisterFunction("OpenPanel", kScriptName, OpenPanel);
         a_vm->RegisterFunction("OpenPanelFor", kScriptName, OpenPanelFor);
         SKSE::log::info("Registered {} Papyrus functions", kScriptName);

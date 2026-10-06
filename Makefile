@@ -10,6 +10,8 @@ esp:
 	powershell -NoProfile -ExecutionPolicy Bypass -File python_scripts/deserialize_esp.ps1 -RepoRoot "$(CURDIR)"
 
 # Stamp FOMOD, deserialize ESP, pack versions/*.7z (no PDBs).
+# Optional files sit in their test locations (SKSE/Plugins/DeviousDevices.ini,
+# SkyrimNet_Leashed_BeastRaces.esp); pack_release.ps1 moves them into FOMOD option folders.
 release:
 	python python_scripts/fomod-update-name-version.py -v ${VERSION} -n "${NAME}" -o FOMOD/info.xml FOMOD_source/info.xml
 	$(MAKE) esp

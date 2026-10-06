@@ -1,4 +1,7 @@
 # Stage a FOMOD 7z: ESPs + SKSE + Scripts + PrismaUI + Optional, no PDBs.
+# Optional files live where the game needs them for testing; staging moves
+# them into their FOMOD option folders (SKSE\Plugins\DeviousDevices.ini ->
+# Optional\DDNG_LeashCollars). SkyrimNet_Leashed_BeastRaces.esp stays at root.
 param(
     [Parameter(Mandatory = $true)]
     [string]$Version,
@@ -43,9 +46,9 @@ if (-not (Test-Path $beastEsp)) {
     throw "SkyrimNet_Leashed_BeastRaces.esp not found. Run python_scripts/deserialize_esp.ps1 first."
 }
 
-$optional = Join-Path $RepoRoot "Optional"
-if (-not (Test-Path (Join-Path $optional "DDNG_LeashCollars\SKSE\Plugins\DeviousDevices.ini"))) {
-    throw "Optional\DDNG_LeashCollars\SKSE\Plugins\DeviousDevices.ini not found."
+$ddIni = "SKSE\Plugins\DeviousDevices.ini"
+if (-not (Test-Path (Join-Path $RepoRoot $ddIni))) {
+    throw "$ddIni not found."
 }
 
 $sevenZip = Get-Command 7z -ErrorAction SilentlyContinue
@@ -66,7 +69,6 @@ New-Item -ItemType Directory -Force -Path $versionsDir | Out-Null
 Copy-Item -Path (Join-Path $RepoRoot "FOMOD") -Destination (Join-Path $stage "FOMOD") -Recurse -Force
 Copy-Item -Path $esp -Destination (Join-Path $stage "SkyrimNet_Leashed.esp") -Force
 Copy-Item -Path $beastEsp -Destination (Join-Path $stage "SkyrimNet_Leashed_BeastRaces.esp") -Force
-Copy-Item -Path $optional -Destination (Join-Path $stage "Optional") -Recurse -Force
 Copy-Item -Path (Join-Path $RepoRoot "Scripts") -Destination (Join-Path $stage "Scripts") -Recurse -Force
 Copy-Item -Path (Join-Path $RepoRoot "PrismaUI") -Destination (Join-Path $stage "PrismaUI") -Recurse -Force
 Copy-Item -Path (Join-Path $RepoRoot "SKSE") -Destination (Join-Path $stage "SKSE") -Recurse -Force
@@ -74,6 +76,11 @@ Copy-Item -Path (Join-Path $RepoRoot "SKSE") -Destination (Join-Path $stage "SKS
 $stageDllDir = Join-Path $stage "SKSE\Plugins"
 New-Item -ItemType Directory -Force -Path $stageDllDir | Out-Null
 Copy-Item -Path $dll -Destination (Join-Path $stageDllDir "SkyrimNet_Leashed.dll") -Force
+
+# Optional DD NG ini patch: out of the required SKSE folder, into its FOMOD option.
+$ddIniDst = Join-Path $stage "Optional\DDNG_LeashCollars\$ddIni"
+New-Item -ItemType Directory -Force -Path (Split-Path $ddIniDst) | Out-Null
+Move-Item -Path (Join-Path $stage $ddIni) -Destination $ddIniDst -Force
 
 Get-ChildItem -Path $stage -Filter *.pdb -Recurse -ErrorAction SilentlyContinue | Remove-Item -Force
 

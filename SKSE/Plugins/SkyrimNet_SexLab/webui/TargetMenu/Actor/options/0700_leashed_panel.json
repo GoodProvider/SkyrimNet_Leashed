@@ -3,6 +3,7 @@
   "label": "leash",
   "source": "leash",
   "panel": "leash",
+  "panelScript": "panels/leashed.js",
   "closeWebUI": true,
   "requiresPlugin": "SkyrimNet_Leashed.esp",
   "plugin": "SkyrimNet_Leashed.esp",
