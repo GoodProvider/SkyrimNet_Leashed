@@ -14,6 +14,7 @@
 
 ### SKSE / WebUI
 
+- Build against CommonLibSSE-NG v11.0.0 (Skyrim 1.7.x / Address Library format 5) instead of CommonLibVR e60c123. The `commonlibsse-ng-fork` overlay port now pulls `alandtse/CommonLibSSE-NG`, adds `nlohmann-json` / `simpleini` / `toml11`, still copies openvr into `extern/openvr` (the tarball omits the submodule), and installs `COPYING.txt` + `EXCEPTIONS.md` (GPL-3.0-or-later with the Skyrim Modding Exception). No source changes were needed; `IsInRagdollState` and the knock-state order (6 get-up, 7 down) are unchanged. Players need the matching Address Library.
 - `TraceLeashBones` also logs each occupied third-person biped slot (item, addon, 3D node) to diagnose hidden collars.
 - `WebUI::OpenFor` sends payload `layout` (`vertical` or empty), `presetLeashed`, and `presetVerb`. `Show` runs on the next SKSE task so a caller that hides another overlay can Unfocus first.
 - Overlay JSON `SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/0700_leash.json` and `0701_unleash.json` (`type: papyrus`, `source: leashed`, `closeWebUI: true`, `TM_OpenLeash` / `TM_OpenUnleash`, `is_in_faction` / `LeashedFaction`).
