@@ -88,6 +88,11 @@ Framework bind needs Leash1 children under the parent bone; IsEquipped is not en
 Bool Function HasLeashBones(Actor who) Global Native
 
 ;/
+True when running under Skyrim VR. Third person is unavailable there, so callers must not force it.
+/;
+Bool Function IsVR() Global Native
+
+;/
 True when who has loaded 3D and is ragdolled or in any knock state other than normal
 (knockdown, get-up, explode). Animation events sent in that state can stop the actor
 from ever getting up.

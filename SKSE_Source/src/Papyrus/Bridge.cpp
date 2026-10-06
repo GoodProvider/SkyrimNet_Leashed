@@ -206,6 +206,10 @@ namespace SkyrimNetLeashed::Papyrus {
             LogBipedSlots(a_who);
         }
 
+        bool IsVR(RE::StaticFunctionTag*) {
+            return REL::Module::IsVR();
+        }
+
         bool HasLeashBones(RE::StaticFunctionTag*, RE::Actor* a_who) {
             if (!a_who) {
                 return false;
@@ -251,6 +255,7 @@ namespace SkyrimNetLeashed::Papyrus {
         a_vm->RegisterFunction("StruggleEnabled", kScriptName, StruggleEnabled);
         a_vm->RegisterFunction("TraceLeashBones", kScriptName, TraceLeashBones);
         a_vm->RegisterFunction("HasLeashBones", kScriptName, HasLeashBones);
+        a_vm->RegisterFunction("IsVR", kScriptName, IsVR);
         a_vm->RegisterFunction("IsKnockedDown", kScriptName, IsKnockedDown);
         a_vm->RegisterFunction("KnockState", kScriptName, KnockState);
         a_vm->RegisterFunction("OpenPanel", kScriptName, OpenPanel);

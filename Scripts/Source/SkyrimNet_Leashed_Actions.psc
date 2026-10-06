@@ -698,7 +698,11 @@ Bool Function WaitForLeashMesh(Actor meshOwner, Armor leashArmor)
     if !ready
         SkyrimNet_Leashed_Native.TraceLeashBones(meshOwner)
         if PlayerInFirstPerson(meshOwner)
-            Debug.Notification("You must be in third person view for the leash to work")
+            if SkyrimNet_Leashed_Native.IsVR()
+                Debug.Notification("This leash needs third person view, which VR does not support")
+            else
+                Debug.Notification("You must be in third person view for the leash to work")
+            endif
             Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; player is in first person. Skip Framework apply.")
         elseif IsDeviousBoundNPC(meshOwner)
             Debug.Trace("[SkyrimNet_Leashed] WaitForLeashMesh no Leash1 bones on " + ActorLabel(meshOwner) + "; DD hider hides armor on bound NPCs (add 45 and 58 to aiHiderOverrideSlots). Skip Framework apply.")
@@ -1365,9 +1369,13 @@ String Function ApplyToHolder(Actor holder, Actor leashed, String style, String 
         Actor owner = MeshOwnerFor(holder, leashed, k)
         if hiddenOwner && id == "holder_shield" && PlayerInFirstPerson(owner)
             ; The hand chain is the only mesh DD leaves visible; it needs third-person 3D.
-            Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder forcing third person for holder_shield (DD hides the leash on " + ActorLabel(hiddenOwner) + ")")
-            Game.ForceThirdPerson()
-            Utility.Wait(0.5)
+            if SkyrimNet_Leashed_Native.IsVR()
+                Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder VR: third person unavailable, not forcing it for holder_shield (DD hides the leash on " + ActorLabel(hiddenOwner) + ")")
+            else
+                Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder forcing third person for holder_shield (DD hides the leash on " + ActorLabel(hiddenOwner) + ")")
+                Game.ForceThirdPerson()
+                Utility.Wait(0.5)
+            endif
         endif
         if owner == hiddenOwner
             Debug.Trace("[SkyrimNet_Leashed] ApplyToHolder skipping " + id + ": DD hider hides it on " + ActorLabel(owner))

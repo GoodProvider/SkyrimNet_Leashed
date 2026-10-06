@@ -71,6 +71,10 @@ All 7 Leash.esm ArmorAddons (`Leash_neckAA`, `Leash_neck_chainAA`, `Leash_neck_r
 - `SkyrimNet_Leashed_Native.IsKnockedDown(who)` (3D loaded and `IsInRagdollState()` or knock state != normal, the same test as LF's `ForcedRecoveryController`) gates `PlayStruggleAnim` and `StopStruggleAnim`. `KnockState(who)` is for traces (CommonLib order: 6 get-up, 7 down).
 - Watchdog: `OnLeashFrameworkRagdollPulled` → `WatchDowned`. `TickDowned` runs on the shared 1s `OnUpdate` (`RefreshUpdates` covers struggle and watchdog). Stuck time only counts while 3D is loaded, still knocked down, and the holder is within `GetMaxLeashLength` (LF is not dragging). 8s → `SendAnimationEvent "BleedOutStop"` (bleedout to standing, as PAHE `pahcore.BleedOutStop`). 14s → `ResetStuckActor`, a port of PAH Diary of Mine "Fix unresponsive or invisible actor" (`DOM_Keys.SpecialReset`: Disable/Enable, SetAlpha 1, `IdleForceDefaultState`, `QueueNiNodeUpdate`) plus the wrist bind. Watches drop after 60s or on `ForgetPair`.
 
+## VR: never force third person (2026-10-05)
+
+`SkyrimNet_Leashed_Native.IsVR()` (`REL::Module::IsVR()`) gates the `Game.ForceThirdPerson()` in `ApplyToHolder`. On VR the `holder_shield` fallback for a DD-hidden mesh and a first-person player skips the camera switch, traces it, and falls through to the normal failure path (`NarrateMeshFailed`). `WaitForLeashMesh` shows a VR-specific notification. SE behaviour is unchanged.
+
 ## CommonLibSSE-NG v11 via vcpkg overlay port (2026-10-05)
 
 `SKSE_Source/vcpkg-ports/commonlibsse-ng-fork` pins `alandtse/CommonLibSSE-NG` v11.0.0 (`94faaed`). The GitHub tarball leaves `extern/openvr` empty (submodule), so the portfile still fetches ValveSoftware/openvr into it; without it `BSVRInterface.h` fails on `openvr.h`. v11 has no `LICENSE` (use `COPYING.txt` + `EXCEPTIONS.md`) and needs `nlohmann-json`, `simpleini`, `toml11`. A clean configure builds CommonLib from source (~6 min). Leashed's source compiled unchanged. Runtime needs the Address Library matching the player's Skyrim version.

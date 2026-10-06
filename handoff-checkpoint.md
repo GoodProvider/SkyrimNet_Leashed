@@ -31,3 +31,37 @@ Before testing, install the ini patch (MO2: SkyrimNet Leashed below DD NG) and t
 * Papyrus: `C:\Users\bhuff\OneDrive\Documents\my games\Skyrim Special Edition\Logs\Script\Papyrus.0.log`. Grep `[SkyrimNet_Leashed]` and `[Zad-NG]: OnEffect`.
 * `…\SKSE\SkyrimNet_Leashed.log`: the TraceLeashBones slot dump.
 * `…\SKSE\LeashFramework.log`: `Bound N leash bones` / `Unable to bind`.
+
+---
+
+# Handoff: CommonLibSSE-NG v11.0.0 migration (planned, nothing edited yet)
+
+## Metadata
+* **Date:** October 5, 2026
+* **Branch:** `sexlab`. No files changed for this task yet.
+* **Goal:** Build Leashed's SKSE DLL against CommonLibSSE-NG v11.0.0 (Skyrim 1.7.x / Address Library format 5), as `../SkyrimNet_SexLab` did in its commit `4ebea86`.
+* **Decision (user):** keep the vcpkg workflow and bump the overlay port. Do not switch to a submodule.
+
+## Findings
+* **SexLab:** submodule `SKSE_Source/lib/CommonLibSSE-NG` (`https://github.com/alandtse/CommonLibSSE-NG.git`, branch `ng`), pinned to tag `v11.0.0` = `94faaed0c60eddd8347767f2d4d29a97c93bde8c`. It uses `add_subdirectory`.
+* **Leashed:** `SKSE_Source/vcpkg.json` depends on `commonlibsse-ng-fork`, an overlay port in `SKSE_Source/vcpkg-ports/commonlibsse-ng-fork/` (see `vcpkg-configuration.json`). `portfile.cmake` pins `alandtse/CommonLibVR` at `e60c1238d558eb12f2d6f230605abbd568f7a76d`, which is an ancestor of v11.0.0 (406 commits behind). The port also copies openvr into `extern/openvr` and passes `-DSKSE_SUPPORT_XBYAK=on`.
+* **SkyrimNet API:** Leashed's `include/SkyrimNet/PublicAPI.h` already matches rc4 (API v12). The untracked `include/SkyrimNet/PublicAPIDiaryQuery.h` is identical to SexLab's stand-in. No API work is needed.
+* `VCPKG_ROOT` is `c:\dev\vcpkg`. Presets: `cmake --preset release`, then `cmake --build --preset build-release`, from `SKSE_Source/`.
+
+## Steps
+1. In `portfile.cmake`, set `REF` to `94faaed0c60eddd8347767f2d4d29a97c93bde8c`. Use repo `alandtse/CommonLibSSE-NG` if the old URL's redirect fails. Replace `SHA512` (set it to `0`, build, and copy the real hash from the error). Check v11 still has `extern/openvr` and `SKSE_SUPPORT_XBYAK`; adjust if not.
+2. In the port's `vcpkg.json`, set `version-date` to 2026-10-04 and bump `port-version`. Sync dependencies with v11's own `vcpkg.json`.
+3. Confirm v11's `cmake/CommonLibSSE.cmake` and install layout still match the portfile fixups (`lib/cmake`, `share/CommonLibSSE`).
+4. Breaking-change scan: in SexLab's submodule checkout, run `git log --format=%B e60c123..v11.0.0 | grep -A8 'BREAKING CHANGE'`. Grep Leashed `SKSE_Source/src` for the named symbols. SexLab found none applicable (package, HitData, BSShaderAccumulator, BSGraphics::State, GetActiveEffectList, VR layouts).
+5. Build, then fix drift in `src/Leash`, `src/Papyrus`, `src/WebUI`. Recheck `IsInRagdollState` and the knock-state enum order (KNOWLEDGE.md line 71: 6 = get-up, 7 = down).
+6. Docs: CHANGELOG.md and KNOWLEDGE.md entries. Note that the plugin needs no runtime list, but players need the matching Address Library. CommonLib v5+ is GPL-3.0-or-later with the Skyrim Modding Exception.
+
+## Constraints
+* If Skyrim is running, do not write the DLL, `.pex`, ESP or PrismaUI HTML. Ask the user to quit first.
+* SE is not VR. Do not claim VR support.
+* Commit summary in the first 72 characters.
+
+## Verify
+* The release build succeeds and the DLL lands in `SKSE/Plugins/` and the MO2 mod folder.
+* The plugin loads in the SKSE log on the user's runtime.
+* In game, leash, knock-down, struggle and the PrismaUI overlay still work.
