@@ -1,3 +1,8 @@
+## Unreleased
+
+- **Dragging events.** While `TickDowned` sees a knocked-down actor dragged (holder beyond `GetMaxLeashLength`, or the body moved at least 40 units since the last 1 s tick, which also covers world ties), `PulseDragEvent` sends a short-lived `leash` event `leash_drag_<formid>` ("<who> is dragged along the ground by <holder>'s leash."): the first dragged tick, then every `leash.dragEventInterval` seconds (default 5, 0 = off; TTL interval + 0.5 s). New natives `DragEventInterval()`. The stuck-knockdown timing still keys off the holder test and Paralysis only.
+- **SkyrimNet_Whipped injuries (soft dependency).** `SKSE_Source/src/Whipped/Whipped.cpp` dispatches `SkyrimNet_Whipped_Main.External_Injure(None, victim, "", type, count, "", narrate=false, torture=true)` through the VM (no compile-time link; needs Whipped with `External_Injure`). `OnLeashFrameworkRagdollPulled` → `falling` x2 (Whipped's own `falling.json`, torture half); each dragged tick → `leash_dragging` x1. `leash_dragging.json` ships here under `SKSE/Plugins/SkyrimNet_Whipped/injuries/` and the mod manager merges it into Whipped's folder. Setting `leash.whipped.fallDamage` (default on). Natives `WhippedFallDamage()`, `WhippedInjure(victim, type, count)`.
+
 https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.2
 
 - The leash panel (`\` hotkey) is now a vertical menu in the same style as SkyrimNet_SexLab's Target Menu. Pick an action and its target from fly-out columns; picking the last item starts it right away.

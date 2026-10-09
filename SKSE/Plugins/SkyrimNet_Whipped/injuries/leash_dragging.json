@@ -1,0 +1,220 @@
+{
+  "id": "leash_dragging",
+  "title": "Dragged Along the Ground",
+  "model": "torture",
+  "requires": "",
+  "damage_max": 20,
+  "healing_max": 11,
+  "thresholds": {
+    "medium": 4,
+    "severe": 11,
+    "mostly_healed": 4
+  },
+  "health_link": {
+    "wound_share": 0.9,
+    "floor": 0.1
+  },
+  "regions": [
+    "head",
+    "body",
+    "arm",
+    "leg"
+  ],
+  "parts": [
+    {
+      "name": "face",
+      "region": "head"
+    },
+    {
+      "name": "left arm",
+      "region": "arm"
+    },
+    {
+      "name": "right arm",
+      "region": "arm"
+    },
+    {
+      "name": "back",
+      "region": "body"
+    },
+    {
+      "name": "left leg",
+      "region": "leg"
+    },
+    {
+      "name": "right leg",
+      "region": "leg"
+    }
+  ],
+  "stages": [
+    "light",
+    "medium",
+    "severe",
+    "recovering",
+    "mostly_healed",
+    "healed"
+  ],
+  "part_weights": {
+    "face": 0.4,
+    "left arm": 1,
+    "right arm": 1,
+    "back": 1.5,
+    "left leg": 1.5,
+    "right leg": 1.5,
+    "nipples": 0,
+    "pussy": 0,
+    "penis": 0,
+    "lips": 0,
+    "ass hole": 0
+  },
+  "action": {
+    "verb": "drags",
+    "animation": ""
+  },
+  "text": {
+    "looks_heading": "### Dragged Along the Ground",
+    "feels_intro": "How {name}'s abrasions from being dragged along the ground on a leash feel right now; let this shape {his} tone, posture and movement:",
+    "feels_outro": "Answer must be creative and different, repetition will be punished.",
+    "looks": {
+      "head": [
+        "{name}'s face: a reddened graze along the cheek, smeared with dirt from the ground.",
+        "{name}'s face: a long, gravelly abrasion along the cheek and jaw, weeping and swelling where it scraped the ground.",
+        "{name}'s face: the skin is scraped away in a raw, bleeding patch packed with grit, the cheek swollen and the eye beside it puffed half shut.",
+        "{name}'s face: the scrape has crusted over in dark scabs, the skin around it pink, tight and bruised yellow-green.",
+        "{name}'s face: a pink, shiny patch marks where the scrape was; only a little flaking remains.",
+        "{name}'s face: the scrape has healed, leaving a faint pale mark."
+      ],
+      "body": [
+        "{name}'s back: dusty and rubbed pink in long streaks where it slid over the ground.",
+        "{name}'s back: long, raw abrasions streak the skin where {he} was hauled over the ground, grit caught in them.",
+        "{name}'s back: wide stretches of skin are scraped away in long bleeding tracks, packed with dirt and grit.",
+        "{name}'s back: the scrapes have scabbed in long dark lines over fading yellow-green bruises.",
+        "{name}'s back: faint pink streaks show where the scrapes were.",
+        "{name}'s back: the skin has healed smooth, with no mark left."
+      ],
+      "arm": [
+        "{name}'s {part}: the elbow and forearm are reddened and rubbed raw in patches.",
+        "{name}'s {part}: the elbow is scraped and weeping, with a dark bruise spreading along the forearm.",
+        "{name}'s {part}: the elbow and forearm are skinned to the red flesh in long tracks, caked with grit and blood.",
+        "{name}'s {part}: scabs cover the elbow and forearm, ringed with fading yellow-green bruising.",
+        "{name}'s {part}: small pink patches mark the healed scrapes.",
+        "{name}'s {part}: the arm looks normal again, without a mark."
+      ],
+      "leg": [
+        "{name}'s {part}: the knee is scuffed red and the shin rubbed raw in places.",
+        "{name}'s {part}: the knee and shin are scraped raw and weeping in long streaks from being dragged.",
+        "{name}'s {part}: the knee and shin are skinned in long bleeding tracks, dirt ground deep into the wounds.",
+        "{name}'s {part}: scabs cover the knee and shin over fading yellow-green bruises.",
+        "{name}'s {part}: pink patches and faint brown shadows mark where the scrapes were.",
+        "{name}'s {part}: the leg looks normal again, without a mark."
+      ]
+    },
+    "feels": {
+      "head": [
+        "{name}'s cheek stings where it hit the dirt, and {his} head swims a little. {name} is startled and shaken, wiping at {his} face.",
+        "{name}'s face burns and throbs where the skin was scraped off, and {his} head aches from being hauled along. {name} is angry and humiliated, flinching from anything that touches it.",
+        "{name}'s face is a raw, burning agony full of grit, and {his} head spins from being hauled along. {name} is dazed, tearful and frightened, barely able to open the swollen eye.",
+        "{name}'s face is tight and itchy under the scabs. {name} is self-conscious and keeps from touching it.",
+        "{name}'s face is only a little tender. {name} is wary of hitting the ground again.",
+        "{name}'s face feels normal again, though {he} flinches at the thought of the dirt."
+      ],
+      "body": [
+        "{name}'s back stings where it slid over the ground. {name} straightens up stiffly, brushing off dirt.",
+        "{name}'s back burns along the long scrapes from being dragged. {name} moves stiffly and winces when {he} twists.",
+        "{name}'s back is a raw, burning agony of torn skin and grit. {name} gasps, hunched and barely able to sit up.",
+        "{name}'s back is tight and itchy under the scabs. {name} avoids lying on it.",
+        "{name}'s back is only a little sore when pressed. {name} is wary of the leash going taut again.",
+        "{name}'s back feels normal again."
+      ],
+      "arm": [
+        "{name}'s {part} stings at the elbow. {name} rubs it, shaken.",
+        "{name}'s {part} burns at the scraped elbow and aches along the bruise. {name} keeps it close and uses it carefully.",
+        "{name}'s {part} is a raw, throbbing agony from elbow to wrist. {name} is in shock, clutching the arm and unable to put weight on it.",
+        "{name}'s {part} is tight and itchy under the scabs and stiff at the elbow. {name} favors the other arm.",
+        "{name}'s {part} is almost back to normal, sore only when pressed. {name} braces it without thinking when {he} stumbles.",
+        "{name}'s {part} has its full movement and strength again."
+      ],
+      "leg": [
+        "{name}'s {part} stings along the shin. {name} walks with a slight hitch.",
+        "{name}'s {part} burns at the scraped knee and aches in the thigh. {name} limps and winces at every step.",
+        "{name}'s {part} is a raw, throbbing agony and will not take weight. {name} falls or needs support to move.",
+        "{name}'s {part} is stiff and itchy under the scabs and sore after a little walking. {name} limps and rests it when {he} can.",
+        "{name}'s {part} is only a little stiff in the cold. {name} is careful on rough ground.",
+        "{name}'s {part} has its full strength and movement again."
+      ]
+    }
+  },
+  "narration": {
+    "list": {
+      "and": " and ",
+      "comma": ", ",
+      "fallback": "body"
+    },
+    "hit": {
+      "lead": "{name}'s {parts}{verb}{times}{by}",
+      "verb_one": " scrapes over the ground",
+      "verb_many": " scrape over the ground",
+      "times": {
+        "two": " twice",
+        "several": " several times",
+        "many": " again and again"
+      },
+      "by_attacker": " as {attacker}'s leash drags {him} along",
+      "by_none": " as the leash drags {him} along",
+      "levels": [
+        ". The skin scrapes raw with a hot sting and {he} grunts, clawing for a grip as {he} is hauled along.",
+        " where it is already scraped and sore. The ground grinds in again and {he} gasps, struggling to get {his} feet under {him}.",
+        ", grinding over skin that is already torn and bruised. The pain is huge and burning, and {he} cries out as {he} is hauled along helplessly.",
+        ", and it is too much. {he} is dragged bloody and gasping over the ground, {his} vision tunneling as {his} body gives up fighting."
+      ]
+    },
+    "summary": {
+      "text": "{speaker} drags {target} along the ground {times}.",
+      "times": {
+        "once": "once",
+        "twice": "twice",
+        "several": "several times",
+        "many": "again and again"
+      }
+    },
+    "heal": {
+      "stage": {
+        "medium": "The torn skin on {name}'s {part} has closed, leaving long sore abrasions and bruising.",
+        "light": "The bruising on {name}'s {part} has faded to sore, tender patches.",
+        "recovering": "The scrapes on {name}'s {part} have scabbed over and the swelling is easing.",
+        "mostly_healed": "The scabs on {name}'s {part} have fallen away, leaving fresh pink skin.",
+        "healed": "{name}'s {part} has fully recovered from being dragged."
+      },
+      "source_healed": "All of {name}'s abrasions from being dragged have healed.",
+      "part_healed": "Every injury on {name}'s {part} has healed.",
+      "passive": "{text} This is only {his} body's ordinary healing; the people of Skyrim mend quickly, and nobody would think it worth remarking on."
+    },
+    "heal_events": {
+      "nouns": {
+        "magic": "magic",
+        "spell": "spell",
+        "staff": "staff",
+        "potion": "potion"
+      },
+      "progress": {
+        "low": "just beginning to heal",
+        "mid": "about half way healed",
+        "high": "mostly healed"
+      },
+      "start": {
+        "caster_casts": "{caster} casts a warm yellow swirling light around {who}, beginning to ease {own} scrapes, bruises and pain.",
+        "other": "{owner} {noun} surrounds {obj} in a warm yellow swirling light, beginning to ease {own} scrapes, bruises and pain."
+      },
+      "pain_gone": {
+        "none": "The pain from {name}'s scrapes and bruises is gone, but the healing continues.",
+        "source": "The warm light of {owner_lc} {noun} has taken the pain from {own} scrapes and bruises, but the healing continues."
+      },
+      "full": {
+        "none": "{name}'s abrasions from being dragged are now fully healed, leaving {him} without pain or blemish.",
+        "caster_casts": "{caster} casts a warm yellow swirling light around {who}. {name}'s abrasions from being dragged are now fully healed, leaving {him} without pain or blemish.",
+        "other": "{owner} {noun} surrounds {obj} in a warm yellow swirling light. {name}'s abrasions from being dragged are now fully healed, leaving {him} without pain or blemish."
+      },
+      "stopped": "The warm light of {owner_lc} {noun} fades before the healing is done; {own} injuries are {progress}."
+    }
+  }
+}

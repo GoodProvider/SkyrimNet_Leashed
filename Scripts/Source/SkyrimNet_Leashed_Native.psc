@@ -50,6 +50,25 @@ plugin config (leash.escape.cooldown). Unknown or out-of-range values use 20.
 Float Function StruggleCooldown() Global Native
 
 ;/
+Seconds between short-lived "being dragged" events while a knocked-down actor is dragged.
+Reads leash.dragEventInterval; 0 = off. Unknown or out-of-range values use 5.
+/;
+Float Function DragEventInterval() Global Native
+
+;/
+True when SkyrimNet_Whipped is installed (with External_Injure) and the setting
+leash.whipped.fallDamage is on.
+/;
+Bool Function WhippedFallDamage() Global Native
+
+;/
+count silent SkyrimNet_Whipped torture hits of injury type type ("falling",
+"leash_dragging") on victim, dispatched to SkyrimNet_Whipped_Main.External_Injure.
+False when Whipped is missing, the setting is off, or the call was not dispatched.
+/;
+Bool Function WhippedInjure(Actor victim, String type, Int count) Global Native
+
+;/
 Folds value to lower case and collapses every run of spaces, tabs, hyphens, and
 underscores into a single underscore, with leading and trailing separators removed.
 

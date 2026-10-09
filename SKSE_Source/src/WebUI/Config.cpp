@@ -217,4 +217,22 @@ namespace SkyrimNetLeashed::WebUI::Config {
         }
         return kDefault;
     }
+
+    float DragEventInterval() {
+        constexpr float kDefault = 5.0F;
+        constexpr float kMin = 0.0F;
+        constexpr float kMax = 60.0F;
+        try {
+            const auto value = std::stof(GetValue("leash.dragEventInterval", "5"));
+            if (value >= kMin && value <= kMax) {
+                return value;
+            }
+        } catch (...) {
+        }
+        return kDefault;
+    }
+
+    bool FallDamageEnabled() {
+        return ReadBool("leash.whipped.fallDamage", true);
+    }
 }

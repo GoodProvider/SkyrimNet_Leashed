@@ -144,6 +144,15 @@ schema:
         - "wall"
       category: "Leash"
 
+    - name: "Dragging event interval"
+      path: "leash.dragEventInterval"
+      type: "int"
+      description: "Seconds between short-lived 'being dragged' events while a leash pull keeps someone knocked down and dragged along the ground. The first event is immediate. 0 turns them off."
+      min: 0
+      max: 60
+      defaultValue: 5
+      category: "Leash"
+
     - name: "Enable struggle"
       path: "leash.escape.enabled"
       type: "bool"
@@ -168,3 +177,10 @@ schema:
       max: 120
       defaultValue: 20
       category: "Escape"
+
+    - name: "Falling hurts (SkyrimNet_Whipped)"
+      path: "leash.whipped.fallDamage"
+      type: "bool"
+      description: "Needs SkyrimNet_Whipped. A leash pull that knocks someone down scrapes them up (Whipped 'falling' torture), and each second they are dragged along the ground adds abrasions ('leash_dragging'). Torture damage heals over time and never kills."
+      defaultValue: true
+      category: "Whipped"

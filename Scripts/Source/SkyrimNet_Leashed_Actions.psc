@@ -21,6 +21,11 @@ Actor[] DownedActors
 Float[] DownedStarted
 Float[] DownedStuckTime
 Int[] DownedStage
+; Position at the last downed tick (drag detection) and the last "being dragged" event time.
+Float[] DownedLastX
+Float[] DownedLastY
+Float[] DownedLastZ
+Float[] DownedLastDragEvent
 Bool DeviceHiderHintShown
 ; Set by TryApplyToHolder when the mesh was fine but LeashFramework's apply returned false.
 Bool FrameworkRefused
@@ -139,6 +144,12 @@ Function EnsureCache()
         DownedStarted = new Float[32]
         DownedStuckTime = new Float[32]
         DownedStage = new Int[32]
+    endif
+    if DownedLastX.Length != CacheSize()
+        DownedLastX = new Float[32]
+        DownedLastY = new Float[32]
+        DownedLastZ = new Float[32]
+        DownedLastDragEvent = new Float[32]
     endif
 EndFunction
 
@@ -853,6 +864,10 @@ Function ClearDownedSlot(Int i)
     DownedStarted[i] = 0.0
     DownedStuckTime[i] = 0.0
     DownedStage[i] = 0
+    DownedLastX[i] = 0.0
+    DownedLastY[i] = 0.0
+    DownedLastZ[i] = 0.0
+    DownedLastDragEvent[i] = 0.0
 EndFunction
 
 ; Starts (or restarts) the stuck-knockdown watch after a Framework ragdoll pull.
@@ -871,6 +886,10 @@ Function WatchDowned(Actor who)
     DownedStarted[i] = Utility.GetCurrentRealTime()
     DownedStuckTime[i] = 0.0
     DownedStage[i] = 0
+    DownedLastX[i] = who.GetPositionX()
+    DownedLastY[i] = who.GetPositionY()
+    DownedLastZ[i] = who.GetPositionZ()
+    DownedLastDragEvent[i] = 0.0
     RefreshUpdates()
 EndFunction
 
@@ -922,8 +941,20 @@ Function TickDowned()
                 else
                     Actor holder = LeashFramework.GetLeashHolder(who)
                     Float maxLen = LeashFramework.GetMaxLeashLength(who)
+                    Bool beyond = holder && maxLen > 0.0 && holder.GetDistance(who) > maxLen
+                    ; Dragged: the holder is past leash range, or the body slid along (world ties have no holder).
+                    Float dx = who.GetPositionX() - DownedLastX[i]
+                    Float dy = who.GetPositionY() - DownedLastY[i]
+                    Float dz = who.GetPositionZ() - DownedLastZ[i]
+                    DownedLastX[i] = who.GetPositionX()
+                    DownedLastY[i] = who.GetPositionY()
+                    DownedLastZ[i] = who.GetPositionZ()
+                    if beyond || (dx * dx + dy * dy + dz * dz) >= 1600.0
+                        SkyrimNet_Leashed_Native.WhippedInjure(who, "leash_dragging", 1)
+                        PulseDragEvent(who, holder, i, now)
+                    endif
                     ; Paralysis is a legitimate long knockdown, not a stuck one.
-                    if (holder && maxLen > 0.0 && holder.GetDistance(who) > maxLen) || who.GetActorValue("Paralysis") > 0.0
+                    if beyond || who.GetActorValue("Paralysis") > 0.0
                         DownedStuckTime[i] = 0.0
                     else
                         DownedStuckTime[i] = DownedStuckTime[i] + 1.0
@@ -945,6 +976,25 @@ Function TickDowned()
     if changed
         RefreshUpdates()
     endif
+EndFunction
+
+; Short-lived "being dragged" event: the first dragged tick, then every DragEventInterval seconds (0 = off).
+Function PulseDragEvent(Actor who, Actor holder, Int i, Float now)
+    Float interval = SkyrimNet_Leashed_Native.DragEventInterval()
+    if interval <= 0.0 || (DownedLastDragEvent[i] > 0.0 && (now - DownedLastDragEvent[i]) < interval)
+        return
+    endif
+    DownedLastDragEvent[i] = now
+    Actor target = holder
+    String content
+    if holder && holder != who
+        content = ActorLabel(who) + " is dragged along the ground by " + ActorLabel(holder) + "'s leash."
+    else
+        target = None
+        content = ActorLabel(who) + " is dragged along the ground by " + PossessivePronoun(who) + " leash."
+    endif
+    Debug.Trace("[SkyrimNet_Leashed] PulseDragEvent " + content)
+    SkyrimNetApi.RegisterShortLivedEvent("leash_drag_" + who.GetFormID(), "leash", content, "", (interval * 1000.0) as Int + 500, who, target)
 EndFunction
 
 Function RememberPair(Actor holder, Actor leashed, String kind, String bodyPart, String style, String leashDistance, Bool tied, Int armorCount = -1)
@@ -2356,6 +2406,7 @@ Event OnLeashFrameworkRagdollPulled(String eventName, String strArg, Float numAr
     EndStruggle(leashed, false)
     NarratePull(leashed, true)
     WatchDowned(leashed)
+    SkyrimNet_Leashed_Native.WhippedInjure(leashed, "falling", 2)
     if CachedBodyPart(leashed) == "wrists"
         RegisterForAnimationEvent(leashed, "GetUpEnd")
     endif

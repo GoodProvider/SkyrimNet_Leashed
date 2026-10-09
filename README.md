@@ -58,6 +58,10 @@ Press `\` again or Escape to close. The game pauses while the panel is focused.
 
 Remap the key and default **distance** / **type** / **body part** / **tie point** in the same plugin page. Distance tokens have a **settle** (stop gap) and a **catch-up** bound; while the holder walks, follow sits 40% of the way between them. SkyrimNet_SexLab’s Start Sex hotkey also defaults to `\` but is off unless you turn it on — do not bind both to the same key.
 
+**Dragging events:** while a leash yank keeps someone knocked down and dragged along the ground, a short-lived event tells nearby NPCs about it, the first at once and then every **Dragging event interval** seconds (default 5, 0 turns it off).
+
+**SkyrimNet_Whipped (optional):** with it installed, a yank that knocks someone down adds Whipped *falling* scrapes and each second dragged adds *leash_dragging* abrasions (`SKSE/Plugins/SkyrimNet_Whipped/injuries/leash_dragging.json` ships with this mod). Both are torture damage: they heal over time and never kill. Turn it off with **Falling hurts (SkyrimNet_Whipped)**.
+
 ### Actions
 
 Three categories plus one root-level action.
