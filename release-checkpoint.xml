@@ -12,10 +12,10 @@
     <project>SkyrimNet_Leashed</project>
     <summary>Bridge mod between SkyrimNet (LLM) and Leash Framework.</summary>
     <repository_root>c:\Skyrim\dev\mods\SkyrimNet_Leashed</repository_root>
-    <updated>2026-10-06</updated>
+    <updated>2026-10-08</updated>
     <base_tag>0.4.1</base_tag>
     <next_version>0.4.2</next_version>
-    <version_status>Makefile VERSION=0.4.2 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.2; DLL SKSE/Plugins/SkyrimNet_Leashed.dll 2026-10-06 07:55 FileVersion 0.4.2; Actions/Native .pex committed in e30bacc with their .psc; versions/SkyrimNet_Leashed 0.4.2.7z packed 2026-10-06 07:36 (before the 07:55 DLL and commit e30bacc; repack before shipping); remote tags 0.1.0-0.4.1 exist, GitHub Release 0.4.1 is Latest; 0.4.2 tag pending</version_status>
+    <version_status>Makefile VERSION=0.4.2 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.2; DLL rebuilt Release 2026-10-08 FileVersion 0.4.2; .pex current; versions/SkyrimNet_Leashed 0.4.2.7z repacked 2026-10-08 from HEAD; remote tags 0.1.0-0.4.1 exist; 0.4.2 tag pending MO2 playtest</version_status>
     <related_artifacts>
       <artifact role="release rules">release-guide.md</artifact>
       <artifact role="agent procedure">.cursor/skills/release/SKILL.md</artifact>
