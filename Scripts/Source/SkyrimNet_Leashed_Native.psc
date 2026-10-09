@@ -62,11 +62,13 @@ leash.whipped.fallDamage is on.
 Bool Function WhippedFallDamage() Global Native
 
 ;/
-count silent SkyrimNet_Whipped torture hits of injury type type ("falling",
-"leash_dragging") on victim, dispatched to SkyrimNet_Whipped_Main.External_Injure.
+count SkyrimNet_Whipped hits of injury type type ("falling", "leash_dragging") on victim,
+dispatched to SkyrimNet_Whipped_Main.External_Damage. The hits are always applied.
+narrate: Whipped's torture narration rules (a DirectNarration or a short-lived event),
+with cause ("Bob yanks Nina off her feet") leading its own text; false is silent.
 False when Whipped is missing, the setting is off, or the call was not dispatched.
 /;
-Bool Function WhippedInjure(Actor victim, String type, Int count) Global Native
+Bool Function WhippedInjure(Actor victim, String type, Int count, Actor attacker = None, String cause = "", Bool narrate = true) Global Native
 
 ;/
 Folds value to lower case and collapses every run of spaces, tabs, hyphens, and

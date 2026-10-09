@@ -185,9 +185,11 @@ namespace SkyrimNetLeashed::Papyrus {
             return Whipped::FallDamage();
         }
 
-        bool WhippedInjure(RE::StaticFunctionTag*, RE::Actor* a_victim, RE::BSFixedString a_type, std::int32_t a_count) {
+        bool WhippedInjure(RE::StaticFunctionTag*, RE::Actor* a_victim, RE::BSFixedString a_type, std::int32_t a_count,
+            RE::Actor* a_attacker, RE::BSFixedString a_cause, bool a_narrate) {
             const char* type = a_type.c_str() ? a_type.c_str() : "";
-            return Whipped::Injure(a_victim, type, a_count);
+            const char* cause = a_cause.c_str() ? a_cause.c_str() : "";
+            return Whipped::Injure(a_victim, type, a_count, a_attacker, cause, a_narrate);
         }
 
         void OpenPanel(RE::StaticFunctionTag*) {

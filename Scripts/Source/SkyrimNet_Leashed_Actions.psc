@@ -950,7 +950,7 @@ Function TickDowned()
                     DownedLastY[i] = who.GetPositionY()
                     DownedLastZ[i] = who.GetPositionZ()
                     if beyond || (dx * dx + dy * dy + dz * dz) >= 1600.0
-                        SkyrimNet_Leashed_Native.WhippedInjure(who, "leash_dragging", 1)
+                        SkyrimNet_Leashed_Native.WhippedInjure(who, "leash_dragging", 1, None, "", false)
                         PulseDragEvent(who, holder, i, now)
                     endif
                     ; Paralysis is a legitimate long knockdown, not a stuck one.
@@ -1683,33 +1683,28 @@ Function Narrate(String content, Actor originator, Actor target, String kind, Ac
         SkyrimNetApi.RegisterShortLivedEvent(eventId, "leash", content, "", ttlMs, source, target)
         return
     endif
-    Actor player = Game.GetPlayer()
-    Bool includesPlayer = originator == player || target == player || leashed == player || extra == player
-    Int importance = 2
-    if kind != "stumble" && kind != "optional" && includesPlayer
-        importance = 1
+    if WouldDirectNarrate(originator, target, kind, leashed, extra)
+        SkyrimNetApi.DirectNarration(content, originator, target)
+    else
+        SkyrimNetApi.RegisterEvent("leash", content, originator, target)
     endif
+EndFunction
+
+; Narrate's choice for a non-"taut" kind: true for DirectNarration, false for RegisterEvent.
+Bool Function WouldDirectNarrate(Actor originator, Actor target, String kind, Actor leashed, Actor extra)
+    Actor player = Game.GetPlayer()
     Bool playerCanSee = originator == player || leashed == player || extra == player
     if !playerCanSee && leashed && player.HasLOS(leashed)
         playerCanSee = true
     endif
     if !playerCanSee
-        SkyrimNetApi.RegisterEvent("leash", content, originator, target)
-        return
+        return false
     endif
-    if kind == "optional"
-        if SkyrimNetApi.GetSpeechQueueSize() == 0
-            SkyrimNetApi.DirectNarration(content, originator, target)
-        else
-            SkyrimNetApi.RegisterEvent("leash", content, originator, target)
-        endif
-        return
+    if kind == "optional" || kind == "stumble"
+        return SkyrimNetApi.GetSpeechQueueSize() == 0
     endif
-    if importance == 1 || SkyrimNetApi.GetSpeechQueueSize() == 0
-        SkyrimNetApi.DirectNarration(content, originator, target)
-        return
-    endif
-    SkyrimNetApi.RegisterEvent("leash", content, originator, target)
+    Bool includesPlayer = originator == player || target == player || leashed == player || extra == player
+    return includesPlayer || SkyrimNetApi.GetSpeechQueueSize() == 0
 EndFunction
 
 Actor Function NarrateListener(Actor subject, Actor leashed, Actor holder)
@@ -2307,9 +2302,19 @@ Bool Function ConsumePullCooldown(Actor leashed, Bool ragdoll)
     return true
 EndFunction
 
-Function NarratePull(Actor leashed, Bool ragdoll)
+Actor Function PullHolder(Actor leashed)
+    Actor holder = LeashFramework.GetLeashHolder(leashed)
+    if holder == None
+        holder = CachedHolder(leashed)
+    endif
+    return holder
+EndFunction
+
+; toWhipped: a ragdoll line is returned instead of sent, so SkyrimNet_Whipped can narrate it as the cause of
+; the fall injury (Whipped decides DirectNarration or event). Returns "" when it was handled here.
+String Function NarratePull(Actor leashed, Bool ragdoll, Bool toWhipped = false)
     if leashed == None
-        return
+        return ""
     endif
     if !ConsumePullCooldown(leashed, ragdoll)
         if ragdoll
@@ -2317,12 +2322,9 @@ Function NarratePull(Actor leashed, Bool ragdoll)
         else
             Debug.Trace("[SkyrimNet_Leashed] taut pull skipped: cooldown " + ActorLabel(leashed))
         endif
-        return
+        return ""
     endif
-    Actor holder = LeashFramework.GetLeashHolder(leashed)
-    if holder == None
-        holder = CachedHolder(leashed)
-    endif
+    Actor holder = PullHolder(leashed)
     String kind = DetectKind(holder, leashed)
     String leashedName = ActorLabel(leashed)
     Actor originator = holder
@@ -2354,7 +2356,11 @@ Function NarratePull(Actor leashed, Bool ragdoll)
     else
         Debug.Trace("[SkyrimNet_Leashed] taut pull " + leashedName)
     endif
+    if toWhipped && ragdoll
+        return content
+    endif
     Narrate(content, originator, targetActor, pullKind, leashed, holder)
+    return ""
 EndFunction
 
 ; The SKSE side cannot reach LeashFramework's leash table, so every lifecycle event pushes
@@ -2404,9 +2410,13 @@ Event OnLeashFrameworkRagdollPulled(String eventName, String strArg, Float numAr
         return
     endif
     EndStruggle(leashed, false)
-    NarratePull(leashed, true)
+    ; With Whipped, the yank line is the cause of its fall injury: one narration, or one event, with both.
+    String text = NarratePull(leashed, true, SkyrimNet_Leashed_Native.WhippedFallDamage())
     WatchDowned(leashed)
-    SkyrimNet_Leashed_Native.WhippedInjure(leashed, "falling", 2)
+    Actor holder = PullHolder(leashed)
+    if !SkyrimNet_Leashed_Native.WhippedInjure(leashed, "falling", 2, holder, text, true) && text != ""
+        Narrate(text, holder, leashed, "stumble", leashed, holder)
+    endif
     if CachedBodyPart(leashed) == "wrists"
         RegisterForAnimationEvent(leashed, "GetUpEnd")
     endif

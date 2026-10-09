@@ -9,7 +9,7 @@ namespace SkyrimNetLeashed::Whipped {
     namespace {
         constexpr const char* kPlugin = "SkyrimNet_Whipped.esp";
         constexpr const char* kScript = "SkyrimNet_Whipped_Main";
-        constexpr const char* kInjure = "External_Injure";
+        constexpr const char* kInjure = "External_Damage";
 
         bool HasGlobal(const char* a_script, std::string_view a_fn) {
             auto* vm = RE::BSScript::Internal::VirtualMachine::GetSingleton();
@@ -65,14 +65,16 @@ namespace SkyrimNetLeashed::Whipped {
         return WebUI::Config::FallDamageEnabled() && Installed();
     }
 
-    bool Injure(RE::Actor* a_victim, std::string_view a_type, int a_count) {
+    bool Injure(RE::Actor* a_victim, std::string_view a_type, int a_count, RE::Actor* a_attacker, std::string_view a_cause,
+        bool a_narrate) {
         if (!a_victim || a_count < 1 || !FallDamage()) {
             return false;
         }
         const std::string type(a_type);
-        SKSE::log::info("Whipped: {} x{} on {:08X}", type, a_count, a_victim->GetFormID());
-        // External_Injure(attacker, victim, text, type, count, part, narrate, torture)
-        return Call(kInjure, static_cast<RE::Actor*>(nullptr), std::move(a_victim), RE::BSFixedString(""),
-            RE::BSFixedString(type.c_str()), static_cast<std::int32_t>(a_count), RE::BSFixedString(""), false, true);
+        const std::string cause(a_cause);
+        SKSE::log::info("Whipped: {} x{} on {:08X} narrate={}", type, a_count, a_victim->GetFormID(), a_narrate);
+        // External_Damage(attacker, victim, cause, body_part, damage_type, damage_amount, narrate)
+        return Call(kInjure, std::move(a_attacker), std::move(a_victim), RE::BSFixedString(cause.c_str()),
+            RE::BSFixedString(""), RE::BSFixedString(type.c_str()), static_cast<std::int32_t>(a_count), a_narrate);
     }
 }
