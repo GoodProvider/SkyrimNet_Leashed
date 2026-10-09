@@ -1,10 +1,5 @@
 # Changelog
 
-## Unreleased
-
-- Build against MinLL/CommonLibVR 4.39.5 (MIT, SE 1.7.99 / 1.7.104) instead of alandtse/CommonLibSSE-NG v11.0.0. The `commonlibsse-ng-fork` overlay port is now a copy of SkyrimNet_SexLab's.
-- `LICENSE`: GPL-3.0 → MIT.
-
 ## [0.4.2](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.2) — since [0.4.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.1)
 
 ### Papyrus
@@ -24,7 +19,7 @@
 
 ### SKSE / WebUI
 
-- Build against CommonLibSSE-NG v11.0.0 (Skyrim 1.7.x / Address Library format 5) instead of CommonLibVR e60c123. The `commonlibsse-ng-fork` overlay port now pulls `alandtse/CommonLibSSE-NG`, adds `nlohmann-json` / `simpleini` / `toml11`, still copies openvr into `extern/openvr` (the tarball omits the submodule), and installs `COPYING.txt` + `EXCEPTIONS.md` (GPL-3.0-or-later with the Skyrim Modding Exception). No source changes were needed; `IsInRagdollState` and the knock-state order (6 get-up, 7 down) are unchanged. Players need the matching Address Library.
+- Build against MinLL/CommonLibVR 4.39.5 (MIT, SE 1.7.99 / 1.7.104) instead of CommonLibVR e60c123. The `commonlibsse-ng-fork` overlay port is now a copy of SkyrimNet_SexLab's. No source changes were needed; `IsInRagdollState` and the knock-state order (6 get-up, 7 down) are unchanged. Players need the matching Address Library.
 - `TraceLeashBones` also logs each occupied third-person biped slot (item, addon, 3D node) to diagnose hidden collars.
 - `WebUI::OpenFor` sends payload `layout`, `presetLeashed`, and `presetVerb`. `Show` runs on the next SKSE task so a caller that hides another overlay can Unfocus first, and consumes the pending open request before its early returns so a blocked open cannot leak its preset into a later one.
 - SexLab Target Menu overlay: one **leash** option, `SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/0700_leashed_panel.json` (`panel: leash`, `panelScript: panels/leashed.js`, `requiresPlugin: SkyrimNet_Leashed.esp`, executes `LeashedToHolder`). `PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js` renders inside SexLab's view with its cascade pulldowns: subject / leashed / status / action (`unleash`, `tie to` ❯ point, `give to` ❯ holder) plus distance / type / body for a new leash or a tie-to. Type/body pairs without a Leash.esm mesh are disabled (wrists = chain, waist = rope). Status comes from `papyrusQuery` → `LeashStatus`, re-queried on each open for the Target Menu's actor (not the previous pick) and whenever the leashed actor changes. While that query is pending, Start and new-leash type/body rows stay off so a collared target cannot be re-leashed before **unleash** appears.
@@ -37,7 +32,7 @@
   - **Devious Devices NG: show leash collars and ropes on bound NPCs** installs `Optional/DDNG_LeashCollars/SKSE/Plugins/DeviousDevices.ini`, the DD NG 0.4.3 ini with `aiHiderOverrideSlots = 60, 45, 58` (58 = waist rope; the FOMOD warns that it also stops DD hiding corsets and harnesses under armor). It replaces the DD ini and must win the MO2 conflict.
   - **Beast-race leash meshes** installs `SkyrimNet_Leashed_BeastRaces.esp` (ESL, masters Skyrim.esm and Leash.esm). It overrides all 7 Leash.esm ArmorAddons and adds ArgonianRace, ArgonianRaceVampire, KhajiitRace and KhajiitRaceVampire. Source: `Spriggit/SkyrimNet_Leashed_BeastRaces/`.
 - `deserialize_esp.ps1` builds every `Spriggit/*` folder (ModKey from `spriggit-meta.json`). `pack_release.ps1` stages and requires the beast-race ESP and copies the DD ini source `SKSE/Plugins/DeviousDevices.ini` into `Optional/DDNG_LeashCollars/`.
-- `LICENSE`: GPL-3.0.
+- `LICENSE`: MIT.
 
 ### Escape / HUD
 
@@ -201,4 +196,4 @@ First public SkyrimNet ↔ Leash Framework bridge.
 
 ### Docs
 
-- Player front door: `README.md`. Technical changelog: this file. Player summary: `CHANGELOG-user.md`. Agent map: `llms.txt` / `AGENTS.md`. Packer: `Makefile` + `.github/workflows/package.yml`.
+- Player front door: `README.md`. Technical changelog: this file. Developer summary: `CHANGELOG-developer.md`. Player changelog: `CHANGELOG-player.md`. Agent map: `llms.txt` / `AGENTS.md`. Packer: `Makefile` + `.github/workflows/package.yml`.

@@ -16,7 +16,7 @@
    * It overrides all 7 Leash.esm ARMAs and adds Argonian/Khajiit and their vampire races.
    * A Spriggit round-trip confirmed the header, masters and races.
 6. **FOMOD:** an optional `SelectAny` step with both patches. `deserialize_esp.ps1` builds every `Spriggit/*` folder. `pack_release.ps1` stages and requires both optional files, and a test pack contains them.
-7. **Docs:** KNOWLEDGE.md (holder-less unleash, beast races, DD slot 45 and the ini patch, build env), CHANGELOG.md, CHANGELOG-user.md and AGENTS.md.
+7. **Docs:** KNOWLEDGE.md (holder-less unleash, beast races, DD slot 45 and the ini patch, build env), CHANGELOG.md, CHANGELOG-developer.md, CHANGELOG-player.md and AGENTS.md.
 
 ## Next: playtest
 Before testing, install the ini patch (MO2: SkyrimNet Leashed below DD NG) and the beast-race ESP, then restart the game.

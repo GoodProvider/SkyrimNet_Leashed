@@ -8,7 +8,7 @@ image provided by Gonçalo
 SkyrimNet (LLM) bridge for [Leash Framework](https://www.nexusmods.com/skyrimspecialedition/mods/187303). 
 NPCs can leash and unleash through SkyrimNet actions, and the leashed characters are presented in each prompt. 
 
-Changelog: [CHANGELOG.md](CHANGELOG.md) · [CHANGELOG-user.md](CHANGELOG-user.md)
+Changelog: [CHANGELOG.md](CHANGELOG.md) · [CHANGELOG-player.md](CHANGELOG-player.md) · [CHANGELOG-developer.md](CHANGELOG-developer.md)
 
 ## Play / install
 

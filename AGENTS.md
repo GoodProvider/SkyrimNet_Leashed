@@ -29,7 +29,7 @@ Repo root: `c:\Skyrim\dev\mods\SkyrimNet_Leashed`.
 | --- | --- |
 | Agent router | [llms.txt](llms.txt) |
 | Release docs | [release-guide.md](release-guide.md) + [release-checkpoint.xml](release-checkpoint.xml) |
-| Changelog | [CHANGELOG.md](CHANGELOG.md), [CHANGELOG-user.md](CHANGELOG-user.md) |
+| Changelog | [CHANGELOG.md](CHANGELOG.md), [CHANGELOG-developer.md](CHANGELOG-developer.md), [CHANGELOG-player.md](CHANGELOG-player.md) |
 | Quirks / dependency pins | [KNOWLEDGE.md](KNOWLEDGE.md) |
 | Leash Framework 1.1.4 pin | [checkpoints/leashframework-1.1.4.md](checkpoints/leashframework-1.1.4.md) (behavior notes: [1.1.3](checkpoints/leashframework-1.1.3.md)); skill `dependency_drift` |
 | SkyrimNet beta25-rc7 pin | [checkpoints/skyrimnet-beta25-rc7.md](checkpoints/skyrimnet-beta25-rc7.md) |

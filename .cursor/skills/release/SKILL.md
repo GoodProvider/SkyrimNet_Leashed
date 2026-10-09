@@ -2,7 +2,7 @@
 name: release
 description: >-
   Align SkyrimNet_Leashed release docs and version metadata for next_version.
-  Use when preparing a release, writing CHANGELOG.md or CHANGELOG-user.md,
+  Use when preparing a release, writing CHANGELOG.md, CHANGELOG-developer.md or CHANGELOG-player.md,
   bumping Makefile VERSION, updating release-checkpoint.xml, documenting the
   delta since base_tag, or when the user asks to ship, tag-prep, or run a
   release-doc pass. Does not create git tags, GitHub Releases, or run make
@@ -49,11 +49,12 @@ Release-doc progress:
 - [ ] 1. Establish delta
 - [ ] 2. Clarify before writing
 - [ ] 3. Rewrite CHANGELOG.md
-- [ ] 4. Rewrite CHANGELOG-user.md
-- [ ] 5. Align docs (freshness matrix)
-- [ ] 6. Makefile VERSION if missing
-- [ ] 7. Update checkpoint
-- [ ] 8. Hand-off
+- [ ] 4. Rewrite CHANGELOG-developer.md
+- [ ] 5. Rewrite CHANGELOG-player.md
+- [ ] 6. Align docs (freshness matrix)
+- [ ] 7. Makefile VERSION if missing
+- [ ] 8. Update checkpoint
+- [ ] 9. Hand-off
 ```
 
 ### 1. Establish delta
@@ -94,7 +95,7 @@ Use only these H3 themes, and only when the group has content:
 
 Prefer concrete identifiers (YAML names, decorator IDs, prompt files, manifest keys). Every bullet must be verifiable in git history or the shipping working tree.
 
-### 4. Rewrite CHANGELOG-user.md
+### 4. Rewrite CHANGELOG-developer.md
 
 First line:
 
@@ -104,19 +105,23 @@ https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/VERSION
 
 Then 5–12 plain-English bullets. No claims missing from `CHANGELOG.md`.
 
-### 5. Align docs
+### 5. Rewrite CHANGELOG-player.md
+
+Same first line. Then only the player-facing bullets from `CHANGELOG.md`, each 100 characters or less (check lengths). Skip internals. No claims missing from `CHANGELOG.md`.
+
+### 6. Align docs
 
 Apply the freshness matrix in `release-guide.md` — only touched rows. Prefer pointers over duplication. Keep `README.md` the player front door.
 
-### 6. Version prep
+### 7. Version prep
 
 If `next_version` is missing from Makefile, update Makefile `VERSION` only. `make release` refreshes FOMOD — do not run it unless asked. ESP source of truth is `Spriggit/`, not hand-edited binaries. Do not bump CMake / vcpkg.json / manifest unless the maintainer says those should move with `next_version`.
 
-### 7. Checkpoint
+### 8. Checkpoint
 
 Update `release-checkpoint.xml`: `updated`, `base_tag`, `next_version`, `version_status`, status notes, `related_artifacts`, `doc_files`.
 
-### 8. Hand-off
+### 9. Hand-off
 
 Report:
 
@@ -127,7 +132,7 @@ Report:
 
 ## Done-when
 
-- Changelogs cover `next_version`
+- `CHANGELOG.md`, `CHANGELOG-developer.md` and `CHANGELOG-player.md` cover `next_version`
 - Freshness-matrix files match the shipping delta
 - Checkpoint is current
 - Hand-off lists leftover mismatches

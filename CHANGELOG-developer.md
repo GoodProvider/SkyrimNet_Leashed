@@ -8,7 +8,7 @@ https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.2
 - A leashed NPC yanked off their feet could stay lying limp forever, especially if they were struggling or you had just gone through a door. The mod no longer plays struggle animations while they are down. If they are still down after about 8 seconds, they get up from a bleedout pose; if that fails, they are reset in place (the same fix as Diary of Mine's "Fix unresponsive or invisible actor"). The player is never reset this way, and paralysis does not count as stuck.
 - When a leash with no holder comes undone, you now hear what you see: if it is still visible it stays on and dangles; if it is not visible it is removed, and the narration says it would not stay on.
 - On VR the mod never forces third person. A leash that needs it fails and is narrated instead.
-- The SKSE plugin is now built on CommonLibSSE-NG. Install the Address Library that matches your game version.
+- The SKSE plugin is now built on CommonLibVR 4.39.5 (MinLL). Install the Address Library that matches your game version. The mod is now MIT licensed.
 - Spoken leash lines and character bios now say “middle length” (and the other distance words) so they are not read as a leash type. The distances themselves are unchanged.
 - The README no longer uses the old hero image. LoversLab and Devious Devices links are marked NSFW.
 - A collared NPC still cannot unclip themselves. The player can still do that from the panel.

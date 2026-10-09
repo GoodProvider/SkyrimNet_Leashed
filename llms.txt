@@ -13,7 +13,7 @@
 | Leash Framework 1.1.3 pin | checkpoints/leashframework-1.1.3.md |
 | SkyrimNet beta25-rc7 pin | checkpoints/skyrimnet-beta25-rc7.md |
 | Release documentation | release-guide.md, release-checkpoint.xml |
-| Changelog | CHANGELOG.md, CHANGELOG-user.md |
+| Changelog | CHANGELOG.md, CHANGELOG-developer.md, CHANGELOG-player.md |
 | Action YAML | SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/actions/ |
 | Prompts | SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/prompts/submodules/character_bio/0409_leashframework.prompt |
 | Escape design (UD inspiration, later) | escape-summary.md (agent), escape-human.md |

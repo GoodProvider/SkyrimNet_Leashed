@@ -12,16 +12,17 @@
     <project>SkyrimNet_Leashed</project>
     <summary>Bridge mod between SkyrimNet (LLM) and Leash Framework.</summary>
     <repository_root>c:\Skyrim\dev\mods\SkyrimNet_Leashed</repository_root>
-    <updated>2026-10-08</updated>
+    <updated>2026-10-09</updated>
     <base_tag>0.4.1</base_tag>
     <next_version>0.4.2</next_version>
-    <version_status>Makefile VERSION=0.4.2 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.2; DLL rebuilt Release 2026-10-08 FileVersion 0.4.2; .pex current; versions/SkyrimNet_Leashed 0.4.2.7z repacked 2026-10-08 from HEAD; remote tags 0.1.0-0.4.1 exist; 0.4.2 tag pending MO2 playtest</version_status>
+    <version_status>Makefile VERSION=0.4.2 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.2; DLL (Release 2026-10-08) and versions/SkyrimNet_Leashed 0.4.2.7z predate 808815d (CommonLibVR 4.39.5) - rebuild DLL and repack; .pex current; remote tags 0.1.0-0.4.1 exist; 0.4.2 tag pending MO2 playtest</version_status>
     <related_artifacts>
       <artifact role="release rules">release-guide.md</artifact>
       <artifact role="agent procedure">.cursor/skills/release/SKILL.md</artifact>
       <artifact role="agent router">llms.txt</artifact>
       <artifact role="changelog since last tag">CHANGELOG.md</artifact>
-      <artifact role="player changelog summary">CHANGELOG-user.md</artifact>
+      <artifact role="developer changelog summary">CHANGELOG-developer.md</artifact>
+      <artifact role="player changelog (player-facing CHANGELOG.md bullets, max 100 chars each)">CHANGELOG-player.md</artifact>
       <artifact role="end-user front door">README.md</artifact>
       <artifact role="quirks / dependency pins">KNOWLEDGE.md</artifact>
       <artifact role="LF 1.1.3 drift">checkpoints/leashframework-1.1.3.md</artifact>
@@ -37,12 +38,14 @@
     <file>AGENTS.md</file>
     <file>KNOWLEDGE.md</file>
     <file>CHANGELOG.md</file>
-    <file>CHANGELOG-user.md</file>
+    <file>CHANGELOG-developer.md</file>
+    <file>CHANGELOG-player.md</file>
     <file>release-guide.md</file>
     <file>release-checkpoint.xml</file>
   </doc_files>
 
   <status>
+    <note>2026-10-09: Folded 808815d into 0.4.2 (not tagged). CHANGELOG.md: Unreleased removed; SKSE bullet now MinLL/CommonLibVR 4.39.5 (MIT) with overlay port copied from SkyrimNet_SexLab; LICENSE MIT. CHANGELOG-user.md CommonLib line updated + MIT. Do not pack or tag unless asked.</note>
     <note>2026-10-06: 0.4.2 release-doc refresh (delta now through e30bacc). CHANGELOG.md: SexLab Target Menu leash panel (0700_leashed_panel.json + PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js, LeashStatus), cascade Leashed panel replacing #bar.vertical / fitBar, FrameworkRefused, ResetStuckActor player/paralysis guards, WebUI::Show request consume, speaker_holds_leash / get_speaker_held_actors decorators, LICENSE GPL-3.0, DD ini staged by pack_release.ps1; "FOMOD / build" renamed "Install / FOMOD". Dropped stale 0700_leash.json / 0701_unleash.json and #bar.vertical bullets. CHANGELOG-user.md rewritten (12 bullets, adds VR and Address Library). README.md panel + Target Menu sections rewritten for the cascade. Do not pack or tag unless asked.</note>
     <note>2026-09-18: 0.4.2 release-doc pass. Delta since 0.4.1: OpenPanelFor / TM_OpenLeash / TM_OpenUnleash, WebUI::OpenFor vertical+preset, PrismaUI #bar.vertical, SexLab TargetMenu 0700_leash.json / 0701_unleash.json, SpokenDistance + dual-ship 0409_leashframework.prompt "length", SFW README (no hero image; NSFW labels). Version sources bumped to 0.4.2. Maintainer will tag and GitHub Release. Do not pack or tag unless asked.</note>
     <note>2026-09-15 22:39: make release packed versions/SkyrimNet_Leashed 0.4.1.7z (280744 bytes). PrismaUI index.html fitBar in zip. DLL source SKSE/Plugins/SkyrimNet_Leashed.dll (13:25, FileVersion 0.4.0). pex from 9fdb8bf. ESP deserialized from Spriggit (same content). Dual-ship actions+prompts in the zip. Do not tag unless asked.</note>
@@ -55,7 +58,7 @@
     <note>2026-09-10: Adapted to Leash Framework 1.1.3. Header + submodule bf3b33c. Follow-start OnActorPulled does not end struggle. Per-token settle/catch-up defaults. Wrist meshes 0xD69/0x1/0x3. dependency_drift skill + KNOWLEDGE.md. Maintainer playtest passed (looked fine); override natives stay unused. Shipped as 0.3.0, not 0.2.0.</note>
     <note>2026-09-08: Maintainer asked to stay on 0.1.0 (not 1.0.0) for first public; 0.2.0 was rename + Enable struggle + DD struggle anims.</note>
     <note>Does not ship: UnforgivingDevices/, escape-*.md, z-plan.md, SKSE_Source/build/, versions/ staging until pack. Agent checkpoints/ may live in git; not in the FOMOD 7z. Must git-add SKSE_Source/src/Papyrus/Bridge.h, lib/PrismaUI/PrismaUI_API.h, include/SkyrimNet/PublicAPIMemoryQuery.h (untracked; required to compile).</note>
-    <note>Open: commit the 0.4.2 doc refresh; repack (make release or Actions workflow_dispatch) since the 0.4.2.7z predates the final DLL and e30bacc; MO2 playtest (cascade panel, SexLab Target Menu leash panel, DD ini patch, beast-race ESP); git tag 0.4.2; GitHub Release; Nexus. TM_OpenLeash / TM_OpenUnleash remain in Actions.psc but no shipped JSON calls them.</note>
+    <note>Open: commit the 0.4.2 doc refresh; CMake Release DLL on CommonLibVR 4.39.5; repack (make release or Actions workflow_dispatch) since the 0.4.2.7z predates 808815d; MO2 playtest (cascade panel, SexLab Target Menu leash panel, DD ini patch, beast-race ESP); git tag 0.4.2; GitHub Release; Nexus. TM_OpenLeash / TM_OpenUnleash remain in Actions.psc but no shipped JSON calls them.</note>
   </status>
 
   <conventions>

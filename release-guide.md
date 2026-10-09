@@ -11,7 +11,7 @@ Agents: use the project `release` skill (`.cursor/skills/release/SKILL.md`). Ses
 | Agent | Changelogs, freshness-matrix docs, Makefile `VERSION` if missing, checkpoint | `compile: pyro`, CMake, `make release`, git tag, GitHub Release, feature work |
 | Maintainer | Compile, package, playtest, tag, publish | Inventing changelog bullets the tree does not support |
 
-**Agent done-when:** `CHANGELOG.md` and `CHANGELOG-user.md` cover `next_version`; freshness-matrix files match the delta; checkpoint is current; hand-off lists leftover version mismatches. Packaging is not part of done.
+**Agent done-when:** `CHANGELOG.md`, `CHANGELOG-developer.md` and `CHANGELOG-player.md` cover `next_version`; freshness-matrix files match the delta; checkpoint is current; hand-off lists leftover version mismatches. Packaging is not part of done.
 
 ## Version sources
 
@@ -37,7 +37,7 @@ Update only the rows the delta touches.
 
 | When the delta includes | Update |
 |-------------------------|--------|
-| Action YAML | `README.md` action tables if names or eligibility changed; `CHANGELOG.md`; `CHANGELOG-user.md` if player-visible |
+| Action YAML | `README.md` action tables if names or eligibility changed; `CHANGELOG.md`; `CHANGELOG-developer.md`; `CHANGELOG-player.md` if player-visible |
 | Prompts / DirectNarration copy | `README.md` if player-visible; changelogs |
 | Papyrus execute / natives | changelogs; `README.md` only if player-facing behavior changed |
 | SKSE decorators, WebUI, PrismaUI HUD | `README.md` hotkey / HUD / escape sections if user-visible; changelogs |
@@ -53,7 +53,8 @@ Update only the rows the delta touches.
 | Agent router | `llms.txt` |
 | Agent policy | `AGENTS.md` |
 | Changelog (technical) | `CHANGELOG.md` |
-| Changelog (player) | `CHANGELOG-user.md` |
+| Changelog (developer) | `CHANGELOG-developer.md` |
+| Changelog (player) | `CHANGELOG-player.md` |
 | This guide | `release-guide.md` |
 | Agent skill | `.cursor/skills/release/SKILL.md` |
 | Session state | `release-checkpoint.xml` |
@@ -83,9 +84,13 @@ Use only these H3 themes, and only when the group has content:
 
 Prefer concrete identifiers (YAML names, decorator IDs, prompt files, manifest keys).
 
-### `CHANGELOG-user.md`
+### `CHANGELOG-developer.md`
 
 First line = GitHub releases URL for `next_version` (or `Unreleased` while there is no tag). Then 5–12 plain-English bullets. No claims missing from `CHANGELOG.md`.
+
+### `CHANGELOG-player.md`
+
+First line = GitHub releases URL for `next_version` (or `Unreleased` while there is no tag). Then only the player-facing bullets from `CHANGELOG.md`, each 100 characters or less. Skip internals (natives, decorators, build scripts). No claims missing from `CHANGELOG.md`.
 
 ### Writing bar
 
