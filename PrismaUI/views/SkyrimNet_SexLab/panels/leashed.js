@@ -16,7 +16,8 @@
         bodyPart: 'neck',
         isLeashed: false,
         statusHolderFormId: 0,
-        statusHolderName: ''
+        statusHolderName: '',
+        statusPendingFid: 0
     };
     const LEASH_STYLES = ['forcefully', 'normally', 'gently'];
     const LEASH_TIE_POINTS = ['floor', 'left', 'back', 'front', 'right', 'wall'];
@@ -31,30 +32,48 @@
         return (LEASH_BODY_KINDS[body] || []).includes(kind);
     }
 
+    function leashStatusPending() {
+        const p = formIdU32(leashUi.statusPendingFid);
+        return p !== 0 && p === formIdU32(leashUi.leashed);
+    }
+
     function leashSeedAction() {
+        if (leashStatusPending())
+            return;
         if (!leashUi.isLeashed && leashUi.action === 'unleash')
             leashUi.action = 'give to';
     }
 
+    // Clears the shown status, then queries it again for formId.
     function leashRequestStatus(formId) {
+        leashUi.statusPendingFid = 0;
+        leashUi.isLeashed = false;
+        leashUi.statusHolderFormId = 0;
+        leashUi.statusHolderName = '';
         const fid = formIdU32(formId);
-        if (!fid) {
-            leashUi.isLeashed = false;
-            leashUi.statusHolderFormId = 0;
-            leashUi.statusHolderName = '';
+        if (!fid)
             return;
-        }
         if (typeof papyrusQuery !== 'function')
             return;
+        leashUi.statusPendingFid = fid;
         papyrusQuery('SkyrimNet_Leashed_Actions', 'LeashStatus', fid)
             .then((value) => leashStatusResult(fid, value));
     }
 
     // SkyrimNet_Leashed_Actions.LeashStatus: '' = not leashed, 'world' = tied to a point,
-    // '<holderFormId>|<holderName>' = held. null = query failed (keep current state).
+    // '<holderFormId>|<holderName>' = held. null = query failed (treat as not leashed).
     function leashStatusResult(fid, value) {
-        if (value === null || fid !== formIdU32(leashUi.leashed))
+        if (formIdU32(fid) !== formIdU32(leashUi.statusPendingFid))
             return;
+        leashUi.statusPendingFid = 0;
+        if (formIdU32(fid) !== formIdU32(leashUi.leashed))
+            return;
+        if (value === null) {
+            leashSeedAction();
+            if (papyrusSelectedOpt && papyrusSelectedOpt.panel === 'leash')
+                renderPapyrusPanel();
+            return;
+        }
         const v = String(value || '');
         leashUi.isLeashed = v !== '';
         leashUi.statusHolderFormId = 0;
@@ -70,6 +89,8 @@
     }
 
     function leashFireStart(opt) {
+        if (leashStatusPending())
+            return;
         const subject = tmActorParam(leashUi.subject);
         const leashed = tmActorParam(leashUi.leashed);
         const holder = tmActorParam(leashUi.holder);
@@ -198,6 +219,8 @@
     }
 
     function leashCanStart() {
+        if (leashStatusPending())
+            return false;
         return !!leashUi.subject && !!leashUi.leashed
             && (leashUi.action !== 'give to' || (leashUi.holder && leashUi.holder !== leashUi.leashed));
     }
@@ -258,7 +281,11 @@
             || pool[0]
             || null;
         if (subject) leashUi.subject = formIdU32(subject.formId);
-        if (leashed) leashUi.leashed = formIdU32(leashed.formId);
+        if (leashed && formIdU32(leashed.formId) !== formIdU32(leashUi.leashed)) {
+            // Fallback actor: its status was never queried.
+            leashUi.leashed = formIdU32(leashed.formId);
+            leashRequestStatus(leashUi.leashed);
+        }
         if (!LEASH_STYLES.includes(leashUi.style))
             leashUi.style = 'normally';
         if (!LEASH_TIE_POINTS.includes(leashUi.tiePoint))
@@ -311,13 +338,14 @@
         }));
         addField('leashed', leashActorCascade('leash_leashed', 'leashed', pool, leashUi.leashed, (fid) => {
             leashUi.leashed = fid;
-            leashUi.isLeashed = false;
-            leashUi.statusHolderFormId = 0;
-            leashUi.statusHolderName = '';
             leashRequestStatus(leashUi.leashed);
             renderPapyrusPanel();
         }));
-        if (leashUi.isLeashed) {
+        if (leashStatusPending()) {
+            const statusVal = document.createElement('span');
+            statusVal.textContent = '…';
+            addField('status', statusVal);
+        } else if (leashUi.isLeashed) {
             const statusVal = document.createElement('span');
             if (leashUi.statusHolderFormId) {
                 statusVal.textContent = leashUi.statusHolderName || '?';
@@ -329,7 +357,7 @@
         }
         // type/body only reach Papyrus for a new leash or a tie-to; above action
         // because an action leaf starts at once.
-        if (!leashUi.isLeashed || leashUi.action === 'tie to') {
+        if (!leashStatusPending() && (!leashUi.isLeashed || leashUi.action === 'tie to')) {
             addField('type', ssListCascade('leash_type', 'type', LEASH_TYPES, leashUi.leashType, (v) => {
                 leashUi.leashType = v;
                 if (!leashBodyValid(leashUi.bodyPart, v))
@@ -348,9 +376,10 @@
 
     function leashOnOpen(opt) {
         const pool = eligibleParamActors();
-        if (!outfitFindActor(pool, leashUi.leashed))
-            leashUi.leashed = formIdU32(targetActor && targetActor.formId)
-                || (pool[0] && pool[0].formId) || 0;
+        // Each open is for the TargetMenu's actor; don't keep the last panel's pick.
+        leashUi.leashed = formIdU32(targetActor && targetActor.formId)
+            || (outfitFindActor(pool, leashUi.leashed) ? leashUi.leashed : 0)
+            || (pool[0] && pool[0].formId) || 0;
         if (!outfitFindActor(pool, leashUi.subject))
             leashUi.subject = formIdU32(playerActor && playerActor.formId)
                 || leashUi.leashed;

@@ -126,3 +126,10 @@ and verb ("leash" / "unleash" / empty). Defers Show to the next SKSE task so a
 caller that is about to hide another overlay (SexLab TargetMenu) can Unfocus first.
 /;
 Function OpenPanelFor(Actor leashed, String layout, String verb) Global Native
+
+;/
+Leash status from the plugin's own tracking (leashed faction or a pair recorded via
+NotifyLeash), the same check the hotkey panel uses. '' = not leashed, 'world' = no
+holder, '<holderFormId>|<holderName>' = held.
+/;
+String Function LeashStatus(Actor leashed) Global Native

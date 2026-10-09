@@ -1765,10 +1765,14 @@ Function LeashedToHolder(Actor subject, Actor leashed, Actor holder, String styl
 EndFunction
 
 ; SexLab TargetMenu leash panel (papyrusQuery): '' = not leashed, 'world' = tied to a point,
-; '<holderFormId>|<holderName>' = held.
+; '<holderFormId>|<holderName>' = held. Falls back to the plugin's faction / recorded-pair
+; check (same as the hotkey panel) when LeashFramework does not report the leash.
 String Function LeashStatus(Actor leashed) Global
-    if leashed == None || !LeashFramework.IsLeashed(leashed)
+    if leashed == None
         return ""
+    endif
+    if !LeashFramework.IsLeashed(leashed)
+        return SkyrimNet_Leashed_Native.LeashStatus(leashed)
     endif
     Actor holder = LeashFramework.GetLeashHolder(leashed)
     if holder == None

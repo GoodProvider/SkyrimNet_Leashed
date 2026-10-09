@@ -16,7 +16,7 @@ Requirements:
 
 - [SkyrimNet](https://github.com/MinLL/SkyrimNet-GamePlugin) (narration enabled). This zip ships LLM content in both layouts: 0.25+ reads plugin `goodprovider.leashed` under `Data/SKSE/Plugins/SkyrimNet/external/` (External on Installed Plugins); older SkyrimNet reads `prompts/` and `config/actions/`. Do not use **Plugins > Import Old Content** for this mod's files — that copy would hide later updates.
 - [Leash Framework (Nexus 187303)](https://www.nexusmods.com/skyrimspecialedition/mods/187303) , [Leash Framework (Sexlab 50377)](https://www.loverslab.com/files/file/50377-leash-framework/) — `Leash.esm` and `SKSE\Plugins\LeashFramework.dll`. Tested with **1.1.3**.
-- SKSE, Address Library
+- SKSE, Address Library (matching your game version)
 
 Optional:
 
@@ -40,11 +40,11 @@ The panel hotkey is **off by default**. Enable it in SkyrimNet’s WebUI under *
 
 SkyrimNet_SexLab’s Start Sex SkyMessage also has a **leash** button when `SkyrimNet_Leashed.esp` is loaded. That opens this same panel even if the Leashed hotkey is off.
 
-SexLab’s PrismaUI Target Menu overlays **leash** (focus actor not collared) and **unleash** (focus actor collared) from this zip (`SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/`). Those rows close SexLab’s overlay and open this panel in a **vertical** layout, seeded to the Target Menu actor. They do not use SexLab’s built-in leash ParameterPanel.
+SexLab’s PrismaUI Target Menu gets a **leash** option from this zip (`SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/0700_leashed_panel.json` plus `PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js`). It opens a leash panel inside SexLab’s menu, seeded to the Target Menu actor, showing whether they are leashed, tied, or free. Type / body combinations with no leash mesh are greyed out.
 
-With PrismaUI installed and the hotkey on, `\` opens a horizontal leash bar. Verb options depend on whether the selected leashed actor is already collared. Extra columns appear only for the chosen verb. If **body** is wrists, **type** is locked to chain. Long actor names shrink with an ellipsis so the bar stays 5em from each screen edge; short names keep the bar content-sized.
+With PrismaUI installed and the hotkey on, `\` opens a vertical leash panel in the same cascade style as SexLab’s Target Menu: **Start** and style on top, then subject, leashed, status, action, and (for a new leash) distance, type, and body rows. Each row opens columns to the right; Escape closes one column at a time. Actions depend on whether the selected leashed actor is already collared, and picking the last item in an action branch (a holder or tie point) starts it at once. If **body** is wrists, **type** is locked to chain.
 
-| Target | Verb | Extra columns |
+| Target | Verb | Extra choices |
 | --- | --- | --- |
 | Unleashed | leash | distance, type, body location, holder |
 | Unleashed | leash to | distance, type, body location, tie location |
@@ -54,7 +54,7 @@ With PrismaUI installed and the hotkey on, `\` opens a horizontal leash bar. Ver
 
 Press `\` again or Escape to close. The game pauses while the panel is focused.
 
-**Unleash on this bar is full power**, including the player's own collar: pick yourself as the leashed actor (the default when you are leashed and not aiming at someone else) and **unleash** still disconnects. LLM `leashed_escape` never does that.
+**Unleash on this panel is full power**, including the player's own collar: pick yourself as the leashed actor (the default when you are leashed and not aiming at someone else) and **unleash** still disconnects. LLM `leashed_escape` never does that.
 
 Remap the key and default **distance** / **type** / **body part** / **tie point** in the same plugin page. Distance tokens have a **settle** (stop gap) and a **catch-up** bound; while the holder walks, follow sits 40% of the way between them. SkyrimNet_SexLab’s Start Sex hotkey also defaults to `\` but is off unless you turn it on — do not bind both to the same key.
 

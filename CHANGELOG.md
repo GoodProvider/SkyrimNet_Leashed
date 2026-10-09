@@ -13,30 +13,36 @@
 - Stuck ragdoll fix. Native `IsKnockedDown(Actor)` / `KnockState(Actor)`. `PlayStruggleAnim` / `StopStruggleAnim` send no animation events to a ragdolled or knocked-down actor (that stopped LF forced recovery from ever getting the actor up). `OnLeashFrameworkRagdollPulled` starts a watchdog (`WatchDowned` / `TickDowned` on the 1s update, now `RefreshUpdates`): stuck 8s inside leash range → `BleedOutStop`; 14s → `ResetStuckActor` (PAH Diary of Mine SpecialReset port: Disable/Enable, SetAlpha, `IdleForceDefaultState`, `QueueNiNodeUpdate`).
 - `NormalizeDistance` accepts `tight_length` / `short_length` / `middle_length` / `medium_length` / `long_length`. `SpokenDistance` appends ` length` in `NarrateApply` and `NarrateLeash`.
 - DD hider checks are per leash. `DDHidesArmor` / `DDHidesLeash` skip a candidate only when its slot is not in `aiHiderOverrideSlots`, so with the optional ini patch, neck and waist leashes are tried on DD-bound NPCs instead of going straight to `holder_shield` (holders) or failing (tie points). The DD MessageBox and wording only show when the hider hides the requested leash. Retying a `holder_shield` leash to a tie point uses `neck_chain` (and its fallbacks) instead of equipping the holder's hand chain on the leashed actor. `WaitForLeashMesh` traces an unequipped leash armor separately.
+- Leash Framework refusal (`TryApplyToHolder` sets `FrameworkRefused`) stops the `ApplyToHolder` fallback loop and skips `NarrateMeshFailed`; it is not a mesh failure.
+- Stuck-knockdown watchdog: `ResetStuckActor` never `Disable`/`Enable`s the player, and `TickDowned` does not count time while `Paralysis > 0`.
+- `String LeashStatus(Actor leashed) Global` for the SexLab Target Menu panel: `""` not leashed, `"world"` tied to a point, `"<holderFormId>|<holderName>"` held. When `LeashFramework.IsLeashed` is false it falls back to native `SkyrimNet_Leashed_Native.LeashStatus` (`LeashState::IsLeashed` = leashed faction or recorded pair, holder from `LeashState::GetLeashHolder`), the same check the hotkey panel uses, so `unleash` is offered for every leashed target.
 
 ### SKSE / WebUI
 
 - Build against CommonLibSSE-NG v11.0.0 (Skyrim 1.7.x / Address Library format 5) instead of CommonLibVR e60c123. The `commonlibsse-ng-fork` overlay port now pulls `alandtse/CommonLibSSE-NG`, adds `nlohmann-json` / `simpleini` / `toml11`, still copies openvr into `extern/openvr` (the tarball omits the submodule), and installs `COPYING.txt` + `EXCEPTIONS.md` (GPL-3.0-or-later with the Skyrim Modding Exception). No source changes were needed; `IsInRagdollState` and the knock-state order (6 get-up, 7 down) are unchanged. Players need the matching Address Library.
 - `TraceLeashBones` also logs each occupied third-person biped slot (item, addon, 3D node) to diagnose hidden collars.
-- `WebUI::OpenFor` sends payload `layout` (`vertical` or empty), `presetLeashed`, and `presetVerb`. `Show` runs on the next SKSE task so a caller that hides another overlay can Unfocus first.
-- Overlay JSON `SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/0700_leash.json` and `0701_unleash.json` (`type: papyrus`, `source: leashed`, `closeWebUI: true`, `TM_OpenLeash` / `TM_OpenUnleash`, `is_in_faction` / `LeashedFaction`).
+- `WebUI::OpenFor` sends payload `layout`, `presetLeashed`, and `presetVerb`. `Show` runs on the next SKSE task so a caller that hides another overlay can Unfocus first, and consumes the pending open request before its early returns so a blocked open cannot leak its preset into a later one.
+- SexLab Target Menu overlay: one **leash** option, `SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/0700_leashed_panel.json` (`panel: leash`, `panelScript: panels/leashed.js`, `requiresPlugin: SkyrimNet_Leashed.esp`, executes `LeashedToHolder`). `PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js` renders inside SexLab's view with its cascade pulldowns: subject / leashed / status / action (`unleash`, `tie to` ❯ point, `give to` ❯ holder) plus distance / type / body for a new leash or a tie-to. Type/body pairs without a Leash.esm mesh are disabled (wrists = chain, waist = rope). Status comes from `papyrusQuery` → `LeashStatus`, re-queried on each open for the Target Menu's actor (not the previous pick) and whenever the leashed actor changes. While that query is pending, Start and new-leash type/body rows stay off so a collared target cannot be re-leashed before **unleash** appears.
+- Decorators `speaker_holds_leash` (flag) and `get_speaker_held_actors` (payload): actors whose leash the speaker holds in hand (not tied or dangling).
 - Native `DDHiderOverridesSlotMask(Int slotMask)`: reads `Data/SKSE/Plugins/DeviousDevices.ini` `[DeviceHider] aiHiderOverrideSlots` once and logs the slots.
 
-### FOMOD / build
+### Install / FOMOD
 
 - New optional install step (`SelectAny`):
   - **Devious Devices NG: show leash collars and ropes on bound NPCs** installs `Optional/DDNG_LeashCollars/SKSE/Plugins/DeviousDevices.ini`, the DD NG 0.4.3 ini with `aiHiderOverrideSlots = 60, 45, 58` (58 = waist rope; the FOMOD warns that it also stops DD hiding corsets and harnesses under armor). It replaces the DD ini and must win the MO2 conflict.
   - **Beast-race leash meshes** installs `SkyrimNet_Leashed_BeastRaces.esp` (ESL, masters Skyrim.esm and Leash.esm). It overrides all 7 Leash.esm ArmorAddons and adds ArgonianRace, ArgonianRaceVampire, KhajiitRace and KhajiitRaceVampire. Source: `Spriggit/SkyrimNet_Leashed_BeastRaces/`.
-- `deserialize_esp.ps1` builds every `Spriggit/*` folder (ModKey from `spriggit-meta.json`). `pack_release.ps1` stages and requires the beast-race ESP and `Optional/`.
+- `deserialize_esp.ps1` builds every `Spriggit/*` folder (ModKey from `spriggit-meta.json`). `pack_release.ps1` stages and requires the beast-race ESP and copies the DD ini source `SKSE/Plugins/DeviousDevices.ini` into `Optional/DDNG_LeashCollars/`.
+- `LICENSE`: GPL-3.0.
 
 ### Escape / HUD
 
-- PrismaUI `#bar.vertical`: centered column, `max-width: 22em`, `max-height: calc(100% - 10em)`. `fitBar()` returns while vertical. `openLeashPanel` seeds `layout` and `presetLeashed`.
+- PrismaUI leash panel (`PrismaUI/views/SkyrimNet_Leashed/index.html`) is now a cascade matching SexLab's Target Menu instead of the horizontal sentence bar (the 0.4.1 `fitBar` sizing is gone). [Start] + style on top, then subject / leashed / status / action / distance / type / body rows. Each field opens columns to the right (hover drill, ❯ branches, ‹ back, Escape peels a column, outside click closes). Action is a verb → object tree (`leash` ❯ holder, `leash to` ❯ tie point; when leashed: `unleash`, `tie to` ❯, `give to` ❯); a leaf starts at once. Distance / type / body only show for a new leash. The `layout` payload field is ignored (always vertical).
 
 ### Docs
 
 - Dual-ship `0409_leashframework.prompt`: distance tokens render as `{{ pair.distance }} length`.
 - Player README is SFW: dropped `images/SkyrimNet_Leashed_small.png`; LoversLab Leash Framework and Devious Devices links labeled NSFW.
+- `README.md` leash panel and SexLab Target Menu sections describe the cascade panel and `0700_leashed_panel.json`; Address Library must match the game version.
 
 ## [0.4.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.1) — since [0.4.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.0)
 

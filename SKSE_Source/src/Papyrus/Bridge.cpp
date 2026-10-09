@@ -186,6 +186,19 @@ namespace SkyrimNetLeashed::Papyrus {
             WebUI::OpenFor(a_leashed, layout, verb);
         }
 
+        // Same leash truth as the hotkey panel (faction or recorded pair).
+        // '' = not leashed, 'world' = no holder, '<holderFormId>|<holderName>' = held.
+        RE::BSFixedString LeashStatus(RE::StaticFunctionTag*, RE::Actor* a_leashed) {
+            if (!a_leashed || !LeashState::IsLeashed(a_leashed)) {
+                return "";
+            }
+            auto* holder = LeashState::GetLeashHolder(a_leashed);
+            if (!holder) {
+                return "world";
+            }
+            return std::to_string(holder->GetFormID()) + "|" + LeashState::DisplayName(holder);
+        }
+
         void TraceLeashBones(RE::StaticFunctionTag*, RE::Actor* a_who) {
             if (!a_who) {
                 SKSE::log::warn("TraceLeashBones skipped: null actor");
@@ -322,6 +335,7 @@ namespace SkyrimNetLeashed::Papyrus {
         a_vm->RegisterFunction("DDHiderOverridesSlotMask", kScriptName, DDHiderOverridesSlotMask);
         a_vm->RegisterFunction("OpenPanel", kScriptName, OpenPanel);
         a_vm->RegisterFunction("OpenPanelFor", kScriptName, OpenPanelFor);
+        a_vm->RegisterFunction("LeashStatus", kScriptName, LeashStatus);
         SKSE::log::info("Registered {} Papyrus functions", kScriptName);
         return true;
     }
