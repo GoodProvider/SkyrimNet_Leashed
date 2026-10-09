@@ -77,7 +77,7 @@ All 7 Leash.esm ArmorAddons (`Leash_neckAA`, `Leash_neck_chainAA`, `Leash_neck_r
 
 ## CommonLibSSE-NG v11 via vcpkg overlay port (2026-10-05)
 
-`SKSE_Source/vcpkg-ports/commonlibsse-ng-fork` pins `alandtse/CommonLibSSE-NG` v11.0.0 (`94faaed`). The GitHub tarball leaves `extern/openvr` empty (submodule), so the portfile still fetches ValveSoftware/openvr into it; without it `BSVRInterface.h` fails on `openvr.h`. v11 has no `LICENSE` (use `COPYING.txt` + `EXCEPTIONS.md`) and needs `nlohmann-json`, `simpleini`, `toml11`. A clean configure builds CommonLib from source (~6 min). Leashed's source compiled unchanged. Runtime needs the Address Library matching the player's Skyrim version.
+`SKSE_Source/vcpkg-ports/commonlibsse-ng-fork` pins `MinLL/CommonLibVR` 4.39.5 (`550cc4f`), the same port SkyrimNet_SexLab uses. It is MIT (branched from v4.39.3, the last MIT CommonLibVR; upstream is GPL-3.0 from v5.0.0) and adds SE 1.7.99 / 1.7.104 support. The GitHub tarball leaves `extern/openvr` empty (submodule), so the portfile still fetches ValveSoftware/openvr into it; without it `BSVRInterface.h` fails on `openvr.h`. Builds with `SKSE_SUPPORT_XBYAK=off`. A clean configure builds CommonLib from source (~6 min). Runtime needs the Address Library matching the player's Skyrim version.
 
 ## Papyrus quirks
 

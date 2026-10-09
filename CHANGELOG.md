@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Build against MinLL/CommonLibVR 4.39.5 (MIT, SE 1.7.99 / 1.7.104) instead of alandtse/CommonLibSSE-NG v11.0.0. The `commonlibsse-ng-fork` overlay port is now a copy of SkyrimNet_SexLab's.
+- `LICENSE`: GPL-3.0 → MIT.
+
 ## [0.4.2](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.2) — since [0.4.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.1)
 
 ### Papyrus
