@@ -1,7 +1,7 @@
 #include "Bridge.h"
 
 #include "Leash/LeashState.h"
-#include "Whipped/Whipped.h"
+#include "InjuryEngine/InjuryEngine.h"
 #include "WebUI/Config.h"
 #include "WebUI/WebUI.h"
 
@@ -181,15 +181,15 @@ namespace SkyrimNetLeashed::Papyrus {
             return WebUI::Config::DragEventInterval();
         }
 
-        bool WhippedFallDamage(RE::StaticFunctionTag*) {
-            return Whipped::FallDamage();
+        bool InjuryEngineFallDamage(RE::StaticFunctionTag*) {
+            return InjuryEngine::FallDamage();
         }
 
-        bool WhippedInjure(RE::StaticFunctionTag*, RE::Actor* a_victim, RE::BSFixedString a_type, std::int32_t a_count,
+        bool InjuryEngineInjure(RE::StaticFunctionTag*, RE::Actor* a_victim, RE::BSFixedString a_type, std::int32_t a_count,
             RE::Actor* a_attacker, RE::BSFixedString a_cause, bool a_narrate) {
             const char* type = a_type.c_str() ? a_type.c_str() : "";
             const char* cause = a_cause.c_str() ? a_cause.c_str() : "";
-            return Whipped::Injure(a_victim, type, a_count, a_attacker, cause, a_narrate);
+            return InjuryEngine::Injure(a_victim, type, a_count, a_attacker, cause, a_narrate);
         }
 
         void OpenPanel(RE::StaticFunctionTag*) {
@@ -344,8 +344,8 @@ namespace SkyrimNetLeashed::Papyrus {
         a_vm->RegisterFunction("StruggleCooldown", kScriptName, StruggleCooldown);
         a_vm->RegisterFunction("StruggleEnabled", kScriptName, StruggleEnabled);
         a_vm->RegisterFunction("DragEventInterval", kScriptName, DragEventInterval);
-        a_vm->RegisterFunction("WhippedFallDamage", kScriptName, WhippedFallDamage);
-        a_vm->RegisterFunction("WhippedInjure", kScriptName, WhippedInjure);
+        a_vm->RegisterFunction("InjuryEngineFallDamage", kScriptName, InjuryEngineFallDamage);
+        a_vm->RegisterFunction("InjuryEngineInjure", kScriptName, InjuryEngineInjure);
         a_vm->RegisterFunction("TraceLeashBones", kScriptName, TraceLeashBones);
         a_vm->RegisterFunction("HasLeashBones", kScriptName, HasLeashBones);
         a_vm->RegisterFunction("IsVR", kScriptName, IsVR);

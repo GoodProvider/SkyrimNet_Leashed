@@ -178,9 +178,9 @@ schema:
       defaultValue: 20
       category: "Escape"
 
-    - name: "Falling hurts (SkyrimNet_Whipped)"
-      path: "leash.whipped.fallDamage"
+    - name: "Falling hurts (Injury Engine)"
+      path: "leash.injuryengine.fallDamage"
       type: "bool"
-      description: "Needs SkyrimNet_Whipped. A leash pull that knocks someone down scrapes them up (Whipped 'falling' torture), and each second they are dragged along the ground adds abrasions ('leash_dragging'). Torture damage heals over time and never kills."
+      description: "Needs Injury Engine. A leash pull that knocks someone down scrapes them up (Injury Engine 'falling' torture), and each second they are dragged along the ground adds abrasions ('leash_dragging'). Torture damage heals over time and never kills."
       defaultValue: true
-      category: "Whipped"
+      category: "Injury Engine"

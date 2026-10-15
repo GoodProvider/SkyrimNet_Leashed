@@ -950,7 +950,7 @@ Function TickDowned()
                     DownedLastY[i] = who.GetPositionY()
                     DownedLastZ[i] = who.GetPositionZ()
                     if beyond || (dx * dx + dy * dy + dz * dz) >= 1600.0
-                        SkyrimNet_Leashed_Native.WhippedInjure(who, "leash_dragging", 1, None, "", false)
+                        SkyrimNet_Leashed_Native.InjuryEngineInjure(who, "leash_dragging", 1, None, "", false)
                         PulseDragEvent(who, holder, i, now)
                     endif
                     ; Paralysis is a legitimate long knockdown, not a stuck one.
@@ -2310,9 +2310,9 @@ Actor Function PullHolder(Actor leashed)
     return holder
 EndFunction
 
-; toWhipped: a ragdoll line is returned instead of sent, so SkyrimNet_Whipped can narrate it as the cause of
-; the fall injury (Whipped decides DirectNarration or event). Returns "" when it was handled here.
-String Function NarratePull(Actor leashed, Bool ragdoll, Bool toWhipped = false)
+; toInjuryEngine: a ragdoll line is returned instead of sent, so Injury Engine can narrate it as the cause of
+; the fall injury (Injury Engine decides DirectNarration or event). Returns "" when it was handled here.
+String Function NarratePull(Actor leashed, Bool ragdoll, Bool toInjuryEngine = false)
     if leashed == None
         return ""
     endif
@@ -2356,7 +2356,7 @@ String Function NarratePull(Actor leashed, Bool ragdoll, Bool toWhipped = false)
     else
         Debug.Trace("[SkyrimNet_Leashed] taut pull " + leashedName)
     endif
-    if toWhipped && ragdoll
+    if toInjuryEngine && ragdoll
         return content
     endif
     Narrate(content, originator, targetActor, pullKind, leashed, holder)
@@ -2410,11 +2410,11 @@ Event OnLeashFrameworkRagdollPulled(String eventName, String strArg, Float numAr
         return
     endif
     EndStruggle(leashed, false)
-    ; With Whipped, the yank line is the cause of its fall injury: one narration, or one event, with both.
-    String text = NarratePull(leashed, true, SkyrimNet_Leashed_Native.WhippedFallDamage())
+    ; With Injury Engine, the yank line is the cause of its fall injury: one narration, or one event, with both.
+    String text = NarratePull(leashed, true, SkyrimNet_Leashed_Native.InjuryEngineFallDamage())
     WatchDowned(leashed)
     Actor holder = PullHolder(leashed)
-    if !SkyrimNet_Leashed_Native.WhippedInjure(leashed, "falling", 2, holder, text, true) && text != ""
+    if !SkyrimNet_Leashed_Native.InjuryEngineInjure(leashed, "falling", 2, holder, text, true) && text != ""
         Narrate(text, holder, leashed, "stumble", leashed, holder)
     endif
     if CachedBodyPart(leashed) == "wrists"

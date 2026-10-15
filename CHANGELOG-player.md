@@ -1,7 +1,7 @@
 ## Unreleased
 
 - A leash yank that knocks someone down now sends a short event every few seconds while they are dragged along the ground (setting "Dragging event interval", 0 turns it off).
-- With SkyrimNet_Whipped installed, being yanked off your feet scrapes you up, and every second dragged along the ground adds abrasions. They heal over time and can never kill (setting "Falling hurts"). The yank and the scrapes are narrated as one line.
+- With Injury Engine installed, being yanked off your feet scrapes you up, and every second dragged along the ground adds abrasions. They heal over time and can never kill (setting "Falling hurts"). The yank and the scrapes are narrated as one line.
 
 https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.2
 

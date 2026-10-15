@@ -21,6 +21,6 @@ namespace SkyrimNetLeashed::WebUI::Config {
     [[nodiscard]] float StruggleCooldown();
     // Seconds between short-lived "being dragged" events; 0 = off.
     [[nodiscard]] float DragEventInterval();
-    // Leash falls and drags add SkyrimNet_Whipped injuries (when Whipped is installed).
+    // Leash falls and drags add Injury Engine injuries (when Injury Engine is installed).
     [[nodiscard]] bool FallDamageEnabled();
 }

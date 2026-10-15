@@ -60,7 +60,7 @@ Remap the key and default **distance** / **type** / **body part** / **tie point*
 
 **Dragging events:** while a leash yank keeps someone knocked down and dragged along the ground, a short-lived event tells nearby NPCs about it, the first at once and then every **Dragging event interval** seconds (default 5, 0 turns it off).
 
-**SkyrimNet_Whipped (optional):** with it installed, a yank that knocks someone down adds Whipped *falling* scrapes and each second dragged adds *leash_dragging* abrasions (`SKSE/Plugins/SkyrimNet_Whipped/injuries/leash_dragging.json` ships with this mod). Both are torture damage: they heal over time and never kill. Turn it off with **Falling hurts (SkyrimNet_Whipped)**.
+**Injury Engine (optional):** with it installed, a yank that knocks someone down adds Injury Engine *falling* scrapes and each second dragged adds *leash_dragging* abrasions (`SKSE/Plugins/Injury_Engine/injuries/leash_dragging.json` ships with this mod). Both are torture damage: they heal over time and never kill. Turn it off with **Falling hurts (Injury Engine)**.
 
 ### Actions
 

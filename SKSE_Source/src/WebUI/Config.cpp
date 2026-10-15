@@ -233,6 +233,6 @@ namespace SkyrimNetLeashed::WebUI::Config {
     }
 
     bool FallDamageEnabled() {
-        return ReadBool("leash.whipped.fallDamage", true);
+        return ReadBool("leash.injuryengine.fallDamage", true);
     }
 }

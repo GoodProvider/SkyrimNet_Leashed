@@ -1,14 +1,14 @@
-#include "Whipped.h"
+#include "InjuryEngine.h"
 
 #include "WebUI/Config.h"
 
 #include <string>
 #include <utility>
 
-namespace SkyrimNetLeashed::Whipped {
+namespace SkyrimNetLeashed::InjuryEngine {
     namespace {
-        constexpr const char* kPlugin = "SkyrimNet_Whipped.esp";
-        constexpr const char* kScript = "SkyrimNet_Whipped_Main";
+        constexpr const char* kPlugin = "Injury_Engine.esp";
+        constexpr const char* kScript = "Injury_Engine_Main";
         constexpr const char* kInjure = "External_Damage";
 
         bool HasGlobal(const char* a_script, std::string_view a_fn) {
@@ -35,7 +35,7 @@ namespace SkyrimNetLeashed::Whipped {
             auto* args = RE::MakeFunctionArguments(std::move(a_args)...);
             RE::BSTSmartPointer<RE::BSScript::IStackCallbackFunctor> callback;
             if (!vm->DispatchStaticCall(kScript, a_fn, args, callback)) {
-                SKSE::log::warn("Whipped: {}.{} dispatch failed", kScript, a_fn);
+                SKSE::log::warn("InjuryEngine: {}.{} dispatch failed", kScript, a_fn);
                 return false;
             }
             return true;
@@ -53,10 +53,10 @@ namespace SkyrimNetLeashed::Whipped {
             const bool plugin = dh->LookupModByName(kPlugin) != nullptr;
             const bool api = plugin && HasGlobal(kScript, kInjure);
             if (plugin && !api) {
-                SKSE::log::warn("Whipped: {} is loaded but has no {} (update SkyrimNet_Whipped)", kPlugin, kInjure);
+                SKSE::log::warn("InjuryEngine: {} is loaded but has no {} (update Injury Engine)", kPlugin, kInjure);
             }
             cached = api ? 1 : 0;
-            SKSE::log::info("Whipped: installed={}", api);
+            SKSE::log::info("InjuryEngine: installed={}", api);
         }
         return cached == 1;
     }
@@ -72,7 +72,7 @@ namespace SkyrimNetLeashed::Whipped {
         }
         const std::string type(a_type);
         const std::string cause(a_cause);
-        SKSE::log::info("Whipped: {} x{} on {:08X} narrate={}", type, a_count, a_victim->GetFormID(), a_narrate);
+        SKSE::log::info("InjuryEngine: {} x{} on {:08X} narrate={}", type, a_count, a_victim->GetFormID(), a_narrate);
         // External_Damage(attacker, victim, cause, body_part, damage_type, damage_amount, narrate)
         return Call(kInjure, std::move(a_attacker), std::move(a_victim), RE::BSFixedString(cause.c_str()),
             RE::BSFixedString(""), RE::BSFixedString(type.c_str()), static_cast<std::int32_t>(a_count), a_narrate);
