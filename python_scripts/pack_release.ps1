@@ -24,7 +24,7 @@ $requiredPex = @(
 )
 $missing = @($requiredPex | Where-Object { -not (Test-Path (Join-Path $RepoRoot $_)) })
 if ($missing.Count -gt 0) {
-    throw ("Missing compiled Papyrus (run compile: pyro and commit the .pex): " + ($missing -join ", "))
+    throw ("Missing compiled Papyrus (run compile: papyrus and commit the .pex): " + ($missing -join ", "))
 }
 
 $dllCandidates = @(

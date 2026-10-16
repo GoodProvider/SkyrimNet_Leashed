@@ -128,7 +128,7 @@ Report:
 - files touched
 - version mismatches left
 - preflight notes
-- suggested maintainer ship steps: commit → `compile: pyro` if needed → CMake Release if needed → `make release` **or** Actions `workflow_dispatch` artifact → MO2 playtest → git tag → GitHub Release → Nexus
+- suggested maintainer ship steps: commit → `compile: papyrus` if needed → CMake Release if needed → `make release` **or** Actions `workflow_dispatch` artifact → MO2 playtest → git tag → GitHub Release → Nexus
 
 ## Done-when
 

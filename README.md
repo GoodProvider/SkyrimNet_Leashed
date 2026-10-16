@@ -161,7 +161,7 @@ git submodule update --remote --merge
 
 ### Papyrus
 
-VS Code / Cursor task **`compile: pyro`** (uses `skyrimse.ppj` and `Scripts/Source`).
+VS Code / Cursor task **`compile: papyrus`** (`papyrus.exe compile -nocache`: `Scripts/Source` → `Scripts`, headers from `Headers/`, the Leash Framework, SkyrimNet-GamePlugin, and SKSE64). `compile: pyro` (`skyrimse.ppj`) remains as a fallback.
 
 ### SKSE plugin
 

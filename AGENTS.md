@@ -12,7 +12,7 @@ Bridge mod between SkyrimNet (LLM) and Leash Framework.
 | --- | --- |
 | `Scripts/Source/` | Papyrus source |
 | `Scripts/` | Compiled `.pex` |
-| `skyrimse.ppj` | Pyro project |
+| `skyrimse.ppj` | Pyro project (legacy; `compile: pyro` fallback only) |
 | `SKSE_Source/` | C++ SKSE plugin |
 | `SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/` | Canonical Beta 25 LLM plugin (actions + prompts). Pre-0.25 copies: `config/actions/`, `prompts/` |
 | `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/` | Settings schema (`leash.*`) |
@@ -36,7 +36,7 @@ Repo root: `c:\Skyrim\dev\mods\SkyrimNet_Leashed`.
 
 ## Compile
 
-- Papyrus: VS Code/Cursor task **`compile: pyro`** only (unless the maintainer asks otherwise).
+- Papyrus: VS Code/Cursor task **`compile: papyrus`** only (unless the maintainer asks otherwise).
 - SKSE: tasks **`CMake: Configure (Debug|Release)`** then **`CMake: Build SKSE (Debug|Release)`** (cwd `SKSE_Source`).
 - In-game testing must use the **Release** SKSE build. Debug `/MDd` breaks SkyrimNet’s `std::string` decorator ABI (SEH on every decorator callback).
 

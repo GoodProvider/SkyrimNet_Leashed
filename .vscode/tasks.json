@@ -14,6 +14,8 @@
                 "-h",
                 "${workspaceFolder}/Skyrim-Leash-Framework/papyrus/source",
                 "-h",
+                "${workspaceFolder}/SkyrimNet-GamePlugin/Source/Scripts",
+                "-h",
                 "C:/Skyrim/dev/mods/SKSE64/Scripts/Source"
             ],
             "group": {

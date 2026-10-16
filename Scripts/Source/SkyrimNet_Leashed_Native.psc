@@ -56,7 +56,7 @@ Reads leash.dragEventInterval; 0 = off. Unknown or out-of-range values use 5.
 Float Function DragEventInterval() Global Native
 
 ;/
-True when Injury Engine is installed (with External_Injure) and the setting
+True when Injury Engine is installed (with External_Damage) and the setting
 leash.injuryengine.fallDamage is on.
 /;
 Bool Function InjuryEngineFallDamage() Global Native
@@ -67,6 +67,8 @@ dispatched to Injury_Engine_Main.External_Damage. The hits are always applied.
 narrate: Injury Engine's torture narration rules (a DirectNarration or a short-lived event),
 with cause ("Bob yanks Nina off her feet") leading its own text; false is silent.
 False when Injury Engine is missing, the setting is off, or the call was not dispatched.
+If External_Damage rejects a narrated hit (-1), mod event SkyrimNet_Leashed_InjuryRejected
+(strArg = cause, sender = victim) hands the cause back to be narrated here.
 /;
 Bool Function InjuryEngineInjure(Actor victim, String type, Int count, Actor attacker = None, String cause = "", Bool narrate = true) Global Native
 

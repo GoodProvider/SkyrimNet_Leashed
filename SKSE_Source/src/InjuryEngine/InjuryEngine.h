@@ -16,7 +16,8 @@ namespace SkyrimNetLeashed::InjuryEngine {
 
     // count hits of injury type `type` on `victim` (External_Damage: always applied). narrate: Injury Engine's torture
     // narration rules, with `cause` leading the text ("Bob yanks Nina off her feet"); false is silent. False when
-    // not dispatched.
+    // not dispatched. A narrated hit that External_Damage rejects (-1) sends mod event
+    // SkyrimNet_Leashed_InjuryRejected (strArg = cause, sender = victim) so Papyrus narrates the cause itself.
     bool Injure(RE::Actor* victim, std::string_view type, int count, RE::Actor* attacker = nullptr,
         std::string_view cause = {}, bool narrate = true);
 }

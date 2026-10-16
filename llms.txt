@@ -35,6 +35,6 @@
 
 ## Compile reminders
 
-- Papyrus: Cursor task `compile: pyro` only
+- Papyrus: Cursor task `compile: papyrus` only
 - SKSE: CMake tasks under SKSE_Source; in-game must use Release (`/MDd` breaks SkyrimNet decorator ABI)
 - If Skyrim is running, do not write PrismaUI HTML, DLL, `.pex`, or ESP — ask the user to quit first ([AGENTS.md](AGENTS.md) Game lock)

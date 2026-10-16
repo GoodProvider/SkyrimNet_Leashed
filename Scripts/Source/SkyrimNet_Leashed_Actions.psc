@@ -41,18 +41,29 @@ Function RegisterLeashEvents()
     UnregisterForModEvent("LeashFramework_OnActorPulled")
     UnregisterForModEvent("LeashFramework_OnActorRagdollPulled")
     UnregisterForModEvent("SkyrimNet_Leashed_OpenPanel")
+    UnregisterForModEvent("SkyrimNet_Leashed_InjuryRejected")
 
     RegisterForModEvent("LeashFramework_OnLeash", "OnLeashFrameworkLeash")
     RegisterForModEvent("LeashFramework_OnUnleash", "OnLeashFrameworkUnleash")
     RegisterForModEvent("LeashFramework_OnActorPulled", "OnLeashFrameworkPulled")
     RegisterForModEvent("LeashFramework_OnActorRagdollPulled", "OnLeashFrameworkRagdollPulled")
     RegisterForModEvent("SkyrimNet_Leashed_OpenPanel", "OnLeashedOpenPanel")
+    RegisterForModEvent("SkyrimNet_Leashed_InjuryRejected", "OnLeashedInjuryRejected")
     RepushCachedPairs()
     RepushStruggling()
 EndFunction
 
 Event OnLeashedOpenPanel()
     SkyrimNet_Leashed_Native.OpenPanel()
+EndEvent
+
+; Injury Engine rejected a hit whose cause line was held back for it (see OnLeashFrameworkRagdollPulled).
+Event OnLeashedInjuryRejected(String eventName, String strArg, Float numArg, Form sender)
+    Actor leashed = sender as Actor
+    if leashed && strArg != ""
+        Actor holder = PullHolder(leashed)
+        Narrate(strArg, holder, leashed, "stumble", leashed, holder)
+    endif
 EndEvent
 
 Function TM_OpenLeash(Actor speaker, Actor target)
@@ -2312,7 +2323,8 @@ EndFunction
 
 ; toInjuryEngine: a ragdoll line is returned instead of sent, so Injury Engine can narrate it as the cause of
 ; the fall injury (Injury Engine decides DirectNarration or event). Returns "" when it was handled here.
-String Function NarratePull(Actor leashed, Bool ragdoll, Bool toInjuryEngine = false)
+; holder: the already-resolved PullHolder, so the line and the caller agree on it.
+String Function NarratePull(Actor leashed, Bool ragdoll, Bool toInjuryEngine = false, Actor holder = None)
     if leashed == None
         return ""
     endif
@@ -2324,7 +2336,9 @@ String Function NarratePull(Actor leashed, Bool ragdoll, Bool toInjuryEngine = f
         endif
         return ""
     endif
-    Actor holder = PullHolder(leashed)
+    if holder == None
+        holder = PullHolder(leashed)
+    endif
     String kind = DetectKind(holder, leashed)
     String leashedName = ActorLabel(leashed)
     Actor originator = holder
@@ -2411,10 +2425,11 @@ Event OnLeashFrameworkRagdollPulled(String eventName, String strArg, Float numAr
     endif
     EndStruggle(leashed, false)
     ; With Injury Engine, the yank line is the cause of its fall injury: one narration, or one event, with both.
-    String text = NarratePull(leashed, true, SkyrimNet_Leashed_Native.InjuryEngineFallDamage())
-    WatchDowned(leashed)
+    ; A pull skipped by the cooldown returns "" and injures nothing, so injuries never outpace their lines.
     Actor holder = PullHolder(leashed)
-    if !SkyrimNet_Leashed_Native.InjuryEngineInjure(leashed, "falling", 2, holder, text, true) && text != ""
+    String text = NarratePull(leashed, true, SkyrimNet_Leashed_Native.InjuryEngineFallDamage(), holder)
+    WatchDowned(leashed)
+    if text != "" && !SkyrimNet_Leashed_Native.InjuryEngineInjure(leashed, "falling", 2, holder, text, true)
         Narrate(text, holder, leashed, "stumble", leashed, holder)
     endif
     if CachedBodyPart(leashed) == "wrists"

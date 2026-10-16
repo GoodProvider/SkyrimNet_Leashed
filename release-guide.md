@@ -8,7 +8,7 @@ Agents: use the project `release` skill (`.cursor/skills/release/SKILL.md`). Ses
 
 | Actor | Owns | Does not do unless asked |
 |-------|------|--------------------------|
-| Agent | Changelogs, freshness-matrix docs, Makefile `VERSION` if missing, checkpoint | `compile: pyro`, CMake, `make release`, git tag, GitHub Release, feature work |
+| Agent | Changelogs, freshness-matrix docs, Makefile `VERSION` if missing, checkpoint | `compile: papyrus`, CMake, `make release`, git tag, GitHub Release, feature work |
 | Maintainer | Compile, package, playtest, tag, publish | Inventing changelog bullets the tree does not support |
 
 **Agent done-when:** `CHANGELOG.md`, `CHANGELOG-developer.md` and `CHANGELOG-player.md` cover `next_version`; freshness-matrix files match the delta; checkpoint is current; hand-off lists leftover version mismatches. Packaging is not part of done.
@@ -104,10 +104,10 @@ Ignore the [llms.txt](llms.txt) denylist unless the maintainer says those paths 
 
 ## Packaging (maintainer)
 
-Prereqs: `Scripts/*.pex` current (`compile: pyro`); Release SKSE DLL (`/MD`, not Debug `/MDd`); `Spriggit/` JSON is ESP source of truth (not hand-edited binaries). Do not switch the CRT to `/MT`.
+Prereqs: `Scripts/*.pex` current (`compile: papyrus`); Release SKSE DLL (`/MD`, not Debug `/MDd`); `Spriggit/` JSON is ESP source of truth (not hand-edited binaries). Do not switch the CRT to `/MT`.
 
 `make release` stamps `FOMOD/info.xml` from `VERSION`/`NAME`, deserializes `SkyrimNet_Leashed.esp` from `Spriggit/`, stages ESP + `SKSE/` + `Scripts/` + `PrismaUI/` with `*.pdb` excluded, packs `versions/SkyrimNet_Leashed ${VERSION}.7z`.
 
 GitHub Actions (`workflow_dispatch` on `.github/workflows/package.yml`) builds Release SKSE, packs the same zip, and uploads a private artifact plus a separate PDB artifact. Play the artifact in MO2 before any tag.
 
-Ship order: commit → `compile: pyro` if needed → CMake Release if needed → `make release` **or** download the Actions artifact → MO2 playtest → git tag → GitHub Release → Nexus.
+Ship order: commit → `compile: papyrus` if needed → CMake Release if needed → `make release` **or** download the Actions artifact → MO2 playtest → git tag → GitHub Release → Nexus.

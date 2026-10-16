@@ -12,10 +12,10 @@
     <project>SkyrimNet_Leashed</project>
     <summary>Bridge mod between SkyrimNet (LLM) and Leash Framework.</summary>
     <repository_root>c:\Skyrim\dev\mods\SkyrimNet_Leashed</repository_root>
-    <updated>2026-10-09</updated>
-    <base_tag>0.4.1</base_tag>
-    <next_version>0.4.2</next_version>
-    <version_status>Makefile VERSION=0.4.2 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.2; DLL (Release 2026-10-08) and versions/SkyrimNet_Leashed 0.4.2.7z predate 808815d (CommonLibVR 4.39.5) - rebuild DLL and repack; .pex current; remote tags 0.1.0-0.4.1 exist; 0.4.2 tag pending MO2 playtest</version_status>
+    <updated>2026-10-16</updated>
+    <base_tag>0.4.2</base_tag>
+    <next_version>0.4.3</next_version>
+    <version_status>Makefile VERSION=0.4.3 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.3; Release DLL rebuilt 2026-10-16 after code review (FileVersion 0.4.3, External_Damage -1 callback); Actions/Native .pex rebuilt 2026-10-16 with official PapyrusCompiler, ppj imports, no optimize (pyro not installed at the tasks.json path; PlayerAlias.pex left at committed build); remote tags through 0.4.2; 0.4.3 tag pending MO2 playtest</version_status>
     <related_artifacts>
       <artifact role="release rules">release-guide.md</artifact>
       <artifact role="agent procedure">.cursor/skills/release/SKILL.md</artifact>
@@ -45,6 +45,7 @@
   </doc_files>
 
   <status>
+    <note>2026-10-16: 0.4.3 release-doc pass. Delta since 0.4.2: dragging events (PulseDragEvent, leash.dragEventInterval), optional Injury Engine (SKSE_Source/src/InjuryEngine, External_Damage dispatch, falling x2 on ragdoll pull with yank line as cause, silent leash_dragging x1 per dragged tick, leash.injuryengine.fallDamage), SKSE/Plugins/Injury_Engine/injuries/leash_dragging.json, banner image (not in README). Review: checkpoints/reviews/review-v01.md. Version sources bumped to 0.4.3; DLL + pex rebuilt. Do not pack or tag unless asked.</note>
     <note>2026-10-09: Folded 808815d into 0.4.2 (not tagged). CHANGELOG.md: Unreleased removed; SKSE bullet now MinLL/CommonLibVR 4.39.5 (MIT) with overlay port copied from SkyrimNet_SexLab; LICENSE MIT. CHANGELOG-user.md CommonLib line updated + MIT. Do not pack or tag unless asked.</note>
     <note>2026-10-06: 0.4.2 release-doc refresh (delta now through e30bacc). CHANGELOG.md: SexLab Target Menu leash panel (0700_leashed_panel.json + PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js, LeashStatus), cascade Leashed panel replacing #bar.vertical / fitBar, FrameworkRefused, ResetStuckActor player/paralysis guards, WebUI::Show request consume, speaker_holds_leash / get_speaker_held_actors decorators, LICENSE GPL-3.0, DD ini staged by pack_release.ps1; "FOMOD / build" renamed "Install / FOMOD". Dropped stale 0700_leash.json / 0701_unleash.json and #bar.vertical bullets. CHANGELOG-user.md rewritten (12 bullets, adds VR and Address Library). README.md panel + Target Menu sections rewritten for the cascade. Do not pack or tag unless asked.</note>
     <note>2026-09-18: 0.4.2 release-doc pass. Delta since 0.4.1: OpenPanelFor / TM_OpenLeash / TM_OpenUnleash, WebUI::OpenFor vertical+preset, PrismaUI #bar.vertical, SexLab TargetMenu 0700_leash.json / 0701_unleash.json, SpokenDistance + dual-ship 0409_leashframework.prompt "length", SFW README (no hero image; NSFW labels). Version sources bumped to 0.4.2. Maintainer will tag and GitHub Release. Do not pack or tag unless asked.</note>
@@ -58,7 +59,7 @@
     <note>2026-09-10: Adapted to Leash Framework 1.1.3. Header + submodule bf3b33c. Follow-start OnActorPulled does not end struggle. Per-token settle/catch-up defaults. Wrist meshes 0xD69/0x1/0x3. dependency_drift skill + KNOWLEDGE.md. Maintainer playtest passed (looked fine); override natives stay unused. Shipped as 0.3.0, not 0.2.0.</note>
     <note>2026-09-08: Maintainer asked to stay on 0.1.0 (not 1.0.0) for first public; 0.2.0 was rename + Enable struggle + DD struggle anims.</note>
     <note>Does not ship: UnforgivingDevices/, escape-*.md, z-plan.md, SKSE_Source/build/, versions/ staging until pack. Agent checkpoints/ may live in git; not in the FOMOD 7z. Must git-add SKSE_Source/src/Papyrus/Bridge.h, lib/PrismaUI/PrismaUI_API.h, include/SkyrimNet/PublicAPIMemoryQuery.h (untracked; required to compile).</note>
-    <note>Open: commit the 0.4.2 doc refresh; CMake Release DLL on CommonLibVR 4.39.5; repack (make release or Actions workflow_dispatch) since the 0.4.2.7z predates 808815d; MO2 playtest (cascade panel, SexLab Target Menu leash panel, DD ini patch, beast-race ESP); git tag 0.4.2; GitHub Release; Nexus. TM_OpenLeash / TM_OpenUnleash remain in Actions.psc but no shipped JSON calls them.</note>
+    <note>Open: commit the 0.4.3 working tree (review-v00/v01 fixes, version bump, changelogs, DLL, pex); MO2 playtest with Injury Engine (review-v01 checklist); make release; git tag 0.4.3; GitHub Release; Nexus. Deploy with the renamed Injury Engine (Injury_Engine.esp). TM_OpenLeash / TM_OpenUnleash remain in Actions.psc but no shipped JSON calls them.</note>
   </status>
 
   <conventions>

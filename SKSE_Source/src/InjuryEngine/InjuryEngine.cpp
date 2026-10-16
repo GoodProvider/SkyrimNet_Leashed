@@ -10,6 +10,7 @@ namespace SkyrimNetLeashed::InjuryEngine {
         constexpr const char* kPlugin = "Injury_Engine.esp";
         constexpr const char* kScript = "Injury_Engine_Main";
         constexpr const char* kInjure = "External_Damage";
+        constexpr const char* kRejected = "SkyrimNet_Leashed_InjuryRejected";
 
         bool HasGlobal(const char* a_script, std::string_view a_fn) {
             auto* vm = RE::BSScript::Internal::VirtualMachine::GetSingleton();
@@ -26,15 +27,37 @@ namespace SkyrimNetLeashed::InjuryEngine {
             return false;
         }
 
+        // External_Damage returns -1 when it rejects the hit (no main quest, unknown type, dead victim) and then
+        // narrates nothing. A narrated cause was held back for it, so hand it back to Papyrus to narrate itself.
+        class RejectedCallback : public RE::BSScript::IStackCallbackFunctor {
+        public:
+            RejectedCallback(RE::FormID a_victim, std::string a_cause) : victim(a_victim), cause(std::move(a_cause)) {}
+
+            void operator()(RE::BSScript::Variable a_result) override {
+                if (!a_result.IsInt() || a_result.GetSInt() >= 0) {
+                    return;
+                }
+                SKSE::log::warn("InjuryEngine: {} rejected the hit on {:08X}; narrating the cause here", kInjure, victim);
+                auto* form = RE::TESForm::LookupByID(victim);
+                SKSE::ModCallbackEvent event{ kRejected, RE::BSFixedString(cause.c_str()), 0.0f, form };
+                SKSE::GetModCallbackEventSource()->SendEvent(&event);
+            }
+
+            void SetObject(const RE::BSTSmartPointer<RE::BSScript::Object>&) override {}
+
+        private:
+            RE::FormID victim;
+            std::string cause;
+        };
+
         template <class... Args>
-        bool Call(const char* a_fn, Args... a_args) {
+        bool Call(const char* a_fn, RE::BSTSmartPointer<RE::BSScript::IStackCallbackFunctor> a_callback, Args... a_args) {
             auto* vm = RE::BSScript::Internal::VirtualMachine::GetSingleton();
             if (!vm) {
                 return false;
             }
             auto* args = RE::MakeFunctionArguments(std::move(a_args)...);
-            RE::BSTSmartPointer<RE::BSScript::IStackCallbackFunctor> callback;
-            if (!vm->DispatchStaticCall(kScript, a_fn, args, callback)) {
+            if (!vm->DispatchStaticCall(kScript, a_fn, args, a_callback)) {
                 SKSE::log::warn("InjuryEngine: {}.{} dispatch failed", kScript, a_fn);
                 return false;
             }
@@ -73,8 +96,12 @@ namespace SkyrimNetLeashed::InjuryEngine {
         const std::string type(a_type);
         const std::string cause(a_cause);
         SKSE::log::info("InjuryEngine: {} x{} on {:08X} narrate={}", type, a_count, a_victim->GetFormID(), a_narrate);
+        RE::BSTSmartPointer<RE::BSScript::IStackCallbackFunctor> callback;
+        if (a_narrate && !cause.empty()) {
+            callback.reset(new RejectedCallback(a_victim->GetFormID(), cause));
+        }
         // External_Damage(attacker, victim, cause, body_part, damage_type, damage_amount, narrate)
-        return Call(kInjure, std::move(a_attacker), std::move(a_victim), RE::BSFixedString(cause.c_str()),
+        return Call(kInjure, std::move(callback), std::move(a_attacker), std::move(a_victim), RE::BSFixedString(cause.c_str()),
             RE::BSFixedString(""), RE::BSFixedString(type.c_str()), static_cast<std::int32_t>(a_count), a_narrate);
     }
 }
