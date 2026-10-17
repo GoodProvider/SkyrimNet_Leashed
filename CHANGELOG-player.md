@@ -3,6 +3,7 @@ https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.3
 - NPCs notice when someone is dragged along by a leash (setting "Dragging event interval").
 - Optional Injury Engine: being yanked off your feet scrapes you, dragging adds abrasions. They heal, never kill.
 - With Injury Engine, the yank and its scrapes are narrated as one line (setting "Falling hurts").
+- Struggling against a leash stops on its own after 7 seconds (setting "Maximum Struggle period"). It also stops right away when OStim, SexLab, furniture, or a mount takes over the NPC, so their animation is not interrupted.
 
 https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.2
 

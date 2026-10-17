@@ -178,6 +178,15 @@ schema:
       defaultValue: 20
       category: "Escape"
 
+    - name: "Maximum Struggle period (seconds)"
+      path: "leash.escape.maxDuration"
+      type: "int"
+      description: "A struggle always ends after this many seconds, with a leash event saying they stop struggling. It also ends early if OStim, SexLab, furniture, or a mount takes over the actor."
+      min: 1
+      max: 120
+      defaultValue: 7
+      category: "Escape"
+
     - name: "Falling hurts (Injury Engine)"
       path: "leash.injuryengine.fallDamage"
       type: "bool"

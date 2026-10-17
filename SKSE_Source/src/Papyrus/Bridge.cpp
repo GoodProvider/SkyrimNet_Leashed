@@ -173,6 +173,10 @@ namespace SkyrimNetLeashed::Papyrus {
             return WebUI::Config::StruggleCooldown();
         }
 
+        float StruggleMaxDuration(RE::StaticFunctionTag*) {
+            return WebUI::Config::StruggleMaxDuration();
+        }
+
         bool StruggleEnabled(RE::StaticFunctionTag*) {
             return WebUI::Config::StruggleEnabled();
         }
@@ -342,6 +346,7 @@ namespace SkyrimNetLeashed::Papyrus {
         a_vm->RegisterFunction("DistanceFromLength", kScriptName, DistanceFromLength);
         a_vm->RegisterFunction("StruggleNarrationInterval", kScriptName, StruggleNarrationInterval);
         a_vm->RegisterFunction("StruggleCooldown", kScriptName, StruggleCooldown);
+        a_vm->RegisterFunction("StruggleMaxDuration", kScriptName, StruggleMaxDuration);
         a_vm->RegisterFunction("StruggleEnabled", kScriptName, StruggleEnabled);
         a_vm->RegisterFunction("DragEventInterval", kScriptName, DragEventInterval);
         a_vm->RegisterFunction("InjuryEngineFallDamage", kScriptName, InjuryEngineFallDamage);

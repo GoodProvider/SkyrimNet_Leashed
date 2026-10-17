@@ -17,6 +17,10 @@ Actor[] SuppressActors
 Float[] SuppressTimes
 Actor[] StrugglingActors
 Float[] StruggleLastNarrate
+Float[] StruggleStarted
+; Other animation controllers struggle yields to; resolved on init / load (see ResolveControllers).
+Faction SexLabAnimatingFaction
+Bool OStimLoaded
 Actor[] DownedActors
 Float[] DownedStarted
 Float[] DownedStuckTime
@@ -49,6 +53,7 @@ Function RegisterLeashEvents()
     RegisterForModEvent("LeashFramework_OnActorRagdollPulled", "OnLeashFrameworkRagdollPulled")
     RegisterForModEvent("SkyrimNet_Leashed_OpenPanel", "OnLeashedOpenPanel")
     RegisterForModEvent("SkyrimNet_Leashed_InjuryRejected", "OnLeashedInjuryRejected")
+    ResolveControllers()
     RepushCachedPairs()
     RepushStruggling()
 EndFunction
@@ -96,6 +101,8 @@ EndFunction
 
 Function RepushStruggling()
     EnsureCache()
+    ; Real time restarts each launch, so a saved start time is meaningless after a load.
+    Float now = Utility.GetCurrentRealTime()
     Int i = 0
     while i < StrugglingActors.Length
         Actor who = StrugglingActors[i]
@@ -103,6 +110,8 @@ Function RepushStruggling()
             if !SkyrimNet_Leashed_Native.StruggleEnabled() || who.IsDead() || (!LeashFramework.IsLeashed(who) && FindLeashedIndex(who) < 0)
                 EndStruggle(who, false)
             else
+                StruggleStarted[i] = now
+                StruggleLastNarrate[i] = now
                 SkyrimNet_Leashed_Native.NotifyStruggle(who, true)
             endif
         endif
@@ -149,6 +158,9 @@ Function EnsureCache()
     if StrugglingActors.Length != CacheSize()
         StrugglingActors = new Actor[32]
         StruggleLastNarrate = new Float[32]
+    endif
+    if StruggleStarted.Length != CacheSize()
+        StruggleStarted = new Float[32]
     endif
     if DownedActors.Length != CacheSize()
         DownedActors = new Actor[32]
@@ -809,6 +821,7 @@ Int Function EnsureStruggleIndex(Actor who)
     endif
     StrugglingActors[i] = who
     StruggleLastNarrate[i] = 0.0
+    StruggleStarted[i] = Utility.GetCurrentRealTime()
     return i
 EndFunction
 
@@ -818,6 +831,7 @@ Function ClearStruggleSlot(Int i)
     endif
     StrugglingActors[i] = None
     StruggleLastNarrate[i] = 0.0
+    StruggleStarted[i] = 0.0
 EndFunction
 
 Int Function CountStruggling()
@@ -1938,6 +1952,40 @@ String Function StruggleBodyPart(Actor who)
     return DetectBodyPart(holder, who)
 EndFunction
 
+Function ResolveControllers()
+    ; SexLab "AnimatingFaction", the same form LeashFramework's ActorRestrictions blocks.
+    SexLabAnimatingFaction = None
+    if Game.GetModByName("SexLab.esm") != 255
+        SexLabAnimatingFaction = Game.GetFormFromFile(0xE50F, "SexLab.esm") as Faction
+    endif
+    ; OActor.IsInOStim is native in OStim.dll; only call it when OStim is loaded.
+    OStimLoaded = Game.GetModByName("OStim.esp") != 255
+EndFunction
+
+; Something else owns the actor's animation: OStim, SexLab, furniture, a kill move, or a mount.
+; Struggle idles would fight it, and IdleForceDefaultState would break it.
+String Function AnimationController(Actor who)
+    if who == None
+        return ""
+    endif
+    if SexLabAnimatingFaction && who.IsInFaction(SexLabAnimatingFaction)
+        return "SexLab"
+    endif
+    if OStimLoaded && OActor.IsInOStim(who)
+        return "OStim"
+    endif
+    if who.GetSitState() != 0
+        return "furniture"
+    endif
+    if who.IsInKillMove()
+        return "kill move"
+    endif
+    if who.IsOnMount()
+        return "mount"
+    endif
+    return ""
+EndFunction
+
 Function PlayStruggleAnim(Actor who)
     if who == None
         return
@@ -1945,6 +1993,10 @@ Function PlayStruggleAnim(Actor who)
     ; Idle events into a ragdolled/knocked-down actor can leave it unable to get up.
     if !who.Is3DLoaded() || SkyrimNet_Leashed_Native.IsKnockedDown(who)
         Debug.Trace("[SkyrimNet_Leashed] PlayStruggleAnim skipped: knocked down or no 3D " + ActorLabel(who))
+        return
+    endif
+    if AnimationController(who) != ""
+        Debug.Trace("[SkyrimNet_Leashed] PlayStruggleAnim skipped: " + ActorLabel(who) + " is controlled by " + AnimationController(who))
         return
     endif
     String eventName = StruggleAnimEvent(StruggleBodyPart(who))
@@ -1994,6 +2046,35 @@ Function EndStruggle(Actor who, Bool narrateStop)
         endif
         Narrate(ActorLabel(who) + " stops struggling against the leash.", who, NarrateListener(who, who, holder), "playerSensitive", who, holder)
     endif
+EndFunction
+
+; Ends the struggle without touching the animation graph (another mod owns it).
+Function EndStruggleQuiet(Actor who)
+    Int i = FindStruggleIndex(who)
+    if i < 0
+        return
+    endif
+    ClearStruggleSlot(i)
+    SkyrimNet_Leashed_Native.NotifyStruggle(who, false)
+    RefreshUpdates()
+EndFunction
+
+; Always tell the LLM the struggle is over, or it keeps acting as if it is still going.
+Function StruggleStoppedEvent(Actor who)
+    if who == None
+        return
+    endif
+    Actor holder = LeashFramework.GetLeashHolder(who)
+    if holder == None
+        holder = CachedHolder(who)
+    endif
+    Actor target = holder
+    if holder == who
+        target = None
+    endif
+    String content = ActorLabel(who) + " stops struggling against the leash."
+    Debug.Trace("[SkyrimNet_Leashed] StruggleStoppedEvent " + content)
+    SkyrimNetApi.RegisterEvent("leash", content, who, target)
 EndFunction
 
 Float Function EscapeDirectNarrateWait()
@@ -2046,12 +2127,25 @@ Event OnUpdate()
     EnsureCache()
     Float now = Utility.GetCurrentRealTime()
     Float wait = EscapeDirectNarrateWait()
+    Float maxDuration = SkyrimNet_Leashed_Native.StruggleMaxDuration()
     Int i = 0
     while i < StrugglingActors.Length
         Actor who = StrugglingActors[i]
         if who
+            if now < StruggleStarted[i]
+                StruggleStarted[i] = now
+            endif
+            String controller = AnimationController(who)
             if !SkyrimNet_Leashed_Native.StruggleEnabled() || who.IsDead() || (!LeashFramework.IsLeashed(who) && FindLeashedIndex(who) < 0)
                 EndStruggle(who, false)
+            elseif controller != ""
+                Debug.Trace("[SkyrimNet_Leashed] Struggle ended: " + ActorLabel(who) + " is controlled by " + controller)
+                EndStruggleQuiet(who)
+                StruggleStoppedEvent(who)
+            elseif (now - StruggleStarted[i]) >= maxDuration
+                Debug.Trace("[SkyrimNet_Leashed] Struggle ended: " + ActorLabel(who) + " reached " + maxDuration + "s")
+                EndStruggle(who, false)
+                StruggleStoppedEvent(who)
             else
                 PlayStruggleAnim(who)
                 PulseStruggleEvent(who)
@@ -2082,6 +2176,11 @@ Function StruggleExecute(Actor subject)
     endif
     if FindStruggleIndex(subject) >= 0
         Debug.Trace("[SkyrimNet_Leashed] StruggleExecute skipped: already struggling " + ActorLabel(subject))
+        return
+    endif
+    String controller = AnimationController(subject)
+    if controller != ""
+        Debug.Trace("[SkyrimNet_Leashed] StruggleExecute skipped: " + ActorLabel(subject) + " is controlled by " + controller)
         return
     endif
     Int i = EnsureStruggleIndex(subject)

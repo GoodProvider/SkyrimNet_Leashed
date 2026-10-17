@@ -7,11 +7,13 @@
 - Dragging events. `TickDowned` treats a knocked-down actor as dragged when the holder is beyond `GetMaxLeashLength` or the body moved at least 40 units since the last 1 s tick (covers world ties). `PulseDragEvent` sends short-lived `leash` event `leash_drag_<formid>` ("<who> is dragged along the ground by <holder>'s leash.") on the first dragged tick, then every `leash.dragEventInterval` seconds. The stuck-knockdown clock still uses only the holder test and Paralysis.
 - Injury Engine (soft dependency). `OnLeashFrameworkRagdollPulled` applies `falling` x2 with the holder as attacker; each dragged tick applies silent `leash_dragging` x1 (no attacker). `NarratePull(leashed, ragdoll, toInjuryEngine)` returns the yank line instead of sending it when fall damage is on, and it becomes Injury Engine's `cause`, so the yank and the injury text are narrated together. A pull skipped by cooldown applies no `falling`. If dispatch fails, or `External_Damage` returns -1 (mod event `SkyrimNet_Leashed_InjuryRejected`), the line falls back to `Narrate`.
 - Natives `DragEventInterval()`, `InjuryEngineFallDamage()`, `InjuryEngineInjure(victim, type, count, attacker = None, cause = "", narrate = true)`.
+- Struggle is capped and yields. `StruggleStarted[]` per slot; `OnUpdate` ends a struggle after `leash.escape.maxDuration` seconds (`EndStruggle`), or at once when `AnimationController` reports SexLab (`AnimatingFaction` `SexLab.esm` `0xE50F`), OStim (`OActor.IsInOStim`, only when `OStim.esp` is loaded), furniture (`GetSitState`), a kill move, or a mount. A controlled actor gets `EndStruggleQuiet` (no `IdleForceDefaultState`, no wrist bind). Both paths send `RegisterEvent` `leash` "<who> stops struggling against the leash." so the LLM knows. `StruggleExecute` and `PlayStruggleAnim` refuse a controlled actor. `RepushStruggling` resets start times on load. Compile-only header `Headers/OActor.psc`. Native `StruggleMaxDuration()`.
 
 ### SKSE / WebUI
 
 - `SKSE_Source/src/InjuryEngine/`: VM dispatch of `Injury_Engine_Main.External_Damage(attacker, victim, cause, body_part, damage_type, damage_amount, narrate)` (SkyrimNet_SexLab pattern; no compile-time link, no Papyrus import). `Installed()` checks `Injury_Engine.esp` plus the `External_Damage` global once per session and logs a warning for an older Injury Engine.
 - Settings `leash.dragEventInterval` (int 0–60, default 5, 0 = off) and `leash.injuryengine.fallDamage` ("Falling hurts (Injury Engine)", default on, category Injury Engine).
+- Setting `leash.escape.maxDuration` ("Maximum Struggle period (seconds)", int 1–120, default 7, category Escape). `leash_action_struggle.prompt` says the struggle lasts a few seconds.
 
 ### Install / FOMOD
 

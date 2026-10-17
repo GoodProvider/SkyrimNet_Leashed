@@ -19,6 +19,8 @@ namespace SkyrimNetLeashed::WebUI::Config {
     [[nodiscard]] bool StruggleEnabled();
     [[nodiscard]] float StruggleNarrationInterval();
     [[nodiscard]] float StruggleCooldown();
+    // Seconds before a struggle always ends on its own.
+    [[nodiscard]] float StruggleMaxDuration();
     // Seconds between short-lived "being dragged" events; 0 = off.
     [[nodiscard]] float DragEventInterval();
     // Leash falls and drags add Injury Engine injuries (when Injury Engine is installed).

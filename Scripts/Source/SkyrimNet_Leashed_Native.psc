@@ -50,6 +50,12 @@ plugin config (leash.escape.cooldown). Unknown or out-of-range values use 20.
 Float Function StruggleCooldown() Global Native
 
 ;/
+Seconds before a struggle always ends on its own with a "stops struggling" leash event.
+Reads leash.escape.maxDuration. Unknown or out-of-range values use 7.
+/;
+Float Function StruggleMaxDuration() Global Native
+
+;/
 Seconds between short-lived "being dragged" events while a knocked-down actor is dragged.
 Reads leash.dragEventInterval; 0 = off. Unknown or out-of-range values use 5.
 /;

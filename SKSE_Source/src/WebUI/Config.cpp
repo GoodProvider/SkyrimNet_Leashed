@@ -218,6 +218,20 @@ namespace SkyrimNetLeashed::WebUI::Config {
         return kDefault;
     }
 
+    float StruggleMaxDuration() {
+        constexpr float kDefault = 7.0F;
+        constexpr float kMin = 1.0F;
+        constexpr float kMax = 120.0F;
+        try {
+            const auto value = std::stof(GetValue("leash.escape.maxDuration", "7"));
+            if (value >= kMin && value <= kMax) {
+                return value;
+            }
+        } catch (...) {
+        }
+        return kDefault;
+    }
+
     float DragEventInterval() {
         constexpr float kDefault = 5.0F;
         constexpr float kMin = 0.0F;
