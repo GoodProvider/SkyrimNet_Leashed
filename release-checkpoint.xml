@@ -15,7 +15,7 @@
     <updated>2026-10-16</updated>
     <base_tag>0.4.2</base_tag>
     <next_version>0.4.3</next_version>
-    <version_status>Makefile VERSION=0.4.3 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.3; Release DLL rebuilt 2026-10-16 after code review (FileVersion 0.4.3, External_Damage -1 callback); Actions/Native .pex rebuilt 2026-10-16 with official PapyrusCompiler, ppj imports, no optimize (pyro not installed at the tasks.json path; PlayerAlias.pex left at committed build); remote tags through 0.4.2; versions/SkyrimNet_Leashed 0.4.3.7z packed 2026-10-16; 0.4.3 tag pending MO2 playtest</version_status>
+    <version_status>Makefile VERSION=0.4.3 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.3; Release DLL rebuilt 2026-10-16 after code review (FileVersion 0.4.3, External_Damage -1 callback); Actions/Native .pex rebuilt 2026-10-16 with official PapyrusCompiler, ppj imports, no optimize (pyro not installed at the tasks.json path; PlayerAlias.pex left at committed build); remote tags through 0.4.2; DLL + Actions/Native/PlayerAlias .pex rebuilt again 2026-10-16 21:24 for the struggle cap (85ddf24); versions/SkyrimNet_Leashed 0.4.3.7z (10:33) predates that and is stale, re-pack before tagging; 0.4.3 tag pending MO2 playtest</version_status>
     <related_artifacts>
       <artifact role="release rules">release-guide.md</artifact>
       <artifact role="agent procedure">.cursor/skills/release/SKILL.md</artifact>
@@ -45,6 +45,7 @@
   </doc_files>
 
   <status>
+    <note>2026-10-16 late: 85ddf24 struggle cap folded into 0.4.3 (StruggleStarted[], EndStruggle / EndStruggleQuiet, AnimationController for SexLab / OStim / furniture / kill move / mount, Headers/OActor.psc, native StruggleMaxDuration(), setting leash.escape.maxDuration default 7). Changelogs covered it in the commit; README.md Escape row and CHANGELOG.md Docs bullet updated in this pass. The 10:33 0.4.3.7z is stale; make release again. Do not pack or tag unless asked.</note>
     <note>2026-10-16 10:21: make release packed versions/SkyrimNet_Leashed 0.4.3.7z (305048 bytes, 84 files, no PDBs). DLL source SKSE/Plugins/SkyrimNet_Leashed.dll (09:28, FileVersion 0.4.3). pex from 09:58 (Actions/Native/PlayerAlias). Includes Injury_Engine/injuries/leash_dragging.json. ESP deserialized from Spriggit. Do not tag unless asked.</note>
     <note>2026-10-16: 0.4.3 release-doc pass. Delta since 0.4.2: dragging events (PulseDragEvent, leash.dragEventInterval), optional Injury Engine (SKSE_Source/src/InjuryEngine, External_Damage dispatch, falling x2 on ragdoll pull with yank line as cause, silent leash_dragging x1 per dragged tick, leash.injuryengine.fallDamage), SKSE/Plugins/Injury_Engine/injuries/leash_dragging.json, banner image (not in README). Review: checkpoints/reviews/review-v01.md. Version sources bumped to 0.4.3; DLL + pex rebuilt. Do not pack or tag unless asked.</note>
     <note>2026-10-09: Folded 808815d into 0.4.2 (not tagged). CHANGELOG.md: Unreleased removed; SKSE bullet now MinLL/CommonLibVR 4.39.5 (MIT) with overlay port copied from SkyrimNet_SexLab; LICENSE MIT. CHANGELOG-user.md CommonLib line updated + MIT. Do not pack or tag unless asked.</note>
@@ -60,7 +61,7 @@
     <note>2026-09-10: Adapted to Leash Framework 1.1.3. Header + submodule bf3b33c. Follow-start OnActorPulled does not end struggle. Per-token settle/catch-up defaults. Wrist meshes 0xD69/0x1/0x3. dependency_drift skill + KNOWLEDGE.md. Maintainer playtest passed (looked fine); override natives stay unused. Shipped as 0.3.0, not 0.2.0.</note>
     <note>2026-09-08: Maintainer asked to stay on 0.1.0 (not 1.0.0) for first public; 0.2.0 was rename + Enable struggle + DD struggle anims.</note>
     <note>Does not ship: UnforgivingDevices/, escape-*.md, z-plan.md, SKSE_Source/build/, versions/ staging until pack. Agent checkpoints/ may live in git; not in the FOMOD 7z. Must git-add SKSE_Source/src/Papyrus/Bridge.h, lib/PrismaUI/PrismaUI_API.h, include/SkyrimNet/PublicAPIMemoryQuery.h (untracked; required to compile).</note>
-    <note>Open: commit the 0.4.3 working tree (review-v00/v01 fixes, version bump, changelogs, DLL, pex); MO2 playtest with Injury Engine (review-v01 checklist); make release; git tag 0.4.3; GitHub Release; Nexus. Deploy with the renamed Injury Engine (Injury_Engine.esp). TM_OpenLeash / TM_OpenUnleash remain in Actions.psc but no shipped JSON calls them.</note>
+    <note>Open: commit the 0.4.3 working tree (review-v00/v01 fixes, version bump, changelogs, DLL, pex); MO2 playtest with Injury Engine (review-v01 checklist) plus struggle cap and OStim/SexLab yield; make release (re-pack); git tag 0.4.3; GitHub Release; Nexus. Deploy with the renamed Injury Engine (Injury_Engine.esp). TM_OpenLeash / TM_OpenUnleash remain in Actions.psc but no shipped JSON calls them.</note>
   </status>
 
   <conventions>

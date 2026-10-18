@@ -21,7 +21,7 @@
 
 ### Docs
 
-- `README.md`: Dragging events and Injury Engine (optional) sections. `KNOWLEDGE.md`: Injury Engine dispatch, ragdoll pull narration, drag test.
+- `README.md`: Dragging events and Injury Engine (optional) sections; Escape section covers Maximum Struggle period and the SexLab/OStim yield. `KNOWLEDGE.md`: Injury Engine dispatch, ragdoll pull narration, drag test.
 
 ## [0.4.2](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.2) — since [0.4.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.1)
 
