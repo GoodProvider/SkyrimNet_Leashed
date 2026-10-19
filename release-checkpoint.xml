@@ -12,10 +12,10 @@
     <project>SkyrimNet_Leashed</project>
     <summary>Bridge mod between SkyrimNet (LLM) and Leash Framework.</summary>
     <repository_root>c:\Skyrim\dev\mods\SkyrimNet_Leashed</repository_root>
-    <updated>2026-10-16</updated>
-    <base_tag>0.4.2</base_tag>
-    <next_version>0.4.3</next_version>
-    <version_status>Makefile VERSION=0.4.3 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.3; Release DLL rebuilt 2026-10-16 after code review (FileVersion 0.4.3, External_Damage -1 callback); Actions/Native .pex rebuilt 2026-10-16 with official PapyrusCompiler, ppj imports, no optimize (pyro not installed at the tasks.json path; PlayerAlias.pex left at committed build); remote tags through 0.4.2; DLL + Actions/Native/PlayerAlias .pex rebuilt again 2026-10-16 21:24 for the struggle cap (85ddf24); versions/SkyrimNet_Leashed 0.4.3.7z (10:33) predates that and is stale, re-pack before tagging; 0.4.3 tag pending MO2 playtest</version_status>
+    <updated>2026-10-18</updated>
+    <base_tag>0.4.3</base_tag>
+    <next_version>0.4.4</next_version>
+    <version_status>Makefile VERSION=0.4.4 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.4; remote tags through 0.4.3 (2dc1085, banner only); Release DLL rebuilt 2026-10-18 for FileVersion 0.4.4; .pex unchanged since 2026-10-16 21:24 (85ddf24); 0.4.4 tag pending MO2 playtest</version_status>
     <related_artifacts>
       <artifact role="release rules">release-guide.md</artifact>
       <artifact role="agent procedure">.cursor/skills/release/SKILL.md</artifact>
@@ -45,6 +45,7 @@
   </doc_files>
 
   <status>
+    <note>2026-10-18: 0.4.3 was tagged at 2dc1085 (banner only), so everything since (drag events, Injury Engine, struggle cap) ships as 0.4.4. Version sources and the three changelogs relabeled 0.4.3 → 0.4.4; CHANGELOG.md section is "since 0.4.3". Do not tag unless asked.</note>
     <note>2026-10-16 late: 85ddf24 struggle cap folded into 0.4.3 (StruggleStarted[], EndStruggle / EndStruggleQuiet, AnimationController for SexLab / OStim / furniture / kill move / mount, Headers/OActor.psc, native StruggleMaxDuration(), setting leash.escape.maxDuration default 7). Changelogs covered it in the commit; README.md Escape row and CHANGELOG.md Docs bullet updated in this pass. The 10:33 0.4.3.7z is stale; make release again. Do not pack or tag unless asked.</note>
     <note>2026-10-16 10:21: make release packed versions/SkyrimNet_Leashed 0.4.3.7z (305048 bytes, 84 files, no PDBs). DLL source SKSE/Plugins/SkyrimNet_Leashed.dll (09:28, FileVersion 0.4.3). pex from 09:58 (Actions/Native/PlayerAlias). Includes Injury_Engine/injuries/leash_dragging.json. ESP deserialized from Spriggit. Do not tag unless asked.</note>
     <note>2026-10-16: 0.4.3 release-doc pass. Delta since 0.4.2: dragging events (PulseDragEvent, leash.dragEventInterval), optional Injury Engine (SKSE_Source/src/InjuryEngine, External_Damage dispatch, falling x2 on ragdoll pull with yank line as cause, silent leash_dragging x1 per dragged tick, leash.injuryengine.fallDamage), SKSE/Plugins/Injury_Engine/injuries/leash_dragging.json, banner image (not in README). Review: checkpoints/reviews/review-v01.md. Version sources bumped to 0.4.3; DLL + pex rebuilt. Do not pack or tag unless asked.</note>

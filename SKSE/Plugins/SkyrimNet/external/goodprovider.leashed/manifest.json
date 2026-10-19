@@ -8,7 +8,7 @@
   "tags": ["leash", "nsfw"],
   "nsfw": true,
   "icon": "sparkles",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "min_skyrimnet_version": "0.25.0",
   "mods": [
     {
