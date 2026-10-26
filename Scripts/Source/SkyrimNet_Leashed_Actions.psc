@@ -1987,7 +1987,7 @@ String Function AnimationController(Actor who)
     if OStimLoaded && OActor.IsInOStim(who)
         return "OStim"
     endif
-    if (DOMActionPosing && who.IsInFaction(DOMActionPosing)) || (DOMActionTied && who.GetFactionRank(DOMActionTied) > 0) || (DOMActionFleeing && who.GetFactionRank(DOMActionFleeing) > 0)
+    if (DOMActionPosing && who.IsInFaction(DOMActionPosing)) || (DOMActionTied && who.GetFactionRank(DOMActionTied) > 0) || (DOMActionFleeing && who.GetFactionRank(DOMActionFleeing) == 1)
         return "Diary of Mine"
     endif
     if who.GetSitState() != 0
