@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.4.4](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4) — since [0.4.3](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.3)
 
 ### Papyrus
 

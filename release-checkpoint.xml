@@ -15,7 +15,7 @@
     <updated>2026-10-26</updated>
     <base_tag>0.4.3</base_tag>
     <next_version>0.4.4</next_version>
-    <version_status>Makefile VERSION=0.4.4 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.4. GitHub release 0.4.3 (2026-10-17, SkyrimNet_Leashed.0.4.3.7z) shipped Injury Engine, drag events and the struggle cap; tag 0.4.3 points at 2dc1085 but the asset was packed from the 85ddf24 tree; changelog sections relabelled 0.4.3 (since 0.4.2). 0.4.4 = Diary of Mine yield + no re-leash (a60a0f0, Changelog "Unreleased"). Stray remote tag 0.4.4 at 2dc1085 must be deleted (git push origin :refs/tags/0.4.4) before tagging 0.4.4. Actions.pex rebuilt 2026-10-26 (DOMActionFleeing rank 1 only); versions/SkyrimNet_Leashed 0.4.4.7z (2026-10-18) is stale, re-pack before tagging; 0.4.4 tag pending MO2 playtest</version_status>
+    <version_status>Makefile VERSION=0.4.4 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.4.4. GitHub release 0.4.3 (2026-10-17) shipped Injury Engine, drag events and the struggle cap; tag 0.4.3 points at 2dc1085. 0.4.4 = Diary of Mine yield (DOMActionFleeing rank 1 only) + no re-leash (a60a0f0, 4a557f1); changelogs labelled 0.4.4 (since 0.4.3); versions/SkyrimNet_Leashed 0.4.4.7z re-packed 2026-10-26. Stray remote tag 0.4.4 at 2dc1085 must be deleted (git push origin :refs/tags/0.4.4) before tagging 0.4.4; tag pending MO2 playtest</version_status>
     <related_artifacts>
       <artifact role="release rules">release-guide.md</artifact>
       <artifact role="agent procedure">.cursor/skills/release/SKILL.md</artifact>

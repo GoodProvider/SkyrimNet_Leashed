@@ -1,4 +1,4 @@
-Unreleased
+https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4
 
 - **Diary of Mine yield.** `AnimationController` returns "Diary of Mine" for `DOMActionPosing` (any rank), `DOMActionTied` (rank > 0), `DOMActionFleeing` (rank 1 = `flee_and_cower`; rank 3 `running_away` moves, so it is not yielded to), resolved in `ResolveControllers` with `Game.GetFormFromFile` on `DiaryOfMine.esm` (`0x58AB48` / `0x58AB49` / `0x58AB4A`, no hard dependency). `TickDowned` resets the stuck clock for a controlled actor, like Paralysis: after capture, DOM's `flee_and_cower` quietPose `Anim_BleedOutStart` read as a stuck knockdown (`knock=6`) and got `BleedOutStop`, then `ResetStuckActor` Disable/Enable. SkyrimNet_DOM now makes DOM follow a Leash Framework holder (`SyncLeashFollow`).
 - **No re-leash.** `leashed_leash_speaker.yaml` and `leashed_leashLeashed.yaml` gain `eligibilityRules` `speaker_is_leashed == "unavailable"`. After the capture, the LLM picked the action again every ~20 s, and each Framework "replaced" leash re-yanked the actor.
