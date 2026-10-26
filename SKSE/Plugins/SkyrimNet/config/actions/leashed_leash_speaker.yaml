@@ -29,3 +29,10 @@ parameterMapping:
     name: body_part
     description: "Where the collar attaches: neck, wrists, or waist. Wrists uses the chain hand mesh."
 enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: speaker_is_leashed
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "unavailable"

@@ -87,6 +87,10 @@ All 7 Leash.esm ArmorAddons (`Leash_neckAA`, `Leash_neck_chainAA`, `Leash_neck_r
 
 `SKSE_Source/vcpkg-ports/commonlibsse-ng-fork` pins `MinLL/CommonLibVR` 4.39.5 (`550cc4f`), the same port SkyrimNet_SexLab uses. It is MIT (branched from v4.39.3, the last MIT CommonLibVR; upstream is GPL-3.0 from v5.0.0) and adds SE 1.7.99 / 1.7.104 support. The GitHub tarball leaves `extern/openvr` empty (submodule), so the portfile still fetches ValveSoftware/openvr into it; without it `BSVRInterface.h` fails on `openvr.h`. Builds with `SKSE_SUPPORT_XBYAK=off`. A clean configure builds CommonLib from source (~6 min). Runtime needs the Address Library matching the player's Skyrim version.
 
+## Diary of Mine owns its slaves' poses (2026-10-26)
+
+DOM `flee_and_cower` (just captured) defaults to quietPose `Anim_BleedOutStart`, which `IsKnockedDown` reports (knock state 6). `TickDowned` used to send it `BleedOutStop` and then Disable/Enable the actor, while Leash Framework's forced-recovery get-up and DOM's pose kept interrupting each other. Treat DOM `DOMActionPosing` / `DOMActionTied` / `DOMActionFleeing` as an `AnimationController`. Never Disable/Enable an actor another framework animates. SkyrimNet_DOM switches DOM to follow the holder (see its KNOWLEDGEBASE "Leash Framework leash on a just-captured slave").
+
 ## Papyrus quirks
 
 - Full unclip restores the pre-apply count of the **one** Leash.esm mesh we equipped. A copy they already had stays. `EquipItem` spares of that form are removed. Do not `RemoveItem` every leash type or the whole stack. Vanilla prisoner cuffs stay `RemoveItem` 1.

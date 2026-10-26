@@ -7,3 +7,10 @@ parameterMapping:
     name: intent
     description: Who puts the collar on you, who holds it (or None), how, and why. Example — Bob puts a rope leash on my neck and holds it.
 enabled: true
+eligibilityRules:
+  - conditions:
+      - decoratorName: speaker_is_leashed
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "unavailable"

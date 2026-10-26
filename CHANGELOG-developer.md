@@ -1,3 +1,8 @@
+Unreleased
+
+- **Diary of Mine yield.** `AnimationController` returns "Diary of Mine" for `DOMActionPosing` (any rank), `DOMActionTied` / `DOMActionFleeing` (rank > 0), resolved in `ResolveControllers` with `Game.GetFormFromFile` on `DiaryOfMine.esm` (`0x58AB48` / `0x58AB49` / `0x58AB4A`, no hard dependency). `TickDowned` resets the stuck clock for a controlled actor, like Paralysis: after capture, DOM's `flee_and_cower` quietPose `Anim_BleedOutStart` read as a stuck knockdown (`knock=6`) and got `BleedOutStop`, then `ResetStuckActor` Disable/Enable. SkyrimNet_DOM now makes DOM follow a Leash Framework holder (`SyncLeashFollow`).
+- **No re-leash.** `leashed_leash_speaker.yaml` and `leashed_leashLeashed.yaml` gain `eligibilityRules` `speaker_is_leashed == "unavailable"`. After the capture, the LLM picked the action again every ~20 s, and each Framework "replaced" leash re-yanked the actor.
+
 https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4
 
 - **Dragging events.** While `TickDowned` sees a knocked-down actor dragged (holder beyond `GetMaxLeashLength`, or the body moved at least 40 units since the last 1 s tick, which also covers world ties), `PulseDragEvent` sends a short-lived `leash` event `leash_drag_<formid>` ("<who> is dragged along the ground by <holder>'s leash."): the first dragged tick, then every `leash.dragEventInterval` seconds (default 5, 0 = off; TTL interval + 0.5 s). New natives `DragEventInterval()`. The stuck-knockdown timing still keys off the holder test and Paralysis only.

@@ -1,3 +1,8 @@
+## Unreleased
+
+- Leashing a freshly captured Diary of Mine slave no longer turns into a tug-of-war between the leash and DOM's pose (needs the matching SkyrimNet DOM update). The leash no longer tries to "unstick" an NPC that DOM is posing, tying, or holding cowering.
+- NPCs who are already leashed are not leashed again every few lines.
+
 ## [0.4.4](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4)
 
 ### Injury Engine (optional plugin support) 

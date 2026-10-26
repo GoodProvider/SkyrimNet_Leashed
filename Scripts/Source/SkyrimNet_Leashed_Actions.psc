@@ -21,6 +21,9 @@ Float[] StruggleStarted
 ; Other animation controllers struggle yields to; resolved on init / load (see ResolveControllers).
 Faction SexLabAnimatingFaction
 Bool OStimLoaded
+Faction DOMActionPosing
+Faction DOMActionTied
+Faction DOMActionFleeing
 Actor[] DownedActors
 Float[] DownedStarted
 Float[] DownedStuckTime
@@ -978,8 +981,9 @@ Function TickDowned()
                         SkyrimNet_Leashed_Native.InjuryEngineInjure(who, "leash_dragging", 1, None, "", false)
                         PulseDragEvent(who, holder, i, now)
                     endif
-                    ; Paralysis is a legitimate long knockdown, not a stuck one.
-                    if beyond || who.GetActorValue("Paralysis") > 0.0
+                    ; Paralysis is a legitimate long knockdown, not a stuck one. Another controller's pose
+                    ; (DOM's flee_and_cower bleedout) is not stuck either: BleedOutStop / Disable would fight it.
+                    if beyond || who.GetActorValue("Paralysis") > 0.0 || AnimationController(who) != ""
                         DownedStuckTime[i] = 0.0
                     else
                         DownedStuckTime[i] = DownedStuckTime[i] + 1.0
@@ -1960,9 +1964,18 @@ Function ResolveControllers()
     endif
     ; OActor.IsInOStim is native in OStim.dll; only call it when OStim is loaded.
     OStimLoaded = Game.GetModByName("OStim.esp") != 255
+    ; Diary of Mine poses, ties and flee_and_cower (its default pose is Anim_BleedOutStart).
+    DOMActionPosing = None
+    DOMActionTied = None
+    DOMActionFleeing = None
+    if Game.GetModByName("DiaryOfMine.esm") != 255
+        DOMActionPosing = Game.GetFormFromFile(0x58AB48, "DiaryOfMine.esm") as Faction
+        DOMActionTied = Game.GetFormFromFile(0x58AB49, "DiaryOfMine.esm") as Faction
+        DOMActionFleeing = Game.GetFormFromFile(0x58AB4A, "DiaryOfMine.esm") as Faction
+    endif
 EndFunction
 
-; Something else owns the actor's animation: OStim, SexLab, furniture, a kill move, or a mount.
+; Something else owns the actor's animation: OStim, SexLab, Diary of Mine, furniture, a kill move, or a mount.
 ; Struggle idles would fight it, and IdleForceDefaultState would break it.
 String Function AnimationController(Actor who)
     if who == None
@@ -1973,6 +1986,9 @@ String Function AnimationController(Actor who)
     endif
     if OStimLoaded && OActor.IsInOStim(who)
         return "OStim"
+    endif
+    if (DOMActionPosing && who.IsInFaction(DOMActionPosing)) || (DOMActionTied && who.GetFactionRank(DOMActionTied) > 0) || (DOMActionFleeing && who.GetFactionRank(DOMActionFleeing) > 0)
+        return "Diary of Mine"
     endif
     if who.GetSitState() != 0
         return "furniture"

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Papyrus
+
+- Diary of Mine counts as an animation controller. `ResolveControllers` soft-loads `DiaryOfMine.esm` factions `DOMActionPosing` `0x58AB48`, `DOMActionTied` `0x58AB49`, `DOMActionFleeing` `0x58AB4A`; `AnimationController` returns "Diary of Mine" for a pose or a rank > 0 tie / flee. `TickDowned` no longer counts a controlled actor as stuck, so DOM's `flee_and_cower` bleedout pose gets no `BleedOutStop` / `ResetStuckActor` (Disable/Enable). Struggle yields to it like SexLab/OStim.
+- `leashed_leash_speaker` and the `leashed_leashLeashed` category require `speaker_is_leashed == "unavailable"` (both `external/goodprovider.leashed/actions/` and `config/actions/`). An already-leashed speaker uses the `leashed_change*` actions, so the LLM no longer re-applies ("replaced") the same leash every turn.
+
 ## [0.4.4](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4) — since [0.4.3](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.3)
 
 ### Papyrus
