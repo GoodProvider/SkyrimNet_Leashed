@@ -143,14 +143,14 @@ or has no 3D. For logs.
 Int Function KnockState(Actor who) Global Native
 
 ;/
-Shows the PrismaUI leash panel (same as the panel hotkey open path). Does not
-require leash.controls.hotkeyEnabled. No-ops if PrismaUI is missing or no save
+Shows the Magelight UI leash panel (same as the panel hotkey open path). Does not
+require leash.controls.hotkeyEnabled. No-ops if Magelight UI is missing or no save
 is loaded.
 /;
 Function OpenPanel() Global Native
 
 ;/
-Shows the PrismaUI leash panel seeded to leashed, with layout ("vertical" or empty)
+Shows the Magelight UI leash panel seeded to leashed, with layout ("vertical" or empty)
 and verb ("leash" / "unleash" / empty). Defers Show to the next SKSE task so a
 caller that is about to hide another overlay (SexLab TargetMenu) can Unfocus first.
 /;

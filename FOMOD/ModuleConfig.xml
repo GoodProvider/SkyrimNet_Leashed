@@ -9,6 +9,7 @@
     <folder source="SKSE" destination="SKSE"/>
     <folder source="Scripts" destination="Scripts"/>
     <folder source="PrismaUI" destination="PrismaUI"/>
+    <folder source="Magelight" destination="Magelight"/>
   </requiredInstallFiles>
   <installSteps order="Explicit">
     <installStep name="Optional patches">

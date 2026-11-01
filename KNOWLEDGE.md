@@ -95,6 +95,16 @@ DOM `flee_and_cower` (just captured) defaults to quietPose `Anim_BleedOutStart`,
 
 - Full unclip restores the pre-apply count of the **one** Leash.esm mesh we equipped. A copy they already had stays. `EquipItem` spares of that form are removed. Do not `RemoveItem` every leash type or the whole stack. Vanilla prisoner cuffs stay `RemoveItem` 1.
 
+## Leash panel on Magelight UI (2026-11-01)
+
+The `\` panel is `Magelight/SkyrimNet_Leashed/views/panel/index.html`, created by `WebUI.cpp` (no `manifest.json`, no PrismaUI fallback). Magelight is a soft dependency: a null API logs a warning and disables the panel; YAML actions still work.
+
+- **`PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js` must stay.** It is an overlay into SexLab's view, and SexLab reads that folder under both of its UI hosts (`0700_leashed_panel.json` `panelScript`). Keep the `PrismaUI` folder in the FOMOD, `pack_release.ps1` and CMake.
+- **The page owns its closing keys.** The host closes a UI-mode view on Escape and game input is suspended, so the page sends `__escapecapture`, peels the cascade on Escape, then calls `onCancel`. It also closes on `keyCode == hotkeyVk` from the open payload (`keyCode`, not `code`: it follows the layout).
+- **The view is shown on `UIModeEntered`, not at the request,** so a visible panel always has the cursor. Requests use `kUIModeFlagQueue` because UI mode has one owner across mods, and SexLab's overlay may still hold it on the SkyMessage handoff. `UIModeExited` hides the view: the host does not, on PageUp or a load boundary.
+- **Listeners post to the game thread.** On flat 1.7.0+ JS listeners run on Magelight's page thread, so `RE::` there is a race. `OnPageCall` copies the argument and uses `PostGameTask`, never `AddTask`.
+- Headers are vendored from Magelight 1.7.1 in `SKSE_Source/lib/Magelight/api/`. `minHostVersion` is 0.30.1 (`PostGameTask`); gate anything newer on `hostVersionNumber`.
+
 ## SexLab TargetMenu overlay (2026-09-16)
 
 SkyrimNet_SexLab concatenates `Data/SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/*.json` on save load. This repo ships `0700_leashed_panel.json` at that path (MO2 overlay): `type: papyrus`, `panel: leash`, `source: leash`, `scriptName: SkyrimNet_Leashed_Actions`. Since 2026-09-28 the TargetMenu **leash** row cascades in-menu like the other options, using SexLab's own `renderLeashPanelBody` (style / subject / leashed / status / action ❯). It no longer closes the menu to open this overlay. That panel's `leashFireStart` calls `LeashedToHolder` / `LeashedToTiePoint` / `GiveLeash` / `TakeLeash` / `UnleashTargetExecute` / `UnleashSpeakerExecute` directly, with fixed distance/type/body (`middle` / `rope` / `neck`). **Keep those signatures stable.** The old leaf files `0700_leashed.json` / `0700_unleashed.json` (→ `TM_OpenLeash` / `TM_OpenUnleash`) were removed. Those functions remain for the overlay. `OpenPanelFor` defers Show to the next SKSE task because SexLab runs Papyrus then Hide; do not `RegisterForSingleUpdate` for this (struggle already owns `OnUpdate`).

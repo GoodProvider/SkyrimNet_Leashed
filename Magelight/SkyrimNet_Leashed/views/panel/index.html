@@ -652,6 +652,7 @@
             state.bodyPart = BODY_PARTS.includes(src.bodyPart) ? src.bodyPart : 'neck';
             state.tiePoint = TIE_POINTS.includes(src.tiePoint) ? src.tiePoint : 'floor';
             if (!STYLES.includes(state.style)) state.style = 'normally';
+            state.hotkeyVk = Number(src.hotkeyVk) || 0;
 
             const playerActor = findActor(state.player) || state.actors[0];
             const crossActor = findActor(state.crosshair);
@@ -681,10 +682,18 @@
             cascade = null;
             render();
         });
+        // The host would close the view on Escape, skipping the cascade, and game input is
+        // suspended while the page holds UI mode, so both closing keys are handled here.
+        if (window.magelight && typeof window.magelight.send === 'function')
+            window.magelight.send('__escapecapture', '1');
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && peelCascade()) {
+            if (e.repeat) return;
+            if (e.key === 'Escape') {
                 e.preventDefault();
-                e.stopImmediatePropagation();
+                if (!peelCascade() && typeof window.onCancel === 'function') window.onCancel('');
+            } else if (state.hotkeyVk && e.keyCode === state.hotkeyVk) {
+                e.preventDefault();
+                if (typeof window.onCancel === 'function') window.onCancel('');
             }
         });
         window.openLeashPanel = openLeashPanel;

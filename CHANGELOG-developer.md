@@ -1,3 +1,7 @@
+Unreleased
+
+- **Panel on Magelight UI.** The `\` panel moved from PrismaUI to Magelight UI (raw `MagelightApi4`, `minHostVersion` 0.30.1, no PrismaUI fallback). Page: `Magelight/SkyrimNet_Leashed/views/panel/index.html`. Listeners post with `PostGameTask`; the view is shown on `UIModeEntered`, hidden on `UIModeExited`; the page captures Escape and closes on `hotkeyVk`. `PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js` stays: SexLab's Target Menu reads it under either host.
+
 https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4
 
 - **Diary of Mine yield.** `AnimationController` returns "Diary of Mine" for `DOMActionPosing` (any rank), `DOMActionTied` (rank > 0), `DOMActionFleeing` (rank 1 = `flee_and_cower`; rank 3 `running_away` moves, so it is not yielded to), resolved in `ResolveControllers` with `Game.GetFormFromFile` on `DiaryOfMine.esm` (`0x58AB48` / `0x58AB49` / `0x58AB4A`, no hard dependency). `TickDowned` resets the stuck clock for a controlled actor, like Paralysis: after capture, DOM's `flee_and_cower` quietPose `Anim_BleedOutStart` read as a stuck knockdown (`knock=6`) and got `BleedOutStop`, then `ResetStuckActor` Disable/Enable. SkyrimNet_DOM now makes DOM follow a Leash Framework holder (`SyncLeashFollow`).

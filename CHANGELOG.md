@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+### SKSE / WebUI
+
+- The `\` leash panel moved from PrismaUI to Magelight UI. `WebUI.cpp` uses raw `MagelightApi4` (`minHostVersion` 0.30.1); no PrismaUI fallback. Headers vendored from 1.7.1 in `SKSE_Source/lib/Magelight/api/`; `lib/PrismaUI` removed.
+- Page moved to `Magelight/SkyrimNet_Leashed/views/panel/index.html`. It captures Escape (peel, then close) and closes on the hotkey. `OpenPayload` gains `hotkeyVk`.
+- JS listeners post to the game thread (`PostGameTask`). The view is shown on `UIModeEntered`; requests are queued (`kUIModeFlagPause | kUIModeFlagQueue`); `UIModeExited` hides it.
+
+### Install / FOMOD
+
+- Installs `Magelight/`. `PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js` stays for SexLab's Target Menu.
+
 ## [0.4.4](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4) — since [0.4.3](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.3)
 
 ### Papyrus

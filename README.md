@@ -22,7 +22,7 @@ Optional:
 
 | Plugin | Adds |
 | --- | --- |
-| [PrismaUI](https://www.nexusmods.com/skyrimspecialedition/mods/114324) | Provides UI for hotkey `\` leash panel (enable/remap in SkyrimNet WebUI). YAML actions work without it. |
+| [Magelight UI](https://www.nexusmods.com/skyrimspecialedition/mods/193303) (0.30.1 or newer) | Provides UI for hotkey `\` leash panel (enable/remap in SkyrimNet WebUI). YAML actions work without it. |
 | [Devious Devices](https://www.loverslab.com/topic/69936-devious-devices-framework-developmentbeta) files (Assets or [DD NG](https://www.loverslab.com/files/file/29779-devious-devices-ng/)) | Standing struggle clips by body part: neck `DDCollarStruggle01`, wrists `DDRegCuffsFrontStruggle01`, waist `DDChastityBeltStruggle01`. ESMs not required. SexLab not required. Without the files, struggle stays on vanilla `IdleNervous`. |
 
 **Devious Devices animations:** Enable the DD *mod* so its animation folders are in the VFS, uncheck every DD plugin (`Assets` / `Integration` / `Expansion`), and rebuild FNIS/Nemesis/Pandora. Do not enable those ESMs unless you want full DD — that needs SexLab and the rest of DD’s masters. Neck `DDCollarStruggle01` is DD NG’s FNIS set; classic Assets still covers wrists and waist. Missing events keep `IdleNervous`.
@@ -42,7 +42,7 @@ SkyrimNet_SexLab’s Start Sex SkyMessage also has a **leash** button when `Skyr
 
 SexLab’s PrismaUI Target Menu gets a **leash** option from this zip (`SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/0700_leashed_panel.json` plus `PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js`). It opens a leash panel inside SexLab’s menu, seeded to the Target Menu actor, showing whether they are leashed, tied, or free. Type / body combinations with no leash mesh are greyed out.
 
-With PrismaUI installed and the hotkey on, `\` opens a vertical leash panel in the same cascade style as SexLab’s Target Menu: **Start** and style on top, then subject, leashed, status, action, and (for a new leash) distance, type, and body rows. Each row opens columns to the right; Escape closes one column at a time. Actions depend on whether the selected leashed actor is already collared, and picking the last item in an action branch (a holder or tie point) starts it at once. If **body** is wrists, **type** is locked to chain.
+With Magelight UI installed and the hotkey on, `\` opens a vertical leash panel in the same cascade style as SexLab’s Target Menu: **Start** and style on top, then subject, leashed, status, action, and (for a new leash) distance, type, and body rows. Each row opens columns to the right; Escape closes one column at a time, then the panel, and `\` closes the panel at once. Actions depend on whether the selected leashed actor is already collared, and picking the last item in an action branch (a holder or tie point) starts it at once. If **body** is wrists, **type** is locked to chain.
 
 | Target | Verb | Extra choices |
 | --- | --- | --- |
@@ -126,7 +126,7 @@ Settle is how close they stand when the holder stops. Catch-up is the yank bound
 
 **Enable struggle** in SkyrimNet’s plugin menu (`leash.escape.enabled`, on by default) shows this category. Off hides Escape struggle from the LLM and stops anyone already looping.
 
-Children may be leashed. Free self-unleash is **not** an LLM action — NPCs cannot pick `leashed_escape` and come off. The player still can: the PrismaUI `\` panel **unleash** verb fully unclips, including the player's own leash. `leashed_escape_struggle` only plays an idle and narrates; a later minigame will be the NPC self-free path.
+Children may be leashed. Free self-unleash is **not** an LLM action — NPCs cannot pick `leashed_escape` and come off. The player still can: the `\` panel **unleash** verb fully unclips, including the player's own leash. `leashed_escape_struggle` only plays an idle and narrates; a later minigame will be the NPC self-free path.
 
 Higher importance uses SkyrimNet DirectNarration so nearby NPCs react immediately; lower importance records a `leash` event for context without interrupting speech. If the player is not the subject, leashed actor, or holder and has no line of sight on the leashed actor, the line is always an event.
 
@@ -183,7 +183,8 @@ Confirm the mod folder contains:
 - `SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/` (actions + prompts + `manifest.json`)
 - `SKSE/Plugins/SkyrimNet/config/actions/` and `SKSE/Plugins/SkyrimNet/prompts/` (pre-0.25 copies; edit the plugin then run `tools/sync_legacy_skyrimnet_content.py`)
 - `SKSE/Plugins/SkyrimNet/config/plugins/SkyrimNet_Leashed/manifest.yaml`
-- `PrismaUI/views/SkyrimNet_Leashed/index.html`
+- `Magelight/SkyrimNet_Leashed/views/panel/index.html`
+- `PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js` (SexLab overlay, read by SexLab under either UI host)
 - `SkyrimNet_Leashed.esp`
 - compiled `Scripts/SkyrimNet_Leashed_Actions.pex`, `Scripts/SkyrimNet_Leashed_PlayerAlias.pex`, and `Scripts/SkyrimNet_Leashed_Native.pex`
 

@@ -9,7 +9,7 @@ schema:
     - name: "Enable leash panel hotkey"
       path: "leash.controls.hotkeyEnabled"
       type: "bool"
-      description: "Enables the PrismaUI leash panel hotkey."
+      description: "Enables the Magelight UI leash panel hotkey."
       defaultValue: false
       category: "Controls"
 

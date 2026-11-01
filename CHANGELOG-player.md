@@ -1,3 +1,7 @@
+## Unreleased
+
+- The `\` leash panel now needs Magelight UI instead of PrismaUI. Without it the panel is off; everything else still works.
+
 ## [0.4.4](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4)
 
 - Leashing a fresh Diary of Mine captive no longer fights DOM's pose (needs SkyrimNet DOM update).

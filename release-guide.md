@@ -40,7 +40,7 @@ Update only the rows the delta touches.
 | Action YAML | `README.md` action tables if names or eligibility changed; `CHANGELOG.md`; `CHANGELOG-developer.md`; `CHANGELOG-player.md` if player-visible |
 | Prompts / DirectNarration copy | `README.md` if player-visible; changelogs |
 | Papyrus execute / natives | changelogs; `README.md` only if player-facing behavior changed |
-| SKSE decorators, WebUI, PrismaUI HUD | `README.md` hotkey / HUD / escape sections if user-visible; changelogs |
+| SKSE decorators, WebUI, Magelight panel | `README.md` hotkey / HUD / escape sections if user-visible; changelogs |
 | Escape / weakness / strengthen | `README.md` Escape section; changelogs |
 | Install / FOMOD / requirements | `README.md` Play / install; `FOMOD/`; changelogs |
 | Doc layout or agent map | `llms.txt`; `AGENTS.md` pointers; `release-checkpoint.xml` `doc_files` |
@@ -106,7 +106,7 @@ Ignore the [llms.txt](llms.txt) denylist unless the maintainer says those paths 
 
 Prereqs: `Scripts/*.pex` current (`compile: papyrus`); Release SKSE DLL (`/MD`, not Debug `/MDd`); `Spriggit/` JSON is ESP source of truth (not hand-edited binaries). Do not switch the CRT to `/MT`.
 
-`make release` stamps `FOMOD/info.xml` from `VERSION`/`NAME`, deserializes `SkyrimNet_Leashed.esp` from `Spriggit/`, stages ESP + `SKSE/` + `Scripts/` + `PrismaUI/` with `*.pdb` excluded, packs `versions/SkyrimNet_Leashed ${VERSION}.7z`.
+`make release` stamps `FOMOD/info.xml` from `VERSION`/`NAME`, deserializes `SkyrimNet_Leashed.esp` from `Spriggit/`, stages ESP + `SKSE/` + `Scripts/` + `PrismaUI/` + `Magelight/` with `*.pdb` excluded, packs `versions/SkyrimNet_Leashed ${VERSION}.7z`.
 
 GitHub Actions (`workflow_dispatch` on `.github/workflows/package.yml`) builds Release SKSE, packs the same zip, and uploads a private artifact plus a separate PDB artifact. Play the artifact in MO2 before any tag.
 

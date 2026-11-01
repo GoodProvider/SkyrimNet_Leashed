@@ -1,4 +1,4 @@
-# Stage a FOMOD 7z: ESPs + SKSE + Scripts + PrismaUI + Optional, no PDBs.
+# Stage a FOMOD 7z: ESPs + SKSE + Scripts + PrismaUI + Magelight + Optional, no PDBs.
 # Optional files live where the game needs them for testing; staging moves
 # them into their FOMOD option folders (SKSE\Plugins\DeviousDevices.ini ->
 # Optional\DDNG_LeashCollars). SkyrimNet_Leashed_BeastRaces.esp stays at root.
@@ -71,6 +71,7 @@ Copy-Item -Path $esp -Destination (Join-Path $stage "SkyrimNet_Leashed.esp") -Fo
 Copy-Item -Path $beastEsp -Destination (Join-Path $stage "SkyrimNet_Leashed_BeastRaces.esp") -Force
 Copy-Item -Path (Join-Path $RepoRoot "Scripts") -Destination (Join-Path $stage "Scripts") -Recurse -Force
 Copy-Item -Path (Join-Path $RepoRoot "PrismaUI") -Destination (Join-Path $stage "PrismaUI") -Recurse -Force
+Copy-Item -Path (Join-Path $RepoRoot "Magelight") -Destination (Join-Path $stage "Magelight") -Recurse -Force
 Copy-Item -Path (Join-Path $RepoRoot "SKSE") -Destination (Join-Path $stage "SKSE") -Recurse -Force
 
 $stageDllDir = Join-Path $stage "SKSE\Plugins"
@@ -88,7 +89,7 @@ if (Test-Path $releaseFile) { Remove-Item -Force $releaseFile }
 
 Push-Location $stage
 try {
-    & $sevenZipPath -bb1 a $releaseFile -aoa FOMOD SkyrimNet_Leashed.esp SkyrimNet_Leashed_BeastRaces.esp SKSE Scripts PrismaUI Optional
+    & $sevenZipPath -bb1 a $releaseFile -aoa FOMOD SkyrimNet_Leashed.esp SkyrimNet_Leashed_BeastRaces.esp SKSE Scripts PrismaUI Magelight Optional
     if ($LASTEXITCODE -ne 0) { throw "7z failed with exit $LASTEXITCODE" }
 } finally {
     Pop-Location

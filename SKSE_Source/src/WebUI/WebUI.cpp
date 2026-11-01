@@ -2,19 +2,19 @@
 
 #include "Config.h"
 #include "Leash/LeashState.h"
-#include "PrismaUI_API.h"
+#include "MagelightUI_API.h"
 
 #include <glaze/glaze.hpp>
 
 #include <algorithm>
 #include <atomic>
 #include <cctype>
-#include <functional>
-#include <map>
+#include <filesystem>
+#include <memory>
 #include <mutex>
-#include <shared_mutex>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 namespace SkyrimNetLeashed::WebUI {
@@ -41,6 +41,7 @@ namespace SkyrimNetLeashed::WebUI {
         std::string layout{};
         std::uint32_t presetLeashed{};
         std::string presetVerb{};
+        std::uint32_t hotkeyVk{};
     };
 
     struct StartPayload {
@@ -56,6 +57,11 @@ namespace SkyrimNetLeashed::WebUI {
     };
 
     namespace {
+        using namespace MAGELIGHT_API;
+
+        constexpr const char* kModId = "SkyrimNet_Leashed";
+        // PostGameTask, the page-to-game marshalling call, arrived in 0.30.1.
+        constexpr std::uint32_t kMinHostVersion = PackVersion(0, 30, 1);
         constexpr std::uint32_t kEscapeDx = 0x01;
         constexpr std::uint32_t kQuestLocalFormID = 0x800;
         constexpr const char* kQuestPlugin = "SkyrimNet_Leashed.esp";
@@ -72,15 +78,14 @@ namespace SkyrimNetLeashed::WebUI {
         OpenRequest g_openRequest;
 
         void OnMenuHotkey();
-        void OnEscape();
         void Hide();
 
-        PRISMA_UI_API::IVPrismaUI1* g_prismaUI = nullptr;
-        PrismaView g_view = 0;
+        const MagelightApi4* g_ml = nullptr;
+        ModId g_mod = 0;
+        ViewId g_view = 0;
         std::atomic<bool> g_gameReady{false};
-        std::atomic<bool> g_domReady{false};
-
-        using KeyCallback = std::function<void()>;
+        // A UI-mode request is out. The view is shown on UIModeEntered, so a visible panel always has the cursor.
+        std::atomic<bool> g_openPending{false};
 
         class KeyHandler : public RE::BSTEventSink<RE::InputEvent*> {
         public:
@@ -99,40 +104,24 @@ namespace SkyrimNetLeashed::WebUI {
                 SKSE::log::info("WebUI: KeyHandler sink registered");
             }
 
-            void Register(std::uint32_t a_dxScanCode, KeyCallback a_callback) {
-                std::unique_lock lock{_mutex};
-                _callbacks[a_dxScanCode] = std::move(a_callback);
-            }
-
             RE::BSEventNotifyControl ProcessEvent(RE::InputEvent* const* a_eventList, [[maybe_unused]] RE::BSTEventSource<RE::InputEvent*>* a_eventSource) override {
                 if (!a_eventList) {
                     return RE::BSEventNotifyControl::kContinue;
                 }
 
-                std::vector<KeyCallback> toRun;
                 bool menuHotkey = false;
-                {
-                    std::shared_lock lock{_mutex};
-                    for (auto* event = *a_eventList; event; event = event->next) {
-                        if (event->eventType != RE::INPUT_EVENT_TYPE::kButton) {
-                            continue;
-                        }
-                        const auto* btn = event->AsButtonEvent();
-                        if (!btn || btn->GetDevice() != RE::INPUT_DEVICE::kKeyboard || !btn->IsDown()) {
-                            continue;
-                        }
-                        const auto code = btn->GetIDCode();
-                        auto it = _callbacks.find(code);
-                        if (it != _callbacks.end()) {
-                            toRun.push_back(it->second);
-                        }
-                        if (code != kEscapeDx && Config::HotkeyEnabled() && code == Config::HotkeyDx()) {
-                            menuHotkey = true;
-                        }
+                for (auto* event = *a_eventList; event; event = event->next) {
+                    if (event->eventType != RE::INPUT_EVENT_TYPE::kButton) {
+                        continue;
                     }
-                }
-                for (const auto& cb : toRun) {
-                    cb();
+                    const auto* btn = event->AsButtonEvent();
+                    if (!btn || btn->GetDevice() != RE::INPUT_DEVICE::kKeyboard || !btn->IsDown()) {
+                        continue;
+                    }
+                    const auto code = btn->GetIDCode();
+                    if (code != kEscapeDx && Config::HotkeyEnabled() && code == Config::HotkeyDx()) {
+                        menuHotkey = true;
+                    }
                 }
                 if (menuHotkey) {
                     OnMenuHotkey();
@@ -142,8 +131,6 @@ namespace SkyrimNetLeashed::WebUI {
 
         private:
             KeyHandler() = default;
-            std::map<std::uint32_t, KeyCallback> _callbacks;
-            std::shared_mutex _mutex;
         };
 
         class DynamicArgs : public RE::BSScript::IFunctionArguments {
@@ -172,29 +159,28 @@ namespace SkyrimNetLeashed::WebUI {
         };
 
         bool IsReady() {
-            return g_prismaUI && g_domReady.load() && g_prismaUI->IsValid(g_view);
+            return g_ml && g_ml->IsViewValid(g_view);
         }
 
         bool IsHidden() {
-            if (!g_prismaUI || !g_prismaUI->IsValid(g_view)) {
+            if (!IsReady()) {
                 return true;
             }
-            return g_prismaUI->IsHidden(g_view);
-        }
-
-        void Invoke(const std::string& a_script) {
-            if (!g_prismaUI || !g_domReady.load()) {
-                return;
+            ViewDesc desc{};
+            desc.size = sizeof(ViewDesc);
+            if (g_ml->GetViewInfo(g_view, &desc) != Result::Ok) {
+                return true;
             }
-            g_prismaUI->Invoke(g_view, a_script.c_str());
+            return !desc.startVisible;  // GetViewInfo reports current visibility here
         }
 
         void Hide() {
-            if (!g_prismaUI || !g_prismaUI->IsValid(g_view)) {
+            if (!IsReady()) {
                 return;
             }
-            g_prismaUI->Unfocus(g_view);
-            g_prismaUI->Hide(g_view);
+            g_openPending = false;
+            g_ml->ReleaseUIMode(g_mod);  // also withdraws a queued request; Denied when we hold nothing
+            g_ml->ShowView(g_view, false);
         }
 
         RE::Actor* ActorFromFormID(std::uint32_t a_formId) {
@@ -284,6 +270,7 @@ namespace SkyrimNetLeashed::WebUI {
             payload.layout = a_request.layout == "vertical" ? "vertical" : "";
             payload.presetLeashed = a_request.presetLeashed;
             payload.presetVerb = a_request.verb;
+            payload.hotkeyVk = Config::HotkeyEnabled() ? Config::HotkeyVk() : 0;
 
             auto* player = RE::PlayerCharacter::GetSingleton();
             if (!player) {
@@ -336,15 +323,20 @@ namespace SkyrimNetLeashed::WebUI {
                 request = std::move(g_openRequest);
                 g_openRequest = {};
             }
-            if (!g_prismaUI) {
+            if (!g_ml) {
                 return;
             }
             if (!g_gameReady.load()) {
                 SKSE::log::info("WebUI: blocked — no game loaded");
                 return;
             }
+            // Magelight opens a view at the main menu on request, and this page needs a world.
+            if (auto* ui = RE::UI::GetSingleton(); ui && ui->IsMenuOpen(RE::MainMenu::MENU_NAME)) {
+                SKSE::log::info("WebUI: blocked — main menu");
+                return;
+            }
             if (!IsReady()) {
-                SKSE::log::error("WebUI: overlay not ready (missing PrismaUI/views/SkyrimNet_Leashed/index.html?)");
+                SKSE::log::error("WebUI: overlay not ready (view was not created; see earlier log lines)");
                 return;
             }
 
@@ -368,14 +360,23 @@ namespace SkyrimNetLeashed::WebUI {
                 SKSE::log::error("WebUI: failed to serialize nearby actors");
                 return;
             }
-            Invoke("openLeashPanel(" + json + ");");
-            g_prismaUI->Show(g_view);
-            g_prismaUI->Focus(g_view, true);
+            g_ml->InvokeJS(g_view, ("openLeashPanel(" + json + ");").c_str());
+            // Already open or queued: the call above refreshed the page, and the mode needs no second request.
+            if (!IsHidden() || g_openPending.exchange(true)) {
+                return;
+            }
+            if (const auto r = g_ml->RequestUIMode(g_view, kUIModeFlagPause | kUIModeFlagQueue); r != Result::Ok) {
+                g_openPending = false;
+                SKSE::log::warn("WebUI: RequestUIMode -> {} ({})", static_cast<int>(r), g_ml->GetLastErrorMessage(g_mod));
+            }
         }
 
         void ToggleOrOpen() {
             if (!g_gameReady.load()) {
                 SKSE::log::info("WebUI: hotkey blocked — no game loaded");
+                return;
+            }
+            if (g_openPending.load()) {
                 return;
             }
             if (!IsHidden()) {
@@ -384,14 +385,6 @@ namespace SkyrimNetLeashed::WebUI {
                 return;
             }
             Show();
-        }
-
-        void OnEscape() {
-            if (IsHidden()) {
-                return;
-            }
-            SKSE::log::info("WebUI: Escape hide overlay");
-            Hide();
         }
 
         void OnMenuHotkey() {
@@ -407,31 +400,30 @@ namespace SkyrimNetLeashed::WebUI {
         }
 
         void DispatchPapyrus(const std::string& a_functionName, std::vector<DynamicArgs::Item> a_items) {
-            SKSE::GetTaskInterface()->AddTask([functionName = a_functionName, items = std::move(a_items)]() {
-                auto* vm = RE::BSScript::Internal::VirtualMachine::GetSingleton();
-                if (!vm) {
-                    SKSE::log::error("WebUI: no Papyrus VM");
-                    return;
-                }
-                auto* quest = FindActionsQuest();
-                if (!quest) {
-                    SKSE::log::error("WebUI: quest {} 0x{:X} not found", kQuestPlugin, kQuestLocalFormID);
-                    return;
-                }
-                auto handle = vm->GetObjectHandlePolicy()->GetHandleForObject(static_cast<RE::VMTypeID>(quest->GetFormType()), quest);
-                RE::BSTSmartPointer<RE::BSScript::Object> scriptObject;
-                vm->FindBoundObject(handle, kActionsScript, scriptObject);
-                if (!scriptObject) {
-                    SKSE::log::error("WebUI: bound script '{}' not found", kActionsScript);
-                    return;
-                }
+            auto* vm = RE::BSScript::Internal::VirtualMachine::GetSingleton();
+            if (!vm) {
+                SKSE::log::error("WebUI: no Papyrus VM");
+                return;
+            }
+            auto* quest = FindActionsQuest();
+            if (!quest) {
+                SKSE::log::error("WebUI: quest {} 0x{:X} not found", kQuestPlugin, kQuestLocalFormID);
+                return;
+            }
+            auto handle = vm->GetObjectHandlePolicy()->GetHandleForObject(static_cast<RE::VMTypeID>(quest->GetFormType()), quest);
+            RE::BSTSmartPointer<RE::BSScript::Object> scriptObject;
+            vm->FindBoundObject(handle, kActionsScript, scriptObject);
+            if (!scriptObject) {
+                SKSE::log::error("WebUI: bound script '{}' not found", kActionsScript);
+                return;
+            }
 
-                auto* raw = new DynamicArgs();
-                raw->items = items;
-                RE::BSTSmartPointer<RE::BSScript::IStackCallbackFunctor> callback;
-                vm->DispatchMethodCall(scriptObject, RE::BSFixedString(functionName.c_str()), raw, callback);
-                SKSE::log::info("WebUI: dispatched {}::{} ({} args)", kActionsScript, functionName, items.size());
-            });
+            const auto count = a_items.size();
+            auto* raw = new DynamicArgs();
+            raw->items = std::move(a_items);
+            RE::BSTSmartPointer<RE::BSScript::IStackCallbackFunctor> callback;
+            vm->DispatchMethodCall(scriptObject, RE::BSFixedString(a_functionName.c_str()), raw, callback);
+            SKSE::log::info("WebUI: dispatched {}::{} ({} args)", kActionsScript, a_functionName, count);
         }
 
         void DispatchStart(StartPayload a_payload) {
@@ -518,37 +510,117 @@ namespace SkyrimNetLeashed::WebUI {
             Hide();
             DispatchStart(std::move(payload));
         }
+
+        void HandleCancel(const char*) {
+            Hide();
+        }
+
+        using PageCallBody = void (*)(const char*);
+
+        // Render or page thread: the argument is valid for this call only and RE:: is off limits,
+        // so copy it and run the body on the game thread.
+        void OnPageCall(ViewId, const char* a_argument, void* a_user) {
+            if (!g_ml) {
+                return;
+            }
+            auto* call = new std::pair<PageCallBody, std::string>(reinterpret_cast<PageCallBody>(a_user), a_argument ? a_argument : "");
+            const auto result = g_ml->PostGameTask(
+                [](void* a_call) {
+                    const std::unique_ptr<std::pair<PageCallBody, std::string>> owned(static_cast<std::pair<PageCallBody, std::string>*>(a_call));
+                    owned->first(owned->second.c_str());
+                },
+                call);
+            if (result != Result::Ok) {
+                delete call;
+                SKSE::log::warn("WebUI: PostGameTask -> {}", static_cast<int>(result));
+            }
+        }
+
+        // Game thread (ModDesc::callbackThread).
+        void OnHostEvent(const EventData* a_event, void*) {
+            if (!a_event || a_event->view != g_view) {
+                return;
+            }
+            switch (a_event->type) {
+                case Event::UIModeEntered:
+                    if (g_openPending.exchange(false)) {
+                        g_ml->ShowView(g_view, true);
+                    } else if (IsHidden()) {
+                        // An entry that outlived its open: hand the mode back, or the player is left with no controls.
+                        g_ml->ReleaseUIMode(g_mod);
+                    }
+                    break;
+                case Event::UIModeExited:
+                    // Every exit path, and the host does not hide the view: PageUp, a load boundary, our own Hide.
+                    g_openPending = false;
+                    g_ml->ShowView(g_view, false);
+                    break;
+                case Event::UIModeRefused:
+                    g_openPending = false;
+                    SKSE::log::warn("WebUI: UI mode refused: {}", a_event->detail ? a_event->detail : "");
+                    break;
+                case Event::ViewLoadFailed:
+                    SKSE::log::error("WebUI: page load failed: {}", a_event->detail ? a_event->detail : "");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        std::string PagePath() {
+            wchar_t exe[MAX_PATH]{};
+            GetModuleFileNameW(nullptr, exe, MAX_PATH);
+            const auto path = std::filesystem::path(exe).parent_path() / L"Data" / L"Magelight" / L"SkyrimNet_Leashed" / L"views" / L"panel" / L"index.html";
+            const auto utf8 = path.u8string();
+            return std::string(reinterpret_cast<const char*>(utf8.data()), utf8.size());
+        }
     }
 
     void Init() {
-        g_prismaUI = PRISMA_UI_API::RequestPluginAPI<PRISMA_UI_API::IVPrismaUI1>();
-        if (!g_prismaUI) {
-            SKSE::log::warn("WebUI: PrismaUI API not available; leash panel hotkey disabled");
+        const auto* api = RequestApi4();
+        if (!api) {
+            SKSE::log::warn("WebUI: Magelight UI API not available; leash panel hotkey disabled");
             return;
         }
-        SKSE::log::info("WebUI: PrismaUI API acquired");
 
-        g_view = g_prismaUI->CreateView("SkyrimNet_Leashed/index.html", [](PrismaView) {
-            g_domReady = true;
-            SKSE::log::info("WebUI: DomReady");
-        });
-        if (!g_prismaUI->IsValid(g_view)) {
-            SKSE::log::error("WebUI: CreateView returned invalid view — ensure Data/PrismaUI/views/SkyrimNet_Leashed/index.html exists");
+        ModDesc modDesc{};
+        modDesc.size = sizeof(ModDesc);
+        modDesc.modId = kModId;
+        modDesc.displayName = "SkyrimNet Leashed";
+        modDesc.minHostVersion = kMinHostVersion;
+        modDesc.callbackThread = CallbackThread::GameThread;
+        modDesc.onEvent = OnHostEvent;
+        if (const auto r = api->RegisterMod(&modDesc, &g_mod); r != Result::Ok || !g_mod) {
+            SKSE::log::warn("WebUI: Magelight RegisterMod -> {} ({}); leash panel hotkey disabled", static_cast<int>(r), api->GetLastErrorMessage(0));
             return;
         }
-        g_prismaUI->Hide(g_view);
-        g_prismaUI->SetOrder(g_view, 10);
+        g_ml = api;
+        SKSE::log::info("WebUI: Magelight host {} acquired", api->hostVersion);
 
-        g_prismaUI->RegisterJSListener(g_view, "onStart", [](const char* value) { HandleStart(value); });
-        g_prismaUI->RegisterJSListener(g_view, "onCancel", [](const char*) { Hide(); });
+        const auto page = PagePath();
+        ViewDesc viewDesc{};
+        viewDesc.size = sizeof(ViewDesc);
+        viewDesc.name = "panel";
+        viewDesc.htmlPath = page.c_str();
+        viewDesc.fullscreen = true;
+        viewDesc.startVisible = false;
+        viewDesc.layer = Layer::Panel;
+        if (const auto r = g_ml->CreateViewEx(g_mod, &viewDesc, &g_view); r != Result::Ok || !g_view) {
+            SKSE::log::error("WebUI: CreateViewEx -> {} ({}), path {}", static_cast<int>(r), g_ml->GetLastErrorMessage(g_mod), page);
+            return;
+        }
+        g_ml->SetViewOrder(g_view, 10);
+
+        g_ml->RegisterJSListenerEx(g_view, "onStart", OnPageCall, reinterpret_cast<void*>(&HandleStart));
+        g_ml->RegisterJSListenerEx(g_view, "onCancel", OnPageCall, reinterpret_cast<void*>(&HandleCancel));
 
         KeyHandler::RegisterSink();
-        KeyHandler::GetSingleton()->Register(kEscapeDx, []() { OnEscape(); });
-        SKSE::log::info("WebUI: Escape registered; menu hotkey follows leash.controls.hotkey");
+        SKSE::log::info("WebUI: menu hotkey follows leash.controls.hotkey");
     }
 
     void SetGameReady() {
         g_gameReady = true;
+        g_openPending = false;  // the host resets UI mode on every load
         SKSE::log::info("WebUI: game ready");
     }
 
