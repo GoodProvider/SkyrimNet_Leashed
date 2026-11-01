@@ -2016,8 +2016,14 @@ Function PlayStruggleAnim(Actor who)
         return
     endif
     String eventName = StruggleAnimEvent(StruggleBodyPart(who))
+    Bool moving = ActorIsLocomoting(who)
+    ; The calls above yield, and a ragdoll or pull can land during them.
+    if SkyrimNet_Leashed_Native.IsKnockedDown(who) || FindStruggleIndex(who) < 0
+        Debug.Trace("[SkyrimNet_Leashed] PlayStruggleAnim skipped: no longer struggling " + ActorLabel(who))
+        return
+    endif
     Debug.Trace("[SkyrimNet_Leashed] PlayStruggleAnim " + ActorLabel(who) + " " + eventName)
-    if !ActorIsLocomoting(who)
+    if !moving
         Debug.SendAnimationEvent(who, "IdleNervous")
     endif
     Debug.SendAnimationEvent(who, eventName)
@@ -2158,6 +2164,16 @@ Event OnUpdate()
                 Debug.Trace("[SkyrimNet_Leashed] Struggle ended: " + ActorLabel(who) + " is controlled by " + controller)
                 EndStruggleQuiet(who)
                 StruggleStoppedEvent(who)
+            elseif SkyrimNet_Leashed_Native.IsKnockedDown(who)
+                ; Covers engine ragdolls that send no LeashFramework event. The get-up resets the graph.
+                Debug.Trace("[SkyrimNet_Leashed] Struggle ended: " + ActorLabel(who) + " is knocked down")
+                EndStruggleQuiet(who)
+                StruggleStoppedEvent(who)
+            elseif SkyrimNet_Leashed_Native.IsBeingPulled(who)
+                ; A struggle that started as the pull began, after its handler found no slot to end.
+                Debug.Trace("[SkyrimNet_Leashed] Struggle ended: " + ActorLabel(who) + " is being pulled")
+                EndStruggle(who, false)
+                StruggleStoppedEvent(who)
             elseif (now - StruggleStarted[i]) >= maxDuration
                 Debug.Trace("[SkyrimNet_Leashed] Struggle ended: " + ActorLabel(who) + " reached " + maxDuration + "s")
                 EndStruggle(who, false)
@@ -2197,6 +2213,10 @@ Function StruggleExecute(Actor subject)
     String controller = AnimationController(subject)
     if controller != ""
         Debug.Trace("[SkyrimNet_Leashed] StruggleExecute skipped: " + ActorLabel(subject) + " is controlled by " + controller)
+        return
+    endif
+    if SkyrimNet_Leashed_Native.IsKnockedDown(subject) || SkyrimNet_Leashed_Native.IsBeingPulled(subject)
+        Debug.Trace("[SkyrimNet_Leashed] StruggleExecute skipped: " + ActorLabel(subject) + " is knocked down or being pulled")
         return
     endif
     Int i = EnsureStruggleIndex(subject)
@@ -2524,11 +2544,15 @@ Event OnLeashFrameworkPulled(String eventName, String strArg, Float numArg, Form
     endif
     Actor holder = LeashFramework.GetLeashHolder(leashed)
     Float maxLen = LeashFramework.GetMaxLeashLength(leashed)
-    ; Actor-held follow-start (1.1.3) fires before maxLength. Walking must not end struggle.
-    ; World-tie and at-or-beyond catch-up are yanks.
+    ; Any pull ends struggle, including an actor-held follow-start before maxLength: the
+    ; struggle idle can hold the actor still while the holder walks away.
+    if FindStruggleIndex(leashed) >= 0
+        EndStruggle(leashed, false)
+        StruggleStoppedEvent(leashed)
+    endif
+    ; Only world-tie and at-or-beyond catch-up are yanks worth narrating.
     Bool yank = holder == None || (maxLen > 0.0 && numArg >= maxLen)
     if yank
-        EndStruggle(leashed, false)
         NarratePull(leashed, false)
     endif
 EndEvent
@@ -2538,7 +2562,10 @@ Event OnLeashFrameworkRagdollPulled(String eventName, String strArg, Float numAr
     if leashed == None || leashed.IsDead()
         return
     endif
-    EndStruggle(leashed, false)
+    if FindStruggleIndex(leashed) >= 0
+        EndStruggle(leashed, false)
+        StruggleStoppedEvent(leashed)
+    endif
     ; With Injury Engine, the yank line is the cause of its fall injury: one narration, or one event, with both.
     ; A pull skipped by the cooldown returns "" and injures nothing, so injuries never outpace their lines.
     Actor holder = PullHolder(leashed)

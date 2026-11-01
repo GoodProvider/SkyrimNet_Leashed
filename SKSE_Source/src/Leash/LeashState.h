@@ -34,4 +34,13 @@ namespace SkyrimNetLeashed::LeashState {
     // Pushed from Papyrus while an actor is in the looping struggle idle.
     void SetStruggling(RE::FormID a_id, bool a_struggling);
     [[nodiscard]] bool IsStruggling(RE::Actor* a_actor);
+
+    // Same test LeashFramework's ForcedRecoveryController uses before it touches an actor.
+    [[nodiscard]] bool IsKnockedDown(RE::Actor* a_actor);
+
+    // Set directly from LeashFramework's pull events, ahead of any Papyrus handler. Session only.
+    void RegisterPullSink();
+    [[nodiscard]] bool IsBeingPulled(RE::Actor* a_actor);
+    // Main thread only. LeashFramework sends no stop event when the follower cannot be resolved.
+    void PruneBeingPulled();
 }

@@ -256,13 +256,12 @@ namespace SkyrimNetLeashed::Papyrus {
             return CountLeashDescendants(root) > 0;
         }
 
-        // Same test LeashFramework's ForcedRecoveryController uses before it touches an actor.
         bool IsKnockedDown(RE::StaticFunctionTag*, RE::Actor* a_who) {
-            if (!a_who || !a_who->Is3DLoaded()) {
-                return false;
-            }
-            const auto* state = a_who->AsActorState();
-            return a_who->IsInRagdollState() || (state && state->GetKnockState() != RE::KNOCK_STATE_ENUM::kNormal);
+            return LeashState::IsKnockedDown(a_who);
+        }
+
+        bool IsBeingPulled(RE::StaticFunctionTag*, RE::Actor* a_who) {
+            return LeashState::IsBeingPulled(a_who);
         }
 
         std::int32_t KnockState(RE::StaticFunctionTag*, RE::Actor* a_who) {
@@ -355,6 +354,7 @@ namespace SkyrimNetLeashed::Papyrus {
         a_vm->RegisterFunction("HasLeashBones", kScriptName, HasLeashBones);
         a_vm->RegisterFunction("IsVR", kScriptName, IsVR);
         a_vm->RegisterFunction("IsKnockedDown", kScriptName, IsKnockedDown);
+        a_vm->RegisterFunction("IsBeingPulled", kScriptName, IsBeingPulled);
         a_vm->RegisterFunction("KnockState", kScriptName, KnockState);
         a_vm->RegisterFunction("DDHiderOverridesSlotMask", kScriptName, DDHiderOverridesSlotMask);
         a_vm->RegisterFunction("OpenPanel", kScriptName, OpenPanel);

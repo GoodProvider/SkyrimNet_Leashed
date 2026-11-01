@@ -24,3 +24,8 @@ eligibilityRules:
           - currentActor
         comparisonOperator: ==
         expectedValue: "unavailable"
+      - decoratorName: speaker_is_down_or_pulled
+        arguments:
+          - currentActor
+        comparisonOperator: ==
+        expectedValue: "unavailable"

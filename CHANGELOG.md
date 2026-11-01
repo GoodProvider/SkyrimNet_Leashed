@@ -2,7 +2,20 @@
 
 ## Unreleased
 
+### Papyrus
+
+- `OnLeashFrameworkPulled`: every pull ends struggle, including an actor-held follow-start below `GetMaxLeashLength`, and sends `StruggleStoppedEvent`. `yank` now only decides `NarratePull`. Reverses the 1.1.3 rule.
+- `OnLeashFrameworkRagdollPulled` sends `StruggleStoppedEvent` when a struggle ended.
+- `OnUpdate` ends struggle when `IsKnockedDown` or `IsBeingPulled` is true. `StruggleExecute` refuses to start in either state.
+- `PlayStruggleAnim` re-checks `IsKnockedDown` and the struggle slot immediately before sending.
+
+### Actions
+
+- `leashed_escape_struggle` requires `speaker_is_down_or_pulled == "unavailable"`.
+
 ### SKSE / WebUI
+
+- `LeashState` tracks pulls with a `ModCallbackEvent` sink on `LeashFramework_OnActorPulled` / `LeashFramework_OnActorStopPull`. Session only; `PruneBeingPulled` drops actors that are gone or have no 3D. New native `IsBeingPulled` and flag decorator `speaker_is_down_or_pulled`.
 
 - The `\` leash panel moved from PrismaUI to Magelight UI. `WebUI.cpp` uses raw `MagelightApi4` (`minHostVersion` 0.30.1); no PrismaUI fallback. Headers vendored from 1.7.1 in `SKSE_Source/lib/Magelight/api/`; `lib/PrismaUI` removed.
 - Page moved to `Magelight/SkyrimNet_Leashed/views/panel/index.html`. It captures Escape (peel, then close) and closes on the hotkey. `OpenPayload` gains `hotkeyVk`.

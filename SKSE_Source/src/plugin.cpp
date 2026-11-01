@@ -21,6 +21,7 @@ namespace {
         if (!SkyrimNetLeashed::SkyrimNet::Register()) {
             return;
         }
+        SkyrimNetLeashed::LeashState::RegisterPullSink();
         SkyrimNetLeashed::SkyrimNet::StateCache::Start();
         SKSE::log::info("SkyrimNet_Leashed registered with SkyrimNet");
     }

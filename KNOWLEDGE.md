@@ -72,6 +72,15 @@ All 7 Leash.esm ArmorAddons (`Leash_neckAA`, `Leash_neck_chainAA`, `Leash_neck_r
 - `SkyrimNet_Leashed_Native.IsKnockedDown(who)` (3D loaded and `IsInRagdollState()` or knock state != normal, the same test as LF's `ForcedRecoveryController`) gates `PlayStruggleAnim` and `StopStruggleAnim`. `KnockState(who)` is for traces (CommonLib order: 6 get-up, 7 down).
 - Watchdog: `OnLeashFrameworkRagdollPulled` → `WatchDowned`. `TickDowned` runs on the shared 1s `OnUpdate` (`RefreshUpdates` covers struggle and watchdog). Stuck time only counts while 3D is loaded, still knocked down, and the holder is within `GetMaxLeashLength` (LF is not dragging). 8s → `SendAnimationEvent "BleedOutStop"` (bleedout to standing, as PAHE `pahcore.BleedOutStop`). 14s → `ResetStuckActor`, a port of PAH Diary of Mine "Fix unresponsive or invisible actor" (`DOM_Keys.SpecialReset`: Disable/Enable, SetAlpha 1, `IdleForceDefaultState`, `QueueNiNodeUpdate`) plus the wrist bind. Watches drop after 60s or on `ForgetPair`.
 
+## Struggle ends on every pull (2026-11-01)
+
+08:16 playtest: `OnLeashFrameworkPulled` only ended struggle when the distance at pull start was at least max length. Both pulls started below max and LF sends no further event as the distance grows, so she struggled from 225 to 780 units, got an idle after the ragdoll event, and started a new struggle during the drag.
+
+- Any `OnActorPulled` now ends struggle. LF starts a pull as soon as an actor-held NPC begins following, so an NPC only struggles while the holder stands still. This reverses the 1.1.3 rule. `PullController` will not drive an actor while `IsAnimationDriven()` or `IsAllowRotation()` is true, so the resent idle may also hold the actor still (not proven).
+- `OnUpdate` ends struggle on knockdown, which covers engine ragdolls with no LF event. `StruggleExecute` and the `speaker_is_down_or_pulled` decorator refuse to start one. The decorator reads a cache refreshed every 750 ms, so `StruggleExecute` is the real gate.
+- LF has no "is being pulled" query. `LeashState` tracks it with a native `ModCallbackEvent` sink, not Papyrus: LF can stop and restart a pull 16 ms apart, and Papyrus handlers can lag by about 0.6 s, so a late stop could leave the flag wrong.
+- `PullController::Release` sends no stop event when the follower cannot be resolved. `StateCache::Refresh` calls `PruneBeingPulled` to drop actors that are gone or have no 3D. The flag is never saved.
+
 ## Injury Engine injuries and dragging events (2026-10-09)
 
 - `SKSE/Plugins/Injury_Engine/injuries/leash_dragging.json` lives in this repo but belongs to Injury Engine's folder: the mod manager merges it, and Injury Engine loads every `injuries/*.json`. Its body block must stay identical to Injury Engine's `whipping.json`; its sexual parts weigh 0 (Injury Engine's `sexual_parts.json` has no text for it). `falling.json` is Injury Engine's own (a `both` file: torture half `falling`, health half `falling_real` for real height falls).

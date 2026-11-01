@@ -1,6 +1,8 @@
 ## Unreleased
 
 - The `\` leash panel now needs Magelight UI instead of PrismaUI. Without it the panel is off; everything else still works.
+- NPCs stop struggling as soon as the leash pulls them, including when they start following you. They only struggle while you stand still.
+- NPCs no longer start struggling while knocked down or being dragged.
 
 ## [0.4.4](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4)
 

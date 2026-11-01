@@ -136,6 +136,12 @@ from ever getting up.
 Bool Function IsKnockedDown(Actor who) Global Native
 
 ;/
+True while LeashFramework is pulling who: between LeashFramework_OnActorPulled and
+LeashFramework_OnActorStopPull. Set natively, ahead of the Papyrus handlers. Not saved.
+/;
+Bool Function IsBeingPulled(Actor who) Global Native
+
+;/
 Raw KNOCK_STATE_ENUM value for who (0 normal, 1 explode, 2 explode lead-in, 3 out,
 4 out lead-in, 5 queued, 6 get-up, 7 down, 8 wait for task queue). -1 when who is None
 or has no 3D. For logs.

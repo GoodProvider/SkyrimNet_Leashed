@@ -53,6 +53,7 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
             bool collaredNearby{false};
             bool speakerIsStruggling{false};
             bool speakerHoldsLeash{false};
+            bool speakerDownOrPulled{false};
             std::string visiblePairs{kEmptyPairs};
             std::string leashedActors{kEmptyActors};
             std::string unleashedActors{kEmptyActors};
@@ -194,6 +195,7 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
             snapshot.speakerHoldsLeash = !held.empty();
             snapshot.speakerIsLeashed = LeashState::IsLeashed(a_speaker);
             snapshot.speakerIsStruggling = LeashState::IsStruggling(a_speaker);
+            snapshot.speakerDownOrPulled = LeashState::IsKnockedDown(a_speaker) || LeashState::IsBeingPulled(a_speaker);
 
             std::vector<RE::Actor*> leashed;
             std::vector<RE::Actor*> unleashed;
@@ -231,6 +233,7 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
 
     void Refresh() {
         g_struggleEnabled.store(WebUI::Config::StruggleEnabled(), std::memory_order_relaxed);
+        LeashState::PruneBeingPulled();
 
         std::vector<RE::Actor*> collected;
         LeashState::CollectNearby(collected);
@@ -328,6 +331,8 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
                 return it->second.speakerIsStruggling;
             case Flag::SpeakerHoldsLeash:
                 return it->second.speakerHoldsLeash;
+            case Flag::SpeakerDownOrPulled:
+                return it->second.speakerDownOrPulled;
         }
         return false;
     }

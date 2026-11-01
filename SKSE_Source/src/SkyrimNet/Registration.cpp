@@ -52,6 +52,9 @@ namespace SkyrimNetLeashed::SkyrimNet {
         RegisterFlag("speaker_holds_leash", "Returns 'available' if this actor is holding at least one actor-held leash (not tied or dangling). Returns 'unavailable' otherwise.",
             StateCache::Flag::SpeakerHoldsLeash);
 
+        RegisterFlag("speaker_is_down_or_pulled", "Returns 'available' if this actor is knocked down, ragdolled, or being pulled by a leash. Returns 'unavailable' otherwise.",
+            StateCache::Flag::SpeakerDownOrPulled);
+
         RegisterPayload("get_speaker_held_actors", "JSON object with actorIds and actorsNameString for the actors whose leash this speaker is holding in hand.",
             StateCache::Payload::HeldActors);
 

@@ -12,11 +12,35 @@ namespace SkyrimNetLeashed::LeashState {
         std::mutex g_pairMutex;
         std::unordered_map<RE::FormID, RecordedPair> g_byLeashed;
         std::unordered_set<RE::FormID> g_struggling;
+        std::unordered_set<RE::FormID> g_beingPulled;
 
         RE::Actor* ActorFromID(RE::FormID a_id) {
             auto* form = a_id != 0 ? RE::TESForm::LookupByID(a_id) : nullptr;
             return form ? form->As<RE::Actor>() : nullptr;
         }
+
+        class PullSink : public RE::BSTEventSink<SKSE::ModCallbackEvent> {
+        public:
+            static PullSink* GetSingleton() {
+                static PullSink singleton;
+                return &singleton;
+            }
+
+            RE::BSEventNotifyControl ProcessEvent(const SKSE::ModCallbackEvent* a_event, [[maybe_unused]] RE::BSTEventSource<SKSE::ModCallbackEvent>* a_eventSource) override {
+                if (!a_event || !a_event->sender) {
+                    return RE::BSEventNotifyControl::kContinue;
+                }
+                const std::string_view name{a_event->eventName.c_str() ? a_event->eventName.c_str() : ""};
+                if (name == "LeashFramework_OnActorPulled") {
+                    std::lock_guard lock{g_pairMutex};
+                    g_beingPulled.insert(a_event->sender->GetFormID());
+                } else if (name == "LeashFramework_OnActorStopPull") {
+                    std::lock_guard lock{g_pairMutex};
+                    g_beingPulled.erase(a_event->sender->GetFormID());
+                }
+                return RE::BSEventNotifyControl::kContinue;
+            }
+        };
 
         // Fallback for leashes applied before we were listening, where no Papyrus event
         // told us the real holder. Picks the closest holder still within leash range.
@@ -152,12 +176,14 @@ namespace SkyrimNetLeashed::LeashState {
         std::lock_guard lock{g_pairMutex};
         g_byLeashed.erase(a_leashedID);
         g_struggling.erase(a_leashedID);
+        g_beingPulled.erase(a_leashedID);
     }
 
     void ClearPairs() {
         std::lock_guard lock{g_pairMutex};
         g_byLeashed.clear();
         g_struggling.clear();
+        g_beingPulled.clear();
     }
 
     void SetStruggling(RE::FormID a_id, bool a_struggling) {
@@ -178,5 +204,38 @@ namespace SkyrimNetLeashed::LeashState {
         }
         std::lock_guard lock{g_pairMutex};
         return g_struggling.contains(a_actor->GetFormID());
+    }
+
+    bool IsKnockedDown(RE::Actor* a_actor) {
+        if (!a_actor || !a_actor->Is3DLoaded()) {
+            return false;
+        }
+        const auto* state = a_actor->AsActorState();
+        return a_actor->IsInRagdollState() || (state && state->GetKnockState() != RE::KNOCK_STATE_ENUM::kNormal);
+    }
+
+    void RegisterPullSink() {
+        auto* source = SKSE::GetModCallbackEventSource();
+        if (!source) {
+            SKSE::log::error("Failed to get the mod callback event source");
+            return;
+        }
+        source->AddEventSink(PullSink::GetSingleton());
+    }
+
+    bool IsBeingPulled(RE::Actor* a_actor) {
+        if (!a_actor) {
+            return false;
+        }
+        std::lock_guard lock{g_pairMutex};
+        return g_beingPulled.contains(a_actor->GetFormID());
+    }
+
+    void PruneBeingPulled() {
+        std::lock_guard lock{g_pairMutex};
+        std::erase_if(g_beingPulled, [](RE::FormID a_id) {
+            auto* actor = ActorFromID(a_id);
+            return !actor || !actor->Is3DLoaded();
+        });
     }
 }
