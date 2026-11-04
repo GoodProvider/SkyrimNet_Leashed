@@ -1,0 +1,30 @@
+[08:41:33.464] [11748] [I] SkyrimNet_Leashed v0-4-4-0
+[08:41:33.465] [11748] [I] SkyrimNet_Leashed loading
+[08:41:33.465] [11748] [I] SkyrimNet_Leashed loaded
+[08:41:53.183] [44004] [I] Registered SkyrimNet_Leashed_Native Papyrus functions
+[08:42:06.909] [38652] [I] SkyrimNet API v14 resolved
+[08:42:06.909] [38652] [I] Registered decorator 'is_leash_available'
+[08:42:06.909] [38652] [I] Registered decorator 'is_unleash_available'
+[08:42:06.909] [38652] [I] Registered decorator 'speaker_on_leash'
+[08:42:06.909] [38652] [I] Registered decorator 'leashed_nearby'
+[08:42:06.909] [38652] [I] Registered decorator 'unleashed_nearby'
+[08:42:06.909] [38652] [I] Registered decorator 'speaker_is_leashed'
+[08:42:06.909] [38652] [I] Registered decorator 'collared_nearby'
+[08:42:06.910] [38652] [I] Registered decorator 'speaker_is_struggling'
+[08:42:06.910] [38652] [I] Registered decorator 'speaker_holds_leash'
+[08:42:06.910] [38652] [I] Registered decorator 'speaker_is_down_or_pulled'
+[08:42:06.910] [38652] [I] Registered decorator 'get_speaker_held_actors'
+[08:42:06.910] [38652] [I] Registered decorator 'is_struggle_enabled'
+[08:42:06.910] [38652] [I] Registered decorator 'get_nearby_unleashed_actors'
+[08:42:06.910] [38652] [I] Registered decorator 'get_nearby_leashed_actors'
+[08:42:06.910] [38652] [I] Registered decorator 'get_speaker_leash_partners'
+[08:42:06.910] [38652] [I] Registered decorator 'leashframework_visible_pairs'
+[08:42:06.910] [38652] [I] Registered decorator 'get_nearby_collared_actors'
+[08:42:06.910] [38652] [I] Registered decorator 'get_nearby_actors'
+[08:42:06.910] [38652] [I] SkyrimNet_Leashed registered with SkyrimNet
+[08:42:06.910] [38652] [I] WebUI: Magelight host 1.7.1 acquired
+[08:42:06.910] [38652] [I] WebUI: KeyHandler sink registered
+[08:42:06.910] [38652] [I] WebUI: menu hotkey follows leash.controls.hotkey
+[08:42:17.109] [11748] [I] WebUI: game ready
+[08:42:19.977] [34936] [I] WebUI: crosshair Coralyn 29000D95
+[08:42:26.036] [11748] [I] WebUI: dispatched SkyrimNet_Leashed_Actions::LeashedToHolder (7 args)

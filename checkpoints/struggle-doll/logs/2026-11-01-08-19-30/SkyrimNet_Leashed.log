@@ -1,0 +1,52 @@
+[08:14:33.248] [30560] [I] SkyrimNet_Leashed v0-4-4-0
+[08:14:33.248] [30560] [I] SkyrimNet_Leashed loading
+[08:14:33.248] [30560] [I] SkyrimNet_Leashed loaded
+[08:14:53.183] [33500] [I] Registered SkyrimNet_Leashed_Native Papyrus functions
+[08:15:07.487] [18060] [I] SkyrimNet API v14 resolved
+[08:15:07.487] [18060] [I] Registered decorator 'is_leash_available'
+[08:15:07.487] [18060] [I] Registered decorator 'is_unleash_available'
+[08:15:07.487] [18060] [I] Registered decorator 'speaker_on_leash'
+[08:15:07.487] [18060] [I] Registered decorator 'leashed_nearby'
+[08:15:07.488] [18060] [I] Registered decorator 'unleashed_nearby'
+[08:15:07.488] [18060] [I] Registered decorator 'speaker_is_leashed'
+[08:15:07.488] [18060] [I] Registered decorator 'collared_nearby'
+[08:15:07.488] [18060] [I] Registered decorator 'speaker_is_struggling'
+[08:15:07.488] [18060] [I] Registered decorator 'speaker_holds_leash'
+[08:15:07.488] [18060] [I] Registered decorator 'get_speaker_held_actors'
+[08:15:07.488] [18060] [I] Registered decorator 'is_struggle_enabled'
+[08:15:07.488] [18060] [I] Registered decorator 'get_nearby_unleashed_actors'
+[08:15:07.488] [18060] [I] Registered decorator 'get_nearby_leashed_actors'
+[08:15:07.488] [18060] [I] Registered decorator 'get_speaker_leash_partners'
+[08:15:07.488] [18060] [I] Registered decorator 'leashframework_visible_pairs'
+[08:15:07.489] [18060] [I] Registered decorator 'get_nearby_collared_actors'
+[08:15:07.489] [18060] [I] Registered decorator 'get_nearby_actors'
+[08:15:07.489] [18060] [I] SkyrimNet_Leashed registered with SkyrimNet
+[08:15:07.489] [18060] [I] WebUI: PrismaUI API acquired
+[08:15:07.489] [18060] [I] WebUI: KeyHandler sink registered
+[08:15:07.489] [18060] [I] WebUI: Escape registered; menu hotkey follows leash.controls.hotkey
+[08:15:07.813] [30560] [I] WebUI: DomReady
+[08:15:18.960] [30560] [I] WebUI: game ready
+[08:16:16.454] [5220 ] [I] InjuryEngine: installed=true
+[08:16:16.773] [8636 ] [I] InjuryEngine: falling x2 on 29000D95 narrate=true
+[08:16:18.138] [ 864 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:19.239] [5220 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:20.328] [5220 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:21.354] [ 532 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:22.404] [ 532 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:23.487] [41820] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:24.522] [8636 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:25.588] [ 532 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:27.821] [8636 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:28.871] [8636 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:29.921] [ 864 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:30.971] [ 532 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:32.021] [ 532 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:33.071] [ 864 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:34.088] [41820] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:35.156] [31680] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:36.205] [ 532 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:37.272] [ 864 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:38.339] [ 532 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:39.390] [5220 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:40.438] [31680] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false
+[08:16:41.523] [8636 ] [I] InjuryEngine: leash_dragging x1 on 29000D95 narrate=false

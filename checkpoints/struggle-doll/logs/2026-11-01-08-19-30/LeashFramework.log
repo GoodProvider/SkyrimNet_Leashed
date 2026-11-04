@@ -1,0 +1,24 @@
+[08:14:32.474] [30560] [I] LeashFramework v1-1-7-0
+[08:14:32.474] [30560] [I] LeashFramework loading
+[08:14:32.474] [30560] [I] Registered leash serialization
+[08:14:32.474] [30560] [I] LeashFramework loaded
+[08:14:53.175] [33500] [I] Registered LeashFramework Papyrus API
+[08:14:58.380] [18060] [I] Installed AI-controlled camera freedom hook
+[08:14:58.380] [18060] [I] Installed greeting suppression hook
+[08:14:58.380] [18060] [I] Installed player controller and NPC movement constraints
+[08:14:58.380] [18060] [I] Installed NPC and player ragdoll hold hooks
+[08:14:58.380] [18060] [I] Installed frame hooks
+[08:14:58.381] [18060] [I] Loaded menu settings
+[08:14:58.381] [18060] [I] Registered Leash Framework mod menu
+[08:15:18.886] [30560] [I] Loaded 0 persistent leash(es)
+[08:15:33.834] [31680] [I] Sent LeashFramework_OnLeash for 29000D95 with reason 'applied'
+[08:15:33.835] [31680] [I] Applied leash to 29000D95
+[08:15:33.849] [30560] [I] Bound 13 leash bones containing 'Leash1' under 'NPC Spine2 [Spn2]' for 00000014->29000D95
+[08:16:13.385] [30560] [I] Sent LeashFramework_OnActorPulled for 29000D95 at distance 225.1
+[08:16:13.818] [30560] [I] Exceeded by 0.7489624
+[08:16:14.819] [30560] [I] Sent LeashFramework_OnActorStopPull for 29000D95
+[08:16:14.835] [30560] [I] Sent LeashFramework_OnActorPulled for 29000D95 at distance 253.6
+[08:16:15.052] [30560] [I] Exceeded by 8.4086
+[08:16:15.835] [30560] [I] Started forced recovery for 29000D95 at distance 761.6
+[08:16:15.835] [30560] [I] Sent LeashFramework_OnActorStopPull for 29000D95
+[08:16:15.868] [30560] [I] Sent LeashFramework_OnActorRagdollPulled for 29000D95 at distance 779.8

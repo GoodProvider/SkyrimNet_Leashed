@@ -1,0 +1,28 @@
+[02:58:08.176] [178088] [I] SkyrimNet_Leashed v0-4-4-0
+[02:58:08.176] [178088] [I] SkyrimNet_Leashed loading
+[02:58:08.176] [178088] [I] SkyrimNet_Leashed loaded
+[03:01:48.557] [182384] [I] Registered SkyrimNet_Leashed_Native Papyrus functions
+[03:06:27.270] [182736] [I] SkyrimNet API v12 resolved
+[03:06:27.271] [182736] [I] Registered decorator 'is_leash_available'
+[03:06:27.271] [182736] [I] Registered decorator 'is_unleash_available'
+[03:06:27.271] [182736] [I] Registered decorator 'speaker_on_leash'
+[03:06:27.272] [182736] [I] Registered decorator 'leashed_nearby'
+[03:06:27.272] [182736] [I] Registered decorator 'unleashed_nearby'
+[03:06:27.272] [182736] [I] Registered decorator 'speaker_is_leashed'
+[03:06:27.272] [182736] [I] Registered decorator 'collared_nearby'
+[03:06:27.272] [182736] [I] Registered decorator 'speaker_is_struggling'
+[03:06:27.273] [182736] [I] Registered decorator 'speaker_holds_leash'
+[03:06:27.273] [182736] [I] Registered decorator 'get_speaker_held_actors'
+[03:06:27.273] [182736] [I] Registered decorator 'is_struggle_enabled'
+[03:06:27.273] [182736] [I] Registered decorator 'get_nearby_unleashed_actors'
+[03:06:27.273] [182736] [I] Registered decorator 'get_nearby_leashed_actors'
+[03:06:27.274] [182736] [I] Registered decorator 'get_speaker_leash_partners'
+[03:06:27.274] [182736] [I] Registered decorator 'leashframework_visible_pairs'
+[03:06:27.274] [182736] [I] Registered decorator 'get_nearby_collared_actors'
+[03:06:27.274] [182736] [I] Registered decorator 'get_nearby_actors'
+[03:06:27.277] [182736] [I] SkyrimNet_Leashed registered with SkyrimNet
+[03:06:27.277] [182736] [I] WebUI: PrismaUI API acquired
+[03:06:27.278] [182736] [I] WebUI: KeyHandler sink registered
+[03:06:27.278] [182736] [I] WebUI: Escape registered; menu hotkey follows leash.controls.hotkey
+[03:06:34.891] [178088] [I] WebUI: DomReady
+[03:16:18.560] [178088] [I] WebUI: game ready

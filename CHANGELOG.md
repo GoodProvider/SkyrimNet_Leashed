@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.4.5](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.5) — since [0.4.4](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4)
 
 ### Papyrus
 
@@ -16,6 +16,8 @@
 ### SKSE / WebUI
 
 - `LeashState` tracks pulls with a `ModCallbackEvent` sink on `LeashFramework_OnActorPulled` / `LeashFramework_OnActorStopPull`. Session only; `PruneBeingPulled` drops actors that are gone or have no 3D. New native `IsBeingPulled` and flag decorator `speaker_is_down_or_pulled`.
+
+- `StateCache` performance: `GetLeashedFaction` / `GetLeasherFaction` cache the form instead of scanning the plugin list per actor pair; at most one refresh waits in the SKSE task queue (`g_refreshQueued`); `RefreshTable` computes per-actor values once per refresh. Logs the thread that runs the queued refresh and any refresh over 10 ms.
 
 - The `\` leash panel moved from PrismaUI to Magelight UI. `WebUI.cpp` uses raw `MagelightApi4` (`minHostVersion` 0.30.1); no PrismaUI fallback. Headers vendored from 1.7.1 in `SKSE_Source/lib/Magelight/api/`; `lib/PrismaUI` removed.
 - Page moved to `Magelight/SkyrimNet_Leashed/views/panel/index.html`. It captures Escape (peel, then close) and closes on the hotkey. `OpenPayload` gains `hotkeyVk`.

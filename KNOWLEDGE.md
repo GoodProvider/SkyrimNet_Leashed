@@ -81,6 +81,16 @@ All 7 Leash.esm ArmorAddons (`Leash_neckAA`, `Leash_neck_chainAA`, `Leash_neck_r
 - LF has no "is being pulled" query. `LeashState` tracks it with a native `ModCallbackEvent` sink, not Papyrus: LF can stop and restart a pull 16 ms apart, and Papyrus handlers can lag by about 0.6 s, so a late stop could leave the flag wrong.
 - `PullController::Release` sends no stop event when the follower cannot be resolved. `StateCache::Refresh` calls `PruneBeingPulled` to drop actors that are gone or have no 3D. The flag is never saved.
 
+## StateCache refresh cost: alt-tab freeze and 750 ms hitch (2026-11-03)
+
+A user profile of 0.4.1 showed a 12-25 s freeze after alt-tab and a 55-70 ms frame every 750 ms. Details: [checkpoints/alt-tab-hanging/checkpoint-02.md](checkpoints/alt-tab-hanging/checkpoint-02.md). The fix compiles, but is not yet confirmed in game.
+
+- **No by-name `LookupForm` in per-actor paths.** It walks the whole plugin list and runs `strlen` on each name. `GetLeashedFaction` / `GetLeasherFaction` did this about 2N² times per refresh, which was about 75% of the profile samples. They now cache the pointer, and never cache a miss.
+- **Never queue a recurring task without coalescing.** A refresh was queued every 750 ms with no check. The likely cause of the freeze is that those tasks pile up while the game is unfocused, then all run on return (inferred, not measured). `g_refreshQueued` now allows one at a time.
+- **`RefreshTable` holds per-actor values for one refresh.** Status flags are computed on first use. UUID and name stay lazy, so only actors that land in a payload call `FormIDToUUID`, as before.
+- **Open:** the profile put the periodic bursts on engine worker threads, while `StateCache.h` says "Main thread only". `NoteRefreshThread` logs which thread runs the queued refresh. If it is not the main thread, `HasLineOfSight` and the other game calls in `Refresh` need a separate fix.
+- A refresh over 10 ms logs its duration and actor count, at most once per 60 s.
+
 ## Injury Engine injuries and dragging events (2026-10-09)
 
 - `SKSE/Plugins/Injury_Engine/injuries/leash_dragging.json` lives in this repo but belongs to Injury Engine's folder: the mod manager merges it, and Injury Engine loads every `injuries/*.json`. Its body block must stay identical to Injury Engine's `whipping.json`; its sexual parts weigh 0 (Injury Engine's `sexual_parts.json` has no text for it). `falling.json` is Injury Engine's own (a `both` file: torture half `falling`, health half `falling_real` for real height falls).

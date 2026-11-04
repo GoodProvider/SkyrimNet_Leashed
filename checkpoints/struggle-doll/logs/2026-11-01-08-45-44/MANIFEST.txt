@@ -1,0 +1,3 @@
+2090	2026-11-01 08:42:26	C:\Users\bhuff\OneDrive\Documents\My Games\Skyrim Special Edition\SKSE\SkyrimNet_Leashed.log
+1497	2026-11-01 08:43:19	C:\Users\bhuff\OneDrive\Documents\My Games\Skyrim Special Edition\SKSE\LeashFramework.log
+163241	2026-11-01 08:43:53	C:\Users\bhuff\OneDrive\Documents\My Games\Skyrim Special Edition\Logs\Script\Papyrus.0.log

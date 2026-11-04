@@ -1,0 +1,53 @@
+[02:57:58.849] [178088] [I] LeashFramework v1-1-7-0
+[02:57:58.849] [178088] [I] LeashFramework loading
+[02:57:58.849] [178088] [I] Registered leash serialization
+[02:57:58.849] [178088] [I] LeashFramework loaded
+[03:01:48.317] [182384] [I] Registered LeashFramework Papyrus API
+[03:04:25.479] [182736] [I] Installed AI-controlled camera freedom hook
+[03:04:25.479] [182736] [I] Installed greeting suppression hook
+[03:04:25.479] [182736] [I] Installed player controller and NPC movement constraints
+[03:04:25.480] [182736] [I] Installed NPC and player ragdoll hold hooks
+[03:04:25.480] [182736] [I] Installed frame hooks
+[03:04:25.491] [182736] [I] Loaded menu settings
+[03:04:25.492] [182736] [I] Registered Leash Framework mod menu
+[03:16:11.874] [178088] [I] Sent LeashFramework_OnLeash for 00000014 with reason 'loaded'
+[03:16:11.875] [178088] [I] Loaded 1 persistent leash(es)
+[03:16:20.099] [178088] [W] Unable to bind leash 0004D247->00000014: found 0 child bone(s) containing 'Leash1' under 'NPC Spine1 [Spn1]'
+[03:19:21.610] [178088] [I] Teleported follower 00000014 to leader 0004D247; reason=excessive distance; navmesh=false
+[03:19:22.005] [178088] [I] Teleported leash partner 0004D247 to player after positioning; navmesh=true
+[03:19:22.006] [178088] [I] Teleported 1 leash partner(s) after player positioning
+[03:19:31.778] [178088] [I] Teleported follower 00000014 to leader 0004D247; reason=excessive distance; navmesh=false
+[03:19:32.001] [178088] [I] Teleported leash partner 0004D247 to player after positioning; navmesh=true
+[03:19:32.001] [178088] [I] Teleported 1 leash partner(s) after player positioning
+[03:20:29.002] [178088] [I] Teleported leash partner 0004D247 to player after positioning; navmesh=true
+[03:20:29.002] [178088] [I] Teleported 1 leash partner(s) after player positioning
+[03:22:14.988] [178088] [I] Saved menu settings
+[03:24:42.831] [178088] [I] Saved menu settings
+[03:27:12.655] [178088] [I] Saved menu settings
+[03:28:36.344] [178088] [I] Saved menu settings
+[03:29:49.805] [178088] [I] Saved menu settings
+[03:30:59.831] [178088] [I] Saved menu settings
+[03:33:19.094] [178088] [I] Saved menu settings
+[03:35:44.742] [178088] [I] Saved menu settings
+[03:39:04.322] [178088] [I] Saved menu settings
+[03:42:15.474] [178088] [I] Saved menu settings
+[03:45:30.437] [178088] [I] Teleported leash partner 0004D247 to player after positioning; navmesh=true
+[03:45:30.437] [178088] [I] Teleported 1 leash partner(s) after player positioning
+[03:50:23.529] [178088] [I] Teleported leash partner 0004D247 to player after positioning; navmesh=true
+[03:50:23.529] [178088] [I] Teleported 1 leash partner(s) after player positioning
+[03:51:08.032] [178088] [I] Teleported leash partner 0004D247 to player after positioning; navmesh=true
+[03:51:08.033] [178088] [I] Teleported 1 leash partner(s) after player positioning
+[03:51:12.280] [178088] [I] Teleported leash partner 0004D247 to player after positioning; navmesh=true
+[03:51:12.280] [178088] [I] Teleported 1 leash partner(s) after player positioning
+[03:51:13.234] [178088] [I] Teleported leash partner 0004D247 to player after positioning; navmesh=true
+[03:51:13.234] [178088] [I] Teleported 1 leash partner(s) after player positioning
+[03:51:21.975] [178088] [I] Teleported leash partner 0004D247 to player after positioning; navmesh=true
+[03:51:21.975] [178088] [I] Teleported 1 leash partner(s) after player positioning
+[04:38:31.976] [178088] [I] Teleported leash partner 0004D247 to player after positioning; navmesh=true
+[04:38:31.977] [178088] [I] Teleported 1 leash partner(s) after player positioning
+[04:42:44.784] [178088] [I] Teleported follower 00000014 to leader 0004D247; reason=excessive distance; navmesh=false
+[04:42:47.025] [178088] [I] Teleported leash partner 0004D247 to player after positioning; navmesh=true
+[04:42:47.025] [178088] [I] Teleported 1 leash partner(s) after player positioning
+[04:43:11.402] [178088] [I] Teleported follower 00000014 to leader 0004D247; reason=excessive distance; navmesh=false
+[04:43:13.006] [178088] [I] Teleported leash partner 0004D247 to player after positioning; navmesh=true
+[04:43:13.006] [178088] [I] Teleported 1 leash partner(s) after player positioning

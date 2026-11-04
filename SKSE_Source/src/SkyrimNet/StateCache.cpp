@@ -7,6 +7,8 @@
 
 #include <glaze/glaze.hpp>
 
+#include <Windows.h>
+
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
@@ -42,6 +44,8 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         constexpr std::string_view kEmptyPairs = R"({"pairs":[]})";
         constexpr std::string_view kEmptyActors = R"({"actorIds":[],"actorsNameString":""})";
         constexpr auto kRefreshInterval = std::chrono::milliseconds(750);
+        constexpr auto kSlowRefresh = std::chrono::milliseconds(10);
+        constexpr auto kSlowRefreshLogInterval = std::chrono::seconds(60);
 
         struct Snapshot {
             bool leashAvailable{false};
@@ -83,6 +87,14 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         // refresh resolves them on the main thread so the miss is self-healing.
         std::unordered_set<RE::FormID> g_pending;
         std::atomic<bool> g_struggleEnabled{true};
+        // At most one refresh waits in the SKSE task queue. The queue is not drained while
+        // the game is paused or unfocused, so queueing on every tick would build a backlog
+        // that all runs back to back when the game resumes.
+        std::atomic<bool> g_refreshQueued{false};
+        std::atomic<DWORD> g_startThreadID{0};
+        std::atomic<bool> g_loggedRefreshThread{false};
+        std::atomic<bool> g_loggedOffStartThread{false};
+        std::atomic<std::int64_t> g_lastSlowLogMs{0};
 
         std::mutex g_wakeMutex;
         std::condition_variable_any g_wake;
@@ -138,15 +150,56 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
             return json;
         }
 
-        std::string ActorsPayload(const std::vector<RE::Actor*>& a_actors) {
+        // Per-actor values for one refresh. BuildSnapshot runs for every speaker over every
+        // nearby actor, so each of these would otherwise be recomputed N times. Labels stay
+        // lazy: only actors that land in a payload ask SkyrimNet for a UUID.
+        class RefreshTable {
+        public:
+            struct Status {
+                bool dead{false};
+                bool leashed{false};
+                bool leashedOrHolder{false};
+            };
+
+            struct Label {
+                std::uint64_t uuid{0};
+                std::string name;
+            };
+
+            const Status& StatusOf(RE::Actor* a_actor) {
+                const auto [it, inserted] = _statuses.try_emplace(a_actor);
+                if (inserted) {
+                    it->second.dead = a_actor->IsDead();
+                    it->second.leashed = LeashState::IsLeashed(a_actor);
+                    it->second.leashedOrHolder = it->second.leashed || LeashState::IsLeashHolder(a_actor);
+                }
+                return it->second;
+            }
+
+            const Label& LabelOf(RE::Actor* a_actor) {
+                const auto [it, inserted] = _labels.try_emplace(a_actor);
+                if (inserted) {
+                    it->second.uuid = Api::FormIDToUUID(a_actor->GetFormID());
+                    it->second.name = LeashState::DisplayName(a_actor);
+                }
+                return it->second;
+            }
+
+        private:
+            std::unordered_map<RE::Actor*, Status> _statuses;
+            std::unordered_map<RE::Actor*, Label> _labels;
+        };
+
+        std::string ActorsPayload(const std::vector<RE::Actor*>& a_actors, RefreshTable& a_table) {
             ActorsJson payload;
             std::vector<std::string> names;
             names.reserve(a_actors.size());
             for (auto* actor : a_actors) {
-                if (const auto uuid = Api::FormIDToUUID(actor->GetFormID()); uuid != 0) {
-                    payload.actorIds.push_back(uuid);
+                const auto& label = a_table.LabelOf(actor);
+                if (label.uuid != 0) {
+                    payload.actorIds.push_back(label.uuid);
                 }
-                names.push_back(LeashState::DisplayName(actor));
+                names.push_back(label.name);
             }
             payload.actorsNameString = FormatNames(names);
             return WriteJson(payload, kEmptyActors);
@@ -164,12 +217,13 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
             };
         }
 
-        Snapshot BuildSnapshot(RE::Actor* a_speaker, const std::vector<RE::Actor*>& a_nearby, const std::vector<Pair>& a_pairs, bool a_pluginLoaded) {
+        Snapshot BuildSnapshot(RE::Actor* a_speaker, const std::vector<RE::Actor*>& a_nearby, const std::vector<Pair>& a_pairs, bool a_pluginLoaded, RefreshTable& a_table) {
             Snapshot snapshot;
             const auto speakerID = a_speaker->GetFormID();
+            const auto& speakerStatus = a_table.StatusOf(a_speaker);
 
-            snapshot.leashAvailable = a_pluginLoaded && !a_speaker->IsDead() && !a_speaker->IsInCombat();
-            snapshot.unleashAvailable = LeashState::IsLeashed(a_speaker) || LeashState::IsLeashHolder(a_speaker);
+            snapshot.leashAvailable = a_pluginLoaded && !speakerStatus.dead && !a_speaker->IsInCombat();
+            snapshot.unleashAvailable = speakerStatus.leashedOrHolder;
 
             PairsJson visible;
             std::vector<RE::Actor*> partners;
@@ -189,11 +243,11 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
                 }
             }
             snapshot.visiblePairs = WriteJson(visible, kEmptyPairs);
-            snapshot.leashPartners = ActorsPayload(partners);
+            snapshot.leashPartners = ActorsPayload(partners, a_table);
             snapshot.speakerOnLeash = !partners.empty();
-            snapshot.heldActors = ActorsPayload(held);
+            snapshot.heldActors = ActorsPayload(held, a_table);
             snapshot.speakerHoldsLeash = !held.empty();
-            snapshot.speakerIsLeashed = LeashState::IsLeashed(a_speaker);
+            snapshot.speakerIsLeashed = speakerStatus.leashed;
             snapshot.speakerIsStruggling = LeashState::IsStruggling(a_speaker);
             snapshot.speakerDownOrPulled = LeashState::IsKnockedDown(a_speaker) || LeashState::IsBeingPulled(a_speaker);
 
@@ -202,36 +256,69 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
             std::vector<RE::Actor*> collared;
             std::vector<RE::Actor*> nearby;
             for (auto* actor : a_nearby) {
-                if (actor->GetFormID() == speakerID || actor->IsDead()) {
+                if (actor->GetFormID() == speakerID) {
+                    continue;
+                }
+                const auto& status = a_table.StatusOf(actor);
+                if (status.dead) {
                     continue;
                 }
                 nearby.push_back(actor);
                 // A holder who is not leashed belongs in both lists: they can be unleashed
                 // from whoever they hold, and they are still a valid leash target.
-                const bool actorLeashed = LeashState::IsLeashed(actor);
-                if (actorLeashed || LeashState::IsLeashHolder(actor)) {
+                if (status.leashedOrHolder) {
                     leashed.push_back(actor);
                 }
-                if (actorLeashed) {
+                if (status.leashed) {
                     collared.push_back(actor);
                 }
-                if (!actorLeashed) {
+                if (!status.leashed) {
                     unleashed.push_back(actor);
                 }
             }
             snapshot.leashedNearby = !leashed.empty();
             snapshot.unleashedNearby = !unleashed.empty();
             snapshot.collaredNearby = !collared.empty();
-            snapshot.leashedActors = ActorsPayload(leashed);
-            snapshot.unleashedActors = ActorsPayload(unleashed);
-            snapshot.collaredActors = ActorsPayload(collared);
-            snapshot.nearbyActors = ActorsPayload(nearby);
+            snapshot.leashedActors = ActorsPayload(leashed, a_table);
+            snapshot.unleashedActors = ActorsPayload(unleashed, a_table);
+            snapshot.collaredActors = ActorsPayload(collared, a_table);
+            snapshot.nearbyActors = ActorsPayload(nearby, a_table);
 
             return snapshot;
+        }
+
+        // StateCache.h assumes the main thread, which is what the kDataLoaded handler runs
+        // on. A profile showed these tasks on engine worker threads, so record the answer.
+        void NoteRefreshThread() {
+            const auto current = GetCurrentThreadId();
+            const auto start = g_startThreadID.load(std::memory_order_relaxed);
+            if (current != start) {
+                if (!g_loggedOffStartThread.exchange(true, std::memory_order_relaxed)) {
+                    SKSE::log::warn("StateCache: queued refresh ran on thread {}, kDataLoaded ran on thread {}", current, start);
+                }
+            }
+            if (!g_loggedRefreshThread.exchange(true, std::memory_order_relaxed)) {
+                SKSE::log::info("StateCache: first queued refresh ran on thread {} (kDataLoaded thread {})", current, start);
+            }
+        }
+
+        void NoteRefreshCost(std::chrono::steady_clock::time_point a_started, std::size_t a_actorCount) {
+            const auto now = std::chrono::steady_clock::now();
+            const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - a_started);
+            if (elapsed <= kSlowRefresh) {
+                return;
+            }
+            const auto nowMs = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+            const auto intervalMs = std::chrono::duration_cast<std::chrono::milliseconds>(kSlowRefreshLogInterval).count();
+            auto last = g_lastSlowLogMs.load(std::memory_order_relaxed);
+            if (nowMs - last >= intervalMs && g_lastSlowLogMs.compare_exchange_strong(last, nowMs, std::memory_order_relaxed)) {
+                SKSE::log::info("StateCache: refresh took {} ms for {} actors", elapsed.count(), a_actorCount);
+            }
         }
     }
 
     void Refresh() {
+        const auto started = std::chrono::steady_clock::now();
         g_struggleEnabled.store(WebUI::Config::StruggleEnabled(), std::memory_order_relaxed);
         LeashState::PruneBeingPulled();
 
@@ -258,9 +345,11 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
             }
         }
 
+        RefreshTable table;
         std::vector<Pair> pairs;
         for (auto* actor : actors) {
-            if (actor->IsDead() || !LeashState::IsLeashed(actor)) {
+            const auto& status = table.StatusOf(actor);
+            if (status.dead || !status.leashed) {
                 continue;
             }
             auto* holder = LeashState::GetLeashHolder(actor);
@@ -287,13 +376,15 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         std::unordered_map<RE::FormID, Snapshot> next;
         next.reserve(actors.size());
         for (auto* speaker : actors) {
-            next.insert_or_assign(speaker->GetFormID(), BuildSnapshot(speaker, actors, pairs, pluginLoaded));
+            next.insert_or_assign(speaker->GetFormID(), BuildSnapshot(speaker, actors, pairs, pluginLoaded, table));
         }
 
         {
             std::lock_guard lock{g_mutex};
             g_snapshots = std::move(next);
         }
+
+        NoteRefreshCost(started, actors.size());
     }
 
     bool StruggleEnabled() {
@@ -373,6 +464,7 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         if (g_thread.joinable()) {
             return;
         }
+        g_startThreadID.store(GetCurrentThreadId(), std::memory_order_relaxed);
         Refresh();
         g_thread = std::jthread([](std::stop_token a_stop) {
             while (!a_stop.stop_requested()) {
@@ -382,8 +474,14 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
                         return;
                     }
                 }
-                if (auto* tasks = SKSE::GetTaskInterface()) {
-                    tasks->AddTask([] { Refresh(); });
+                auto* tasks = SKSE::GetTaskInterface();
+                if (tasks && !g_refreshQueued.exchange(true, std::memory_order_acq_rel)) {
+                    tasks->AddTask([] {
+                        // Cleared first, so a tick during this refresh can queue the next one.
+                        g_refreshQueued.store(false, std::memory_order_release);
+                        NoteRefreshThread();
+                        Refresh();
+                    });
                 }
             }
         });
@@ -398,6 +496,8 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
     }
 
     void Reset() {
+        // Refreshes must not stop for good if a load boundary ever drops a queued task.
+        g_refreshQueued.store(false, std::memory_order_release);
         std::lock_guard lock{g_mutex};
         g_snapshots.clear();
         g_pending.clear();

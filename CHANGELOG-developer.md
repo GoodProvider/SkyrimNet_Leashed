@@ -1,7 +1,8 @@
-Unreleased
+https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.5
 
 - **Panel on Magelight UI.** The `\` panel moved from PrismaUI to Magelight UI (raw `MagelightApi4`, `minHostVersion` 0.30.1, no PrismaUI fallback). Page: `Magelight/SkyrimNet_Leashed/views/panel/index.html`. Listeners post with `PostGameTask`; the view is shown on `UIModeEntered`, hidden on `UIModeExited`; the page captures Escape and closes on `hotkeyVk`. `PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js` stays: SexLab's Target Menu reads it under either host.
 - **Struggle ends on every pull.** `OnLeashFrameworkPulled` ends struggle on any pull, not only at or beyond `GetMaxLeashLength`, reversing the 1.1.3 rule: an actor-held NPC only struggles while the holder stands still. `OnUpdate` ends struggle on `IsKnockedDown` or `IsBeingPulled`, `StruggleExecute` refuses both, and `PlayStruggleAnim` re-checks just before sending. The pull and ragdoll paths send `StruggleStoppedEvent`. New native `IsBeingPulled`, backed by a `ModCallbackEvent` sink in `LeashState`, and flag decorator `speaker_is_down_or_pulled`, used by `leashed_escape_struggle`.
+- **Alt-tab freeze and 750 ms hitch.** From a user's WPR profile of 0.4.1, about 75% of the plugin's samples were `LookupForm`'s by-name plugin scan, reached from `IsLeashed` / `IsLeashHolder` about 2N² times per `StateCache::Refresh`. The faction getters now cache the form (a miss is not stored). The worker queued a `Refresh` every 750 ms with no check, so tasks could pile up while the game was unfocused; `g_refreshQueued` now limits this to one. `RefreshTable` computes status flags and labels once per refresh, with labels still lazy, so `FormIDToUUID` is only called for actors in a payload. New log lines: the thread that runs the queued refresh, and any refresh over 10 ms (once per 60 s).
 
 https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4
 

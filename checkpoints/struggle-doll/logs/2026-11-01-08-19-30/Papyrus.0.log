@@ -1,0 +1,1433 @@
+[11/01/2026 - 08:14:53AM] Papyrus log opened (PC)
+[11/01/2026 - 08:14:53AM] Update budget: 1.200000ms (Extra tasklet budget: 1.200000ms, Load screen budget: 2000.000000ms)
+[11/01/2026 - 08:14:53AM] Memory page: 128 (min) 512 (max) 153600 (max total)
+[11/01/2026 - 08:14:53AM] Cannot open store for class "sethirelingrehire3dnpc", missing file?
+[11/01/2026 - 08:14:55AM] Cannot open store for class "DLCDwarvenPuzzleWinterFreezing", missing file?
+[11/01/2026 - 08:14:55AM] Cannot open store for class "dlcdwarvenpuzzlecoolantreleaselever", missing file?
+[11/01/2026 - 08:14:55AM] Cannot open store for class "SSE_SF_ccFFBSSE001_QuestScene_02005EB3", missing file?
+[11/01/2026 - 08:14:55AM] Error: Script SSE_SF_ccFFBSSE001_QuestScene_02005EB3 cannot be bound to  (FE01B934) because the script does not exist or is not currently loaded
+[11/01/2026 - 08:14:55AM] Cannot open store for class "SSE_SF_ccFFBSSE001_QuestScene_02000932", missing file?
+[11/01/2026 - 08:14:55AM] Error: Script SSE_SF_ccFFBSSE001_QuestScene_02000932 cannot be bound to  (FE01B932) because the script does not exist or is not currently loaded
+[11/01/2026 - 08:14:55AM] Cannot open store for class "ccBGSSSE038_AssassinEnableScript", missing file?
+[11/01/2026 - 08:14:55AM] Cannot open store for class "SSE_QF_ccBGSSSE051_MiscQuestA_0500083F", missing file?
+[11/01/2026 - 08:14:55AM] Error: Script SSE_QF_ccBGSSSE051_MiscQuestA_0500083F cannot be bound to ccBGSSSE051_MiscQuestAliasFillers (FE03283F) because the script does not exist or is not currently loaded
+[11/01/2026 - 08:14:55AM] Cannot open store for class "DefaultDebugMagicEffect", missing file?
+[11/01/2026 - 08:14:55AM] Cannot open store for class "ccBGSSSE067_ScourgeDremoraScript", missing file?
+[11/01/2026 - 08:14:55AM] Cannot open store for class "KRT_PF_ccKRTSSE001_WhiterunTe_0500081C", missing file?
+[11/01/2026 - 08:14:55AM] Error: Script KRT_PF_ccKRTSSE001_WhiterunTe_0500081C cannot be bound to  (FE03E81C) because the script does not exist or is not currently loaded
+[11/01/2026 - 08:14:55AM] Cannot open store for class "ccKRTSSE001_zQuestScen_05000F40", missing file?
+[11/01/2026 - 08:14:55AM] Error: Script ccKRTSSE001_zQuestScen_05000F40 cannot be bound to  (FE03EF40) because the script does not exist or is not currently loaded
+[11/01/2026 - 08:14:56AM] Cannot open store for class "MCM_ConfigBase", missing file?
+[11/01/2026 - 08:14:56AM] Error: Unable to link "MCM_ConfigBase" - the parent of "TrueHUD_MCM".
+[11/01/2026 - 08:14:56AM] Error: Script TrueHUD_MCM cannot be bound to TrueHUD_MCM_Quest (FE043800) because the script does not exist or is not currently loaded
+[11/01/2026 - 08:14:56AM] Cannot open store for class "ZazOnTriggerEnterBindingsTMG", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "pahoportable", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "phhshstoragefunctions", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "SSLV_MainScr", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "vkjmq", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "phhshportablecellscript", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "sexlabthread", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "dse_dm_ActiPlaceableBase", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "aygascorescript", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "PAHActorAlias", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "pahslavemind", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "PAHSlave", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "pah_mcm", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "pahnpceval", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "pahpunishmentrapescript", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "pahcore", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "pahocampoperation", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "phhshtaskmaster", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "pahocatchmorecriminals", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "phhshhouseslave", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "pahsccorescript", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "phhshflexistorage", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "phhshslal", missing file?
+[11/01/2026 - 08:14:56AM] Cannot open store for class "pahocore", missing file?
+[11/01/2026 - 08:14:57AM] Cannot open store for class "arth_sf_storefrontquestscript", missing file?
+[11/01/2026 - 08:14:57AM] Error: Unknown property type 97 loaded from disk for property  on script SkyrimNet_SexLab_Handler_UDNG_PR
+[11/01/2026 - 08:14:57AM] Error: Unknown property type 101 loaded from disk for property  on script SkyrimNet_SexLab_Handler_UDNG_PR
+[11/01/2026 - 08:14:57AM] Error: Unable to bind script Precision_MCM (Precision_MCM->MCM_ConfigBase) to Precision_MCM_Quest (FE05E800) because their base types do not match
+[11/01/2026 - 08:14:57AM] Cannot open store for class "OPQuickieQuestScript", missing file?
+[11/01/2026 - 08:15:13AM] Error: Unable to bind script defaultIgnoreFriendlyHits (defaultIgnoreFriendlyHits->ObjectReference->Form) to alias HostlerRef on quest ccBGSSSE034_WildHorsesQuest (FE017D65) because their base types do not match
+[11/01/2026 - 08:15:13AM] warning: Property validMoods on script dom_api attached to DOM01 (16000D61) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:13AM] warning: Property traitnames on script dom_api attached to DOM01 (16000D61) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:13AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D86E) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:13AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D86E) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:13AM] warning: Property ccBGSSSE019_SheogorathNote01 on script QF_ccBGSSSE019_StaffOfSheogo_03000822 attached to ccBGSSSE019_StaffOfSheogorathQuest (FE00A822) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:13AM] Error: Property SolitudeOrigin on script nwsfollowersandboxscript attached to nwsFollowerSandbox (23179283) cannot be bound because <nullptr form> (00037EE9) is not the right type
+[11/01/2026 - 08:15:13AM] warning: Property ccMTYSSE002_VE_Message01 on script SSE_PF_ccMTYSSE002_WindpeakIn_050009A0 attached to  (FE01C9A0) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:13AM] warning: Property ccMTYSSE002_VE_Message04 on script SSE_PF_ccMTYSSE002_WindpeakIn_050009A0 attached to  (FE01C9A0) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:13AM] warning: Property myCell on script ccASVSSE001_DoorUnlockScript attached to  (05000F2B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property ccMTYSSE002_VE_Message06 on script SSE_PF_ccMTYSSE002_Dawnstarto_050009A5 attached to  (FE01C9A5) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property ccMTYSSE002_VE_Message03 on script SSE_PF_ccMTYSSE002_Dawnstarto_050009A5 attached to  (FE01C9A5) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D855) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D855) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] Error: Property myQuest on script defaultcounter attached to  (0E000835) cannot be bound because <nullptr form> (0E001185) is not the right type
+[11/01/2026 - 08:15:14AM] warning: Property myQuest on script ccBGSSSE031_FastTravelFlagScript attached to  (0A0392E2) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property myLocationDiscovered on script ccBGSSSE031_FastTravelFlagScript attached to  (0A0392E2) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property noCheckNeeded on script ccBGSSSE031_FastTravelFlagScript attached to  (0A0392E2) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Boss1 on script ccBGSSE008_MessengerScript attached to  (FE01983C) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property boss2 on script ccBGSSE008_MessengerScript attached to  (FE01983C) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property boss3 on script ccBGSSE008_MessengerScript attached to  (FE01983C) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property crystalEnableRef on script ccBGSSSE008_VaultOpenScript attached to  (FE019A68) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Alias_Jarl on script SSE_QF_ccBGSSSE064_MiscQuest_0200081A attached to ccBGSSSE064_MiscQuest (FE02B81A) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Alias_Steward on script SSE_QF_ccBGSSSE064_MiscQuest_0200081A attached to ccBGSSSE064_MiscQuest (FE02B81A) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property rabbitQuest on script ccVSVSSE002_MainQuestScript attached to ccVSVSSE002_MainQuest (FE0158C8) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property foxQuest on script ccVSVSSE002_MainQuestScript attached to ccVSVSSE002_MainQuest (FE0158C8) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property skeeverQuest on script ccVSVSSE002_MainQuestScript attached to ccVSVSSE002_MainQuest (FE0158C8) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property spiderQuest on script ccVSVSSE002_MainQuestScript attached to ccVSVSSE002_MainQuest (FE0158C8) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property myQuest on script ccBGSSSE031_FastTravelFlagScript attached to  (0A03E3EE) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property myLocationDiscovered on script ccBGSSSE031_FastTravelFlagScript attached to  (0A03E3EE) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property noCheckNeeded on script ccBGSSSE031_FastTravelFlagScript attached to  (0A03E3EE) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property myQuest on script ccBGSSSE031_FastTravelFlagScript attached to  (0A03E3ED) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property myLocationDiscovered on script ccBGSSSE031_FastTravelFlagScript attached to  (0A03E3ED) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property noCheckNeeded on script ccBGSSSE031_FastTravelFlagScript attached to  (0A03E3ED) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property nwsInterpolate on script nwsfollowercontrollerscript attached to nwsFollowerController (2300434F) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property myQuest on script ccBGSSSE031_FastTravelFlagScript attached to  (0A0341D7) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property myLocationDiscovered on script ccBGSSSE031_FastTravelFlagScript attached to  (0A0341D7) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property noCheckNeeded on script ccBGSSSE031_FastTravelFlagScript attached to  (0A0341D7) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property GameHour on script ccKRTSSE001_FerryScript attached to ccKRTSSE001_FerrySystem (FE03EA7B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property TimeToPass on script ccKRTSSE001_FerryScript attached to ccKRTSSE001_FerrySystem (FE03EA7B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Stages on script skyrimnet_sexlab_menu attached to SkyrimNet_SexLab (FE050800) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Stages on script SkyrimNet_SexLab_Scene_Manager attached to SkyrimNet_SexLab (FE050800) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Stages on script SkyrimNet_SexLab_MCM attached to SkyrimNet_SexLab (FE050800) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property wraithguard on script ccBGSSE008_WraithguardScript attached to alias ccBGSSSE008_Player on quest ccBGSSSE008_PlayerTrackingQuest (FE019B60) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D856) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D856) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D857) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D857) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property SummonFX on script QF_ccBGSSSE016_UmbraMainQues_020021B6 attached to ccBGSSSE016_UmbraMainQuest (090021B6) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Alias_BountyHunterNote on script SSE_QF_ccBGSSSE050_Quest_02000822 attached to ccBGSSSE050_Quest (FE022822) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Alias_Champion05 on script SSE_QF_ccFFBSSE001_CorpseChec_0200086B attached to ccFFBSSE001_CorpseCheck (FE01B86B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Alias_Champion04 on script SSE_QF_ccFFBSSE001_CorpseChec_0200086B attached to ccFFBSSE001_CorpseCheck (FE01B86B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D85C) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D85C) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property C R Butt on script SkyrimNet_SexLab_Handler_UDNG_PR attached to alias PlayerRef on quest skyrimnet_sexlab_udng_handler (FE052800) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property  on script SkyrimNet_SexLab_Handler_UDNG_PR attached to alias PlayerRef on quest skyrimnet_sexlab_udng_handler (FE052800) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property CS_Coralyn_CallWolf4 on script cs_coralyncombatscript attached to CS_CoralynCombat (29085455) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property CS_Coralyn_CallWolf1 on script cs_coralyncombatscript attached to CS_CoralynCombat (29085455) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property CS_Coralyn_CallWolfPack on script cs_coralyncombatscript attached to CS_CoralynCombat (29085455) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property CS_Coralyn_CallWolf2 on script cs_coralyncombatscript attached to CS_CoralynCombat (29085455) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property CS_Coralyn_CallWolf3 on script cs_coralyncombatscript attached to CS_CoralynCombat (29085455) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D858) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D858) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property stageToCheck on script ccKRTSSE001_CourierEquipScript attached to  (FE03EFFC) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property myQuest on script ccKRTSSE001_CourierEquipScript attached to  (FE03EFFC) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Alias_Amulet_Madesi on script QF_ccEDHSSE001_UtilityQuest_03000830 attached to ccEDHSSE001_UtilityQuest (FE014830) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Alias_Ring_Madesi on script QF_ccEDHSSE001_UtilityQuest_03000830 attached to ccEDHSSE001_UtilityQuest (FE014830) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Alias_Merchant_Chest_Madesi on script QF_ccEDHSSE001_UtilityQuest_03000830 attached to ccEDHSSE001_UtilityQuest (FE014830) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property Alias_Circlet_Madesi on script QF_ccEDHSSE001_UtilityQuest_03000830 attached to ccEDHSSE001_UtilityQuest (FE014830) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D859) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D859) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property DLCDwarvenpuzzleDungeonHorseMessage on script dlcdwarvenpuzzle_rebuildhorsescript attached to  (070038D4) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property DLCDwarvenpuzzleDungeonHorseCompleteMessage on script dlcdwarvenpuzzle_rebuildhorsescript attached to  (070038D4) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D85A) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D85A) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D85B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D85B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:14AM] VM is freezing...
+[11/01/2026 - 08:15:14AM] VM is frozen
+[11/01/2026 - 08:15:14AM] Reverting game...
+[11/01/2026 - 08:15:14AM] Error: Script SSE_QF_ccBGSSSE051_MiscQuestA_0500083F cannot be bound to ccBGSSSE051_MiscQuestAliasFillers (FE03283F) because the script does not exist or is not currently loaded
+[11/01/2026 - 08:15:14AM] Error: Unable to bind script Precision_MCM (Precision_MCM->MCM_ConfigBase) to Precision_MCM_Quest (FE05E800) because their base types do not match
+[11/01/2026 - 08:15:14AM] Error: Script ccKRTSSE001_zQuestScen_05000F40 cannot be bound to  (FE03EF40) because the script does not exist or is not currently loaded
+[11/01/2026 - 08:15:14AM] Error: Script SSE_SF_ccFFBSSE001_QuestScene_02000932 cannot be bound to  (FE01B932) because the script does not exist or is not currently loaded
+[11/01/2026 - 08:15:14AM] Error: Script KRT_PF_ccKRTSSE001_WhiterunTe_0500081C cannot be bound to  (FE03E81C) because the script does not exist or is not currently loaded
+[11/01/2026 - 08:15:14AM] Error: Script SSE_SF_ccFFBSSE001_QuestScene_02005EB3 cannot be bound to  (FE01B934) because the script does not exist or is not currently loaded
+[11/01/2026 - 08:15:14AM] Error: Script TrueHUD_MCM cannot be bound to TrueHUD_MCM_Quest (FE043800) because the script does not exist or is not currently loaded
+[11/01/2026 - 08:15:18AM] Loading game...
+[11/01/2026 - 08:15:18AM] Error: Unable to bind script defaultIgnoreFriendlyHits (defaultIgnoreFriendlyHits->ObjectReference->Form) to alias HostlerRef on quest ccBGSSSE034_WildHorsesQuest (FE017D65) because their base types do not match
+[11/01/2026 - 08:15:18AM] warning: Property validMoods on script dom_api attached to DOM01 (16000D61) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property traitnames on script dom_api attached to DOM01 (16000D61) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property crystalEnableRef on script ccBGSSSE008_VaultOpenScript attached to  (FE019A68) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D86E) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D86E) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccBGSSSE019_SheogorathNote01 on script QF_ccBGSSSE019_StaffOfSheogo_03000822 attached to ccBGSSSE019_StaffOfSheogorathQuest (FE00A822) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] Error: Property SolitudeOrigin on script nwsfollowersandboxscript attached to nwsFollowerSandbox (23179283) cannot be bound because <nullptr form> (00037EE9) is not the right type
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE002_VE_Message01 on script SSE_PF_ccMTYSSE002_WindpeakIn_050009A0 attached to  (FE01C9A0) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE002_VE_Message04 on script SSE_PF_ccMTYSSE002_WindpeakIn_050009A0 attached to  (FE01C9A0) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property Alias_Champion05 on script SSE_QF_ccFFBSSE001_CorpseChec_0200086B attached to ccFFBSSE001_CorpseCheck (FE01B86B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property Alias_Champion04 on script SSE_QF_ccFFBSSE001_CorpseChec_0200086B attached to ccFFBSSE001_CorpseCheck (FE01B86B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property myCell on script ccASVSSE001_DoorUnlockScript attached to  (05000F2B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE002_VE_Message06 on script SSE_PF_ccMTYSSE002_Dawnstarto_050009A5 attached to  (FE01C9A5) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE002_VE_Message03 on script SSE_PF_ccMTYSSE002_Dawnstarto_050009A5 attached to  (FE01C9A5) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property wraithguard on script ccBGSSE008_WraithguardScript attached to alias ccBGSSSE008_Player on quest ccBGSSSE008_PlayerTrackingQuest (FE019B60) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D85B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D85B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property stageToCheck on script ccKRTSSE001_CourierEquipScript attached to  (FE03EFFC) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property myQuest on script ccKRTSSE001_CourierEquipScript attached to  (FE03EFFC) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property myQuest on script ccBGSSSE031_FastTravelFlagScript attached to  (0A0392E2) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property myLocationDiscovered on script ccBGSSSE031_FastTravelFlagScript attached to  (0A0392E2) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property noCheckNeeded on script ccBGSSSE031_FastTravelFlagScript attached to  (0A0392E2) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property Alias_Jarl on script SSE_QF_ccBGSSSE064_MiscQuest_0200081A attached to ccBGSSSE064_MiscQuest (FE02B81A) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property Alias_Steward on script SSE_QF_ccBGSSSE064_MiscQuest_0200081A attached to ccBGSSSE064_MiscQuest (FE02B81A) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property myQuest on script ccBGSSSE031_FastTravelFlagScript attached to  (0A03E3EE) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property myLocationDiscovered on script ccBGSSSE031_FastTravelFlagScript attached to  (0A03E3EE) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property noCheckNeeded on script ccBGSSSE031_FastTravelFlagScript attached to  (0A03E3EE) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property myQuest on script ccBGSSSE031_FastTravelFlagScript attached to  (0A03E3ED) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property myLocationDiscovered on script ccBGSSSE031_FastTravelFlagScript attached to  (0A03E3ED) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property noCheckNeeded on script ccBGSSSE031_FastTravelFlagScript attached to  (0A03E3ED) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property rabbitQuest on script ccVSVSSE002_MainQuestScript attached to ccVSVSSE002_MainQuest (FE0158C8) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property foxQuest on script ccVSVSSE002_MainQuestScript attached to ccVSVSSE002_MainQuest (FE0158C8) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property skeeverQuest on script ccVSVSSE002_MainQuestScript attached to ccVSVSSE002_MainQuest (FE0158C8) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property spiderQuest on script ccVSVSSE002_MainQuestScript attached to ccVSVSSE002_MainQuest (FE0158C8) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] Error: Property myQuest on script defaultcounter attached to  (0E000835) cannot be bound because <nullptr form> (0E001185) is not the right type
+[11/01/2026 - 08:15:18AM] warning: Property Boss1 on script ccBGSSE008_MessengerScript attached to  (FE01983C) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property boss2 on script ccBGSSE008_MessengerScript attached to  (FE01983C) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property boss3 on script ccBGSSE008_MessengerScript attached to  (FE01983C) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property myQuest on script ccBGSSSE031_FastTravelFlagScript attached to  (0A0341D7) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property myLocationDiscovered on script ccBGSSSE031_FastTravelFlagScript attached to  (0A0341D7) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property noCheckNeeded on script ccBGSSSE031_FastTravelFlagScript attached to  (0A0341D7) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property GameHour on script ccKRTSSE001_FerryScript attached to ccKRTSSE001_FerrySystem (FE03EA7B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property TimeToPass on script ccKRTSSE001_FerryScript attached to ccKRTSSE001_FerrySystem (FE03EA7B) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property C R Butt on script SkyrimNet_SexLab_Handler_UDNG_PR attached to alias PlayerRef on quest skyrimnet_sexlab_udng_handler (FE052800) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property  on script SkyrimNet_SexLab_Handler_UDNG_PR attached to alias PlayerRef on quest skyrimnet_sexlab_udng_handler (FE052800) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property Stages on script skyrimnet_sexlab_menu attached to SkyrimNet_SexLab (FE050800) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property Stages on script SkyrimNet_SexLab_Scene_Manager attached to SkyrimNet_SexLab (FE050800) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property Stages on script SkyrimNet_SexLab_MCM attached to SkyrimNet_SexLab (FE050800) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D855) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D855) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D857) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D857) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property Alias_Amulet_Madesi on script QF_ccEDHSSE001_UtilityQuest_03000830 attached to ccEDHSSE001_UtilityQuest (FE014830) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property Alias_Ring_Madesi on script QF_ccEDHSSE001_UtilityQuest_03000830 attached to ccEDHSSE001_UtilityQuest (FE014830) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property Alias_Merchant_Chest_Madesi on script QF_ccEDHSSE001_UtilityQuest_03000830 attached to ccEDHSSE001_UtilityQuest (FE014830) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property Alias_Circlet_Madesi on script QF_ccEDHSSE001_UtilityQuest_03000830 attached to ccEDHSSE001_UtilityQuest (FE014830) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D856) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D856) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property nwsInterpolate on script nwsfollowercontrollerscript attached to nwsFollowerController (2300434F) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property Alias_BountyHunterNote on script SSE_QF_ccBGSSSE050_Quest_02000822 attached to ccBGSSSE050_Quest (FE022822) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property SummonFX on script QF_ccBGSSSE016_UmbraMainQues_020021B6 attached to ccBGSSSE016_UmbraMainQuest (090021B6) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D85C) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D85C) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D858) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D858) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D859) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D859) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property CS_Coralyn_CallWolf4 on script cs_coralyncombatscript attached to CS_CoralynCombat (29085455) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property CS_Coralyn_CallWolf1 on script cs_coralyncombatscript attached to CS_CoralynCombat (29085455) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property CS_Coralyn_CallWolfPack on script cs_coralyncombatscript attached to CS_CoralynCombat (29085455) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property CS_Coralyn_CallWolf2 on script cs_coralyncombatscript attached to CS_CoralynCombat (29085455) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property CS_Coralyn_CallWolf3 on script cs_coralyncombatscript attached to CS_CoralynCombat (29085455) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property DLCDwarvenpuzzleDungeonHorseMessage on script dlcdwarvenpuzzle_rebuildhorsescript attached to  (070038D4) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property DLCDwarvenpuzzleDungeonHorseCompleteMessage on script dlcdwarvenpuzzle_rebuildhorsescript attached to  (070038D4) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property ccMTYSSE001_CrusaderGlobalShrines on script ccMTYSSE001_ShrineCounter attached to  (FE00D85A) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Property TargetValue on script ccMTYSSE001_ShrineCounter attached to  (FE00D85A) cannot be initialized because the script no longer contains that property
+[11/01/2026 - 08:15:18AM] warning: Variable ::Config_var on script dom_pah has an invalid type pah_mcm loaded from save. This variable will be skipped.
+[11/01/2026 - 08:15:18AM] warning: Variable ::NpcEval_var on script dom_pah has an invalid type pahnpceval loaded from save. This variable will be skipped.
+[11/01/2026 - 08:15:18AM] warning: Variable ::PAH_var on script dom_pah has an invalid type pahcore loaded from save. This variable will be skipped.
+[11/01/2026 - 08:15:18AM] warning: Variable ::PAHPRS_var on script dom_pah has an invalid type pahpunishmentrapescript loaded from save. This variable will be skipped.
+[11/01/2026 - 08:15:18AM] warning: Variable ::HSHFlexi_var on script dom_core has an invalid type phhshflexistorage loaded from save. This variable will be skipped.
+[11/01/2026 - 08:15:18AM] warning: Variable ::PAHO_var on script dom_core has an invalid type pahocore loaded from save. This variable will be skipped.
+[11/01/2026 - 08:15:18AM] warning: Variable ::PAHSCCore_var on script dom_core has an invalid type pahsccorescript loaded from save. This variable will be skipped.
+[11/01/2026 - 08:15:18AM] warning: Variable ::AYGASCore_var on script dom_zaz has an invalid type aygascorescript loaded from save. This variable will be skipped.
+[11/01/2026 - 08:15:18AM] warning: Variable OPQuickie on script cs_coralynpissedscript has an invalid type OPQuickieQuestScript loaded from save. This variable will be skipped.
+[11/01/2026 - 08:15:19AM] VM is thawing...
+[11/01/2026 - 08:15:19AM] SexLab MCM Loaded CurrentVerison: 16601 / 16601
+[11/01/2026 - 08:15:19AM] Error: Cannot call OnGameReload() on a None object, aborting function call
+stack:
+	[alias playerAlias on quest Precision_MCM_Quest (FE05E800)].SKI_PlayerLoadGameAlias.OnPlayerLoadGame() - "SKI_PlayerLoadGameAlias.psc" Line 6
+[11/01/2026 - 08:15:19AM] [Injury_Engine_Main] Setup: 
+[11/01/2026 - 08:15:19AM] Error: Cannot call OnGameReload() on a None object, aborting function call
+stack:
+	[alias playerAlias on quest OSexIntegrationMainQuest (FE056801)].SKI_PlayerLoadGameAlias.OnPlayerLoadGame() - "SKI_PlayerLoadGameAlias.psc" Line 6
+[11/01/2026 - 08:15:19AM] [SkyrimNet_DOM_Main.Setup] starting setup
+[11/01/2026 - 08:15:19AM] Error: Cannot call OnGameReload() on a None object, aborting function call
+stack:
+	[alias playerAlias on quest TrueHUD_MCM_Quest (FE043800)].SKI_PlayerLoadGameAlias.OnPlayerLoadGame() - "SKI_PlayerLoadGameAlias.psc" Line 6
+[11/01/2026 - 08:15:19AM] SLAL: SLAL: OnLoad
+[11/01/2026 - 08:15:19AM] Error: Cannot call Setup() on a None object, aborting function call
+stack:
+	[alias PlayerRef on quest skyrimnet_sexlab_udng_handler (FE052800)].SkyrimNet_SexLab_Handler_UDNG_PR.OnPlayerLoadGame() - "SkyrimNet_SexLab_Handler_UDNG_PR.psc" Line 20
+[11/01/2026 - 08:15:19AM] [Zad-NG]: Devious Devices Contraptions is now creating sex animations.
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_CPill_Behind1): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_CPill_BehindA): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_Billyy_PilloryFuck1): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_Babo_ZazPillory01): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_NibblesPillory): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_Leito_Pillory_Doggy): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_PsychePillory): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_CXCross_Face): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_Billyy_XCrossFuck): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_Billyy_XCrossFuck2): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_Billyy_XCrossReverseAnal): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_PsycheRestrictRape3): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_GallPDown_HangBJ): get
+[11/01/2026 - 08:15:19AM] SEXLAB - loaded: Version 16601 / 16601
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_GallPDown_HangFF): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_GallPDown_HangFacial): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_GallPHorse_ForGrind): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_GallPOH_Behind): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_GallPOH_Holding): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_GallPStrap_BentOver): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_GallPStrap_Standing): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_TiltWMiss): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_TiltWSide): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_TiltWFist): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_TiltWFF): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_B_TiltWFF2): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_Billyy_StockadeFuckMachine): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_PsycheWoodenHorse): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_NibblesBondagePost): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_NibblesBondagePostTOY): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_PsycheRestrictRape8): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_PsycheFingerFucking): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDC_PsycheRestrictRape): get
+[11/01/2026 - 08:15:19AM] [SkyrimNet_DOM_Main.Register_Punishment_Reason] index conflict for refusing to shower: was 37, now 28
+[11/01/2026 - 08:15:19AM] Error: File "BBLS_SKSE64_Patch.esp" does not exist or is not currently loaded.
+stack:
+	<unknown self>.Game.GetFormFromFile() - "<native>" Line ?
+	[OSexIntegrationMainQuest (FE056801)].OSexIntegrationMain.OnLoadGame() - "OSexIntegrationMain.psc" Line 2130
+	[alias playerAlias on quest OSexIntegrationMainQuest (FE056801)].OStimPlayerAliasScript.OnPlayerLoadGame() - "qnmwfjdrjtehptpnntmmpbrogs" Line 10
+[11/01/2026 - 08:15:19AM] Error: File "CS_Vayne.esp" does not exist or is not currently loaded.
+stack:
+	<unknown self>.Game.GetFormFromFile() - "<native>" Line ?
+	[OSexIntegrationMainQuest (FE056801)].OSexIntegrationMain.OnLoadGame() - "OSexIntegrationMain.psc" Line 2131
+	[alias playerAlias on quest OSexIntegrationMainQuest (FE056801)].OStimPlayerAliasScript.OnPlayerLoadGame() - "qnmwfjdrjtehptpnntmmpbrogs" Line 10
+[11/01/2026 - 08:15:19AM] [SkyrimNet_DOM_Main.Setup] DOM01:[dom_pah <DOM01 (16000D61)>]
+[11/01/2026 - 08:15:19AM] zbfExternal: Compatibility checking
+[11/01/2026 - 08:15:19AM] zbfExternal: -------------------------------------------------------
+[11/01/2026 - 08:15:19AM] zbfExternal:                    SexLab version: 16601
+[11/01/2026 - 08:15:19AM] zbfExternal:                 SlaveTats version: 1.0.0
+[11/01/2026 - 08:15:19AM] zbfExternal:                  RaceMenu version: 7
+[11/01/2026 - 08:15:19AM] zbfExternal: Non SexLab Animation Pack version: 0
+[11/01/2026 - 08:15:19AM] zbfExternal: -------------------------------------------------------
+[11/01/2026 - 08:15:19AM] zbfExternal:                    SexLab support: TRUE
+[11/01/2026 - 08:15:19AM] zbfExternal:                   Overlay support: TRUE
+[11/01/2026 - 08:15:19AM] zbfExternal:      Non SexLab Animation support: False
+[11/01/2026 - 08:15:19AM] zbfExternal: -------------------------------------------------------
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Nipple Piercings] Registered. Event #3
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Nipple Piercings] Loaded: 55%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Tight Gloves] Registered. Event #14
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Tight Gloves] Loaded: 15%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Posture Collar] Registered. Event #21
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Posture Collar] Loaded: 10%
+[11/01/2026 - 08:15:19AM] error: Native static function GetNodeTransformScaleMode does not match existing signature on linked type NiOverride. Function will not be bound.
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Mana Drain] Registered. Event #13
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Mana Drain] Loaded: 50%
+[11/01/2026 - 08:15:19AM] error: Native static function GetInventoryObjectPropertyType could find no matching static function on linked type zadNativeFunctions. Function will not be bound.
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Trip and Fall] Registered. Event #26
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Trip and Fall] Loaded: 20%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Plug Moan] Registered. Event #4
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Plug Moan] Loaded: 10%
+[11/01/2026 - 08:15:19AM] [SkyrimNet] (Info): Not running VR, disabling VR Integrations
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Belt Chafing] Registered. Event #23
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Belt Chafing] Loaded: 10%
+[11/01/2026 - 08:15:19AM] [SkyrimNet] (Info): MinAI Bridge: MinAI.esp not detected - SkyrimNet will handle MinAI-style events exclusively
+[11/01/2026 - 08:15:19AM] [SkyrimNet] (Info): MinAI Bridge: Registered for MinAI-style mod events
+[11/01/2026 - 08:15:19AM] [SkyrimNet] (Info): MinAI Bridge initialized
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Blindfold Trip] Registered. Event #9
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Blindfold Trip] Loaded: 10%
+[11/01/2026 - 08:15:19AM] [SkyrimNet] (Info): Native hotkeys enabled on load
+[11/01/2026 - 08:15:19AM] [SkyrimNet] (Info): Library initialized
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Restraints Under Outfit] Registered. Event #6
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Restraints Under Outfit] Loaded: 7%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Blindfold Mystery] Registered. Event #11
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Blindfold Mystery] Loaded: 1%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Health Drain] Registered. Event #2
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Health Drain] Loaded: 50%
+[11/01/2026 - 08:15:19AM] Error: Cannot cast from None to String[]
+stack:
+	[sla_Main (11042D62)].slamainscr.OnPlayerLoadGame() - "slaMainScr.psc" Line 509
+	[alias PlayerRef on quest sla_Internal (11083137)].slaPlayerAliasScr.OnPlayerLoadGame() - "slaPlayerAliasScr.psc" Line 8
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Vibration] Registered. Event #12
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Vibration] Loaded: 25%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Mounted] Registered. Event #20
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Mounted] Loaded: 100%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: Maintenance routine called
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Stamina Drain] Registered. Event #22
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Stamina Drain] Loaded: 50%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Harness] Registered. Event #17
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Harness] Loaded: 10%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Wet Padding] Registered. Event #16
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Wet Padding] Loaded: 10%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Bra Chafing] Registered. Event #18
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Bra Chafing] Loaded: 10%
+[11/01/2026 - 08:15:19AM] FISHING: Checking for updates.
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Struggle] Registered. Event #19
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Struggle] Loaded: 25%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Catsuit Wearing] Registered. Event #10
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Catsuit Wearing] Loaded: 15%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Periodic Shocks] Registered. Event #24
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Periodic Shocks] Loaded: 25%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Horny] Registered. Event #25
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Horny] Loaded: 5%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Drip] Registered. Event #0
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Drip] Loaded: 10%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Tight Corset] Registered. Event #8
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Tight Corset] Loaded: 15%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Belted Empty] Registered. Event #7
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Belted Empty] Loaded: 10%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Chaos Plugs] Registered. Event #5
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Chaos Plugs] Loaded: 25%
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Bump Pumps] Registered. Event #1
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Bump Pumps] Loaded: 17%
+[11/01/2026 - 08:15:19AM] [SkyrimNet] (Info): SkyrimNet version 1 ready.
+[11/01/2026 - 08:15:19AM] Cannot open store for class "fnis", missing file?
+[11/01/2026 - 08:15:19AM] Error: Static function VersionCompare not found on object fnis. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.CheckRequirements() - "XPMSEWeaponQuest.psc" Line 276
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 54
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp51"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.CheckRequirements() - "XPMSEWeaponQuest.psc" Line 276
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 54
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Restrictive Collar] Registered. Event #15
+[11/01/2026 - 08:15:19AM] [Zad-NG]: [Restrictive Collar] Loaded: 15%
+[11/01/2026 - 08:15:19AM] [SkyrimNet_DOM_Events.Register_Events] main.d_core: [dom_core <DOM01 (16000D61)>] main.d_api:[dom_api <DOM01 (16000D61)>] main.d_sexlab:[dom_sexlab <DOM02Topic (160ED87C)>]
+[11/01/2026 - 08:15:19AM] [SkyrimNet_DOM_Events.Register_Events] ext/ext1/ext3 enabled via d_api
+[11/01/2026 - 08:15:19AM] [Zad-NG]: DDX Events registered
+[11/01/2026 - 08:15:19AM] [Zad-NG]: Starting update chain.
+[11/01/2026 - 08:15:19AM] [Zad-NG]: Devious Devices is now creating animations.
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDBeltedSolo): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDArmbinderSolo): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDYokeSolo): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDElbowbinderSolo): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDBBYokeSolo): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDFrontCuffsSolo): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DDElbowTieSolo): get
+[11/01/2026 - 08:15:19AM] [Zad-NG]: Devious Devices is now creating bound animations.
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DD_B_PS_DT): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DD_BPPetSuitBJ): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DD_B_PS_Doggy): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DD_B_PS_Miss): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DD_BPPetSuit): get
+[11/01/2026 - 08:15:19AM] Cannot open store for class "fnis_aa", missing file?
+[11/01/2026 - 08:15:19AM] Error: Static function GetAAmodID not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 187
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 187
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _1hmeqp not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 190
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 190
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 190
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 190
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _2hmeqp not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 192
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 192
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 192
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 192
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _2hweqp not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 194
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 194
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 194
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 194
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _axeeqp not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 196
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 196
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 196
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 196
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _bowatk not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 198
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 198
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 198
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 198
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _boweqp not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 200
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 200
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 200
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 200
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _bowidle not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 202
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 202
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 202
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 202
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _maceqp not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 204
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 204
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 204
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 204
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _dageqp not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 206
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 206
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 206
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 206
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _magatk not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 208
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 208
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 208
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 208
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _magcastmt not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 210
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 210
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 210
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 210
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _magcon not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 212
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 212
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 212
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 212
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _magidle not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 214
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 214
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 214
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 214
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _magmt not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 216
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 216
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 216
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 216
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _sprint not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 218
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 218
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 218
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 218
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function _shout not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 220
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp35"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 220
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] Error: Static function GetGroupBaseValue not found on object fnis_aa. Aborting call and returning None
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 220
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] warning: Assigning None to a non-object variable named "::temp37"
+stack:
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.InitializeData() - "XPMSEWeaponQuest.psc" Line 220
+	[XPMSEWeaponQuest (1C000D62)].XPMSEWeaponQuest.Initialize() - "XPMSEWeaponQuest.psc" Line 56
+	[alias XPMSEWeaponPlayer on quest XPMSEWeaponQuest (1C000D62)].XPMSEWeaponPlayerScript.OnPlayerLoadGame() - "XPMSEWeaponPlayerScript.psc" Line 6
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DD_BPPetSuitRCG): get
+[11/01/2026 - 08:15:19AM] SEXLAB - GetSetAnimation(DD_B_PS_DoggyA): get
+[11/01/2026 - 08:15:19AM] [Zad-NG]: EnableEventProcessing()
+[11/01/2026 - 08:15:19AM] [Zad-NG]: Rehooking Mod Events
+[11/01/2026 - 08:15:19AM] InitWidgetLoader()
+[11/01/2026 - 08:15:20AM] [Zad-NG]: ZadNpc::DoRegister(1.478421)
+[11/01/2026 - 08:15:20AM] DOM_Core: ==================================================================================
+[11/01/2026 - 08:15:20AM] DOM_Core: ==                                                                              ==
+[11/01/2026 - 08:15:20AM] DOM_Core: ==                             Diary of Mine 8.5.5                              ==
+[11/01/2026 - 08:15:20AM] DOM_Core: ==                           a PAHE extension by TAK                            ==
+[11/01/2026 - 08:15:20AM] DOM_Core: ==                                                                              ==
+[11/01/2026 - 08:15:20AM] DOM_Core: ==================================================================================
+[11/01/2026 - 08:15:20AM] DOM_Core: Plugin version is: 8.050500
+[11/01/2026 - 08:15:20AM] DOM_SendEvt: =============================================================================
+[11/01/2026 - 08:15:20AM] DOM_SendEvt: ==                            DOM: Send Events                             ==
+[11/01/2026 - 08:15:20AM] DOM_SendEvt: =============================================================================
+[11/01/2026 - 08:15:20AM] DOM_Generator: =============================================================================
+[11/01/2026 - 08:15:20AM] DOM_Generator: ==                             DOM: Generator                              ==
+[11/01/2026 - 08:15:20AM] DOM_Generator: =============================================================================
+[11/01/2026 - 08:15:20AM] [Zad-NG]: RepopulateNpcs(): In menu mode, aborting.
+[11/01/2026 - 08:15:20AM] [Zad-NG]: ==========Begin Compatibility Checks==========
+[11/01/2026 - 08:15:20AM] [Zad-NG]: Please note that Errors related to missing files should be ignored.
+[11/01/2026 - 08:15:20AM] [Zad-NG]: [ Dependency Checks ]
+[11/01/2026 - 08:15:20AM] [Zad-NG]: DDi version [14.000000]: Ok
+[11/01/2026 - 08:15:20AM] [Zad-NG]: assets version [3.000000]: Ok
+[11/01/2026 - 08:15:20AM] [Zad-NG]: Aroused version [30100004.000000]: Ok
+[11/01/2026 - 08:15:20AM] [Zad-NG]: SexLab version [16601.000000]: Ok
+[11/01/2026 - 08:15:20AM] [Zad-NG]: [ Third Party Mod Compatibility Checks ]
+[11/01/2026 - 08:15:20AM] [Zad-NG]: [ Sanity Checks ]
+[11/01/2026 - 08:15:20AM] [Zad-NG]: Verifying that installation is untainted by an unsupported upgrade: Ok
+[11/01/2026 - 08:15:20AM] [Zad-NG]: ==========End Compatibility Checks==========
+[11/01/2026 - 08:15:20AM] [Zad-NG]: Events arrays already initialized - skipping.
+[11/01/2026 - 08:15:20AM] [Zad-NG]: zadEventSlots::Maintenance()
+[11/01/2026 - 08:15:20AM] [Zad-NG]: Config Interval:1.500000. Total number of events: 0. Next staggered update in 1.500000
+[11/01/2026 - 08:15:20AM] [Zad-NG]: Monitoring Camera state.
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:0 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:1 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:2 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:3 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:4 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:5 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:6 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:7 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:8 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:9 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:10 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:11 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:12 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:13 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:14 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:15 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:16 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:17 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:18 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:19 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:20 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:21 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:22 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:23 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:24 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:25 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:26 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:27 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:28 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:29 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:30 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:31 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:32 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:33 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:34 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:35 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:36 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:37 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:38 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:39 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:40 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:41 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:42 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:43 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:44 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:45 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:46 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:47 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:48 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:49 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:50 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:51 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:52 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:53 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:54 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:55 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:56 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:57 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:58 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:59 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:60 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:61 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:62 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:63 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:64 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:65 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:66 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:67 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:68 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:69 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:70 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:71 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:72 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:73 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:74 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:75 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:76 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:77 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:78 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:79 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:80 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:81 no actor
+[11/01/2026 - 08:15:20AM] [Injury_Engine_Main] ApplyPluginConfig: [v] injury ranges minor 9 major 75 severe 90
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:82 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:83 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:84 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:85 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:86 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:87 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:88 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:89 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:90 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:91 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:92 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:93 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:94 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:95 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:96 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:97 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:98 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:99 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:100 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:101 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:102 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:103 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:104 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:105 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:106 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:107 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:108 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:109 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:110 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:111 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:112 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:113 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:114 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:115 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:116 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:117 no actor
+[11/01/2026 - 08:15:20AM] [Injury_Engine_Main] ApplyPluginConfig: require_whip:TRUE give_gear:TRUE max_strikes:10 hours_per_point:1.000000 give_healing_hands:TRUE regen_rate:10.000000 narration:TRUE modes injury/heal/death/torture:0/0/0/0 cooldown:8.000000 torture_window:30.000000 break:3.000000 gap:6.000000 reply_timeout:15.000000 max_distance:15.000000 event_ttl:30.000000 sexual_parts:TRUE overlay:TRUE verbose:TRUE
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:118 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:119 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:120 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:121 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:122 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:123 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:124 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:125 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:126 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- skip alias index:127 no actor
+[11/01/2026 - 08:15:20AM] [skyrimnet_dom_api.GetThreads] --- scanned:128 threads:0 skipped_no_actor:128 skipped_not_masturbating:0 skipped_busy:0
+[11/01/2026 - 08:15:20AM] [Injury_Engine_Main] GiveGear: player already has 1 whip(s); not giving another
+[11/01/2026 - 08:15:20AM] DOM_Generator: +==================+==================+==================+==================+
+[11/01/2026 - 08:15:20AM] DOM_Generator: | HEXACO facet     | trait            | 1st prism        | 2nd prism        |
+[11/01/2026 - 08:15:20AM] DOM_Generator: +==================+==================+==================+==================+
+[11/01/2026 - 08:15:20AM] DOM_Generator: | *       humility |         +honesty |      +wilfulness |    +submissivity | The Humility scale assesses a tendency to restrain one's ego and to accept limits on one's own status and entitlement. Low scorers are inclined to assert superiority, resist constraint, and place their own importance above shared rules, whereas high scorers regulate their pride, accept common standards, and are willing to lower themselves rather than seek special advantage.
+[11/01/2026 - 08:15:20AM] DOM_Generator: | _          mercy |         +honesty |       -toughness |       +smartness | The Mercy scale assesses a tendency to respond to others' suffering with leniency and understanding rather than harshness. Low scorers are relatively unmoved by others' distress and may favor strict or punitive responses, whereas high scorers consider others' perspectives and are inclined to spare, forgive, or mitigate harm when possible.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |  greed avoidance |         +honesty |      -sensuality |        +boldness | The Greed Avoidance scale assesses a tendency to be uninterested in possessing lavish wealth, luxury goods, and signs of high social status. Low scorers want to enjoy and to display wealth and privilege, whereas high scorers are not especially motivated by monetary or social-status considerations.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |          modesty |         +honesty |    +submissivity |      -sensuality | The Modesty scale assesses a tendency to be modest and unassuming. Low scorers consider themselves as superior and as entitled to privileges that others do not have, whereas high scorers view themselves as ordinary people without any claim to special treatment.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |        sincerity |         +honesty |        +boldness |       -toughness | The Sincerity scale assesses a tendency to be genuine in interpersonal relations. Low scorers will flatter others or pretend to like them in order to obtain favors, whereas high scorers are unwilling to manipulate others.
+[11/01/2026 - 08:15:20AM] [SkyrimNet_DOM_Events.Register_Gestures] Registered
+[11/01/2026 - 08:15:20AM] DOM_Generator: |         fairness |         +honesty |       -smartness |      +wilfulness | The Fairness scale assesses a tendency to avoid fraud and corruption. Low scorers are willing to gain by cheating or stealing, whereas high scorers are unwilling to take advantage of other individuals or of society at large.
+[11/01/2026 - 08:15:20AM] DOM_Generator: +------------------+------------------+------------------+------------------+
+[11/01/2026 - 08:15:20AM] DOM_Generator: |            Panic |    +emotionality |      -wilfulness |       +smartness | The Panic scale assesses a tendency to react strongly and immediately to sudden stress or pressure. Low scorers remain composed and able to think clearly in tense situations, whereas high scorers become quickly overwhelmed and may experience confusion or loss of control when confronted with acute demands.
+[11/01/2026 - 08:15:20AM] DOM_Generator: | *    fearfulness |    +emotionality |       -toughness |        -boldness | The Fearfulness scale assesses a tendency to experience fear. Low scorers feel little fear of injury and are relatively tough, brave, and insensitive to physical pain, whereas high scorers are strongly inclined to avoid physical harm.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |   sentimentality |    +emotionality |      +sensuality |       -toughness | The Sentimentality scale assesses a tendency to feel strong emotional bonds with others. Low scorers feel little emotion when saying good-bye or in reaction to the concerns of others, whereas high scorers feel strong emotional attachments and an empathic sensitivity to the feelings of others.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |       reactivity |    +emotionality |    +submissivity |      +sensuality | The Reactivity scale assesses a tendency to respond quickly and intensely to immediate emotional stimuli. Low scorers are relatively reserved and less affected by momentary changes in their surroundings, whereas high scorers are easily influenced by events and tend to experience rapid shifts in mood, including excitement, enjoyment, or distress.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |       dependence |    +emotionality |        -boldness |      -wilfulness | The Dependence scale assesses one's need for emotional support from others. Low scorers feel self-assured and able to deal with problems without any help or advice, whereas high scorers want to share their difficulties with those who will provide encouragement and comfort.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |          anxiety |    +emotionality |       +smartness |    +submissivity | The Anxiety scale assesses a tendency to worry in a variety of contexts. Low scorers feel little stress in response to difficulties, whereas high scorers tend to become preoccupied even by relatively minor problems.
+[11/01/2026 - 08:15:20AM] DOM_Generator: +------------------+------------------+------------------+------------------+
+[11/01/2026 - 08:15:20AM] [SkyrimNet_DOM_Events.SeedCaptureNarrated] seeded existing aliases n=0
+[11/01/2026 - 08:15:20AM] DOM_Generator: |       liveliness |    +extraversion |      -wilfulness |      +sensuality | The Liveliness scale assesses one's typical enthusiasm and energy. Low scorers tend not to feel especially cheerful or dynamic, whereas high scorers usually experience a sense of optimism and high spirits.
+[11/01/2026 - 08:15:20AM] DOM_Generator: | #    self-esteem |    +extraversion |       +toughness |    -submissivity | The Social Self-Esteem scale assesses a tendency to have positive self-regard, particularly in social contexts. Low scorers tend to have a sense of personal worthlessness and to see themselves as unpopular, whereas high scorers are generally satisfied with themselves and consider themselves to have likable qualities.
+[11/01/2026 - 08:15:20AM] DOM_Generator: | -      composure |    +extraversion |      -sensuality |        +boldness | The Composure scale assesses a tendency to regulate one's behavior and maintain a controlled social image. Low scorers are prone to act impulsively or reveal too much of themselves in social situations, whereas high scorers are able to restrain their impulses and present themselves in a deliberate and composed manner.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |      sociability |    +extraversion |    +submissivity |       -toughness | The Sociability scale assesses a tendency to enjoy conversation, social interaction, and parties. Low scorers generally prefer solitary activities and do not seek out conversation, whereas high scorers enjoy talking, visiting, and celebrating with others.
+[11/01/2026 - 08:15:20AM] [SkyrimNet_DOM_Events.Register_Events] capture alias scan every 2s
+[11/01/2026 - 08:15:20AM] DOM_Generator: |  social boldness |    +extraversion |        +boldness |       +smartness | The Social Boldness scale assesses one's comfort or confidence within a variety of social situations. Low scorers feel shy or awkward in positions of leadership or when speaking in public, whereas high scorers are willing to approach strangers and are willing to speak up within group settings.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |        ingenuity |    +extraversion |       -smartness |      -wilfulness | The Ingenuity scale assesses a tendency to express oneself freely and impulsively under social or emotional stimulation. Low scorers remain measured and thoughtful even when excited or engaged, whereas high scorers are prone to talk excessively, act without restraint, or say inappropriate or poorly considered things when stimulated.
+[11/01/2026 - 08:15:20AM] DOM_Generator: +------------------+------------------+------------------+------------------+
+[11/01/2026 - 08:15:20AM] DOM_Generator: |       gentleness |   +agreeableness |      -wilfulness |    +submissivity | The Gentleness scale assesses a tendency to be mild and lenient in dealings with other people. Low scorers tend to be critical in their evaluations of others, whereas high scorers are reluctant to judge others harshly.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |         patience |   +agreeableness |       +toughness |      +wilfulness | The Patience scale assesses a tendency to remain calm rather than to become angry. Low scorers tend to lose their tempers quickly, whereas high scorers have a high threshold for feeling or expressing anger.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |      flexibility |   +agreeableness |      +sensuality |       -smartness | The Flexibility scale assesses one's willingness to compromise and cooperate with others. Low scorers are seen as stubborn and are willing to argue, whereas high scorers avoid arguments and accommodate others' suggestions, even when these may be unreasonable.
+[11/01/2026 - 08:15:20AM] DOM_Generator: | *    forgiveness |   +agreeableness |    +submissivity |       -toughness | The Forgiveness scale assesses one's willingness to feel trust and liking toward those who may have caused one harm. Low scorers tend to hold a grudge against those who have offended them, whereas high scorers are usually ready to trust others again and to re-establish friendly relations after having been treated badly.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |          empathy |   +agreeableness |        +boldness |      +sensuality | The Empathy scale assesses a tendency to experience concern for others and to respond emotionally to their well-being, particularly in situations involving harm or unfairness. Low scorers are relatively unaffected by others' difficulties and may show little reaction to injustice, whereas high scorers are strongly attuned to others' feelings and are inclined to react with concern, support, or protective behavior, especially toward those close to them.
+[11/01/2026 - 08:15:20AM] DOM_Generator: | _    contentment |   +agreeableness |       -smartness |        -boldness | The Contentment scale assesses a tendency to remain satisfied and untroubled in the face of personal inconvenience or unfairness. Low scorers are easily irritated by setbacks or perceived injustice toward themselves, whereas high scorers are generally accepting of circumstances and are not readily disturbed by difficulties or unfavorable treatment.
+[11/01/2026 - 08:15:20AM] DOM_Generator: +------------------+------------------+------------------+------------------+
+[11/01/2026 - 08:15:20AM] DOM_Generator: |      dutifulness | +conscientiousne |      -wilfulness |       -smartness | The Dutifulness scale assesses a tendency to comply with duties and follow instructions without question. Low scorers are inclined to resist direction or seek personal advantage, whereas high scorers carry out tasks faithfully even in the absence of reward or discussion.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |        diligence | +conscientiousne |       +toughness |    -submissivity | The Diligence scale assesses a tendency to work hard. Low scorers have little self-discipline and are not strongly motivated to achieve, whereas high scorers have a strong work ethic and are willing to exert themselves.
+[11/01/2026 - 08:15:20AM] DOM_Generator: |             ease | +conscientiousne |      +sensuality |        -boldness | The Ease scale assesses a tendency to settle into and take pleasure in calm, orderly, and comfortable conditions. Low scorers remain tense or indifferent even in pleasant surroundings, whereas high scorers readily relax and derive satisfaction from environments that are quiet, structured, and physically agreeable.
+[11/01/2026 - 08:15:21AM] DOM_Generator: |    perfectionism | +conscientiousne |    +submissivity |      +wilfulness | The Perfectionism scale assesses a tendency to be thorough and concerned with details. Low scorers tolerate some errors in their work and tend to neglect details, whereas high scorers check carefully for mistakes and potential improvements.
+[11/01/2026 - 08:15:21AM] DOM_Generator: | *       prudence | +conscientiousne |        -boldness |       -toughness | The Prudence scale assesses a tendency to deliberate carefully and to inhibit impulses. Low scorers act on impulse and tend not to consider consequences, whereas high scorers consider their options carefully and tend to be cautious and self-controlled.
+[11/01/2026 - 08:15:21AM] DOM_Generator: |     organization | +conscientiousne |       -smartness |      +sensuality | The Organization scale assesses a tendency to seek order, particularly in one's physical surroundings. Low scorers tend to be sloppy and haphazard, whereas high scorers keep things tidy and prefer a structured approach to tasks.
+[11/01/2026 - 08:15:21AM] DOM_Generator: +------------------+------------------+------------------+------------------+
+[11/01/2026 - 08:15:21AM] DOM_Generator: |     independance |        +openness |      +wilfulness |       +toughness | The Independence scale assesses a tendency to question authority and to form one's own views rather than accepting established claims. Low scorers tend to rely on authoritative sources or accepted â€œfactsâ€ without challenge, whereas high scorers are willing to examine, discuss, and contest such claims based on their own judgment and experience.
+[11/01/2026 - 08:15:21AM] DOM_Generator: |  inquisitiveness |        +openness |       +toughness |      +wilfulness | The Inquisitiveness scale assesses a tendency to seek information about, and experience with, the natural and human world. Low scorers have little curiosity about the natural or social sciences, whereas high scorers read widely and are interested in travel.
+[11/01/2026 - 08:15:21AM] DOM_Generator: |     appreciation |        +openness |      +sensuality |        +boldness | The Aesthetic Appreciation scale assesses one's enjoyment of beauty in art and in nature. Low scorers tend not to become absorbed in works of art or in natural wonders, whereas high scorers have a strong appreciation of various art forms and of natural wonders.
+[11/01/2026 - 08:15:21AM] DOM_Generator: |      discernment |        +openness |    -submissivity |       +smartness | The Discernment scale assesses a tendency to evaluate new ideas and influences carefully rather than accepting them at face value. Low scorers may accept suggestions or information without much reflection and can be easily influenced, whereas high scorers think independently, question what they are told, and form judgments based on their own reasoning.
+[11/01/2026 - 08:15:21AM] DOM_Generator: |       creativity |        +openness |        +boldness |      +sensuality | The Creativity scale assesses one's preference for innovation and experiment. Low scorers have little inclination for original thought, whereas high scorers actively seek new solutions to problems and express themselves in art.
+[11/01/2026 - 08:15:21AM] DOM_Generator: | -    originality |        +openness |       +smartness |    -submissivity | The Originality scale assesses a tendency to accept the unusual. Low scorers avoid eccentric or nonconforming persons, whereas high scorers are receptive to ideas that might seem strange or radical.
+[11/01/2026 - 08:15:21AM] DOM_Generator: +==================+==================+==================+==================+
+[11/01/2026 - 08:15:21AM] DOM_Generator: | Extra facet      | trait            | 1st prism        | 2nd prism        |
+[11/01/2026 - 08:15:21AM] DOM_Generator: +==================+==================+==================+==================+
+[11/01/2026 - 08:15:21AM] DOM_Generator: |          Vaginal |         +honesty |      +sensuality |   +agreeableness | 
+[11/01/2026 - 08:15:21AM] DOM_Generator: | #     Intimidate |    +emotionality |       +toughness |         -honesty | 
+[11/01/2026 - 08:15:21AM] DOM_Generator: |             Anal |    +extraversion |    +submissivity |        -openness | 
+[11/01/2026 - 08:15:21AM] DOM_Generator: |             Oral |   +agreeableness |      +sensuality | +conscientiousne | 
+[11/01/2026 - 08:15:21AM] DOM_Generator: | #     Controller | +conscientiousne |    -submissivity |         -honesty | 
+[11/01/2026 - 08:15:21AM] DOM_Generator: | #      pretender |        +openness |       +smartness |         -honesty | 
+[11/01/2026 - 08:15:21AM] DOM_Generator: +------------------+------------------+------------------+------------------+
+[11/01/2026 - 08:15:21AM] DOM_Generator: |           Orgasm |      +sensuality |        +boldness |    +submissivity | 
+[11/01/2026 - 08:15:21AM] DOM_Generator: |           Combat |        +boldness |      +wilfulness |       +smartness | 
+[11/01/2026 - 08:15:21AM] DOM_Generator: |        addiction |      -wilfulness | -conscientiousne |       -toughness | 
+[11/01/2026 - 08:15:21AM] DOM_Generator: +==================+==================+==================+==================+
+[11/01/2026 - 08:15:21AM] DOM_Generator: | Inverse facet    | trait            | 1st prism        | 2nd prism        |
+[11/01/2026 - 08:15:21AM] DOM_Generator: +==================+==================+==================+==================+
+[11/01/2026 - 08:15:21AM] DOM_Generator: | #  insensitivity |         -honesty |       +toughness |       -smartness | The Mercy scale assesses a tendency to respond to others' suffering with leniency and understanding rather than harshness. Low scorers are relatively unmoved by others' distress and may favor strict or punitive responses, whereas high scorers consider others' perspectives and are inclined to spare, forgive, or mitigate harm when possible.
+[11/01/2026 - 08:15:21AM] DOM_Generator: |            greed |         -honesty |      +sensuality |        -boldness | The Greed Avoidance scale assesses a tendency to be uninterested in possessing lavish wealth, luxury goods, and signs of high social status. Low scorers want to enjoy and to display wealth and privilege, whereas high scorers are not especially motivated by monetary or social-status considerations.
+[11/01/2026 - 08:15:21AM] DOM_Generator: |      criminality |         -honesty |       +smartness |      -wilfulness | The Fairness scale assesses a tendency to avoid fraud and corruption. Low scorers are willing to gain by cheating or stealing, whereas high scorers are unwilling to take advantage of other individuals or of society at large.
+[11/01/2026 - 08:15:21AM] DOM_Generator: | *        naivety |    -extraversion |      +sensuality |        -boldness | The Composure scale assesses a tendency to regulate one's behavior and maintain a controlled social image. Low scorers are prone to act impulsively or reveal too much of themselves in social situations, whereas high scorers are able to restrain their impulses and present themselves in a deliberate and composed manner.
+[11/01/2026 - 08:15:21AM] DOM_Generator: |       impatience |   -agreeableness |       -toughness |      -wilfulness | The Patience scale assesses a tendency to remain calm rather than to become angry. Low scorers tend to lose their tempers quickly, whereas high scorers have a high threshold for feeling or expressing anger.
+[11/01/2026 - 08:15:21AM] DOM_Generator: | #     resentment |   -agreeableness |       +smartness |        +boldness | The Contentment scale assesses a tendency to remain satisfied and untroubled in the face of personal inconvenience or unfairness. Low scorers are easily irritated by setbacks or perceived injustice toward themselves, whereas high scorers are generally accepting of circumstances and are not readily disturbed by difficulties or unfavorable treatment.
+[11/01/2026 - 08:15:21AM] DOM_Generator: |        authority |        -openness |      -wilfulness |       -toughness | The Independence scale assesses a tendency to question authority and to form one's own views rather than accepting established claims. Low scorers tend to rely on authoritative sources or accepted â€œfactsâ€ without challenge, whereas high scorers are willing to examine, discuss, and contest such claims based on their own judgment and experience.
+[11/01/2026 - 08:15:21AM] DOM_Generator: |     manipulation |        -openness |    +submissivity |       -smartness | The Discernment scale assesses a tendency to evaluate new ideas and influences carefully rather than accepting them at face value. Low scorers may accept suggestions or information without much reflection and can be easily influenced, whereas high scorers think independently, question what they are told, and form judgments based on their own reasoning.
+[11/01/2026 - 08:15:21AM] DOM_Generator: | *     discipline |        -openness |       -smartness |    +submissivity | The Originality scale assesses a tendency to accept the unusual. Low scorers avoid eccentric or nonconforming persons, whereas high scorers are receptive to ideas that might seem strange or radical.
+[11/01/2026 - 08:15:21AM] DOM_Generator: +==================+==================+==================+==================+
+[11/01/2026 - 08:15:21AM] [SkyrimNet_DOM_Events.ApplyExt2Events] ext2 off
+[11/01/2026 - 08:15:21AM] XPMSE MainQuest Initialization successful.
+[11/01/2026 - 08:15:21AM] [SkyrimNet_DOM_Main.ApplyPluginConfig] ext2:False ring:20 TTL:100000 torture_choose_reason:TRUE heal_choose_reason:TRUE poses:TRUE gestures:TRUE gesture_cooldown:20 gesture_debug:TRUE show_enjoyment:TRUE
+[11/01/2026 - 08:15:21AM] DOM_Core: SetJSONPunishmentTypes: Found 8 entries in array of size 8
+[11/01/2026 - 08:15:21AM] DOM_Core: SetJSONPraisingTypes: Found 11 entries in array of size 11
+[11/01/2026 - 08:15:21AM] DOM_Core: SetJSONPunishmentReasons: Found 41 entries in array of size 41
+[11/01/2026 - 08:15:21AM] DOM_Core: SetJSONPraisingReasons: Found 61 entries in array of size 61
+[11/01/2026 - 08:15:21AM] DOM_Core: SetJSONKinkReasons: Found 128 entries in array of size 128
+[11/01/2026 - 08:15:21AM] DOM_PAH: ===================================================================================
+[11/01/2026 - 08:15:21AM] DOM_PAH: ==              DOM: PAH not found! Slave transfer is not possible               ==
+[11/01/2026 - 08:15:21AM] DOM_PAH: ===================================================================================
+[11/01/2026 - 08:15:21AM] DOM_API: =================================================================================
+[11/01/2026 - 08:15:21AM] DOM_API: ==                             DOM: API for addons                             ==
+[11/01/2026 - 08:15:21AM] DOM_API: =================================================================================
+[11/01/2026 - 08:15:21AM] DOM_Dialogue: ============================================================================
+[11/01/2026 - 08:15:21AM] DOM_Dialogue: ==                            DOM: Dialogue                               ==
+[11/01/2026 - 08:15:21AM] DOM_Dialogue: ============================================================================
+[11/01/2026 - 08:15:21AM] DOM_Equip: ===============================================================================
+[11/01/2026 - 08:15:21AM] DOM_Equip: ==                         DOM: Equipment interface                          ==
+[11/01/2026 - 08:15:21AM] DOM_Equip: ===============================================================================
+[11/01/2026 - 08:15:22AM] DOM_Zaz: =================================================================================
+[11/01/2026 - 08:15:22AM] DOM_Zaz: ==                             DOM: Zaz interface                              ==
+[11/01/2026 - 08:15:22AM] DOM_Zaz: =================================================================================
+[11/01/2026 - 08:15:22AM] DOM_Zaz:  Zaz found!
+[11/01/2026 - 08:15:22AM] DOM_ZAD: =================================================================================
+[11/01/2026 - 08:15:22AM] DOM_ZAD: ==                       DOM: Devious Devices interface                        ==
+[11/01/2026 - 08:15:22AM] DOM_ZAD: =================================================================================
+[11/01/2026 - 08:15:23AM] DOM_ZAD:  Devious Devices found!
+[11/01/2026 - 08:15:23AM] DOM_Sexlab: ==============================================================================
+[11/01/2026 - 08:15:23AM] DOM_Sexlab: ==                          DOM: Sexlab interface                           ==
+[11/01/2026 - 08:15:23AM] DOM_Sexlab: ==============================================================================
+[11/01/2026 - 08:15:23AM] DOM_Sexlab: Sexlab version is 16601 PP=False
+[11/01/2026 - 08:15:23AM] DOM_Sexlab: Sexlab found! has_sexlab=1.000000
+[11/01/2026 - 08:15:23AM] DOM_OStim: ===============================================================================
+[11/01/2026 - 08:15:23AM] DOM_OStim: ==                           DOM: Ostim interface                            ==
+[11/01/2026 - 08:15:23AM] DOM_OStim: ===============================================================================
+[11/01/2026 - 08:15:23AM] DOM_OStim:  Ostim found! has_ostim=1.000000
+[11/01/2026 - 08:15:23AM] DOM_Bathing: =============================================================================
+[11/01/2026 - 08:15:23AM] DOM_Bathing: ==                         DOM: Bathing interface                          ==
+[11/01/2026 - 08:15:23AM] DOM_Bathing: =============================================================================
+[11/01/2026 - 08:15:23AM] DOM_Animator: ============================================================================
+[11/01/2026 - 08:15:23AM] DOM_Animator: ==                             DOM: Animator                              ==
+[11/01/2026 - 08:15:23AM] DOM_Animator: ============================================================================
+[11/01/2026 - 08:15:23AM] DOM_Animator: ResetCurrentWdIndex: Found free array position: 0 / 128
+[11/01/2026 - 08:15:23AM] DOM_Animator: RestoreWatchDogArray: cleaning array wdIsBusy=False wdIsBusyMoving=False
+[11/01/2026 - 08:15:23AM] DOM_Animator: RestoreWatchDogArray: found free slot at 0 / 128 wdArmed=False
+[11/01/2026 - 08:15:23AM] DOM_Animator: ResetCurrentWdIndex: Found free array position: 0 / 128
+[11/01/2026 - 08:15:23AM] DOM_Animator: PopulateAnimationList: Found 129 entries in array of size 129
+[11/01/2026 - 08:15:23AM] DOM_Interactor: ============================================================================
+[11/01/2026 - 08:15:23AM] DOM_Interactor: ==                            DOM: Interact                               ==
+[11/01/2026 - 08:15:23AM] DOM_Interactor: ============================================================================
+[11/01/2026 - 08:15:23AM] DOM_Core: ================================================================================
+[11/01/2026 - 08:15:23AM] DOM_Core: ==                                 DOM: Core                                  ==
+[11/01/2026 - 08:15:23AM] DOM_Core: ================================================================================
+[11/01/2026 - 08:15:23AM] DOM_Core: InitMessageWidgets on side = Right/Top
+[11/01/2026 - 08:15:26AM] DOM_Core: ReadSaveFactions: number of entries=174 array length=174
+[11/01/2026 - 08:15:26AM] DOM_Core: Registering for leash events
+[11/01/2026 - 08:15:26AM] DOM_PlayerAlias: =========================================================================
+[11/01/2026 - 08:15:26AM] DOM_PlayerAlias: ==                          DOM: Player Alias                          ==
+[11/01/2026 - 08:15:26AM] DOM_PlayerAlias: =========================================================================
+[11/01/2026 - 08:15:26AM] DOM_PlayerAlias: InitializePlayer: Player is already initialized
+[11/01/2026 - 08:15:26AM] DOM_Diary: ===============================================================================
+[11/01/2026 - 08:15:26AM] DOM_Diary: ==                            DOM: Diary manager                             ==
+[11/01/2026 - 08:15:26AM] DOM_Diary: ===============================================================================
+[11/01/2026 - 08:15:26AM] DOM_SlaveManager: ========================================================================
+[11/01/2026 - 08:15:26AM] DOM_SlaveManager: ==                       DOM: Slaves manager 0                        ==
+[11/01/2026 - 08:15:26AM] DOM_SlaveManager: ========================================================================
+[11/01/2026 - 08:15:26AM] DOM_SlaveManager: CheckActorAliases checking DOM pointers array size=128
+[11/01/2026 - 08:15:26AM] DOM_SlaveManager: CheckActorAliases All DOM pointers are OK
+[11/01/2026 - 08:15:26AM] DOM_SlaveManager: UpdateActorArray refreshing actors busy=False
+[11/01/2026 - 08:15:26AM] DOM_SlaveManager: UpdateActorArray slaves refresh loop: size=128
+[11/01/2026 - 08:15:26AM] DOM_Core: Number of slaves following the player: 0 [F] + 0 [M] main gender=1.000000
+[11/01/2026 - 08:15:26AM] DOM_SlaverManager: =======================================================================
+[11/01/2026 - 08:15:26AM] DOM_SlaverManager: ==                       DOM: Slavers manager                        ==
+[11/01/2026 - 08:15:26AM] DOM_SlaverManager: =======================================================================
+[11/01/2026 - 08:15:26AM] DOM_SlaverManager: CheckActorAliases checking DOM pointers array size=32
+[11/01/2026 - 08:15:26AM] DOM_SlaverManager: CheckActorAliases All DOM pointers are OK
+[11/01/2026 - 08:15:26AM] DOM_SlaverManager: UpdateActorArray refreshing actors busy=False
+[11/01/2026 - 08:15:26AM] DOM_SlaverManager: UpdateActorArray slavers refresh loop: size=32
+[11/01/2026 - 08:15:26AM] DOM_Keys: ================================================================================
+[11/01/2026 - 08:15:26AM] DOM_Keys: ==                         DOM: Keys and wheel menus                          ==
+[11/01/2026 - 08:15:26AM] DOM_Keys: ================================================================================
+[11/01/2026 - 08:15:26AM] DOM_Core: Leash Framework ESM Found!
+[11/01/2026 - 08:15:26AM] DOM_Core: ReCheck() recheck already done
+[11/01/2026 - 08:15:26AM] DOM_Core: DisplayGameMessage() DOM Initialization successful game_was_initialized=TRUE RaceMenu open=False on_player_loadgame=False game_message_was_displayed=TRUE
+[11/01/2026 - 08:15:27AM] [Zad-NG]: iWantDD Widgets: ***LIBRARY RESET***
+[11/01/2026 - 08:15:27AM] [Zad-NG]: iWantDD Widgets: iWant Widgets Reset Event Fired
+[11/01/2026 - 08:15:27AM] Error: Static function GetInstallationCRC not found on object fnis_aa. Aborting call and returning None
+stack:
+	[Active effect 6 on  (00000014)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 564
+	[Active effect 6 on  (00000014)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 6 on  (00000014)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 6 on  (00000014)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:15:27AM] warning: Assigning None to a non-object variable named "::temp70"
+stack:
+	[Active effect 6 on  (00000014)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 564
+	[Active effect 6 on  (00000014)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 6 on  (00000014)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 6 on  (00000014)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:15:33AM] [SkyrimNet_Leashed] WaitForLeashMesh armor=[Armor < (FE041804)>] equipped=TRUE bones=TRUE
+[11/01/2026 - 08:15:33AM] [SkyrimNet_Leashed] ApplyToHolder holder=Bob leashed=Coralyn kind=rope body=neck distance=Middle
+[11/01/2026 - 08:15:33AM] [SkyrimNet_DOM_Events.OnLeashFrameworkLeash] Coralyn reason:applied
+[11/01/2026 - 08:15:34AM] [SkyrimNetInternal] StartFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:15:34AM] [SkyrimNetInternal] PauseFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:15:34AM] [SkyrimNetInternal] StopFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:15:34AM] [SkyrimNetInternal] Follower_IsEligible called for Coralyn
+[11/01/2026 - 08:15:34AM] [SkyrimNetInternal] StopFollow_IsEligible called for Frandar The Imperial Soldier
+[11/01/2026 - 08:15:34AM] [SkyrimNetInternal] PauseFollow_IsEligible called for Frandar The Imperial Soldier
+[11/01/2026 - 08:15:34AM] [SkyrimNetInternal] StartFollow_IsEligible called for Frandar The Imperial Soldier
+[11/01/2026 - 08:15:34AM] [SkyrimNetInternal] Follower_IsEligible called for Frandar The Imperial Soldier
+[11/01/2026 - 08:15:34AM] [SkyrimNetInternal] Follower_IsEligible: Coralyn is not in the companion faction.
+[11/01/2026 - 08:15:34AM] [SkyrimNetInternal] Follower_IsEligible: Frandar The Imperial Soldier is not in the companion faction.
+[11/01/2026 - 08:15:34AM] DOM_API: [GetDOMActor] ERROR: Could not find a DOM_Actor for Frandar The Imperial Soldier!
+[11/01/2026 - 08:15:34AM] [skyrimnet_dom_decorators.Get_Actor_Info] Frandar The Imperial Soldier is not a DOMActor
+[11/01/2026 - 08:15:34AM] DOM_API: [GetDOMActor] ERROR: Could not find a DOM_Actor for Coralyn!
+[11/01/2026 - 08:15:34AM] [skyrimnet_dom_decorators.Get_Actor_Info] Coralyn is not a DOMActor
+[11/01/2026 - 08:15:35AM] Error: Static function GetInstallationCRC not found on object fnis_aa. Aborting call and returning None
+stack:
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 564
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.OnObjectEquipped() - "XPMSEWeaponStyleScaleEffect.psc" Line ?
+[11/01/2026 - 08:15:35AM] warning: Assigning None to a non-object variable named "::temp70"
+stack:
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 564
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.OnObjectEquipped() - "XPMSEWeaponStyleScaleEffect.psc" Line ?
+[11/01/2026 - 08:15:35AM] [Zad-NG]: UpdateControls()
+[11/01/2026 - 08:15:35AM] Error: Static function GetInstallationCRC not found on object fnis_aa. Aborting call and returning None
+stack:
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1261
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.OnObjectEquipped() - "XPMSEWeaponStyleScaleEffect.psc" Line ?
+[11/01/2026 - 08:15:35AM] warning: Assigning None to a non-object variable named "::temp150"
+stack:
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1261
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.OnObjectEquipped() - "XPMSEWeaponStyleScaleEffect.psc" Line ?
+[11/01/2026 - 08:15:35AM] Error: Static function SetAnimGroupEX not found on object fnis_aa. Aborting call and returning None
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 238
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1261
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.OnObjectEquipped() - "XPMSEWeaponStyleScaleEffect.psc" Line ?
+[11/01/2026 - 08:15:35AM] warning: Assigning None to a non-object variable named "::temp50"
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 238
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1261
+	[Active effect 1 on  (29000D95)].XPMSEWeaponStyleScaleEffect.OnObjectEquipped() - "XPMSEWeaponStyleScaleEffect.psc" Line ?
+[11/01/2026 - 08:15:42AM] [SkyrimNet_Leashed] StruggleExecute Coralyn dd
+[11/01/2026 - 08:15:42AM] [SkyrimNetInternal] Follower_IsEligible called for Coralyn
+[11/01/2026 - 08:15:42AM] [SkyrimNetInternal] PauseFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:15:42AM] [SkyrimNetInternal] StartFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:15:42AM] [SkyrimNetInternal] StopFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:15:42AM] [SkyrimNetInternal] Follower_IsEligible: Coralyn is not in the companion faction.
+[11/01/2026 - 08:15:43AM] [SkyrimNet_Leashed] PlayStruggleAnim Coralyn DDCollarStruggle01
+[11/01/2026 - 08:15:43AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:15:44AM] [SkyrimNet_Leashed] PlayStruggleAnim Coralyn DDCollarStruggle01
+[11/01/2026 - 08:15:44AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:15:45AM] [SkyrimNet_Leashed] PlayStruggleAnim Coralyn DDCollarStruggle01
+[11/01/2026 - 08:15:45AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:15:46AM] [SkyrimNet_Leashed] PlayStruggleAnim Coralyn DDCollarStruggle01
+[11/01/2026 - 08:15:47AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:15:47AM] [SkyrimNet_Leashed] PlayStruggleAnim Coralyn DDCollarStruggle01
+[11/01/2026 - 08:15:48AM] [Zad-NG]: UpdateControls()
+[11/01/2026 - 08:15:48AM] [Injury_Engine_Actions] StartFighting: Coralyn attacks Bob.
+[11/01/2026 - 08:15:48AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:15:49AM] [SkyrimNet_Leashed] PlayStruggleAnim Coralyn DDCollarStruggle01
+[11/01/2026 - 08:15:49AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:15:53AM] Error: Static function GetInstallationCRC not found on object fnis_aa. Aborting call and returning None
+stack:
+	[Active effect 6 on  (00000014)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 564
+	[Active effect 6 on  (00000014)].XPMSEWeaponStyleScaleEffect.OnObjectUnequipped() - "XPMSEWeaponStyleScaleEffect.psc" Line ?
+[11/01/2026 - 08:15:53AM] warning: Assigning None to a non-object variable named "::temp70"
+stack:
+	[Active effect 6 on  (00000014)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 564
+	[Active effect 6 on  (00000014)].XPMSEWeaponStyleScaleEffect.OnObjectUnequipped() - "XPMSEWeaponStyleScaleEffect.psc" Line ?
+[11/01/2026 - 08:15:53AM] [SkyrimNet_Leashed] Struggle ended: Coralyn reached 7.000000S
+[11/01/2026 - 08:15:53AM] [SkyrimNet_Leashed] StruggleStoppedEvent Coralyn stops struggling against the leash.
+[11/01/2026 - 08:15:54AM] [SkyrimNetInternal] StopFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:15:54AM] [SkyrimNetInternal] StartFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:15:54AM] [SkyrimNetInternal] PauseFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:15:54AM] [SkyrimNetInternal] Follower_IsEligible called for Coralyn
+[11/01/2026 - 08:15:54AM] [SkyrimNetInternal] Follower_IsEligible: Coralyn is not in the companion faction.
+[11/01/2026 - 08:16:00AM] [Zad-NG]: UpdateControls()
+[11/01/2026 - 08:16:01AM] RealNamesChange: Will Rename NON-UNIQUE Whiterun Guard Whiterun Guard
+[11/01/2026 - 08:16:01AM] RealNamesExtended: Renaming actor name=Whiterun Guard base name=Whiterun Guard to Talsgryr The Whiterun Guard id=[Actor < (0001B5E3)>]
+[11/01/2026 - 08:16:08AM] [SkyrimNetInternal] StopFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:16:08AM] [SkyrimNetInternal] StartFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:16:08AM] [SkyrimNetInternal] PauseFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:16:08AM] [SkyrimNetInternal] Follower_IsEligible called for Coralyn
+[11/01/2026 - 08:16:08AM] [SkyrimNetInternal] Follower_IsEligible: Coralyn is not in the companion faction.
+[11/01/2026 - 08:16:09AM] [Zad-NG]: UpdateControls()
+[11/01/2026 - 08:16:13AM] [SkyrimNet_Leashed] StruggleExecute Coralyn dd
+[11/01/2026 - 08:16:14AM] [SkyrimNet_Leashed] PlayStruggleAnim Coralyn DDCollarStruggle01
+[11/01/2026 - 08:16:14AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:16:15AM] [SkyrimNetInternal] StopFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:16:15AM] [SkyrimNetInternal] PauseFollow_IsEligible called for Frandar The Imperial Soldier
+[11/01/2026 - 08:16:15AM] [SkyrimNetInternal] StopFollow_IsEligible called for Frandar The Imperial Soldier
+[11/01/2026 - 08:16:15AM] [SkyrimNetInternal] Follower_IsEligible called for Frandar The Imperial Soldier
+[11/01/2026 - 08:16:15AM] [SkyrimNetInternal] PauseFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:16:15AM] [SkyrimNetInternal] StartFollow_IsEligible called for Frandar The Imperial Soldier
+[11/01/2026 - 08:16:15AM] [SkyrimNetInternal] Follower_IsEligible called for Coralyn
+[11/01/2026 - 08:16:15AM] [SkyrimNetInternal] StartFollow_IsEligible called for Coralyn
+[11/01/2026 - 08:16:15AM] [SkyrimNetInternal] Follower_IsEligible: Coralyn is not in the companion faction.
+[11/01/2026 - 08:16:15AM] [SkyrimNetInternal] Follower_IsEligible: Frandar The Imperial Soldier is not in the companion faction.
+[11/01/2026 - 08:16:15AM] DOM_API: [GetDOMActor] ERROR: Could not find a DOM_Actor for Frandar The Imperial Soldier!
+[11/01/2026 - 08:16:15AM] DOM_API: [GetDOMActor] ERROR: Could not find a DOM_Actor for Coralyn!
+[11/01/2026 - 08:16:15AM] [skyrimnet_dom_decorators.Get_Actor_Info] Frandar The Imperial Soldier is not a DOMActor
+[11/01/2026 - 08:16:15AM] [skyrimnet_dom_decorators.Get_Actor_Info] Coralyn is not a DOMActor
+[11/01/2026 - 08:16:16AM] [SkyrimNet_Leashed] PlayStruggleAnim Coralyn DDCollarStruggle01
+[11/01/2026 - 08:16:16AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:16:16AM] [SkyrimNet_Leashed] ragdoll pull Coralyn
+[11/01/2026 - 08:16:17AM] [Injury_Engine_Main] damage: Bob -> Coralyn falling part: count:2 parts:face,right arm level:0 narrate:TRUE cause:The rope leash yanks Coralyn off their feet toward Bob.
+[11/01/2026 - 08:16:17AM] [Injury_Engine_Main] NarrateInjury: falling short-lived event: The rope leash yanks Coralyn off their feet toward Bob. Coralyn's face and right arm are scraped and bruised twice, the ground rushing up as Coralyn goes down. The skin scrapes raw with a hot sting and Coralyn grunts as Coralyn hits the dirt.
+[11/01/2026 - 08:16:17AM] [Injury_Engine_Main] NarrateInjury: [v] falling Coralyn pair:0 state:2 hits:2 level:0 Narration:TRUE loaded:TRUE distance_m:29.212769/15.000000 queue:1 since_last:1082.032959/8.000000 too_far:TRUE allowed:False
+[11/01/2026 - 08:16:18AM] [SkyrimNet_Leashed] PulseDragEvent Coralyn is dragged along the ground by Bob's leash.
+[11/01/2026 - 08:16:18AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:Back level:0 narrate:False cause:
+[11/01/2026 - 08:16:18AM] [Zad-NG]: UpdateControls()
+[11/01/2026 - 08:16:18AM] Error: Static function GetInstallationCRC not found on object fnis_aa. Aborting call and returning None
+stack:
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 564
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:18AM] warning: Assigning None to a non-object variable named "::temp70"
+stack:
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 564
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:18AM] Error: Static function GetInstallationCRC not found on object fnis_aa. Aborting call and returning None
+stack:
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 720
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:18AM] warning: Assigning None to a non-object variable named "::temp150"
+stack:
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 720
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:18AM] Error: Static function SetAnimGroupEX not found on object fnis_aa. Aborting call and returning None
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 241
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 720
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:18AM] warning: Assigning None to a non-object variable named "::temp50"
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 241
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 720
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:19AM] Error: Static function GetInstallationCRC not found on object fnis_aa. Aborting call and returning None
+stack:
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1261
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:19AM] warning: Assigning None to a non-object variable named "::temp150"
+stack:
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1261
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:19AM] Error: Static function SetAnimGroupEX not found on object fnis_aa. Aborting call and returning None
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 238
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1261
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:19AM] warning: Assigning None to a non-object variable named "::temp50"
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 238
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1261
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:19AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:Back level:1 narrate:False cause:
+[11/01/2026 - 08:16:19AM] Error: Static function GetInstallationCRC not found on object fnis_aa. Aborting call and returning None
+stack:
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1310
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:19AM] warning: Assigning None to a non-object variable named "::temp150"
+stack:
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1310
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:19AM] Error: Static function SetAnimGroupEX not found on object fnis_aa. Aborting call and returning None
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 238
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1310
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:19AM] warning: Assigning None to a non-object variable named "::temp50"
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 238
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1310
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0001B5E3)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:20AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:left arm level:0 narrate:False cause:
+[11/01/2026 - 08:16:21AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:right leg level:0 narrate:False cause:
+[11/01/2026 - 08:16:22AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:left leg level:0 narrate:False cause:
+[11/01/2026 - 08:16:23AM] [SkyrimNet_Leashed] PulseDragEvent Coralyn is dragged along the ground by Bob's leash.
+[11/01/2026 - 08:16:23AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:right leg level:1 narrate:False cause:
+[11/01/2026 - 08:16:24AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:face level:1 narrate:False cause:
+[11/01/2026 - 08:16:25AM] Error: Static function GetInstallationCRC not found on object fnis_aa. Aborting call and returning None
+stack:
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 564
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:25AM] warning: Assigning None to a non-object variable named "::temp70"
+stack:
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 564
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:25AM] Error: Static function GetInstallationCRC not found on object fnis_aa. Aborting call and returning None
+stack:
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 794
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:25AM] warning: Assigning None to a non-object variable named "::temp150"
+stack:
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 794
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:25AM] [SkyrimNet_Leashed] StruggleExecute Coralyn dd
+[11/01/2026 - 08:16:25AM] Error: Static function SetAnimGroupEX not found on object fnis_aa. Aborting call and returning None
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 238
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 794
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:25AM] warning: Assigning None to a non-object variable named "::temp50"
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 238
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 794
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:25AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:right leg level:1 narrate:False cause:
+[11/01/2026 - 08:16:25AM] Error: Static function GetInstallationCRC not found on object fnis_aa. Aborting call and returning None
+stack:
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1261
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:25AM] warning: Assigning None to a non-object variable named "::temp150"
+stack:
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1261
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:25AM] Error: Static function SetAnimGroupEX not found on object fnis_aa. Aborting call and returning None
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 238
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1261
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:25AM] warning: Assigning None to a non-object variable named "::temp50"
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 238
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1261
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:26AM] Error: Static function GetInstallationCRC not found on object fnis_aa. Aborting call and returning None
+stack:
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1310
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:26AM] warning: Assigning None to a non-object variable named "::temp150"
+stack:
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GetFNISSaveData() - "XPMSEWeaponStyleScaleEffect.psc" Line 1652
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1310
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:26AM] Error: Static function SetAnimGroupEX not found on object fnis_aa. Aborting call and returning None
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 238
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1310
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:26AM] warning: Assigning None to a non-object variable named "::temp50"
+stack:
+	<unknown self>.xpmselib.SetAA() - "XPMSELib.psc" Line 238
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.SetAA() - "XPMSEWeaponStyleScaleEffect.psc" Line 1553
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.Restyle() - "XPMSEWeaponStyleScaleEffect.psc" Line 1310
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.onBeginState() - "XPMSEWeaponStyleScaleEffect.psc" Line 255
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.GotoState() - "ActiveMagicEffect.psc" Line ?
+	[Active effect 1 on  (0002C931)].XPMSEWeaponStyleScaleEffect.OnEffectStart() - "XPMSEWeaponStyleScaleEffect.psc" Line 222
+[11/01/2026 - 08:16:26AM] [SkyrimNet_Leashed] PlayStruggleAnim skipped: knocked down or no 3D Coralyn
+[11/01/2026 - 08:16:26AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:16:27AM] [Zad-NG]: UpdateControls()
+[11/01/2026 - 08:16:27AM] [SkyrimNet_Leashed] PlayStruggleAnim skipped: knocked down or no 3D Coralyn
+[11/01/2026 - 08:16:27AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:16:27AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:left leg level:1 narrate:False cause:
+[11/01/2026 - 08:16:28AM] [SkyrimNet_Leashed] PlayStruggleAnim skipped: knocked down or no 3D Coralyn
+[11/01/2026 - 08:16:28AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:16:28AM] [SkyrimNet_Leashed] PulseDragEvent Coralyn is dragged along the ground by Bob's leash.
+[11/01/2026 - 08:16:29AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:right leg level:1 narrate:False cause:
+[11/01/2026 - 08:16:29AM] [SkyrimNet_Leashed] PlayStruggleAnim skipped: knocked down or no 3D Coralyn
+[11/01/2026 - 08:16:29AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:16:30AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:Back level:1 narrate:False cause:
+[11/01/2026 - 08:16:30AM] [SkyrimNet_Leashed] PlayStruggleAnim skipped: knocked down or no 3D Coralyn
+[11/01/2026 - 08:16:30AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:16:31AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:right arm level:1 narrate:False cause:
+[11/01/2026 - 08:16:31AM] [SkyrimNet_Leashed] PlayStruggleAnim skipped: knocked down or no 3D Coralyn
+[11/01/2026 - 08:16:31AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:16:32AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:Back level:1 narrate:False cause:
+[11/01/2026 - 08:16:32AM] [SkyrimNet_Leashed] PlayStruggleAnim skipped: knocked down or no 3D Coralyn
+[11/01/2026 - 08:16:32AM] [SkyrimNet_Leashed] PulseStruggleEvent Coralyn continues to struggle with her leash.
+[11/01/2026 - 08:16:33AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:right arm level:1 narrate:False cause:
+[11/01/2026 - 08:16:33AM] [SkyrimNet_Leashed] Struggle ended: Coralyn reached 7.000000S
+[11/01/2026 - 08:16:33AM] [SkyrimNet_Leashed] StruggleStoppedEvent Coralyn stops struggling against the leash.
+[11/01/2026 - 08:16:34AM] [SkyrimNet_Leashed] PulseDragEvent Coralyn is dragged along the ground by Bob's leash.
+[11/01/2026 - 08:16:34AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:right arm level:1 narrate:False cause:
+[11/01/2026 - 08:16:35AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:Back level:2 narrate:False cause:
+[11/01/2026 - 08:16:35AM] [Zad-NG]: UpdateControls()
+[11/01/2026 - 08:16:36AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:right leg level:1 narrate:False cause:
+[11/01/2026 - 08:16:37AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:left leg level:1 narrate:False cause:
+[11/01/2026 - 08:16:38AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:left leg level:1 narrate:False cause:
+[11/01/2026 - 08:16:39AM] [SkyrimNet_Leashed] PulseDragEvent Coralyn is dragged along the ground by Bob's leash.
+[11/01/2026 - 08:16:39AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:face level:1 narrate:False cause:
+[11/01/2026 - 08:16:40AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:left arm level:1 narrate:False cause:
+[11/01/2026 - 08:16:41AM] [Injury_Engine_Main] damage: someone -> Coralyn leash_dragging part: count:1 parts:Back level:2 narrate:False cause:
