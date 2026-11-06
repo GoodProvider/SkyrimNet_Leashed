@@ -1,0 +1,30 @@
+[07:59:35.913] [29628] [I] SkyrimNet_Leashed v0-4-5-0
+[07:59:35.913] [29628] [I] SkyrimNet_Leashed loading
+[07:59:35.913] [29628] [I] SkyrimNet_Leashed loaded
+[08:00:02.915] [71136] [I] Registered SkyrimNet_Leashed_Native Papyrus functions
+[08:00:40.312] [26312] [I] SkyrimNet API v14 resolved
+[08:00:40.312] [26312] [I] Registered decorator 'is_leash_available'
+[08:00:40.313] [26312] [I] Registered decorator 'is_unleash_available'
+[08:00:40.313] [26312] [I] Registered decorator 'speaker_on_leash'
+[08:00:40.313] [26312] [I] Registered decorator 'leashed_nearby'
+[08:00:40.313] [26312] [I] Registered decorator 'unleashed_nearby'
+[08:00:40.313] [26312] [I] Registered decorator 'speaker_is_leashed'
+[08:00:40.313] [26312] [I] Registered decorator 'collared_nearby'
+[08:00:40.313] [26312] [I] Registered decorator 'speaker_is_struggling'
+[08:00:40.313] [26312] [I] Registered decorator 'speaker_holds_leash'
+[08:00:40.313] [26312] [I] Registered decorator 'speaker_is_down_or_pulled'
+[08:00:40.313] [26312] [I] Registered decorator 'get_speaker_held_actors'
+[08:00:40.313] [26312] [I] Registered decorator 'is_struggle_enabled'
+[08:00:40.313] [26312] [I] Registered decorator 'get_nearby_unleashed_actors'
+[08:00:40.313] [26312] [I] Registered decorator 'get_nearby_leashed_actors'
+[08:00:40.313] [26312] [I] Registered decorator 'get_speaker_leash_partners'
+[08:00:40.313] [26312] [I] Registered decorator 'leashframework_visible_pairs'
+[08:00:40.313] [26312] [I] Registered decorator 'get_nearby_collared_actors'
+[08:00:40.313] [26312] [I] Registered decorator 'get_nearby_actors'
+[08:00:40.314] [26312] [I] SkyrimNet_Leashed registered with SkyrimNet
+[08:00:40.314] [26312] [I] WebUI: Magelight host 1.7.1 acquired
+[08:00:40.314] [26312] [I] WebUI: KeyHandler sink registered
+[08:00:40.314] [26312] [I] WebUI: menu hotkey follows leash.controls.hotkey
+[08:00:41.072] [29628] [I] StateCache: first queued refresh ran on thread 29628 (plugin load thread 29628)
+[08:00:47.146] [29628] [I] WebUI: game ready
+[08:00:47.517] [42624] [W] StateCache: queued refresh ran on thread 42624, plugin load ran on thread 29628

@@ -1,0 +1,34 @@
+[08:31:02.818] [70868] [I] SkyrimNet_Leashed v0-4-5-0
+[08:31:02.818] [70868] [I] SkyrimNet_Leashed loading
+[08:31:02.818] [70868] [I] SkyrimNet_Leashed loaded
+[08:31:25.513] [55352] [I] Registered SkyrimNet_Leashed_Native Papyrus functions
+[08:31:40.113] [21588] [I] SkyrimNet API v14 resolved
+[08:31:40.113] [21588] [I] Registered decorator 'is_leash_available'
+[08:31:40.113] [21588] [I] Registered decorator 'is_unleash_available'
+[08:31:40.113] [21588] [I] Registered decorator 'speaker_on_leash'
+[08:31:40.113] [21588] [I] Registered decorator 'leashed_nearby'
+[08:31:40.114] [21588] [I] Registered decorator 'unleashed_nearby'
+[08:31:40.114] [21588] [I] Registered decorator 'speaker_is_leashed'
+[08:31:40.114] [21588] [I] Registered decorator 'collared_nearby'
+[08:31:40.114] [21588] [I] Registered decorator 'speaker_is_struggling'
+[08:31:40.114] [21588] [I] Registered decorator 'speaker_holds_leash'
+[08:31:40.114] [21588] [I] Registered decorator 'speaker_is_down_or_pulled'
+[08:31:40.114] [21588] [I] Registered decorator 'get_speaker_held_actors'
+[08:31:40.114] [21588] [I] Registered decorator 'is_struggle_enabled'
+[08:31:40.114] [21588] [I] Registered decorator 'get_nearby_unleashed_actors'
+[08:31:40.114] [21588] [I] Registered decorator 'get_nearby_leashed_actors'
+[08:31:40.114] [21588] [I] Registered decorator 'get_speaker_leash_partners'
+[08:31:40.114] [21588] [I] Registered decorator 'leashframework_visible_pairs'
+[08:31:40.115] [21588] [I] Registered decorator 'get_nearby_collared_actors'
+[08:31:40.115] [21588] [I] Registered decorator 'get_nearby_actors'
+[08:31:40.115] [21588] [I] SkyrimNet_Leashed registered with SkyrimNet
+[08:31:40.115] [21588] [I] WebUI: Magelight host 1.7.1 acquired
+[08:31:40.115] [21588] [I] WebUI: KeyHandler sink registered
+[08:31:40.115] [21588] [I] WebUI: menu hotkey follows leash.controls.hotkey
+[08:31:40.879] [70868] [I] StateCache: first queued refresh ran on thread 70868 (plugin load thread 70868)
+[08:31:47.824] [70868] [I] WebUI: game ready
+[08:31:48.027] [68852] [W] StateCache: queued refresh ran on thread 68852, plugin load ran on thread 70868
+[08:32:51.386] [64884] [I] InjuryEngine: installed=true
+[08:32:51.653] [12084] [I] InjuryEngine: falling x2 on 0001B5DF narrate=true
+[08:32:53.019] [54352] [I] InjuryEngine: leash_dragging x1 on 0001B5DF narrate=false
+[08:33:41.873] [70868] [I] WebUI: game ready

@@ -1,0 +1,52 @@
+[08:31:01.984] [70868] [I] LeashFramework v1-1-7-0
+[08:31:01.984] [70868] [I] LeashFramework loading
+[08:31:01.984] [70868] [I] Registered leash serialization
+[08:31:01.984] [70868] [I] LeashFramework loaded
+[08:31:25.505] [55352] [I] Registered LeashFramework Papyrus API
+[08:31:30.411] [21588] [I] Installed AI-controlled camera freedom hook
+[08:31:30.411] [21588] [I] Installed greeting suppression hook
+[08:31:30.411] [21588] [I] Installed player controller and NPC movement constraints
+[08:31:30.411] [21588] [I] Installed NPC and player ragdoll hold hooks
+[08:31:30.411] [21588] [I] Installed frame hooks
+[08:31:30.412] [21588] [I] Loaded menu settings
+[08:31:30.412] [21588] [I] Registered Leash Framework mod menu
+[08:31:47.768] [70868] [I] Loaded 0 persistent leash(es)
+[08:32:00.965] [26516] [I] Sent LeashFramework_OnLeash for 29000D95 with reason 'applied'
+[08:32:00.965] [26516] [I] Applied leash to 29000D95
+[08:32:00.980] [70868] [I] Bound 13 leash bones containing 'Leash1' under 'NPC Spine2 [Spn2]' for 00000000->29000D95
+[08:32:23.317] [26516] [I] Sent LeashFramework_OnLeash for 0001B5DF with reason 'applied'
+[08:32:23.317] [26516] [I] Applied leash to 0001B5DF
+[08:32:23.332] [70868] [I] Bound 13 leash bones containing 'Leash1' under 'NPC Spine2 [Spn2]' for 00000014->0001B5DF
+[08:32:27.732] [70868] [I] Sent LeashFramework_OnActorPulled for 0001B5DF at distance 213.0
+[08:32:28.482] [70868] [I] Exceeded by 1.0074158
+[08:32:32.633] [70868] [I] Sent LeashFramework_OnActorStopPull for 0001B5DF
+[08:32:33.516] [70868] [I] Sent LeashFramework_OnActorPulled for 0001B5DF at distance 160.9
+[08:32:36.749] [70868] [I] Sent LeashFramework_OnActorStopPull for 0001B5DF
+[08:32:37.566] [70868] [I] Sent LeashFramework_OnActorPulled for 0001B5DF at distance 194.2
+[08:32:43.167] [70868] [I] Sent LeashFramework_OnActorStopPull for 0001B5DF
+[08:32:43.667] [70868] [I] Sent LeashFramework_OnActorPulled for 0001B5DF at distance 165.1
+[08:32:44.100] [70868] [I] Sent LeashFramework_OnActorStopPull for 0001B5DF
+[08:32:50.117] [70868] [I] Sent LeashFramework_OnActorPulled for 0001B5DF at distance 165.1
+[08:32:50.584] [70868] [I] Sent LeashFramework_OnActorStopPull for 0001B5DF
+[08:32:50.736] [12084] [I] Sent LeashFramework_OnUnleash for 0001B5DF with reason 'replaced'
+[08:32:50.736] [12084] [I] Sent LeashFramework_OnLeash for 0001B5DF with reason 'replaced'
+[08:32:50.736] [12084] [I] Applied leash to 0001B5DF
+[08:32:50.751] [70868] [I] Bound 13 leash bones containing 'Leash1' under 'NPC Spine2 [Spn2]' for FF000EF1->0001B5DF
+[08:32:50.751] [70868] [I] Exceeded by 609.59766
+[08:32:50.751] [70868] [I] Started forced recovery for 0001B5DF at distance 989.6
+[08:32:50.784] [70868] [I] Sent LeashFramework_OnActorRagdollPulled for 0001B5DF at distance 990.5
+[08:33:13.052] [70868] [I] Completed forced recovery for 0001B5DF
+[08:33:21.889] [64884] [I] Sent LeashFramework_OnLeash for FF000F16 with reason 'applied'
+[08:33:21.889] [64884] [I] Applied leash to FF000F16
+[08:33:21.903] [70868] [I] Bound 13 leash bones containing 'Leash1' under 'NPC Spine2 [Spn2]' for 00000014->FF000F16
+[08:33:41.546] [70868] [I] Sent LeashFramework_OnLeash for 29000D95 with reason 'loaded'
+[08:33:41.546] [70868] [I] Sent LeashFramework_OnLeash for 0001B5DF with reason 'loaded'
+[08:33:41.546] [70868] [I] Sent LeashFramework_OnLeash for FF000F16 with reason 'loaded'
+[08:33:41.546] [70868] [I] Loaded 3 persistent leash(es)
+[08:33:42.027] [70868] [I] Bound 13 leash bones containing 'Leash1' under 'NPC Spine2 [Spn2]' for 00000000->29000D95
+[08:33:42.027] [70868] [I] Bound 13 leash bones containing 'Leash1' under 'NPC Spine2 [Spn2]' for FF000EF1->0001B5DF
+[08:33:42.027] [70868] [I] Bound 13 leash bones containing 'Leash1' under 'NPC Spine2 [Spn2]' for 00000014->FF000F16
+[08:33:45.656] [70868] [I] Sent LeashFramework_OnActorPulled for FF000F16 at distance 171.0
+[08:33:46.072] [70868] [I] Sent LeashFramework_OnActorStopPull for FF000F16
+[08:36:00.765] [70868] [I] Sent LeashFramework_OnActorPulled for FF000F16 at distance 163.9
+[08:36:01.915] [70868] [I] Sent LeashFramework_OnActorStopPull for FF000F16
