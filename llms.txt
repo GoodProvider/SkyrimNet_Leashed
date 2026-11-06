@@ -10,8 +10,8 @@
 | Agent policy | AGENTS.md |
 | Quirks / dependency pins | KNOWLEDGE.md |
 | Dependency drift | .cursor/skills/dependency_drift/SKILL.md, checkpoints/<dependency-name>-<version>.md |
-| Leash Framework 1.1.3 pin | checkpoints/leashframework-1.1.3.md |
-| SkyrimNet beta25-rc7 pin | checkpoints/skyrimnet-beta25-rc7.md |
+| Leash Framework 1.1.4 pin | checkpoints/leashframework-1.1.4.md |
+| SkyrimNet beta26-rc4 pin | checkpoints/skyrimnet-beta26-rc4.md |
 | Release documentation | release-guide.md, release-checkpoint.xml |
 | Changelog | CHANGELOG.md, CHANGELOG-developer.md, CHANGELOG-player.md |
 | Action YAML | SKSE/Plugins/SkyrimNet/external/goodprovider.leashed/actions/ |

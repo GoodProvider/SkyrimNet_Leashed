@@ -31,6 +31,8 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         HeldActors,
     };
 
+    // Call from SKSEPluginLoad: records the thread queued refreshes are expected to run on.
+    void NoteMainThread();
     void Start();
     void Stop();
     void Reset();

@@ -57,8 +57,28 @@ Function RegisterLeashEvents()
     RegisterForModEvent("SkyrimNet_Leashed_OpenPanel", "OnLeashedOpenPanel")
     RegisterForModEvent("SkyrimNet_Leashed_InjuryRejected", "OnLeashedInjuryRejected")
     ResolveControllers()
+    ResetSavedClocks()
     RepushCachedPairs()
     RepushStruggling()
+EndFunction
+
+; Real time restarts each launch, so a saved time can be ahead of now. "now - saved" then stays
+; negative: IsSuppressed reads true and cooldowns never expire until the new clock catches up.
+Function ResetSavedClocks()
+    EnsureCache()
+    Float now = Utility.GetCurrentRealTime()
+    Int i = 0
+    while i < CacheSize()
+        LastPullTimes[i] = 0.0
+        LastTautTimes[i] = 0.0
+        SuppressActors[i] = None
+        SuppressTimes[i] = 0.0
+        DownedLastDragEvent[i] = 0.0
+        if DownedActors[i]
+            DownedStarted[i] = now
+        endif
+        i += 1
+    endwhile
 EndFunction
 
 Event OnLeashedOpenPanel()
@@ -87,7 +107,7 @@ Function RepushCachedPairs()
     Int i = 0
     while i < CachedLeashed.Length
         Actor leashed = CachedLeashed[i]
-        if leashed
+        if leashed && ReconcileCachedPair(i)
             Actor holder = CachedHolders[i]
             Bool tied = CachedTied[i]
             String kind = CachedKinds[i]
@@ -100,6 +120,31 @@ Function RepushCachedPairs()
         endif
         i += 1
     endwhile
+EndFunction
+
+; False when slot i no longer describes a real leash; the slot is then cleared. Framework restores
+; its leashes from the co-save before OnPlayerLoadGame, so its answer is final here. Only a dangling
+; leash is ours alone, and that exists only while its armor is worn.
+Bool Function ReconcileCachedPair(Int i)
+    Actor leashed = CachedLeashed[i]
+    if LeashFramework.IsLeashed(leashed)
+        return true
+    endif
+    Actor holder = CachedHolders[i]
+    String kind = CachedKinds[i]
+    String bodyPart = CachedBodyParts[i]
+    if holder == None && !CachedTied[i]
+        Armor worn = ArmorForKind(kind, bodyPart, CachedDistances[i])
+        if worn && leashed.IsEquipped(worn)
+            return true
+        endif
+        Debug.Trace("[SkyrimNet_Leashed] Forgetting dangling leash on " + ActorLabel(leashed) + ": its armor is no longer worn")
+    else
+        Debug.Trace("[SkyrimNet_Leashed] Forgetting leash on " + ActorLabel(leashed) + ": Framework has no such leash")
+        UnequipPairArmor(holder, leashed, kind, bodyPart)
+    endif
+    ForgetPair(leashed)
+    return false
 EndFunction
 
 Function RepushStruggling()
@@ -253,7 +298,7 @@ String Function BeastRaceLabel(Actor who)
     if vanilla && r == vanilla
         return "Khajiit"
     endif
-    vanilla = Game.GetFormFromFile(0x88840, "Skyrim.esm") as Race
+    vanilla = Game.GetFormFromFile(0x88845, "Skyrim.esm") as Race
     if vanilla && r == vanilla
         return "Khajiit"
     endif
@@ -977,7 +1022,8 @@ Function TickDowned()
                     DownedLastX[i] = who.GetPositionX()
                     DownedLastY[i] = who.GetPositionY()
                     DownedLastZ[i] = who.GetPositionZ()
-                    if beyond || (dx * dx + dy * dy + dz * dz) >= 1600.0
+                    ; An unleashed actor can still slide while ragdolled, but no leash is dragging them.
+                    if LeashFramework.IsLeashed(who) && (beyond || (dx * dx + dy * dy + dz * dz) >= 1600.0)
                         SkyrimNet_Leashed_Native.InjuryEngineInjure(who, "leash_dragging", 1, None, "", false)
                         PulseDragEvent(who, holder, i, now)
                     endif
@@ -1295,6 +1341,10 @@ Function UnequipStaleBodyArmor(Actor leashed, String kind, String bodyPart, Stri
     if prevBody == "wrists" || nextBody == "wrists"
         Int keepCount = CachedArmorCount(leashed)
         UnequipWristChainArmors(prevOwner, nextArmor, keepCount)
+        ; A neck or waist leash becoming wrists: the call above only handles wrist chains.
+        if prevArmor && !IsWristChainArmor(prevArmor)
+            UnequipTypeArmor(prevOwner, prevArmor, keepCount)
+        endif
         Actor nextOwner = MeshOwnerFor(CachedHolder(leashed), leashed, kind)
         if nextOwner != prevOwner
             UnequipWristChainArmors(nextOwner, nextArmor, keepCount)
@@ -1322,16 +1372,7 @@ Function UnequipTrackedFor(Actor who)
         Actor holder = CachedHolders[i]
         if leashed && (leashed == who || holder == who)
             UnequipPairArmor(holder, leashed, CachedKinds[i], CachedBodyParts[i])
-            CachedLeashed[i] = None
-            CachedHolders[i] = None
-            CachedKinds[i] = ""
-            CachedBodyParts[i] = ""
-            CachedDistances[i] = ""
-            CachedStyles[i] = ""
-            CachedTied[i] = false
-            CachedArmorCounts[i] = 0
-            LastPullTimes[i] = 0.0
-            LastTautTimes[i] = 0.0
+            ForgetPair(leashed)
             SkyrimNet_Leashed_Native.NotifyUnleash(leashed)
         endif
         i += 1
@@ -2420,16 +2461,7 @@ Bool Function ConsumePullCooldown(Actor leashed, Bool ragdoll)
     if leashed == None
         return false
     endif
-    EnsureCache()
-    Int i = FindLeashedIndex(leashed)
-    if i < 0
-        Bool tied = leashed && LeashFramework.IsLeashed(leashed) && LeashFramework.GetLeashHolder(leashed) == None
-        String kind = DetectKind(None, leashed)
-        String bodyPart = DetectBodyPart(None, leashed)
-        String distance = ResolveDistance(leashed, "")
-        RememberPair(None, leashed, kind, bodyPart, "normally", distance, tied, OwnedArmorCount(None, leashed, kind, bodyPart, distance))
-        i = FindLeashedIndex(leashed)
-    endif
+    Int i = EnsureLeashedSlot(leashed)
     if i < 0
         return true
     endif
@@ -2478,10 +2510,6 @@ String Function NarratePull(Actor leashed, Bool ragdoll, Bool toInjuryEngine = f
     String leashedName = ActorLabel(leashed)
     Actor originator = holder
     Actor targetActor = leashed
-    if originator == None
-        originator = None
-        targetActor = leashed
-    endif
     String content = ""
     if ragdoll
         if holder
@@ -2517,11 +2545,13 @@ EndFunction
 ; "loaded" and "replaced" reasons that still need to update the recorded pair.
 Event OnLeashFrameworkLeash(String eventName, String strArg, Float numArg, Form sender)
     Actor leashed = sender as Actor
-    if leashed
-        Actor holder = LeashFramework.GetLeashHolder(leashed)
-        Bool tied = holder == None
-        SkyrimNet_Leashed_Native.NotifyLeash(holder, leashed, DetectKind(holder, leashed), ResolveDistance(leashed, ""), DetectBodyPart(holder, leashed), tied)
+    ; Papyrus events lag: a leash that has already ended must not write a record.
+    if leashed == None || !LeashFramework.IsLeashed(leashed)
+        return
     endif
+    Actor holder = LeashFramework.GetLeashHolder(leashed)
+    Bool tied = holder == None
+    SkyrimNet_Leashed_Native.NotifyLeash(holder, leashed, DetectKind(holder, leashed), ResolveDistance(leashed, ""), DetectBodyPart(holder, leashed), tied)
     NarrateLeash(leashed, strArg)
 EndEvent
 

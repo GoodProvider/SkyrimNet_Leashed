@@ -23,7 +23,7 @@ When reviewing current code against a **dependency update**, follow the `depende
 | Dependency | Latest checkpoint |
 | --- | --- |
 | Leash Framework | [checkpoints/leashframework-1.1.4.md](checkpoints/leashframework-1.1.4.md) (no drift from 1.1.3; holder always given slack) |
-| SkyrimNet | [checkpoints/skyrimnet-beta25-rc7.md](checkpoints/skyrimnet-beta25-rc7.md) (0.4.0; PublicAPI v10; content plugin `goodprovider.leashed`) |
+| SkyrimNet | [checkpoints/skyrimnet-beta26-rc4.md](checkpoints/skyrimnet-beta26-rc4.md) (0.4.2; PublicAPI v12; content plugin `goodprovider.leashed`) |
 
 CMake **Configure** may run `git submodule update --init --recursive` from `SKSE_Source` and reset `Skyrim-Leash-Framework` to the **parent gitlink**. After a pin, the index must record the new SHA (`git add Skyrim-Leash-Framework`) or Configure will walk it back. Do not compile or ship Framework `.pex` / DLL from the submodule.
 
@@ -88,8 +88,17 @@ A user profile of 0.4.1 showed a 12-25 s freeze after alt-tab and a 55-70 ms fra
 - **No by-name `LookupForm` in per-actor paths.** It walks the whole plugin list and runs `strlen` on each name. `GetLeashedFaction` / `GetLeasherFaction` did this about 2N² times per refresh, which was about 75% of the profile samples. They now cache the pointer, and never cache a miss.
 - **Never queue a recurring task without coalescing.** A refresh was queued every 750 ms with no check. The likely cause of the freeze is that those tasks pile up while the game is unfocused, then all run on return (inferred, not measured). `g_refreshQueued` now allows one at a time.
 - **`RefreshTable` holds per-actor values for one refresh.** Status flags are computed on first use. UUID and name stay lazy, so only actors that land in a payload call `FormIDToUUID`, as before.
-- **Open:** the profile put the periodic bursts on engine worker threads, while `StateCache.h` says "Main thread only". `NoteRefreshThread` logs which thread runs the queued refresh. If it is not the main thread, `HasLineOfSight` and the other game calls in `Refresh` need a separate fix.
+- **Refresh thread (2026-11-03 log):** the queued refresh ran on the thread that loaded the plugin (62572). `kDataLoaded` ran on another one (6068), so it is no reference for "main thread". `NoteRefreshThread` now compares against the plugin-load thread. This does not explain why the profile showed periodic bursts on worker threads; it is one startup log from this machine.
 - A refresh over 10 ms logs its duration and actor count, at most once per 60 s.
+- **Pending speakers are not nearby (2026-11-03).** `g_pending` actors get their own snapshot and count for pairs, but stay out of every speaker's nearby list. SkyrimNet asking about an actor says nothing about where it is, and Game Data Explorer asks about every UUID-mapped actor.
+
+## Saved real-time clocks (2026-11-03)
+
+`Utility.GetCurrentRealTime()` restarts each launch, so a saved value can be ahead of now. Then `now - saved` stays negative: `IsSuppressed` reads true and cooldowns never expire until the new clock catches up, which can take an hour or more. A real `OnUnleash` in that period is ignored, and the stale record is saved again. `ResetSavedClocks` runs from `RegisterLeashEvents` on every load. Any new saved real-time value must be reset there too. Found by reading code; not reproduced in game.
+
+## Load reconciliation (2026-11-03)
+
+`RepushCachedPairs` asks `ReconcileCachedPair` before pushing a saved pair. Without a Framework leash, a held or tied entry is unequipped and forgotten, and a dangling entry stays only while its armor is worn. Framework restores persistent leashes in its co-save `Load` callback, before `OnPlayerLoadGame`, so `IsLeashed` is final by then. `OnLeashFrameworkLeash` ignores an event whose leash has already ended.
 
 ## Injury Engine injuries and dragging events (2026-10-09)
 

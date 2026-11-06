@@ -4,6 +4,11 @@
 - NPCs stop struggling as soon as the leash pulls them, including when they start following you. They only struggle while you stand still.
 - NPCs no longer start struggling while knocked down or being dragged.
 - Fixed a long freeze when tabbing back into the game and a small stutter every 3/4 of a second, worst in busy areas and large load orders.
+- Leashes that no longer exist are cleared when you load a save, so NPCs stop mentioning them.
+- After loading a save from an earlier session, leash pull lines and injuries no longer stop for a while.
+- Changing a neck or waist leash to wrists no longer leaves the old leash on.
+- NPCs far away no longer show up as nearby leash targets.
+- Typing `\` in the console no longer opens the leash panel.
 
 ## [0.4.4](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4)
 

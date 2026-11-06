@@ -91,9 +91,9 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         // the game is paused or unfocused, so queueing on every tick would build a backlog
         // that all runs back to back when the game resumes.
         std::atomic<bool> g_refreshQueued{false};
-        std::atomic<DWORD> g_startThreadID{0};
+        std::atomic<DWORD> g_mainThreadID{0};
         std::atomic<bool> g_loggedRefreshThread{false};
-        std::atomic<bool> g_loggedOffStartThread{false};
+        std::atomic<bool> g_loggedOffMainThread{false};
         std::atomic<std::int64_t> g_lastSlowLogMs{0};
 
         std::mutex g_wakeMutex;
@@ -106,7 +106,8 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         }
 
         bool CanSee(RE::Actor* a_speaker, RE::Actor* a_target) {
-            if (!a_speaker || !a_target) {
+            // Pairs and pending speakers can be in unloaded cells.
+            if (!a_speaker || !a_target || !a_speaker->Is3DLoaded() || !a_target->Is3DLoaded()) {
                 return false;
             }
             bool los = false;
@@ -287,18 +288,16 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
             return snapshot;
         }
 
-        // StateCache.h assumes the main thread, which is what the kDataLoaded handler runs
-        // on. A profile showed these tasks on engine worker threads, so record the answer.
+        // Refresh makes game calls, so it has to stay on the thread that loaded the plugin.
+        // kDataLoaded does not run on that thread, so it is no reference for this check.
         void NoteRefreshThread() {
             const auto current = GetCurrentThreadId();
-            const auto start = g_startThreadID.load(std::memory_order_relaxed);
-            if (current != start) {
-                if (!g_loggedOffStartThread.exchange(true, std::memory_order_relaxed)) {
-                    SKSE::log::warn("StateCache: queued refresh ran on thread {}, kDataLoaded ran on thread {}", current, start);
-                }
+            const auto mainThread = g_mainThreadID.load(std::memory_order_relaxed);
+            if (current != mainThread && !g_loggedOffMainThread.exchange(true, std::memory_order_relaxed)) {
+                SKSE::log::warn("StateCache: queued refresh ran on thread {}, plugin load ran on thread {}", current, mainThread);
             }
             if (!g_loggedRefreshThread.exchange(true, std::memory_order_relaxed)) {
-                SKSE::log::info("StateCache: first queued refresh ran on thread {} (kDataLoaded thread {})", current, start);
+                SKSE::log::info("StateCache: first queued refresh ran on thread {} (plugin load thread {})", current, mainThread);
             }
         }
 
@@ -330,19 +329,23 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
             std::lock_guard lock{g_mutex};
             pending.swap(g_pending);
         }
-        for (const auto id : pending) {
-            if (auto* actor = ActorFromID(id)) {
-                collected.push_back(actor);
-            }
-        }
 
         std::vector<RE::Actor*> actors;
-        actors.reserve(collected.size());
+        actors.reserve(collected.size() + pending.size());
         std::unordered_set<RE::FormID> seen;
-        for (auto* actor : collected) {
-            if (actor && !actor->IsDeleted() && seen.insert(actor->GetFormID()).second) {
-                actors.push_back(actor);
+        const auto addUnique = [&](RE::Actor* a_actor) {
+            if (a_actor && !a_actor->IsDeleted() && seen.insert(a_actor->GetFormID()).second) {
+                actors.push_back(a_actor);
             }
+        };
+        for (auto* actor : collected) {
+            addUnique(actor);
+        }
+        // A pending speaker gets its own snapshot, but SkyrimNet asking about an actor does
+        // not put it near anyone: it can be in another cell, and there can be hundreds.
+        const std::vector<RE::Actor*> nearby{actors};
+        for (const auto id : pending) {
+            addUnique(ActorFromID(id));
         }
 
         RefreshTable table;
@@ -376,7 +379,7 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         std::unordered_map<RE::FormID, Snapshot> next;
         next.reserve(actors.size());
         for (auto* speaker : actors) {
-            next.insert_or_assign(speaker->GetFormID(), BuildSnapshot(speaker, actors, pairs, pluginLoaded, table));
+            next.insert_or_assign(speaker->GetFormID(), BuildSnapshot(speaker, nearby, pairs, pluginLoaded, table));
         }
 
         {
@@ -460,11 +463,14 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         return std::string{fallback};
     }
 
+    void NoteMainThread() {
+        g_mainThreadID.store(GetCurrentThreadId(), std::memory_order_relaxed);
+    }
+
     void Start() {
         if (g_thread.joinable()) {
             return;
         }
-        g_startThreadID.store(GetCurrentThreadId(), std::memory_order_relaxed);
         Refresh();
         g_thread = std::jthread([](std::stop_token a_stop) {
             while (!a_stop.stop_requested()) {

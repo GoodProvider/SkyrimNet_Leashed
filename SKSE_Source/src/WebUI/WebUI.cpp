@@ -387,8 +387,17 @@ namespace SkyrimNetLeashed::WebUI {
             Show();
         }
 
+        // The key is a printable character by default, so it must not open the panel mid-typing.
+        bool IsTypingText() {
+            if (auto* ui = RE::UI::GetSingleton(); ui && ui->IsMenuOpen(RE::Console::MENU_NAME)) {
+                return true;
+            }
+            const auto* controls = RE::ControlMap::GetSingleton();
+            return controls && controls->GetRuntimeData().textEntryCount > 0;
+        }
+
         void OnMenuHotkey() {
-            if (!Config::HotkeyEnabled()) {
+            if (!Config::HotkeyEnabled() || IsTypingText()) {
                 return;
             }
             ToggleOrOpen();

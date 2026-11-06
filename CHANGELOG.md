@@ -8,12 +8,22 @@
 - `OnLeashFrameworkRagdollPulled` sends `StruggleStoppedEvent` when a struggle ended.
 - `OnUpdate` ends struggle when `IsKnockedDown` or `IsBeingPulled` is true. `StruggleExecute` refuses to start in either state.
 - `PlayStruggleAnim` re-checks `IsKnockedDown` and the struggle slot immediately before sending.
+- `ResetSavedClocks` runs on every load. Saved real-time values could be ahead of the restarted clock, which kept `IsSuppressed` true and cooldowns running until it caught up.
+- `RepushCachedPairs` drops saved pairs with no Framework leash (`ReconcileCachedPair`). A dangling leash stays while its armor is worn. `OnLeashFrameworkLeash` ignores a leash that has already ended.
+- `UnequipStaleBodyArmor` removes the old neck or waist mesh when a leash changes to wrists.
+- `ConsumePullCooldown` records the real holder on a cache miss (`EnsureLeashedSlot`), not `None`.
+- `UnequipTrackedFor` drops the downed watch (`ForgetPair`). `TickDowned` applies drag injuries and events only while `LeashFramework.IsLeashed`.
+- `BeastRaceLabel` uses `0x88845` for `KhajiitRaceVampire`. `0x88840` is `HighElfRaceVampire`.
 
 ### Actions
 
 - `leashed_escape_struggle` requires `speaker_is_down_or_pulled == "unavailable"`.
+- Re-synced `config/actions/leashed_escape.yaml` and `leashed_escape_struggle.yaml`, which were missing that gate.
 
 ### SKSE / WebUI
+
+- `StateCache::Refresh` keeps pending speakers out of every speaker's nearby list. `CanSee` requires loaded 3D on both actors. `NoteRefreshThread` compares against the plugin-load thread, because `kDataLoaded` runs on another thread and made the warning false.
+- The panel hotkey is ignored while the console is open or `ControlMap` `textEntryCount > 0`.
 
 - `LeashState` tracks pulls with a `ModCallbackEvent` sink on `LeashFramework_OnActorPulled` / `LeashFramework_OnActorStopPull`. Session only; `PruneBeingPulled` drops actors that are gone or have no 3D. New native `IsBeingPulled` and flag decorator `speaker_is_down_or_pulled`.
 

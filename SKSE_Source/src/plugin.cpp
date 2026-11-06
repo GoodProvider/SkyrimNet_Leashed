@@ -55,6 +55,7 @@ namespace {
 SKSEPluginLoad(const SKSE::LoadInterface* a_skse) {
     SKSE::Init(a_skse);
     spdlog::set_level(spdlog::level::info);
+    SkyrimNetLeashed::SkyrimNet::StateCache::NoteMainThread();
 
     SKSE::log::info("{} loading", SKSE::PluginDeclaration::GetSingleton()->GetName());
 

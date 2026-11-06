@@ -1,0 +1,30 @@
+[22:47:20.068] [62572] [I] SkyrimNet_Leashed v0-4-5-0
+[22:47:20.068] [62572] [I] SkyrimNet_Leashed loading
+[22:47:20.068] [62572] [I] SkyrimNet_Leashed loaded
+[22:47:43.193] [12332] [I] Registered SkyrimNet_Leashed_Native Papyrus functions
+[22:48:18.679] [6068 ] [I] SkyrimNet API v14 resolved
+[22:48:18.679] [6068 ] [I] Registered decorator 'is_leash_available'
+[22:48:18.679] [6068 ] [I] Registered decorator 'is_unleash_available'
+[22:48:18.679] [6068 ] [I] Registered decorator 'speaker_on_leash'
+[22:48:18.679] [6068 ] [I] Registered decorator 'leashed_nearby'
+[22:48:18.679] [6068 ] [I] Registered decorator 'unleashed_nearby'
+[22:48:18.679] [6068 ] [I] Registered decorator 'speaker_is_leashed'
+[22:48:18.679] [6068 ] [I] Registered decorator 'collared_nearby'
+[22:48:18.679] [6068 ] [I] Registered decorator 'speaker_is_struggling'
+[22:48:18.680] [6068 ] [I] Registered decorator 'speaker_holds_leash'
+[22:48:18.680] [6068 ] [I] Registered decorator 'speaker_is_down_or_pulled'
+[22:48:18.680] [6068 ] [I] Registered decorator 'get_speaker_held_actors'
+[22:48:18.680] [6068 ] [I] Registered decorator 'is_struggle_enabled'
+[22:48:18.680] [6068 ] [I] Registered decorator 'get_nearby_unleashed_actors'
+[22:48:18.680] [6068 ] [I] Registered decorator 'get_nearby_leashed_actors'
+[22:48:18.680] [6068 ] [I] Registered decorator 'get_speaker_leash_partners'
+[22:48:18.680] [6068 ] [I] Registered decorator 'leashframework_visible_pairs'
+[22:48:18.680] [6068 ] [I] Registered decorator 'get_nearby_collared_actors'
+[22:48:18.680] [6068 ] [I] Registered decorator 'get_nearby_actors'
+[22:48:18.681] [6068 ] [I] SkyrimNet_Leashed registered with SkyrimNet
+[22:48:18.681] [6068 ] [I] WebUI: Magelight host 1.7.1 acquired
+[22:48:18.681] [6068 ] [I] WebUI: KeyHandler sink registered
+[22:48:18.681] [6068 ] [I] WebUI: menu hotkey follows leash.controls.hotkey
+[22:48:19.438] [62572] [W] StateCache: queued refresh ran on thread 62572, kDataLoaded ran on thread 6068
+[22:48:19.438] [62572] [I] StateCache: first queued refresh ran on thread 62572 (kDataLoaded thread 6068)
+[22:48:27.022] [62572] [I] WebUI: game ready
