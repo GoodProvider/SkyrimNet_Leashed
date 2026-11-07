@@ -122,7 +122,15 @@ namespace SkyrimNetLeashed::LeashState {
         return NearestHolder(a_leashed);
     }
 
-    void CollectNearby(std::vector<RE::Actor*>& a_out) {
+    void CollectNearby(std::vector<RE::Actor*>& a_out, std::vector<RE::Actor*>& a_recorded) {
+        {
+            std::lock_guard lock{g_pairMutex};
+            for (const auto& [id, _] : g_byLeashed) {
+                if (auto* actor = ActorFromID(id)) {
+                    a_recorded.push_back(actor);
+                }
+            }
+        }
         if (auto* player = RE::PlayerCharacter::GetSingleton()) {
             a_out.push_back(player);
         }
@@ -140,12 +148,6 @@ namespace SkyrimNetLeashed::LeashState {
         };
         append(lists->highActorHandles);
         append(lists->middleHighActorHandles);
-        std::lock_guard lock{g_pairMutex};
-        for (const auto& [id, _] : g_byLeashed) {
-            if (auto* actor = ActorFromID(id)) {
-                a_out.push_back(actor);
-            }
-        }
     }
 
     void RememberPair(RE::FormID a_holderID, RE::FormID a_leashedID, std::string_view a_kind, std::string_view a_distance, std::string_view a_bodyPart, bool a_tied) {

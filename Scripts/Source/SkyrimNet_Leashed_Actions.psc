@@ -75,7 +75,14 @@ Function ResetSavedClocks()
         SuppressTimes[i] = 0.0
         DownedLastDragEvent[i] = 0.0
         if DownedActors[i]
+            ; Saved position and stuck counters predate the load: a settled ragdoll would read
+            ; as a drag, and a stuck watch would resume near its 8 s / 14 s step.
             DownedStarted[i] = now
+            DownedStuckTime[i] = 0.0
+            DownedStage[i] = 0
+            DownedLastX[i] = DownedActors[i].GetPositionX()
+            DownedLastY[i] = DownedActors[i].GetPositionY()
+            DownedLastZ[i] = DownedActors[i].GetPositionZ()
         endif
         i += 1
     endwhile

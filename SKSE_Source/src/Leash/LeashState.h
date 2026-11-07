@@ -21,7 +21,8 @@ namespace SkyrimNetLeashed::LeashState {
 
     // Main thread only: both walk RE::ProcessLists.
     [[nodiscard]] RE::Actor* GetLeashHolder(RE::Actor* a_leashed);
-    void CollectNearby(std::vector<RE::Actor*>& a_out);
+    // a_out: player + process lists (actually nearby). a_recorded: every recorded leash, any cell.
+    void CollectNearby(std::vector<RE::Actor*>& a_out, std::vector<RE::Actor*>& a_recorded);
 
     // Pushed from Papyrus, the only place LeashFramework's real leash table is reachable.
     // a_holderID is 0 for a holderless leash. a_tied true is a world-position anchor;

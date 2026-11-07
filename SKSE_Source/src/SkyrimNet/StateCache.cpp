@@ -93,7 +93,10 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         std::atomic<bool> g_refreshQueued{false};
         std::atomic<DWORD> g_mainThreadID{0};
         std::atomic<bool> g_loggedRefreshThread{false};
-        std::atomic<bool> g_loggedOffMainThread{false};
+        // Off-main-thread refreshes since the last report; logged at most once per minute.
+        std::atomic<std::uint32_t> g_offMainRefreshes{0};
+        std::atomic<DWORD> g_lastOffMainThread{0};
+        std::atomic<std::int64_t> g_lastOffMainLogMs{0};
         std::atomic<std::int64_t> g_lastSlowLogMs{0};
 
         std::mutex g_wakeMutex;
@@ -288,16 +291,28 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
             return snapshot;
         }
 
-        // Refresh makes game calls, so it has to stay on the thread that loaded the plugin.
-        // kDataLoaded does not run on that thread, so it is no reference for this check.
+        // Refresh makes game calls, so it should run on the thread that loaded the plugin.
+        // A queued refresh has been seen on another thread right after game ready, so count
+        // every off-thread run and report the count once a minute instead of warning once.
         void NoteRefreshThread() {
             const auto current = GetCurrentThreadId();
             const auto mainThread = g_mainThreadID.load(std::memory_order_relaxed);
-            if (current != mainThread && !g_loggedOffMainThread.exchange(true, std::memory_order_relaxed)) {
-                SKSE::log::warn("StateCache: queued refresh ran on thread {}, plugin load ran on thread {}", current, mainThread);
-            }
             if (!g_loggedRefreshThread.exchange(true, std::memory_order_relaxed)) {
                 SKSE::log::info("StateCache: first queued refresh ran on thread {} (plugin load thread {})", current, mainThread);
+            }
+            if (current != mainThread) {
+                g_lastOffMainThread.store(current, std::memory_order_relaxed);
+                g_offMainRefreshes.fetch_add(1, std::memory_order_relaxed);
+            }
+            if (g_offMainRefreshes.load(std::memory_order_relaxed) == 0) {
+                return;
+            }
+            const auto nowMs = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+            const auto intervalMs = std::chrono::duration_cast<std::chrono::milliseconds>(kSlowRefreshLogInterval).count();
+            auto last = g_lastOffMainLogMs.load(std::memory_order_relaxed);
+            if (nowMs - last >= intervalMs && g_lastOffMainLogMs.compare_exchange_strong(last, nowMs, std::memory_order_relaxed)) {
+                const auto count = g_offMainRefreshes.exchange(0, std::memory_order_relaxed);
+                SKSE::log::warn("StateCache: {} queued refresh(es) ran off the main thread since the last report (last on thread {}, plugin load thread {})", count, g_lastOffMainThread.load(std::memory_order_relaxed), mainThread);
             }
         }
 
@@ -322,7 +337,8 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         LeashState::PruneBeingPulled();
 
         std::vector<RE::Actor*> collected;
-        LeashState::CollectNearby(collected);
+        std::vector<RE::Actor*> recorded;
+        LeashState::CollectNearby(collected, recorded);
 
         std::unordered_set<RE::FormID> pending;
         {
@@ -331,7 +347,7 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         }
 
         std::vector<RE::Actor*> actors;
-        actors.reserve(collected.size() + pending.size());
+        actors.reserve(collected.size() + recorded.size() + pending.size());
         std::unordered_set<RE::FormID> seen;
         const auto addUnique = [&](RE::Actor* a_actor) {
             if (a_actor && !a_actor->IsDeleted() && seen.insert(a_actor->GetFormID()).second) {
@@ -341,9 +357,13 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         for (auto* actor : collected) {
             addUnique(actor);
         }
-        // A pending speaker gets its own snapshot, but SkyrimNet asking about an actor does
-        // not put it near anyone: it can be in another cell, and there can be hundreds.
+        // Recorded leashes and pending speakers get their own snapshot and count for pairs,
+        // but neither is near anyone: they can be in another cell. A pending speaker is only
+        // an actor SkyrimNet asked about, and there can be hundreds.
         const std::vector<RE::Actor*> nearby{actors};
+        for (auto* actor : recorded) {
+            addUnique(actor);
+        }
         for (const auto id : pending) {
             addUnique(ActorFromID(id));
         }
@@ -471,8 +491,9 @@ namespace SkyrimNetLeashed::SkyrimNet::StateCache {
         if (g_thread.joinable()) {
             return;
         }
-        Refresh();
-        g_thread = std::jthread([](std::stop_token a_stop) {
+        // No direct Refresh here: kDataLoaded is not the main thread and no save is loaded.
+        // The first tick queues one; until then decorators fall back to g_pending.
+        g_thread =std::jthread([](std::stop_token a_stop) {
             while (!a_stop.stop_requested()) {
                 {
                     std::unique_lock lock{g_wakeMutex};

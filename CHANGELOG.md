@@ -14,6 +14,7 @@
 - `ConsumePullCooldown` records the real holder on a cache miss (`EnsureLeashedSlot`), not `None`.
 - `UnequipTrackedFor` drops the downed watch (`ForgetPair`). `TickDowned` applies drag injuries and events only while `LeashFramework.IsLeashed`.
 - `BeastRaceLabel` uses `0x88845` for `KhajiitRaceVampire`. `0x88840` is `HighElfRaceVampire`.
+- `ResetSavedClocks` also reseeds each downed actor's last position and zeroes `DownedStuckTime` / `DownedStage`, so a ragdoll that settled across the load is not narrated as a drag.
 
 ### Actions
 
@@ -22,7 +23,9 @@
 
 ### SKSE / WebUI
 
-- `StateCache::Refresh` keeps pending speakers out of every speaker's nearby list. `CanSee` requires loaded 3D on both actors. `NoteRefreshThread` compares against the plugin-load thread, because `kDataLoaded` runs on another thread and made the warning false.
+- `StateCache::Refresh` keeps pending speakers and recorded leashes out of every speaker's nearby list; both still get a snapshot and count for pairs. `LeashState::CollectNearby` returns recorded actors separately. `CanSee` requires loaded 3D on both actors.
+- `NoteRefreshThread` compares against the plugin-load thread and counts every queued refresh that runs elsewhere, logged at most once per 60 s. A 2026-11-06 log showed one off-thread right after game ready, so the old warn-once could not tell whether it keeps happening.
+- `StateCache::Start` no longer refreshes directly on the `kDataLoaded` thread; the first tick queues it.
 - The panel hotkey is ignored while the console is open or `ControlMap` `textEntryCount > 0`.
 
 - `LeashState` tracks pulls with a `ModCallbackEvent` sink on `LeashFramework_OnActorPulled` / `LeashFramework_OnActorStopPull`. Session only; `PruneBeingPulled` drops actors that are gone or have no 3D. New native `IsBeingPulled` and flag decorator `speaker_is_down_or_pulled`.
