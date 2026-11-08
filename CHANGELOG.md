@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.4.5](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.5) — since [0.4.4](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4)
+## [0.5.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.0) — since [0.4.4](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4)
 
 ### Papyrus
 
@@ -35,6 +35,9 @@
 - The `\` leash panel moved from PrismaUI to Magelight UI. `WebUI.cpp` uses raw `MagelightApi4` (`minHostVersion` 0.30.1); no PrismaUI fallback. Headers vendored from 1.7.1 in `SKSE_Source/lib/Magelight/api/`; `lib/PrismaUI` removed.
 - Page moved to `Magelight/SkyrimNet_Leashed/views/panel/index.html`. It captures Escape (peel, then close) and closes on the hotkey. `OpenPayload` gains `hotkeyVk`.
 - JS listeners post to the game thread (`PostGameTask`). The view is shown on `UIModeEntered`; requests are queued (`kUIModeFlagPause | kUIModeFlagQueue`); `UIModeExited` hides it.
+- Skyrim VR: the panel opens with a controller chord (`BindVRHotkeyCallback`, host 0.21.0+, bound only when `QueryCapability("vr")`). It is set by the new settings `leash.controls.vrButton` / `vrModifier` / `vrHand` (default Grip + Stick click, either hand), is active while `hotkeyEnabled` is on, and is re-bound on every load. UI-mode requests add `kUIModeFlagNoTextEntry`, so VR does not raise its keyboard. Untested on VR.
+- `CrosshairActor` uses `CrosshairPickData::GetActiveTarget()`. The SE+AE+VR build lays the struct out with VR's per-device arrays, so `targetActor[0]` read `collisionPoint` on SE / AE.
+- `OpenFor` (Papyrus) posts from its own thread on VR (`PostFromEntryPoint`), where a main-thread `AddTask` can hang behind SKSE's job-thread queue drain.
 
 ### Install / FOMOD
 

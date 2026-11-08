@@ -58,6 +58,8 @@ Press `\` again or Escape to close. The game pauses while the panel is focused.
 
 Remap the key and default **distance** / **type** / **body part** / **tie point** in the same plugin page. Distance tokens have a **settle** (stop gap) and a **catch-up** bound; while the holder walks, follow sits 40% of the way between them. SkyrimNet_SexLab’s Start Sex hotkey also defaults to `\` but is off unless you turn it on — do not bind both to the same key.
 
+**Skyrim VR (experimental, untested — please report how it works):** with the hotkey enabled, **Grip + Stick click** opens or closes the panel (Magelight UI's VR support; point with the laser, B / Y closes). Change the button, the held modifier and the hand under **VR panel button** in the same plugin page; changes apply on the next load. SkyrimNet_SexLab's menu defaults to Grip + A, so the two don't clash.
+
 **Dragging events:** while a leash yank keeps someone knocked down and dragged along the ground, a short-lived event tells nearby NPCs about it, the first at once and then every **Dragging event interval** seconds (default 5, 0 turns it off).
 
 **Injury Engine (optional):** with it installed, a yank that knocks someone down adds Injury Engine *falling* scrapes and each second dragged adds *leash_dragging* abrasions (`SKSE/Plugins/Injury_Engine/injuries/leash_dragging.json` ships with this mod). Both are torture damage: they heal over time and never kill. Turn it off with **Falling hurts (Injury Engine)**.

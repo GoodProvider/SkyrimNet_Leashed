@@ -1,4 +1,4 @@
-## [0.4.5](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.5)
+## [0.5.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.0)
 
 - The `\` leash panel now needs Magelight UI instead of PrismaUI. Without it the panel is off; everything else still works.
 - NPCs stop struggling as soon as the leash pulls them, including when they start following you. They only struggle while you stand still.
@@ -10,6 +10,8 @@
 - NPCs far away, including leashed NPCs left in another area, no longer show up as nearby.
 - Loading a save no longer narrates a downed NPC as being dragged.
 - Typing `\` in the console no longer opens the leash panel.
+- Skyrim VR (untested, please report): Grip + Stick click opens or closes the leash panel.
+- VR: needs the panel hotkey on; change the chord in Controls. Point with the laser; B / Y closes.
 
 ## [0.4.4](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4)
 

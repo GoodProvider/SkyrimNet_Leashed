@@ -14,6 +14,7 @@
 #include <mutex>
 #include <string>
 #include <string_view>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -197,22 +198,15 @@ namespace SkyrimNetLeashed::WebUI {
             return ref ? ref->As<RE::Actor>() : nullptr;
         }
 
+        // The SE+AE+VR build declares CrosshairPickData with VR's per-device arrays, so its members are only
+        // right on VR (targetActor[0] is collisionPoint on SE / AE). GetActiveTarget picks the layout at run time
+        // (on VR: left controller, right controller, then headset).
         RE::Actor* CrosshairActor() {
             auto* pick = RE::CrosshairPickData::GetSingleton();
             if (!pick) {
                 return nullptr;
             }
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-            if (auto* actor = ActorFromHandle(pick->targetActor)) {
-                return actor;
-            }
-            return ActorFromHandle(pick->target);
-#else
-            if (auto* actor = ActorFromHandle(pick->targetActor[0])) {
-                return actor;
-            }
-            return ActorFromHandle(pick->target[0]);
-#endif
+            return ActorFromHandle(pick->GetActiveTarget());
         }
 
         std::string NormalizeToken(std::string a_value, std::string_view a_fallback, std::initializer_list<std::string_view> a_allowed) {
@@ -365,7 +359,8 @@ namespace SkyrimNetLeashed::WebUI {
             if (!IsHidden() || g_openPending.exchange(true)) {
                 return;
             }
-            if (const auto r = g_ml->RequestUIMode(g_view, kUIModeFlagPause | kUIModeFlagQueue); r != Result::Ok) {
+            // NoTextEntry: the panel has no text fields, and on VR the engine's text-entry gate raises the virtual keyboard.
+            if (const auto r = g_ml->RequestUIMode(g_view, kUIModeFlagPause | kUIModeFlagQueue | kUIModeFlagNoTextEntry); r != Result::Ok) {
                 g_openPending = false;
                 SKSE::log::warn("WebUI: RequestUIMode -> {} ({})", static_cast<int>(r), g_ml->GetLastErrorMessage(g_mod));
             }
@@ -576,6 +571,84 @@ namespace SkyrimNetLeashed::WebUI {
             }
         }
 
+        std::uint32_t VrButtonCode(std::string_view a_name) {
+            if (a_name == "a") {
+                return kVRButtonA;
+            }
+            if (a_name == "stick") {
+                return kVRButtonStickClick;
+            }
+            if (a_name == "trigger") {
+                return kVRButtonTrigger;
+            }
+            if (a_name == "touchpad") {
+                return kVRButtonTouchpad;
+            }
+            if (a_name == "grip") {
+                return kVRButtonGrip;
+            }
+            return kVRButtonNone;
+        }
+
+        // Present thread: post the keyboard hotkey's work to the game thread.
+        void OnVrChord(ViewId, void*) {
+            if (!g_ml) {
+                return;
+            }
+            const auto r = g_ml->PostGameTask([](void*) { OnMenuHotkey(); }, nullptr);
+            if (r != Result::Ok) {
+                SKSE::log::warn("WebUI: VR chord PostGameTask -> {}", static_cast<int>(r));
+            }
+        }
+
+        // VR has no keyboard: bind a controller chord to the panel, following the hotkey settings.
+        // B / Y is Magelight's own close. Re-read on every load.
+        void BindVrChord() {
+            if (!IsReady()) {
+                return;
+            }
+            if (g_ml->hostVersionNumber < 2100 || g_ml->QueryCapability("vr") != 1) {
+                SKSE::log::info("WebUI: not VR, controller chord skipped");
+                return;
+            }
+            const auto buttonName = Config::VrButton();
+            const auto modifierName = Config::VrModifier();
+            const auto handName = Config::VrHand();
+            VRHotkeyDesc desc{};
+            desc.size = sizeof(VRHotkeyDesc);
+            desc.button = Config::HotkeyEnabled() ? VrButtonCode(buttonName) : kVRButtonNone;
+            desc.modifier = VrButtonCode(modifierName);
+            desc.hand = handName == "left" ? 1 : handName == "right" ? 2 : 0;
+            if (desc.modifier == desc.button) {
+                desc.modifier = kVRButtonNone;
+            }
+            const auto r = g_ml->BindVRHotkeyCallback(g_view, &desc, desc.button ? OnVrChord : nullptr, nullptr);
+            if (r != Result::Ok) {
+                SKSE::log::warn("WebUI: BindVRHotkeyCallback -> {} ({})", static_cast<int>(r), g_ml->GetLastErrorMessage(g_mod));
+            } else if (desc.button) {
+                SKSE::log::info("WebUI: VR controller chord bound: {}+{} ({})", buttonName, desc.modifier ? modifierName : "none", handName);
+            } else {
+                SKSE::log::info("WebUI: VR controller chord cleared (hotkey disabled or button none)");
+            }
+        }
+
+        // Main-thread entry points (Papyrus natives, input sinks): on VR, SKSE drains its task queue on game job
+        // threads while holding the queue lock, so an AddTask from the main thread can wait on a job that waits for
+        // the frame (MagelightUI_API.h threading contract). Post from a thread of our own there.
+        template <class F>
+        void PostFromEntryPoint(F&& a_fn) {
+            auto* tasks = SKSE::GetTaskInterface();
+            if (!tasks) {
+                a_fn();
+                return;
+            }
+            if (REL::Module::IsVR()) {
+                std::thread([tasks, fn = std::forward<F>(a_fn)]() mutable { tasks->AddTask(std::move(fn)); }).detach();
+            } else {
+                tasks->AddTask(std::forward<F>(a_fn));
+            }
+        }
+
         std::string PagePath() {
             wchar_t exe[MAX_PATH]{};
             GetModuleFileNameW(nullptr, exe, MAX_PATH);
@@ -625,12 +698,14 @@ namespace SkyrimNetLeashed::WebUI {
 
         KeyHandler::RegisterSink();
         SKSE::log::info("WebUI: menu hotkey follows leash.controls.hotkey");
+        BindVrChord();
     }
 
     void SetGameReady() {
         g_gameReady = true;
         g_openPending = false;  // the host resets UI mode on every load
         SKSE::log::info("WebUI: game ready");
+        BindVrChord();
     }
 
     void Open() {
@@ -648,10 +723,6 @@ namespace SkyrimNetLeashed::WebUI {
             g_openRequest.layout = a_layout == "vertical" ? "vertical" : "";
             g_openRequest.verb = std::string{a_verb};
         }
-        if (auto* tasks = SKSE::GetTaskInterface()) {
-            tasks->AddTask([]() { Show(); });
-        } else {
-            Show();
-        }
+        PostFromEntryPoint([]() { Show(); });
     }
 }

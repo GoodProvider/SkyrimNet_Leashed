@@ -94,6 +94,30 @@ namespace SkyrimNetLeashed::WebUI::Config {
         return dx != 0 ? dx : 0x2B;
     }
 
+    std::string VrButton() {
+        auto value = Lower(GetValue("leash.controls.vrButton", "stick"));
+        if (!IsOneOf(value, {"none", "a", "stick", "trigger", "touchpad", "grip"})) {
+            return "stick";
+        }
+        return value;
+    }
+
+    std::string VrModifier() {
+        auto value = Lower(GetValue("leash.controls.vrModifier", "grip"));
+        if (!IsOneOf(value, {"none", "grip", "a", "stick", "trigger", "touchpad"})) {
+            return "grip";
+        }
+        return value;
+    }
+
+    std::string VrHand() {
+        auto value = Lower(GetValue("leash.controls.vrHand", "either"));
+        if (!IsOneOf(value, {"either", "left", "right"})) {
+            return "either";
+        }
+        return value;
+    }
+
     std::string Distance() {
         auto value = Lower(GetValue("leash.ui.distance", "middle"));
         if (!IsOneOf(value, {"tight", "short", "middle", "long"})) {

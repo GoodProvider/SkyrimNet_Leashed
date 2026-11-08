@@ -9,6 +9,11 @@ namespace SkyrimNetLeashed::WebUI::Config {
     [[nodiscard]] bool HotkeyEnabled();
     [[nodiscard]] std::uint32_t HotkeyVk();
     [[nodiscard]] std::uint32_t HotkeyDx();
+    // VR controller chord for the panel (Magelight kVRButton* names): "none", "a", "stick", "trigger", "touchpad", "grip".
+    [[nodiscard]] std::string VrButton();
+    [[nodiscard]] std::string VrModifier();
+    // "either", "left", "right".
+    [[nodiscard]] std::string VrHand();
     [[nodiscard]] std::string Distance();
     [[nodiscard]] float DistanceMin(std::string_view a_token);
     [[nodiscard]] float DistanceMax(std::string_view a_token);

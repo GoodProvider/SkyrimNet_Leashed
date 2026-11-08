@@ -1,6 +1,6 @@
 plugin:
   name: "SkyrimNet_Leashed"
-  version: "0.4.5"
+  version: "0.5.0"
   description: "Leash Framework-SkyrimNet integration"
   icon: "🪢"
 
@@ -23,6 +23,45 @@ schema:
       defaultValue: 220
       category: "Controls"
       supportsOverride: false
+
+    - name: "VR panel button"
+      path: "leash.controls.vrButton"
+      type: "select"
+      description: "Skyrim VR only: controller button that opens or closes the leash panel while the hotkey is enabled. B / Y closes it too. none = no controller button. Applies on the next load."
+      defaultValue: "stick"
+      options:
+        - "none"
+        - "a"
+        - "stick"
+        - "trigger"
+        - "touchpad"
+        - "grip"
+      category: "Controls"
+
+    - name: "VR panel button modifier"
+      path: "leash.controls.vrModifier"
+      type: "select"
+      description: "Skyrim VR only: button held with the VR panel button (default grip + stick click). none = the button alone, which also fires during play. Applies on the next load."
+      defaultValue: "grip"
+      options:
+        - "none"
+        - "grip"
+        - "a"
+        - "stick"
+        - "trigger"
+        - "touchpad"
+      category: "Controls"
+
+    - name: "VR panel button hand"
+      path: "leash.controls.vrHand"
+      type: "select"
+      description: "Skyrim VR only: which controller the VR panel button is read from. Applies on the next load."
+      defaultValue: "either"
+      options:
+        - "either"
+        - "left"
+        - "right"
+      category: "Controls"
 
     - name: "Leash distance"
       path: "leash.ui.distance"
