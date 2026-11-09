@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.5.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.1) — since [0.5.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.0)
+
+### Papyrus
+
+- `StruggleAnimEvent` sends `DDRegCuffsFrontStruggle02` for wrists. `DDRegCuffsFrontStruggle01` is not registered by DD classic or NG, so wrist struggles stayed on `IdleNervous`.
+
+### SKSE / WebUI
+
+- `leashed.js`: the body row no longer greys out parts with no mesh for the current type. Picking one sets the type to its first valid kind (wrists `chain`, waist `rope`). Removed `leashListCascade`.
+
 ## [0.5.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.0) — since [0.4.4](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.4.4)
 
 ### Papyrus

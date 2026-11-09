@@ -53,7 +53,7 @@ Children: start struggle only (hidden while already struggling). Intent on the c
 3. Enter struggle state: loop `IdleNervous` while standing, then a Devious Devices FNIS event for the leash body part if that name is registered. Walking does not end it; they keep struggling. Yank, unclip, or `leash_none_struggle_stop` does.
 4. The leash stays on. No Framework disconnect, no armor unequip.
 
-Animation always sends vanilla `IdleNervous`, then `DDCollarStruggle01` (neck), `DDRegCuffsFrontStruggle01` (wrists), or `DDChastityBeltStruggle01` (waist). No ESM / `GetModByName` gate. Unregistered events are ignored. ZaZ, SexLab, and Unforgiving Devices are not used. DD plugins can stay disabled; only the animation files plus a FNIS/Nemesis/Pandora rebuild are needed.
+Animation always sends vanilla `IdleNervous`, then `DDCollarStruggle01` (neck), `DDRegCuffsFrontStruggle02` (wrists), or `DDChastityBeltStruggle01` (waist). No ESM / `GetModByName` gate. Unregistered events are ignored. ZaZ, SexLab, and Unforgiving Devices are not used. DD plugins can stay disabled; only the animation files plus a FNIS/Nemesis/Pandora rebuild are needed.
 
 ## Repeat beats while struggling
 

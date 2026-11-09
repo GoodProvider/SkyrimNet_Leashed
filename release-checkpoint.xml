@@ -12,10 +12,10 @@
     <project>SkyrimNet_Leashed</project>
     <summary>Bridge mod between SkyrimNet (LLM) and Leash Framework.</summary>
     <repository_root>c:\Skyrim\dev\mods\SkyrimNet_Leashed</repository_root>
-    <updated>2026-11-07</updated>
-    <base_tag>0.4.4</base_tag>
-    <next_version>0.5.0</next_version>
-    <version_status>Makefile VERSION=0.5.0 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.5.0; DLL logs v0-5-0-0. 0.5.0 = VR support, Magelight panel port, alt-tab/hitch refresh work, 2026-11-03 and 2026-11-06 review fixes (checkpoints/2026-11-03-code-review, checkpoints/2026-11-06-review); changelogs labelled 0.5.0; SE verified in game 2026-11-07, VR untested (shipped for users to test); packed 2026-11-07, not tagged. History: GitHub release 0.4.3 (2026-10-17) shipped Injury Engine, drag events and the struggle cap; tag 0.4.3 points at 2dc1085. 0.4.4 = Diary of Mine yield (DOMActionFleeing rank 1 only) + no re-leash (a60a0f0, 4a557f1); changelogs labelled 0.4.4 (since 0.4.3); versions/SkyrimNet_Leashed 0.4.4.7z re-packed 2026-10-26. Stray remote tag 0.4.4 at 2dc1085 must be deleted (git push origin :refs/tags/0.4.4) before tagging 0.4.4; tag pending MO2 playtest</version_status>
+    <updated>2026-11-08</updated>
+    <base_tag>0.5.0</base_tag>
+    <next_version>0.5.1</next_version>
+    <version_status>Makefile VERSION=0.5.1 (authoritative); CMake / vcpkg.json / FOMOD / settings manifest.yaml / content manifest.json all 0.5.1. 0.5.1 = wrist struggle sends DDRegCuffsFrontStruggle02 and the TargetMenu body row no longer greys out parts (checkpoints/2026-11-08-cuffs-struggle); verified in game by the maintainer 2026-11-08; not tagged. Tag 0.5.0 is at dc4baed. 0.5.0 = VR support, Magelight panel port, alt-tab/hitch refresh work, 2026-11-03 and 2026-11-06 review fixes (checkpoints/2026-11-03-code-review, checkpoints/2026-11-06-review); changelogs labelled 0.5.0; SE verified in game 2026-11-07, VR untested (shipped for users to test); packed 2026-11-07, not tagged. History: GitHub release 0.4.3 (2026-10-17) shipped Injury Engine, drag events and the struggle cap; tag 0.4.3 points at 2dc1085. 0.4.4 = Diary of Mine yield (DOMActionFleeing rank 1 only) + no re-leash (a60a0f0, 4a557f1); changelogs labelled 0.4.4 (since 0.4.3); versions/SkyrimNet_Leashed 0.4.4.7z re-packed 2026-10-26. Stray remote tag 0.4.4 at 2dc1085 must be deleted (git push origin :refs/tags/0.4.4) before tagging 0.4.4; tag pending MO2 playtest</version_status>
     <related_artifacts>
       <artifact role="release rules">release-guide.md</artifact>
       <artifact role="agent procedure">.cursor/skills/release/SKILL.md</artifact>
@@ -45,6 +45,7 @@
   </doc_files>
 
   <status>
+    <note>2026-11-08: 0.5.1 version sources and the three changelog headers updated; Release DLL rebuilt for FileVersion 0.5.1. Do not tag unless asked.</note>
     <note>2026-11-07: next version relabeled 0.4.5 → 0.5.0 because VR support is a large change. Version sources and the three changelog headers updated; DLL rebuilt for FileVersion 0.5.0. Do not pack or tag unless asked.</note>
     <note>2026-10-18: 0.4.3 was tagged at 2dc1085 (banner only), so everything since (drag events, Injury Engine, struggle cap) ships as 0.4.4. Version sources and the three changelogs relabeled 0.4.3 → 0.4.4; CHANGELOG.md section is "since 0.4.3". Do not tag unless asked.</note>
     <note>2026-10-16 late: 85ddf24 struggle cap folded into 0.4.3 (StruggleStarted[], EndStruggle / EndStruggleQuiet, AnimationController for SexLab / OStim / furniture / kill move / mount, Headers/OActor.psc, native StruggleMaxDuration(), setting leash.escape.maxDuration default 7). Changelogs covered it in the commit; README.md Escape row and CHANGELOG.md Docs bullet updated in this pass. The 10:33 0.4.3.7z is stale; make release again. Do not pack or tag unless asked.</note>

@@ -1,3 +1,8 @@
+https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.1
+
+- **Wrist struggle event.** `StruggleAnimEvent` sends `DDRegCuffsFrontStruggle02` for wrists. `DDRegCuffsFrontStruggle01` is not registered by DD classic or NG, so wrist struggles stayed on `IdleNervous`.
+- **TargetMenu body row.** `leashed.js` no longer greys out body parts with no mesh for the current type. Picking one sets the type to its first valid kind (wrists `chain`, waist `rope`). `leashListCascade` is removed.
+
 https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.0
 
 - **Panel on Magelight UI.** The `\` panel moved from PrismaUI to Magelight UI (raw `MagelightApi4`, `minHostVersion` 0.30.1, no PrismaUI fallback). Page: `Magelight/SkyrimNet_Leashed/views/panel/index.html`. Listeners post with `PostGameTask`; the view is shown on `UIModeEntered`, hidden on `UIModeExited`; the page captures Escape and closes on `hotkeyVk`. `PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js` stays: SexLab's Target Menu reads it under either host.

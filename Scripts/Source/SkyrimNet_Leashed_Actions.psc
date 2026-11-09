@@ -1989,7 +1989,7 @@ EndFunction
 
 String Function StruggleAnimEvent(String bodyPart)
     if bodyPart == "wrists"
-        return "DDRegCuffsFrontStruggle01"
+        return "DDRegCuffsFrontStruggle02"
     elseif bodyPart == "waist"
         return "DDChastityBeltStruggle01"
     endif

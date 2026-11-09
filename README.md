@@ -23,7 +23,7 @@ Optional:
 | Plugin | Adds |
 | --- | --- |
 | [Magelight UI](https://www.nexusmods.com/skyrimspecialedition/mods/193303) (0.30.1 or newer) | Provides UI for hotkey `\` leash panel (enable/remap in SkyrimNet WebUI). YAML actions work without it. |
-| [Devious Devices](https://www.loverslab.com/topic/69936-devious-devices-framework-developmentbeta) files (Assets or [DD NG](https://www.loverslab.com/files/file/29779-devious-devices-ng/)) | Standing struggle clips by body part: neck `DDCollarStruggle01`, wrists `DDRegCuffsFrontStruggle01`, waist `DDChastityBeltStruggle01`. ESMs not required. SexLab not required. Without the files, struggle stays on vanilla `IdleNervous`. |
+| [Devious Devices](https://www.loverslab.com/topic/69936-devious-devices-framework-developmentbeta) files (Assets or [DD NG](https://www.loverslab.com/files/file/29779-devious-devices-ng/)) | Standing struggle clips by body part: neck `DDCollarStruggle01`, wrists `DDRegCuffsFrontStruggle02`, waist `DDChastityBeltStruggle01`. ESMs not required. SexLab not required. Without the files, struggle stays on vanilla `IdleNervous`. |
 
 **Devious Devices animations:** Enable the DD *mod* so its animation folders are in the VFS, uncheck every DD plugin (`Assets` / `Integration` / `Expansion`), and rebuild FNIS/Nemesis/Pandora. Do not enable those ESMs unless you want full DD — that needs SexLab and the rest of DD’s masters. Neck `DDCollarStruggle01` is DD NG’s FNIS set; classic Assets still covers wrists and waist. Missing events keep `IdleNervous`.
 
@@ -40,7 +40,7 @@ The panel hotkey is **off by default**. Enable it in SkyrimNet’s WebUI under *
 
 SkyrimNet_SexLab’s Start Sex SkyMessage also has a **leash** button when `SkyrimNet_Leashed.esp` is loaded. That opens this same panel even if the Leashed hotkey is off.
 
-SexLab’s PrismaUI Target Menu gets a **leash** option from this zip (`SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/0700_leashed_panel.json` plus `PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js`). It opens a leash panel inside SexLab’s menu, seeded to the Target Menu actor, showing whether they are leashed, tied, or free. Type / body combinations with no leash mesh are greyed out.
+SexLab’s PrismaUI Target Menu gets a **leash** option from this zip (`SKSE/Plugins/SkyrimNet_SexLab/webui/TargetMenu/Actor/options/0700_leashed_panel.json` plus `PrismaUI/views/SkyrimNet_SexLab/panels/leashed.js`). It opens a leash panel inside SexLab’s menu, seeded to the Target Menu actor, showing whether they are leashed, tied, or free. Picking a body part with no mesh for the current type switches the type to one that has it (wrists to chain, waist to rope).
 
 With Magelight UI installed and the hotkey on, `\` opens a vertical leash panel in the same cascade style as SexLab’s Target Menu: **Start** and style on top, then subject, leashed, status, action, and (for a new leash) distance, type, and body rows. Each row opens columns to the right; Escape closes one column at a time, then the panel, and `\` closes the panel at once. Actions depend on whether the selected leashed actor is already collared, and picking the last item in an action branch (a holder or tie point) starts it at once. If **body** is wrists, **type** is locked to chain.
 

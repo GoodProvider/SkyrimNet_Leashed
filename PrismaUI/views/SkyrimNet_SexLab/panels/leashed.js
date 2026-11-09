@@ -202,22 +202,6 @@
         });
     }
 
-    // ssListCascade with per-value greying (disabled leaves are unclickable).
-    function leashListCascade(key, caption, values, current, isDisabled, onPick) {
-        return createPulldownCascade({
-            key: key,
-            caption: caption,
-            display: current,
-            tree: values.map(v => ({
-                label: v,
-                value: v,
-                current: v === current,
-                disabled: isDisabled(v)
-            })),
-            onPick: (node) => onPick(node.value)
-        });
-    }
-
     function leashCanStart() {
         if (leashStatusPending())
             return false;
@@ -364,11 +348,12 @@
                     leashUi.bodyPart = LEASH_BODY_DEFAULT;
                 renderPapyrusPanel();
             }));
-            addField('body', leashListCascade('leash_body', 'body', LEASH_BODY_PARTS, leashUi.bodyPart,
-                (b) => !leashBodyValid(b, leashUi.leashType), (v) => {
-                    leashUi.bodyPart = v;
-                    renderPapyrusPanel();
-                }));
+            addField('body', ssListCascade('leash_body', 'body', LEASH_BODY_PARTS, leashUi.bodyPart, (v) => {
+                leashUi.bodyPart = v;
+                if (!leashBodyValid(v, leashUi.leashType))
+                    leashUi.leashType = LEASH_BODY_KINDS[v][0];
+                renderPapyrusPanel();
+            }));
         }
         addField('action', leashActionCascade(opt, holderPool));
         body.appendChild(fields);
