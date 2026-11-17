@@ -1,0 +1,38 @@
+[10:05:46.985] [18540] [I] SkyrimNet_Leashed v0-5-1-0
+[10:05:46.985] [18540] [I] SkyrimNet_Leashed loading
+[10:05:46.985] [18540] [I] SkyrimNet_Leashed loaded
+[10:06:12.096] [61060] [I] Registered SkyrimNet_Leashed_Native Papyrus functions
+[10:06:48.979] [53548] [I] SkyrimNet API v14 resolved
+[10:06:48.979] [53548] [I] Registered decorator 'is_leash_available'
+[10:06:48.979] [53548] [I] Registered decorator 'is_unleash_available'
+[10:06:48.979] [53548] [I] Registered decorator 'speaker_on_leash'
+[10:06:48.979] [53548] [I] Registered decorator 'leashed_nearby'
+[10:06:48.979] [53548] [I] Registered decorator 'unleashed_nearby'
+[10:06:48.979] [53548] [I] Registered decorator 'speaker_is_leashed'
+[10:06:48.979] [53548] [I] Registered decorator 'collared_nearby'
+[10:06:48.979] [53548] [I] Registered decorator 'speaker_is_struggling'
+[10:06:48.979] [53548] [I] Registered decorator 'speaker_holds_leash'
+[10:06:48.979] [53548] [I] Registered decorator 'speaker_is_down_or_pulled'
+[10:06:48.979] [53548] [I] Registered decorator 'get_speaker_held_actors'
+[10:06:48.980] [53548] [I] Registered decorator 'is_struggle_enabled'
+[10:06:48.980] [53548] [I] Registered decorator 'get_nearby_unleashed_actors'
+[10:06:48.980] [53548] [I] Registered decorator 'get_nearby_leashed_actors'
+[10:06:48.980] [53548] [I] Registered decorator 'get_speaker_leash_partners'
+[10:06:48.980] [53548] [I] Registered decorator 'leashframework_visible_pairs'
+[10:06:48.980] [53548] [I] Registered decorator 'get_nearby_collared_actors'
+[10:06:48.980] [53548] [I] Registered decorator 'get_nearby_actors'
+[10:06:48.980] [53548] [I] SkyrimNet_Leashed registered with SkyrimNet
+[10:06:48.980] [53548] [I] WebUI: Magelight host 1.7.1 acquired
+[10:06:48.980] [53548] [I] WebUI: KeyHandler sink registered
+[10:06:48.980] [53548] [I] WebUI: menu hotkey follows leash.controls.hotkey
+[10:06:48.980] [53548] [I] WebUI: not VR, controller chord skipped
+[10:06:49.743] [18540] [I] StateCache: first queued refresh ran on thread 18540 (plugin load thread 18540)
+[10:06:58.569] [18540] [I] WebUI: game ready
+[10:06:58.569] [18540] [I] WebUI: not VR, controller chord skipped
+[10:06:58.915] [59672] [W] StateCache: 1 queued refresh(es) ran off the main thread since the last report (last on thread 59672, plugin load thread 18540)
+[10:07:59.532] [18540] [W] StateCache: 2 queued refresh(es) ran off the main thread since the last report (last on thread 59672, plugin load thread 18540)
+[10:08:59.580] [59672] [W] StateCache: 39 queued refresh(es) ran off the main thread since the last report (last on thread 59672, plugin load thread 18540)
+[10:09:59.632] [42520] [W] StateCache: 77 queued refresh(es) ran off the main thread since the last report (last on thread 42520, plugin load thread 18540)
+[10:10:59.671] [57400] [W] StateCache: 54 queued refresh(es) ran off the main thread since the last report (last on thread 57400, plugin load thread 18540)
+[10:12:06.047] [20400] [W] StateCache: 36 queued refresh(es) ran off the main thread since the last report (last on thread 20400, plugin load thread 18540)
+[10:13:06.521] [18540] [W] StateCache: 39 queued refresh(es) ran off the main thread since the last report (last on thread 59672, plugin load thread 18540)

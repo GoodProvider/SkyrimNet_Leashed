@@ -2013,7 +2013,8 @@ Function LetLeashHang(Actor subject, Actor leashed)
     if holder == None
         holder = CachedHolder(leashed)
     endif
-    Bool tied = frameworkLeashed && holder == None
+    ; Holder-less here means tied: by the Framework, or by a record the Framework has dropped.
+    Bool tied = holder == None
     if !frameworkLeashed && holder == None && !CachedIsTied(leashed)
         Debug.Trace("[SkyrimNet_Leashed] LetLeashHang skipped: leash already hangs from " + ActorLabel(leashed))
         return
@@ -2022,13 +2023,15 @@ Function LetLeashHang(Actor subject, Actor leashed)
     String bodyPart = DetectBodyPart(holder, leashed)
     String distance = ResolveDistance(leashed, "")
     String style = CachedStyle(leashed)
+    ; Nothing holds the other end any more, so there is nothing to struggle against.
+    EndStruggle(leashed, false)
     if !ApplyDangling(leashed, style, distance, kind, bodyPart)
         Debug.Trace("[SkyrimNet_Leashed] LetLeashHang dangling failed for " + ActorLabel(leashed))
         return
     endif
     String content = ""
     if tied
-        content = ActorLabel(subject) + " unties " + Possessive(leashed) + " leash and leaves it hanging from their " + bodyPart + "."
+        content = ActorLabel(subject) + " unties " + Possessive(leashed) + " leash and leaves it hanging from " + Possessive(leashed) + " " + bodyPart + "."
     elseif holder && holder != subject
         content = ActorLabel(subject) + " takes " + Possessive(leashed) + " leash from " + ActorLabel(holder) + " and leaves it hanging."
     else
@@ -2569,6 +2572,14 @@ Function NarrateUnleash(Actor leashed, String reason)
         ; refreshed yet, and must not speak again.
         Bool worn = WearsLeashArmor(leashed)
         Bool recorded = FindLeashedIndex(leashed) >= 0
+        ; Already dangling (record with no holder, not tied): a dangling leash has no Framework
+        ; connection, so this is the late OnUnleash of let hang / drop / ApplyDangling. The
+        ; handler just ran NotifyUnleash; restore the native record and stay quiet.
+        if recorded && CachedHolder(leashed) == None && !CachedIsTied(leashed) && !LeashFramework.IsLeashed(leashed)
+            SkyrimNet_Leashed_Native.NotifyLeash(None, leashed, CachedKind(leashed), CachedDistance(leashed), CachedBodyPart(leashed), false)
+            Debug.Trace("[SkyrimNet_Leashed] NarrateUnleash late event kept dangling: " + ActorLabel(leashed) + " (" + reason + ")")
+            return
+        endif
         if !worn && !recorded
             Debug.Trace("[SkyrimNet_Leashed] NarrateUnleash late event ignored: " + ActorLabel(leashed) + " has no record and no leash armor (" + reason + ")")
             return

@@ -1,8 +1,9 @@
-## Unreleased
+## [0.5.2](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.2)
 
 - Leash panels: **unleash** now always takes the collar off; it no longer sometimes stays dangling.
 - Leash panels: new **let hang** leaves the collar on with nothing holding or tying the other end.
 - SexLab Target Menu leash panel: an NPC wearing a collar from another mod (e.g. Diary of Mine) now shows as dangling and offers **unleash** and **let hang**.
+- **let hang** stops a struggle and no longer repeats a "leash comes loose" line a few seconds later.
 
 ## [0.5.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.1)
 

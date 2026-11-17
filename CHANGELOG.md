@@ -1,12 +1,13 @@
 # Changelog
 
-## Unreleased — since [0.5.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.1)
+## [0.5.2](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.2) — since [0.5.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.1)
 
 ### Papyrus
 
 - `NarrateUnleash` holder-less branch: dangles only while `WearsLeashArmor` (new) is true, as well as `HasLeashBones`. With no record and no worn armor it returns silently. A late `OnUnleash` after an explicit unleash (past the 2 s suppress window) re-dangled the collar from bones that had not refreshed yet.
 - `UnleashTargetExecute` / `UnleashSpeakerExecute` unequip, `ForgetPair` and `NotifyUnleash` before narrating.
-- New `LetLeashHang(Actor subject, Actor leashed)`: held or tied leash becomes dangling through `ApplyDangling`. No-op when already dangling.
+- New `LetLeashHang(Actor subject, Actor leashed)`: held or tied leash becomes dangling through `ApplyDangling`. No-op when already dangling. Ends any struggle first.
+- `NarrateUnleash`: a late `OnUnleash` for an already-dangling record (no holder, not tied, no Framework leash) re-sends `NotifyLeash` and returns silently instead of re-dangling and narrating again.
 - Untracked leash mesh (worn Leash.esm armor with no Framework leash and no record, e.g. DOM's collar): `LeashStatus` returns `dangling` (new global `WearsLeashArmorGlobal`; `WearsLeashArmor` wraps it). `UnleashTargetExecute` / `UnleashSpeakerExecute` unequip it; `LetLeashHang` is a no-op on it.
 
 ### SKSE / WebUI
