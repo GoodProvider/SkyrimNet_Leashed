@@ -469,6 +469,10 @@ namespace SkyrimNetLeashed::WebUI {
                     addActor(subject);
                     addActor(leashed);
                 }
+            } else if (action == "let hang") {
+                functionName = "LetLeashHang";
+                addActor(subject);
+                addActor(leashed);
             } else if (action == "leash to" || action == "tie to") {
                 functionName = "LeashedToTiePoint";
                 addActor(subject);

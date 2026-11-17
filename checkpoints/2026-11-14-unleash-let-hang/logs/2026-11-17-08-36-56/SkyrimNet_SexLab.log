@@ -1,0 +1,368 @@
+[08:22:07.228] [40912] [I] SkyrimNet_SexLab v0-37-0-0
+[08:22:07.228] [40912] [I] [SexLabNet::InitSkyrimNetAPI] SkyrimNet PublicAPI loaded (version=14)
+[08:22:07.228] [40912] [I] [AnimSpeed::Install] AnimSpeed: UpdateAnimation hooks installed
+[08:22:07.228] [40912] [I] [`anonymous-namespace'::SKSEPlugin_Load] SkyrimNet_SexLab: Trying to load WebUI plugin...
+[08:22:07.228] [40912] [I] [`anonymous-namespace'::SKSEPlugin_Load] WebUI Papyrus functions registered
+[08:22:07.228] [40912] [I] [`anonymous-namespace'::SKSEPlugin_Load] Utilities Papyrus functions registered
+[08:22:07.228] [40912] [I] [`anonymous-namespace'::SKSEPlugin_Load] API Papyrus functions registered
+[08:22:07.228] [40912] [I] [`anonymous-namespace'::SKSEPlugin_Load] AnimationDB Papyrus functions registered
+[08:22:07.228] [40912] [I] [`anonymous-namespace'::SKSEPlugin_Load] Json Papyrus functions registered
+[08:22:07.228] [40912] [I] [`anonymous-namespace'::SKSEPlugin_Load] OrgasmEngine Papyrus functions registered
+[08:22:07.228] [40912] [I] [`anonymous-namespace'::SKSEPlugin_Load] ActorLocker Papyrus functions registered
+[08:22:07.228] [40912] [I] [`anonymous-namespace'::SKSEPlugin_Load] AnimEngine Papyrus functions registered
+[08:22:07.228] [40912] [I] [`anonymous-namespace'::SKSEPlugin_Load] Registry Papyrus functions registered
+[08:22:07.228] [40912] [I] [`anonymous-namespace'::SKSEPlugin_Load] Decorators Papyrus functions registered
+[08:22:29.756] [19244] [I] [PapyrusBindings_WebUI::Register_WebUI_Functions] Successfully registered Papyrus functions for SkyrimNet_SexLab_WebUI
+[08:22:29.756] [19244] [I] [PapyrusBindings_Utilities::Register_Utilities_Functions] Successfully registered Papyrus functions for SkyrimNet_SexLab_Utilities
+[08:22:29.756] [19244] [I] [PapyrusBindings_API::Register_API_Functions] Successfully registered Papyrus functions for SkyrimNet_SexLab_API
+[08:22:29.756] [19244] [I] [PapyrusBindings_AnimationDB::Register_AnimationDB_Functions] Successfully registered Papyrus functions for SkyrimNet_SexLab_AnimDb
+[08:22:29.756] [19244] [I] [PapyrusBindings_Json::Register_Json_Functions] Successfully registered Papyrus functions for SNSL_JValue/JMap/JArray/JFormMap
+[08:22:29.757] [19244] [I] [PapyrusBindings_OrgasmEngine::Register_OrgasmEngine_Functions] Successfully registered Papyrus functions for SkyrimNet_SexLab_OrgasmEngine
+[08:22:45.315] [49632] [I] [AnimationDB::Open] AnimationDB: opened C:\Skyrim\dev\skyrim\data\SKSE\Plugins\SkyrimNet_SexLab\animationdb.sql (754 rows)
+[08:22:45.316] [49632] [I] [AnimationDB::`anonymous-namespace'::LoadSynonymsFile] AnimationDB: synonyms synonyms-strict.json clusters=38 tags=92
+[08:22:45.316] [49632] [I] [AnimationDB::`anonymous-namespace'::LoadSynonymsFile] AnimationDB: synonyms synonyms-broad.json clusters=56 tags=166
+[08:22:45.316] [49632] [I] [AnimationDB::`anonymous-namespace'::LoadDerivedTagsFile] AnimationDB: sex_tags.json n=21
+[08:22:45.317] [49632] [I] [AnimationDB::`anonymous-namespace'::LoadDerivedTagsFile] AnimationDB: restraint_tags.json n=9
+[08:22:45.317] [49632] [I] [AnimationDB::`anonymous-namespace'::LoadDerivedTagsFile] AnimationDB: rape_tags.json n=8
+[08:22:45.317] [49632] [I] [AnimationDB::`anonymous-namespace'::LoadDerivedTagsFile] AnimationDB: necro_tags.json n=4
+[08:22:45.319] [49632] [I] [AnimationDB::LoadSynonyms] AnimationDB: derived tags added to 0 rows
+[08:22:45.319] [49632] [I] [AnimationDB::`anonymous-namespace'::ReinferMutualRowsLocked] AnimationDB: position 1 orgasm re-inferred on 0 mutual rows
+[08:22:45.319] [49632] [I] [] UiEngine: Magelight host v10701 selected.
+[08:22:45.319] [49632] [I] [] UI engine selected: Magelight
+[08:22:45.319] [49632] [I] [ActionCatalog::Load] ActionCatalog loading from C:\Skyrim\dev\skyrim\data\SKSE\Plugins\SkyrimNet_SexLab\webui
+[08:22:45.347] [49632] [I] [ActionCatalog::`anonymous-namespace'::LoadSceneSettings] ActionCatalog loaded 14 scene settings from C:\Skyrim\dev\skyrim\data\SKSE\Plugins\SkyrimNet_SexLab\scenes
+[08:22:45.350] [49632] [I] [ActionCatalog::`anonymous-namespace'::LoadControlModes] ActionCatalog loaded 1 ControlPanel modes; current=sexlab
+[08:22:45.350] [49632] [I] [ActionCatalog::Load] ActionCatalog loaded 42 actions, 22 actor options, 6 scene options, 8 main panels, 14 scene settings
+[08:22:45.350] [49632] [I] [UiEngine::BindVrChord] UiEngine: not VR, controller chord skipped.
+[08:22:45.350] [49632] [I] [KeyHandler::RegisterSink] KeyHandler sink registered (prepended).
+[08:22:45.350] [49632] [I] [] Hud: view created
+[08:22:45.351] [49632] [I] [SexLabNet::Config::ApplyLogLevel] ApplyLogLevel: verbose=true level=debug
+[08:22:45.352] [49632] [I] [SexLabNet::`anonymous-namespace'::SetGlobalByEditorId] Config: set skyrimnet_sexlab_public_sex_accepted = 0
+[08:22:45.352] [49632] [I] [SexLabNet::`anonymous-namespace'::SetGlobalByEditorId] Config: set skyrimnet_sexlab_hide_hermaphrodites = 0
+[08:22:45.352] [49632] [I] [SexLabNet::`anonymous-namespace'::SetGlobalByEditorId] Config: set skyrimnet_sexlab_ostim_player = 0
+[08:22:45.352] [49632] [I] [SexLabNet::Config::ApplyMenuHotkey] ApplyMenuHotkey: enabled=true vk=220 dx=0x2b
+[08:22:45.352] [49632] [I] [WebUI_SetMenuHotkey] WebUI menu hotkey registered dx=0x2b.
+[08:22:45.353] [49632] [I] [UiEngine::BindVrChord] UiEngine: not VR, controller chord skipped.
+[08:22:45.363] [49632] [I] [OrgasmEngine::ReloadConfig] OrgasmEngine: config minigame=true role mults=0.4/0.45/0.3 jitter=0.95-1.1 dom scale=0.2/0.2 arouse=2.4 calm=3.2 cost=8/8 edge=4s random=10 group_join=85 group_join_final=90 stage_spike=5 gate=true gate_lead=5
+[08:22:45.363] [49632] [I] [OrgasmEngine::ReloadConfig] OrgasmEngine: config engine_off=false mode=minigame bonus scale=0.5 clamp=0.75 together_k=2 minigame_bonus=1 npc press=5-10x/1s gap=0.1s rest=2s step=4-8 mutual_target=87 passive_share=0.3 budget=true defaults=arouse_all/arouse_self/passive stage_by_enjoyment=true punish_after=15s hold_max=60s stall_end=30s afterglow=10s max_serial_punish_rejects=3
+[08:22:45.368] [49632] [I] [Hud::ApplyConfig] Hud: config enjoyment=true controls=true minigame=true mouse=true
+[08:22:45.369] [49632] [I] [SexLabNet::Config::WriteHotkeyMap] WriteHotkeyMap: wrote Data/SKSE/Plugins/SkyrimNet_SexLab/hotkey-map.json
+[08:22:45.369] [49632] [I] [] RegisterDecorators: registered sexlab_npc_stop_allowed
+[08:22:45.369] [49632] [I] [] RegisterDecorators: registered sexlab_verbose
+[08:22:45.369] [49632] [I] [] RegisterDecorators: registered sexlab_get_threads
+[08:22:45.369] [49632] [I] [] RegisterDecorators: registered sexlab_activities
+[08:22:45.370] [49632] [I] [] RegisterDecorators: registered sexlab_scene_actor_count
+[08:22:45.370] [49632] [I] [] RegisterDecorators: registered sexlab_cum
+[08:22:45.370] [49632] [I] [] RegisterDecorators: registered sexlab_has_cum
+[08:22:45.370] [49632] [I] [] RegisterDecorators: registered sexlab_cum_count
+[08:22:45.370] [49632] [I] [] RegisterDecorators: registered sexlab_has_stripped_items
+[08:22:45.370] [49632] [I] [] OrgasmEngine: tick installed (250 ms)
+[08:22:45.370] [49632] [I] [StrategyDecision::Install] StrategyDecision: installed (3 dialogue event types, thoughts on)
+[08:22:45.370] [49632] [I] [NarrationTiming::Install] NarrationTiming: listening for SkyrimNet_SpeechStarted
+[08:22:45.370] [49632] [I] [] AnimEngine: tick installed (100 ms)
+[08:22:45.370] [49632] [I] [`anonymous-namespace'::JsonStore_SelfTest] JsonStore self-test passed: {"_mode":"creator","count":2,"items":["a","b"]}
+[08:22:45.370] [49632] [I] [`anonymous-namespace'::JsonStore_SelfTest] JsonStore slots=3 live=0 roots=0 free=2 session=16 reparentCopies=0
+[08:22:58.328] [40912] [I] [OrgasmEngine::Load] OrgasmEngine: co-save read 0 scene(s), 0 actor(s), not restored (SexLab ends scenes on load) auto_play=false
+[08:22:58.328] [40912] [I] [ActorLocker::Load] ActorLocker: released 0 stale lock(s) on load
+[08:22:58.328] [40912] [I] [Decorators::Load] loaded cum state for 1 actor(s)
+[08:22:58.328] [40912] [I] [Decorators::LoadStripped] loaded stripped items state for 0 actor(s)
+[08:22:58.349] [40912] [I] [TargetMenuRegistry::Clear] TargetMenuRegistry cleared
+[08:22:58.349] [40912] [I] [AnimationDB::`anonymous-namespace'::LoadSynonymsFile] AnimationDB: synonyms synonyms-strict.json clusters=38 tags=92
+[08:22:58.349] [40912] [I] [AnimationDB::`anonymous-namespace'::LoadSynonymsFile] AnimationDB: synonyms synonyms-broad.json clusters=56 tags=166
+[08:22:58.350] [40912] [I] [AnimationDB::`anonymous-namespace'::LoadDerivedTagsFile] AnimationDB: sex_tags.json n=21
+[08:22:58.350] [40912] [I] [AnimationDB::`anonymous-namespace'::LoadDerivedTagsFile] AnimationDB: restraint_tags.json n=9
+[08:22:58.350] [40912] [I] [AnimationDB::`anonymous-namespace'::LoadDerivedTagsFile] AnimationDB: rape_tags.json n=8
+[08:22:58.350] [40912] [I] [AnimationDB::`anonymous-namespace'::LoadDerivedTagsFile] AnimationDB: necro_tags.json n=4
+[08:22:58.352] [40912] [I] [AnimationDB::LoadSynonyms] AnimationDB: derived tags added to 0 rows
+[08:22:58.353] [40912] [I] [ActionCatalog::Load] ActionCatalog loading from C:\Skyrim\dev\skyrim\data\SKSE\Plugins\SkyrimNet_SexLab\webui
+[08:22:58.374] [40912] [I] [ActionCatalog::`anonymous-namespace'::LoadSceneSettings] ActionCatalog loaded 14 scene settings from C:\Skyrim\dev\skyrim\data\SKSE\Plugins\SkyrimNet_SexLab\scenes
+[08:22:58.378] [40912] [I] [ActionCatalog::`anonymous-namespace'::LoadControlModes] ActionCatalog loaded 1 ControlPanel modes; current=sexlab
+[08:22:58.378] [40912] [I] [ActionCatalog::Load] ActionCatalog loaded 42 actions, 22 actor options, 6 scene options, 8 main panels, 14 scene settings
+[08:22:58.378] [40912] [I] [WebUI_SetGameReady] Game ready — WebUI input enabled; ActionCatalog reloaded.
+[08:22:58.379] [40912] [I] [SexLabNet::`anonymous-namespace'::SetGlobalByEditorId] Config: set skyrimnet_sexlab_public_sex_accepted = 0
+[08:22:58.379] [40912] [I] [SexLabNet::`anonymous-namespace'::SetGlobalByEditorId] Config: set skyrimnet_sexlab_hide_hermaphrodites = 0
+[08:22:58.379] [40912] [I] [SexLabNet::`anonymous-namespace'::SetGlobalByEditorId] Config: set skyrimnet_sexlab_ostim_player = 0
+[08:22:58.379] [40912] [I] [SexLabNet::Config::ApplyMenuHotkey] ApplyMenuHotkey: enabled=true vk=220 dx=0x2b
+[08:22:58.379] [40912] [I] [WebUI_SetMenuHotkey] WebUI menu hotkey registered dx=0x2b.
+[08:22:58.379] [40912] [I] [UiEngine::BindVrChord] UiEngine: not VR, controller chord skipped.
+[08:22:58.386] [40912] [I] [OrgasmEngine::ReloadConfig] OrgasmEngine: config minigame=true role mults=0.4/0.45/0.3 jitter=0.95-1.1 dom scale=0.2/0.2 arouse=2.4 calm=3.2 cost=8/8 edge=4s random=10 group_join=85 group_join_final=90 stage_spike=5 gate=true gate_lead=5
+[08:22:58.386] [40912] [I] [OrgasmEngine::ReloadConfig] OrgasmEngine: config engine_off=false mode=minigame bonus scale=0.5 clamp=0.75 together_k=2 minigame_bonus=1 npc press=5-10x/1s gap=0.1s rest=2s step=4-8 mutual_target=87 passive_share=0.3 budget=true defaults=arouse_all/arouse_self/passive stage_by_enjoyment=true punish_after=15s hold_max=60s stall_end=30s afterglow=10s max_serial_punish_rejects=3
+[08:22:58.390] [40912] [I] [Hud::ApplyConfig] Hud: config enjoyment=true controls=true minigame=true mouse=true
+[08:22:58.390] [40912] [I] [SexLabNet::Config::WriteHotkeyMap] WriteHotkeyMap: wrote Data/SKSE/Plugins/SkyrimNet_SexLab/hotkey-map.json
+[08:22:58.391] [40912] [I] [SexLabNet::Json::OnNewSession] JsonStore: new session 18 (loaded save session 17), freed 0 nodes
+[08:22:58.541] [49468] [I] [SkyrimNet_SexLab_Main.Setup] 
+[08:22:58.542] [49468] [I] [skyrimnet_sexlab_actions.Setup] Found Ostim.esp, OStimActorCountFaction set to [Faction < (FE056ECA)>]
+[08:22:58.542] [49468] [I] [SkyrimNet_SexLab_MCM.Setup] leashed_found: TRUE
+[08:22:58.544] [42132] [I] [SkyrimNet_SexLab_Handler_UDNG_PlayerRef.OnPlayerLoadGame] Initializing UDNG handler for player reference
+[08:22:59.077] [40912] [I] [InitWebUI::<lambda_1>::] WebUI DomReady.
+[08:22:59.077] [40912] [I] [FlushPendingInvokes] Flushed 1 queued WebUI Invoke(s) after DomReady.
+[08:22:59.109] [40912] [I] [Hud::Init::<lambda_1>::] Hud: DomReady
+[08:22:59.316] [40912] [I] [OrgasmEngine::ReloadConfig] OrgasmEngine: config minigame=true role mults=0.4/0.45/0.3 jitter=0.95-1.1 dom scale=0.2/0.2 arouse=2.4 calm=3.2 cost=8/8 edge=4s random=10 group_join=85 group_join_final=90 stage_spike=5 gate=true gate_lead=5
+[08:22:59.316] [40912] [I] [OrgasmEngine::ReloadConfig] OrgasmEngine: config engine_off=false mode=minigame bonus scale=0.5 clamp=0.75 together_k=2 minigame_bonus=1 npc press=5-10x/1s gap=0.1s rest=2s step=4-8 mutual_target=87 passive_share=0.3 budget=true defaults=arouse_all/arouse_self/passive stage_by_enjoyment=true punish_after=15s hold_max=60s stall_end=30s afterglow=10s max_serial_punish_rejects=3
+[08:22:59.320] [40912] [I] [Hud::ApplyConfig] Hud: config enjoyment=true controls=true minigame=true mouse=true
+[08:22:59.320] [40912] [I] [SexLabNet::Config::WriteHotkeyMap] WriteHotkeyMap: wrote Data/SKSE/Plugins/SkyrimNet_SexLab/hotkey-map.json
+[08:22:59.393] [40912] [I] [PapyrusBindings_WebUI::WebUI_SetHotkey] WebUI_SetHotkey dx=0x2b enabled=true
+[08:22:59.393] [40912] [I] [WebUI_SetMenuHotkey] WebUI menu hotkey registered dx=0x2b.
+[08:22:59.393] [40912] [I] [SkyrimNet_SexLab_MCM.ApplyHotkey] --- webui enabled:TRUE vk:220 dx:43
+[08:22:59.393] [40912] [I] [SkyrimNet_SexLab_MCM.ApplyPluginConfig] rape_allowed:TRUE cool_off:20.000000 hotkey:43 enabled:TRUE
+[08:22:59.410] [40912] [W] [CorpsePatch::Recheck] CorpsePatch: sslActorAlias.pex sha256 89bb7b17c557371261ca94d183c0eb8869c9f247dc8b9b539a9b790236dad540 (want 6a4100567332be8a2eabdca93dbd86b95e5add6cbcc7e021905c4d252aaffe5a)
+[08:22:59.430] [40912] [I] [SkyrimNet_SexLab_MCM.Setup] complete hotkey enabled=TRUE dx=43
+[08:22:59.460] [40912] [I] [SkyrimNet_SexLab_Scene_Manager.Setup] 
+[08:22:59.460] [40912] [I] [SkyrimNet_SexLab_Scene_Manager.Setup] Sexlab version:16601 plugin:1 P+:False P+ supported:False SLSO:False
+[08:22:59.460] [40912] [I] [SkyrimNet_SexLab_Scene_Manager.RebuildScenePool] rebuilding sl_scenes from GetFormFromFile
+[08:22:59.460] [40912] [I] [SkyrimNet_SexLab_Scene_Manager.RebuildScenePool] rebuilding sl_scene_generic from GetFormFromFile
+[08:22:59.460] [40912] [I] [SkyrimNet_SexLab_Scene_Manager.Setup] Found Ostim.esp, OStimActorCountFaction set to [Faction < (FE056ECA)>]
+[08:22:59.460] [40912] [I] [SkyrimNet_SexLab_Scene_Manager.Initialize] empty == cancel: False
+[08:22:59.693] [40912] [I] [SkyrimNet_SexLab_Scene_Manager.RegisterEventsActions] 
+[08:22:59.743] [40912] [I] [SkyrimNet_SexLab_Scene_Manager.RegisterSexlabEvents] 
+[08:23:00.244] [40912] [I] [SkyrimNet_SexLab_Scene_Manager.PushDomThreads] dom threads:0 kept:0
+[08:23:00.244] [40912] [I] [skyrimnet_sexlab_handler_dom.Setup] success
+[08:23:00.259] [40912] [I] [skyrimnet_sexlab_handler_dom.Setup] --- registered DOMOnBehaviourChange
+[08:23:00.260] [40912] [I] [SkyrimNet_SexLab_Main.Setup] Found TT_OstimNet.esp found
+[08:23:02.595] [49824] [I] [SkyrimNet_SexLab_AnimDb.IsAligned] db_count=754 registered=754
+[08:23:03.031] [49824] [I] [] Call_ProcessHotkey: dispatched key=43
+[08:23:03.112] [19992] [I] [skyrimnet_sexlab_menu.ProcessHotkey] Target: Coralyn preferExplicit:TRUE
+[08:23:03.145] [49824] [I] [SkyrimNet_SexLab_Scene_Manager.GetThread] actor:Coralyn
+[08:23:03.163] [42132] [I] [skyrimnet_sexlab_scene.GetThread] sid:0 Thread is None |  actors: [] victims: [] assailants: [] style:normally
+[08:23:03.163] [42132] [I] [skyrimnet_sexlab_scene.GetThread] sid:1 Thread is None |  actors: [] victims: [] assailants: [] style:normally
+[08:23:03.163] [42132] [I] [skyrimnet_sexlab_scene.GetThread] sid:2 Thread is None |  actors: [] victims: [] assailants: [] style:
+[08:23:03.163] [42132] [I] [skyrimnet_sexlab_scene.GetThread] sid:3 Thread is None |  actors: [] victims: [] assailants: [] style:
+[08:23:03.163] [42132] [I] [skyrimnet_sexlab_scene.GetThread] sid:4 Thread is None |  actors: [] victims: [] assailants: [] style:
+[08:23:03.166] [41468] [I] [skyrimnet_sexlab_scene.GetThread] sid:5 Thread is None |  actors: [] victims: [] assailants: [] style:
+[08:23:03.166] [41468] [I] [skyrimnet_sexlab_scene.GetThread] sid:6 Thread is None |  actors: [] victims: [] assailants: [] style:
+[08:23:03.166] [41468] [I] [skyrimnet_sexlab_scene.GetThread] sid:7 Thread is None |  actors: [] victims: [] assailants: [] style:
+[08:23:03.166] [41468] [I] [skyrimnet_sexlab_scene.GetThread] sid:8 Thread is None |  actors: [] victims: [] assailants: [] style:
+[08:23:03.166] [41468] [I] [skyrimnet_sexlab_scene.GetThread] sid:9 Thread is None |  actors: [] victims: [] assailants: [] style:
+[08:23:03.195] [42132] [I] [SkyrimNet_SexLab_Scene_Manager.GetSceneByActor] --- no scene for Coralyn (thread not animating/prepare)
+[08:23:03.295] [41468] [I] [skyrimnet_sexlab_menu.Open_WebUI_Target] Coralyn hasStripped:False editTagsPlayer:TRUE editTagsNonPlayer:False
+[08:23:03.344] [46868] [I] [WebUI_Visibility_HideImpl] WebUI Unfocus + Hide. anyFocus=false
+[08:23:03.344] [46868] [I] [PapyrusBindings_WebUI::Target_Menu_Open] Target_Menu_Open triggered. Target: Coralyn hasStrippedItems=false editTagsPlayer=true editTagsNonPlayer=false
+[08:23:03.347] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=dress
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=follow
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=follow: tight
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=follow: close
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=follow: short
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=follow all
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=stand all
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=wait all
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=all in bag
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=open bags
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=gather bags
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=pose all
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=praise all
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=scold all
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=insult all
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=flatter all
+[08:23:03.348] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=threaten all
+[08:23:03.349] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=promise all (freedom)
+[08:23:03.349] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit empty pulldown label=follow actor
+[08:23:03.349] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=shower
+[08:23:03.349] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=bath me
+[08:23:03.349] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=bath you
+[08:23:03.349] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=hug
+[08:23:03.349] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=feed
+[08:23:03.349] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=walk on 4
+[08:23:03.349] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=attention all
+[08:23:03.349] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=kneel all
+[08:23:03.349] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=masturbate
+[08:23:03.349] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=masturbate all
+[08:23:03.350] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=tie all
+[08:23:03.350] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=be naked all
+[08:23:03.350] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=wear clothes all
+[08:23:03.350] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=strip all slaves
+[08:23:03.350] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=strip entirely all
+[08:23:03.350] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=equip inventory all
+[08:23:03.350] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=no weapons all
+[08:23:03.350] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=no armor all
+[08:23:03.350] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=management
+[08:23:03.350] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=trainees
+[08:23:03.350] [46868] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=services
+[08:23:03.353] [46868] [I] [PapyrusBindings_WebUI::PopulateNearbyActors] PopulateNearbyActors: radius=1600 considered=14 listed=3 distSkip=12 [Chicken@8586, Mudcrab@2458, Chicken@8705, Cow@8855, Chicken@6582, Elk@4333, Wolf@6084, Wolf@6260]
+[08:23:03.353] [46868] [I] [WebUI_ShowNow] WebUI Show + Focus. anyFocus=false ourFocus=false
+[08:23:03.353] [46868] [I] [UiEngine::LogViewLayout] [UI layout] show engine=Magelight host=10701 vr=0 display=3840x2160 view=7
+[08:23:03.353] [46868] [I] [UiEngine::LogViewLayout] [UI layout] show view fullscreen=true rect=0,0 3840x2160 anchor=0 uiScale=1 layer=1 visible=true
+[08:23:03.356] [19992] [I] [] DispatchHandlerBondageClosed: dispatched
+[08:23:03.357] [19992] [I] [] DispatchMenuNoArg: WebUI_SeedSceneInfos
+[08:23:03.363] [41468] [I] [SkyrimNet_SexLab_Handler_UDNG.TM_BondageOnWebUIClosed] --- release session
+[08:23:03.369] [41468] [I] [InitWebUI::<lambda_1>::] [JS DEBUG] flushSceneInfos pick=none active=- inThread(0)=[] pending=none
+[08:23:03.410] [40912] [I] [InitWebUI::<lambda_1>::] [JS DEBUG] scSeed target=Coralyn/687869333 pool=[Bob@0:ok, Coralyn@0:ok, Nia The Nerd@160:ok] picked=[Coralyn, Bob]
+[08:23:03.415] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a1 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=125 total=754
+[08:23:03.417] [40912] [I] [InitWebUI::<lambda_1>::] onControlActorChange payload
+[08:23:03.420] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=dress
+[08:23:03.420] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=follow
+[08:23:03.420] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=follow: tight
+[08:23:03.420] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=follow: close
+[08:23:03.420] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=follow: short
+[08:23:03.420] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=follow all
+[08:23:03.420] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=stand all
+[08:23:03.420] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=wait all
+[08:23:03.420] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=all in bag
+[08:23:03.420] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=open bags
+[08:23:03.420] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=gather bags
+[08:23:03.420] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=pose all
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=praise all
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=scold all
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=insult all
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=flatter all
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=threaten all
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=promise all (freedom)
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit empty pulldown label=follow actor
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=shower
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=bath me
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=bath you
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=hug
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=feed
+[08:23:03.421] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=walk on 4
+[08:23:03.422] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=attention all
+[08:23:03.422] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=kneel all
+[08:23:03.422] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=masturbate
+[08:23:03.422] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=masturbate all
+[08:23:03.422] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=tie all
+[08:23:03.423] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=be naked all
+[08:23:03.423] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=wear clothes all
+[08:23:03.423] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=strip all slaves
+[08:23:03.423] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=strip entirely all
+[08:23:03.423] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=equip inventory all
+[08:23:03.423] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=no weapons all
+[08:23:03.423] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=no armor all
+[08:23:03.423] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=management
+[08:23:03.423] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=trainees
+[08:23:03.423] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=services
+[08:23:03.425] [40912] [I] [] DispatchManagerMethodStrOnly: WebUI_OnResolveActorMeta
+[08:23:03.425] [40912] [I] [] HandleResolveDeviousTags id=d1 actors=2 tags= worn=false
+[08:23:03.425] [40912] [I] [] Call_ControlActorFocus: dispatched
+[08:23:03.454] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a2 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=125 total=754
+[08:23:03.462] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a3 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=125 total=754
+[08:23:03.471] [40912] [I] [skyrimnet_sexlab_menu.WebUI_OnControlActorFocus] Coralyn hasStripped:False
+[08:23:03.493] [40912] [I] [InitWebUI::<lambda_1>::] [JS DEBUG] seed after bind pick=none active=- inThread(0)=[] pending=none
+[08:23:03.493] [40912] [I] [PapyrusBindings_WebUI::Target_Menu_Refresh] Target_Menu_Refresh hasStrippedItems=false
+[08:23:03.495] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=dress
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=follow
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=follow: tight
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=follow: close
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=follow: short
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=follow all
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=stand all
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=wait all
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=all in bag
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=open bags
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=gather bags
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=pose all
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=praise all
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=scold all
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=insult all
+[08:23:03.496] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=flatter all
+[08:23:03.497] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=threaten all
+[08:23:03.497] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=promise all (freedom)
+[08:23:03.497] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit empty pulldown label=follow actor
+[08:23:03.497] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=shower
+[08:23:03.497] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=bath me
+[08:23:03.497] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=bath you
+[08:23:03.497] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=hug
+[08:23:03.497] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=feed
+[08:23:03.497] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=walk on 4
+[08:23:03.497] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=attention all
+[08:23:03.498] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=kneel all
+[08:23:03.498] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=masturbate
+[08:23:03.498] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=masturbate all
+[08:23:03.498] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=tie all
+[08:23:03.499] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=be naked all
+[08:23:03.499] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=wear clothes all
+[08:23:03.499] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=strip all slaves
+[08:23:03.499] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=strip entirely all
+[08:23:03.499] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=equip inventory all
+[08:23:03.499] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=no weapons all
+[08:23:03.499] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=papyrus label=no armor all
+[08:23:03.499] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=management
+[08:23:03.499] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=trainees
+[08:23:03.499] [40912] [I] [ActionCatalog::`anonymous-namespace'::ResolveOptionsArray] eligibility omit type=pulldown label=services
+[08:23:03.976] [40912] [I] [InitWebUI::<lambda_1>::] [UI layout] [verbose on,scale] viewport=3840x2160 dpr=1 zoom=1.7 ui_scale=1 baseline=1.700 engine=Magelight | #left-column=320x1016@226,127 | #control-panel=320x262@226,127 | #main-panel-host=1469x1016@564,127
+[08:23:04.353] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a4 actor_count=-1 gender_match=false orgasm=0 creatures=- has_description=0 results=125 total=754
+[08:23:04.400] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a5 actor_count=-1 gender_match=false orgasm=0 creatures=- has_description=0 results=125 total=754
+[08:23:07.395] [40912] [I] [InitWebUI::<lambda_1>::] onMainPanelChange key=scene_panel
+[08:23:07.395] [40912] [I] [ActionCatalog::`anonymous-namespace'::OpenMainPanelEntry] scene_panel -> scene_creator_panel
+[08:23:07.395] [40912] [I] [ActionCatalog::SwitchMainPanel] SwitchMainPanel: selected 'scene_panel'
+[08:23:07.395] [40912] [I] [ActionCatalog::SetShowScenePanel] show_scene_panel=true
+[08:23:07.459] [40912] [I] [InitWebUI::<lambda_1>::] [JS DEBUG] scSeed target=Coralyn/687869333 pool=[Bob@0:ok, Coralyn@0:ok, Nia The Nerd@160:ok] picked=[Coralyn, Bob]
+[08:23:07.468] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a6 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=125 total=754
+[08:23:07.471] [40912] [I] [] DispatchManagerMethodStrOnly: WebUI_OnResolveActorMeta
+[08:23:07.472] [40912] [I] [] HandleResolveDeviousTags id=d2 actors=2 tags= worn=false
+[08:23:07.483] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a7 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=125 total=754
+[08:23:07.488] [40912] [I] [] DispatchManagerMethodStrOnly: WebUI_OnResolveActorMeta
+[08:23:07.488] [40912] [I] [] HandleResolveDeviousTags id=d3 actors=2 tags= worn=false
+[08:23:07.488] [40912] [I] [] DispatchManagerMethodStrOnly: WebUI_OnSceneConnectionsRefresh
+[08:23:07.488] [40912] [I] [] DispatchManagerMethodStrOnly: WebUI_OnSceneConnectionsRefresh
+[08:23:07.522] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a8 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=125 total=754
+[08:23:07.960] [40912] [I] [InitWebUI::<lambda_1>::] [UI layout] [panel scene_panel] viewport=3840x2160 dpr=1 zoom=1.7 ui_scale=1 baseline=1.700 engine=Magelight | #left-column=320x1016@226,127 | #control-panel=320x262@226,127 | #main-panel-host=1469x1016@564,127 | #main-panel-close=37x44@1968,145 | #scene-creator-panel=1469x1016@564,127
+[08:23:08.582] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a9 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=125 total=754
+[08:23:09.085] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a10 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=125 total=754
+[08:23:09.088] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a11 actor_count=1 gender_match=true orgasm=0 creatures=- has_description=0 results=11 total=754
+[08:23:09.089] [40912] [I] [] HandleResolveDeviousTags id=d4 actors=1 tags= worn=false
+[08:23:11.296] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a12 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=19 total=754
+[08:23:11.297] [40912] [I] [] HandleResolveDeviousTags id=d5 actors=2 tags= worn=false
+[08:23:11.297] [40912] [I] [] DispatchManagerMethodStrOnly: WebUI_OnResolveActorMeta
+[08:23:11.795] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a13 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=19 total=754
+[08:24:33.417] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a14 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:24:33.435] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a15 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=8 total=754
+[08:24:39.152] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a16 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=3 total=754
+[08:24:45.504] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a17 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=19 total=754
+[08:24:49.837] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a18 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=7 total=754
+[08:25:03.671] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a19 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=7 total=754
+[08:25:05.820] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a20 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=12 total=754
+[08:25:17.822] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a21 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=6 total=754
+[08:27:05.963] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a22 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=12 total=754
+[08:27:09.414] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a23 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=12 total=754
+[08:27:12.247] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a24 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=1 total=754
+[08:27:34.682] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a25 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:27:35.665] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a26 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=1 total=754
+[08:27:54.284] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a27 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=1 total=754
+[08:27:58.784] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a28 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=1 total=754
+[08:28:00.984] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a29 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=1 total=754
+[08:28:47.737] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a30 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:28:49.454] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a31 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:28:50.204] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a32 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:29:39.924] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a33 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:29:43.574] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a34 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:29:44.657] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a35 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:29:45.574] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a36 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:29:45.791] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a37 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:29:47.725] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a38 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:29:51.142] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a39 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=20 total=754
+[08:29:51.175] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a40 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=9 total=754
+[08:29:53.425] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a41 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=11 total=754
+[08:29:54.109] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a42 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=20 total=754
+[08:29:56.391] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a43 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:30:00.610] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a44 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:30:03.959] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a45 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:30:05.927] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a46 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=0 total=754
+[08:30:09.211] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a47 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:30:11.577] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a48 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:30:16.245] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a49 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:30:19.595] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a50 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=20 total=754
+[08:30:20.578] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a51 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=20 total=754
+[08:30:21.877] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a52 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=0 total=754
+[08:30:25.128] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a53 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=1 total=754
+[08:30:26.027] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a54 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=1 total=754
+[08:30:54.532] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a55 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=103 total=754
+[08:30:56.381] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a56 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=21 total=754
+[08:31:10.915] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a57 actor_count=2 gender_match=true orgasm=0 creatures=- has_description=0 results=21 total=754
+[08:31:15.749] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a58 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=5 total=754
+[08:31:23.132] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a59 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=5 total=754
+[08:31:27.966] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a60 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=5 total=754
+[08:31:46.217] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a61 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=5 total=754
+[08:32:03.153] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a62 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=13 total=754
+[08:32:11.502] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a63 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=5 total=754
+[08:32:12.319] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a64 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=13 total=754
+[08:32:13.069] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a65 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=5 total=754
+[08:32:13.919] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a66 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=13 total=754
+[08:32:15.404] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a67 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=68 total=754
+[08:32:17.205] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a68 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=81 total=754
+[08:32:18.303] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a69 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=20 total=754
+[08:32:18.888] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a70 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=81 total=754
+[08:32:19.453] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a71 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=20 total=754
+[08:32:20.005] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a72 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=81 total=754
+[08:32:20.637] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a73 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=20 total=754
+[08:32:21.288] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a74 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=81 total=754
+[08:32:22.037] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a75 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=20 total=754
+[08:32:22.622] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a76 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=81 total=754
+[08:32:23.720] [40912] [I] [PapyrusBindings_WebUI::HandleAnimDbQuery] HandleAnimDbQuery anims id=a77 actor_count=2 gender_match=true orgasm=5 creatures=- has_description=0 results=20 total=754

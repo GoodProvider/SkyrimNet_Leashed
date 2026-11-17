@@ -246,7 +246,7 @@
 
         function verbValues() {
             if (!isLeashed()) return ['leash', 'leash to'];
-            return ['unleash', 'tie to', 'give to'];
+            return ['unleash', 'let hang', 'tie to', 'give to'];
         }
 
         function hasHolder() {
@@ -499,6 +499,7 @@
             const tree = isLeashed()
                 ? [
                     { label: 'unleash', value: { verb: 'unleash' }, current: state.verb === 'unleash' },
+                    { label: 'let hang', value: { verb: 'let hang' }, current: state.verb === 'let hang' },
                     branch('tie to', tieNodes('tie to')),
                     branch('give to', holderNodes('give to', false))
                 ]

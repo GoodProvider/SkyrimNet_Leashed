@@ -48,13 +48,14 @@ With Magelight UI installed and the hotkey on, `\` opens a vertical leash panel 
 | --- | --- | --- |
 | Unleashed | leash | distance, type, body location, holder |
 | Unleashed | leash to | distance, type, body location, tie location |
-| Leashed | unleash | — |
+| Leashed | unleash | — (removes the collar) |
+| Leashed | let hang | — (collar stays on, nothing holds or ties it) |
 | Leashed | tie to | location |
 | Leashed | give to | holder |
 
 Press `\` again or Escape to close. The game pauses while the panel is focused.
 
-**Unleash on this panel is full power**, including the player's own collar: pick yourself as the leashed actor (the default when you are leashed and not aiming at someone else) and **unleash** still disconnects. LLM `leashed_escape` never does that.
+**Unleash on this panel is full power**, including the player's own collar: pick yourself as the leashed actor (the default when you are leashed and not aiming at someone else) and **unleash** still disconnects and takes the collar off. **let hang** drops or unties the other end and leaves the leash dangling. LLM `leashed_escape` never does that.
 
 Remap the key and default **distance** / **type** / **body part** / **tie point** in the same plugin page. Distance tokens have a **settle** (stop gap) and a **catch-up** bound; while the holder walks, follow sits 40% of the way between them. SkyrimNet_SexLab’s Start Sex hotkey also defaults to `\` but is off unless you turn it on — do not bind both to the same key.
 

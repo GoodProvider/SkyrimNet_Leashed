@@ -1,0 +1,13 @@
+[08:22:06.447] [40912] [I] LeashFramework v1-1-7-0
+[08:22:06.447] [40912] [I] LeashFramework loading
+[08:22:06.447] [40912] [I] Registered leash serialization
+[08:22:06.447] [40912] [I] LeashFramework loaded
+[08:22:29.746] [19244] [I] Registered LeashFramework Papyrus API
+[08:22:35.587] [49632] [I] Installed AI-controlled camera freedom hook
+[08:22:35.587] [49632] [I] Installed greeting suppression hook
+[08:22:35.587] [49632] [I] Installed player controller and NPC movement constraints
+[08:22:35.587] [49632] [I] Installed NPC and player ragdoll hold hooks
+[08:22:35.587] [49632] [I] Installed frame hooks
+[08:22:35.588] [49632] [I] Loaded menu settings
+[08:22:35.588] [49632] [I] Registered Leash Framework mod menu
+[08:22:58.281] [40912] [I] Loaded 0 persistent leash(es)

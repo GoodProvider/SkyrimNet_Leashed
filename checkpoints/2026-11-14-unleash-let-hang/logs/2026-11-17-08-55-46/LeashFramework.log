@@ -1,0 +1,24 @@
+[08:40:39.611] [12912] [I] LeashFramework v1-1-7-0
+[08:40:39.611] [12912] [I] LeashFramework loading
+[08:40:39.611] [12912] [I] Registered leash serialization
+[08:40:39.611] [12912] [I] LeashFramework loaded
+[08:41:05.686] [47864] [I] Registered LeashFramework Papyrus API
+[08:41:15.166] [46228] [I] Installed AI-controlled camera freedom hook
+[08:41:15.166] [46228] [I] Installed greeting suppression hook
+[08:41:15.166] [46228] [I] Installed player controller and NPC movement constraints
+[08:41:15.166] [46228] [I] Installed NPC and player ragdoll hold hooks
+[08:41:15.166] [46228] [I] Installed frame hooks
+[08:41:15.172] [46228] [I] Loaded menu settings
+[08:41:15.172] [46228] [I] Registered Leash Framework mod menu
+[08:42:20.536] [12912] [I] Loaded 0 persistent leash(es)
+[08:42:47.150] [56696] [I] Sent LeashFramework_OnLeash for 29000D95 with reason 'applied'
+[08:42:47.150] [56696] [I] Applied leash to 29000D95
+[08:42:47.164] [12912] [I] Bound 13 leash bones containing 'Leash1' under 'NPC Spine2 [Spn2]' for 00000014->29000D95
+[08:42:56.300] [35168] [I] Sent LeashFramework_OnUnleash for 29000D95 with reason 'disconnected'
+[08:42:56.300] [35168] [I] Disconnected leash 00000014->29000D95
+[08:43:06.701] [28576] [I] Sent LeashFramework_OnLeash for 29000D95 with reason 'applied'
+[08:43:06.701] [28576] [I] Applied leash to 29000D95
+[08:43:06.715] [12912] [I] Bound 13 leash bones containing 'Leash1' under 'NPC Spine2 [Spn2]' for 00000014->29000D95
+[08:43:15.201] [35168] [I] Sent LeashFramework_OnUnleash for 29000D95 with reason 'disconnected'
+[08:43:15.201] [35168] [I] Disconnected leash 00000014->29000D95
+[08:43:29.640] [12912] [I] Loaded 0 persistent leash(es)

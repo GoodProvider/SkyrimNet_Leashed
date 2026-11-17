@@ -1,3 +1,9 @@
+Unreleased
+
+- **Unleash removes the collar.** A late `OnUnleash` (past `NarrateSuppressWindow`) reached `NarrateUnleash` with no holder after the explicit unleash had already called `ForgetPair`. `HasLeashBones` still read true before the 3D refreshed, so `ApplyDangling` put the collar back on. The dangle branch now also needs `WearsLeashArmor` (synchronous `IsEquipped`), and returns silently when there is no record and no worn armor. Both unleash executes unequip before narrating. Cause from reading code; the new trace `NarrateUnleash late event ignored` confirms it in game.
+- **Let hang.** New `LetLeashHang(subject, leashed)` turns a held or tied leash into a dangling one via `ApplyDangling`, with its own narration (lets go / takes from holder / unties). `WebUI::DispatchStart` maps `let hang` to it; both panels show the verb after `unleash`.
+- **Untracked collar in the TargetMenu.** A Leash.esm mesh worn with no Framework leash and no recorded pair (e.g. DOM's magic collar `0x2CE`) made `LeashStatus` return `''`, so `leashed.js` offered only `tie to` / `give to`. `LeashStatus` now returns `dangling` when `WearsLeashArmorGlobal` (new, Global; `WearsLeashArmor` wraps it) is true; the panel shows `leash: dangling` with `unleash` / `let hang`. `UnleashTargetExecute` and `UnleashSpeakerExecute` unequip the untracked mesh; `LetLeashHang` traces `(untracked)` and does nothing (it does not adopt the pair). The hotkey panel and decorators still use native `LeashState::IsLeashed` and do not see it.
+
 https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.1
 
 - **Wrist struggle event.** `StruggleAnimEvent` sends `DDRegCuffsFrontStruggle02` for wrists. `DDRegCuffsFrontStruggle01` is not registered by DD classic or NG, so wrist struggles stayed on `IdleNervous`.

@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased — since [0.5.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.1)
+
+### Papyrus
+
+- `NarrateUnleash` holder-less branch: dangles only while `WearsLeashArmor` (new) is true, as well as `HasLeashBones`. With no record and no worn armor it returns silently. A late `OnUnleash` after an explicit unleash (past the 2 s suppress window) re-dangled the collar from bones that had not refreshed yet.
+- `UnleashTargetExecute` / `UnleashSpeakerExecute` unequip, `ForgetPair` and `NotifyUnleash` before narrating.
+- New `LetLeashHang(Actor subject, Actor leashed)`: held or tied leash becomes dangling through `ApplyDangling`. No-op when already dangling.
+- Untracked leash mesh (worn Leash.esm armor with no Framework leash and no record, e.g. DOM's collar): `LeashStatus` returns `dangling` (new global `WearsLeashArmorGlobal`; `WearsLeashArmor` wraps it). `UnleashTargetExecute` / `UnleashSpeakerExecute` unequip it; `LetLeashHang` is a no-op on it.
+
+### SKSE / WebUI
+
+- `DispatchStart`: action `let hang` dispatches `LetLeashHang`.
+- Magelight panel and `leashed.js`: new `let hang` verb after `unleash` for a leashed actor.
+- `leashed.js`: a `dangling` status counts as leashed (shows `leash: dangling`), so the TargetMenu offers `unleash` / `let hang` for an untracked collar.
+
 ## [0.5.1](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.1) — since [0.5.0](https://github.com/GoodProvider/SkyrimNet_Leash/releases/tag/0.5.0)
 
 ### Papyrus

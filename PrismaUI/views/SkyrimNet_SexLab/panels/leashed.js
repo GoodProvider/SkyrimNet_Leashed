@@ -17,6 +17,7 @@
         isLeashed: false,
         statusHolderFormId: 0,
         statusHolderName: '',
+        statusDangling: false,
         statusPendingFid: 0
     };
     const LEASH_STYLES = ['forcefully', 'normally', 'gently'];
@@ -40,7 +41,7 @@
     function leashSeedAction() {
         if (leashStatusPending())
             return;
-        if (!leashUi.isLeashed && leashUi.action === 'unleash')
+        if (!leashUi.isLeashed && (leashUi.action === 'unleash' || leashUi.action === 'let hang'))
             leashUi.action = 'give to';
     }
 
@@ -50,6 +51,7 @@
         leashUi.isLeashed = false;
         leashUi.statusHolderFormId = 0;
         leashUi.statusHolderName = '';
+        leashUi.statusDangling = false;
         const fid = formIdU32(formId);
         if (!fid)
             return;
@@ -61,7 +63,8 @@
     }
 
     // SkyrimNet_Leashed_Actions.LeashStatus: '' = not leashed, 'world' = tied to a point,
-    // '<holderFormId>|<holderName>' = held. null = query failed (treat as not leashed).
+    // '<holderFormId>|<holderName>' = held, 'dangling' = untracked leash mesh worn (e.g. DOM's).
+    // null = query failed (treat as not leashed).
     function leashStatusResult(fid, value) {
         if (formIdU32(fid) !== formIdU32(leashUi.statusPendingFid))
             return;
@@ -76,6 +79,7 @@
         }
         const v = String(value || '');
         leashUi.isLeashed = v !== '';
+        leashUi.statusDangling = v === 'dangling';
         leashUi.statusHolderFormId = 0;
         leashUi.statusHolderName = '';
         const bar = v.indexOf('|');
@@ -131,6 +135,13 @@
                 ];
                 parameters = { subject: subject, target: leashed, closeWebUI: true };
             }
+        } else if (leashUi.action === 'let hang') {
+            fn = 'LetLeashHang';
+            mapping = [
+                { type: 'speaker', name: 'subject' },
+                { type: 'target', name: 'leashed' }
+            ];
+            parameters = { subject: subject, leashed: leashed, closeWebUI: true };
         } else if (leashUi.action === 'tie to') {
             fn = 'LeashedToTiePoint';
             mapping = [
@@ -224,8 +235,10 @@
             current: actionOf('give to') && formIdU32(a.formId) === formIdU32(leashUi.holder)
         }));
         const tree = [];
-        if (leashUi.isLeashed)
+        if (leashUi.isLeashed) {
             tree.push({ label: 'unleash', value: { action: 'unleash' }, current: actionOf('unleash') });
+            tree.push({ label: 'let hang', value: { action: 'let hang' }, current: actionOf('let hang') });
+        }
         tree.push({ label: 'tie to', current: actionOf('tie to'), children: tieNodes });
         tree.push({ label: 'give to', current: actionOf('give to'), children: holderNodes });
 
@@ -331,7 +344,10 @@
             addField('status', statusVal);
         } else if (leashUi.isLeashed) {
             const statusVal = document.createElement('span');
-            if (leashUi.statusHolderFormId) {
+            if (leashUi.statusDangling) {
+                statusVal.textContent = 'dangling';
+                addField('leash', statusVal);
+            } else if (leashUi.statusHolderFormId) {
                 statusVal.textContent = leashUi.statusHolderName || '?';
                 addField('is leashed by', statusVal);
             } else {
